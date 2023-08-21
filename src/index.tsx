@@ -24,6 +24,6 @@ const SmileID = SmileIdModule
       }
     );
 
-export function initialize(): Promise<number> {
+export function initialize(): Promise<void> {
   return SmileID.initialize();
 }
