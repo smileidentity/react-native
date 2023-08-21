@@ -5,4 +5,4 @@ export interface Spec extends TurboModule {
   initialize(): Promise<number>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('SmileId');
+export default TurboModuleRegistry.getEnforcing<Spec>('SmileID');
