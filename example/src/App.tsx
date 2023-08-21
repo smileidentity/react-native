@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import {initialize} from 'react-native-smile-id';
+import { initialize } from 'react-native-smile-id';
 
 export default function App() {
   const [result, setResult] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    initialize().then(() => setResult("Initialized"));
+    initialize().then(() => setResult('Initialized'));
   }, []);
 
   return (
