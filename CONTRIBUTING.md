@@ -1,20 +1,26 @@
-# Contributing
+## Overview
 
-Contributions are always welcome, no matter how large or small!
+This repo encompasses everything necessary for the Smile ID React Native SDK. It is a multi-module
+project consisting of the following modules:
 
-We want this community to be friendly and respectful to each other. Please follow it in all your interactions with the project. Before contributing, please read the [code of conduct](./CODE_OF_CONDUCT.md).
+- [`react-native-smile-id`](https://github.com/smileidentity/react-native/tree/main) -
+  The SDK distributed to partners
+- [`sample`](https://github.com/smileidentity/react-native/tree/main/sample) - a sample app
+  that demonstrates SDK integration and showcases Smile ID products
 
+## Setup
+
+- [nvm](https://github.com/nvm-sh/nvm) to manage node version
+- Visual Studio Code
+- [Cocoapods](https://cocoapods.org/)
+
+## Run the sample app
+
+We bundle a sample app that demonstrates SDK integration and showcases Smile ID products. To run it,
+follow the following steps
 ## Development workflow
 
 To get started with the project, run `yarn` in the root directory to install the required dependencies for each package:
-
-```sh
-yarn
-```
-
-> While it's possible to use [`npm`](https://github.com/npm/cli), the tooling is built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier time if you use `yarn` for development.
-
-While developing, you can run the [example app](/example/) to test your changes. Any changes you make in your library's JavaScript code will be reflected in the example app without a rebuild. If you change any native code, then you'll need to rebuild the example app.
 
 To start the packager:
 
@@ -33,6 +39,10 @@ To run the example app on iOS:
 ```sh
 yarn example ios
 ```
+
+> While it's possible to use [`npm`](https://github.com/npm/cli), the tooling is built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier time if you use `yarn` for development.
+
+While developing, you can run the [example app](/example/) to test your changes. Any changes you make in your library's JavaScript code will be reflected in the example app without a rebuild. If you change any native code, then you'll need to rebuild the example app.
 
 By default, the example is configured to build with the old architecture. To run the example with the new architecture, you can do the following:
 
