@@ -28,11 +28,10 @@ Full documentation is available at https://docs.usesmileid.com/integration-optio
 
 The latest release is available on [npmjs.org](https://www.npmjs.com/package/react-native-smile-id)
 
-Add the dependency to your `pubspec.yaml`
+Add the dependency to your `package.json`
 
-```yaml
-dependencies:
-  smile_id: <latest-version>
+```json
+{ "react-native-smile-id": "<latest-version>"}
 ```
 
 #### 2. Smile Config
