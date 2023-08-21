@@ -1,6 +1,7 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
+  def smile_id_sdk_version = rootProject.ext.has("SMILE_ID_SDK_VERSION") ? rootProject.ext.get("SMILE_ID_SDK_VERSION") : project.properties["SMILE_ID_SDK_VERSION"]
 
   repositories {
     google()
@@ -110,6 +111,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation "com.smileidentity:android-sdk:$smile_id_sdk_version"
 }
 
 if (isNewArchitectureEnabled()) {
