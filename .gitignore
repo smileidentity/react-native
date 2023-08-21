@@ -719,3 +719,4 @@ android/keystores/debug.keystore
 lib/
 
 smile_config.json
+*.keystore
