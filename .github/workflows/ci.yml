@@ -96,7 +96,7 @@ jobs:
         with:
           fileName: 'debug.keystore'
           fileDir: './example/android/app'
-          encodedString: ${{ secrets.DEBUG_KEYSTORE }}
+          encodedString: ${{ secrets.DEBUG_KEY_STORE }}
 
       - name: Cache Gradle
         if: env.turbo_cache_hit != 1
