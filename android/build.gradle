@@ -1,7 +1,7 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
-  def smile_id_sdk_version = project.properties["SmileId_Version"]
+  def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : project.properties["SmileId_androidVersion"]
 
   repositories {
     google()
@@ -104,6 +104,7 @@ repositories {
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
+def smile_id_sdk_version = getExtOrDefault("androidVersion")
 
 dependencies {
   // For < 0.71, this will be from the local maven repo
