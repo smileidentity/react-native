@@ -5,7 +5,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.module.model.ReactModuleInfo
-import com.smileidentity.BuildConfig
+import com.smileidentity.react.BuildConfig
 import java.util.HashMap
 
 class SmileIdPackage : TurboReactPackage() {

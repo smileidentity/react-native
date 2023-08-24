@@ -53,7 +53,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.smileid"
+    namespace "com.smileidentity.react"
 
     sourceSets {
       main {
