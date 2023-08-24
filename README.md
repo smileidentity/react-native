@@ -50,7 +50,7 @@ Phases tab as shown below.
 
 #### 3. Initialization
 
-Initialize the Smile ID SDK in your app's entry file normally `index.tsx`  by calling `initialize`
+Initialize the Smile ID SDK in your app's entry file (normally `index.tsx`) by calling `initialize`
 
 ```typescript
 import { initialize } from 'react-native-smile-id';
