@@ -124,6 +124,6 @@ if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
     libraryName = "SmileId"
-    codegenJavaPackageName = "com.smileid"
+    codegenJavaPackageName = "com.smileidentity.react"
   }
 }
