@@ -90,14 +90,6 @@ jobs:
         run: |
           /bin/bash -c "yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null"
 
-      - name: Decode Keystore
-        id: decode_keystore
-        uses: timheuer/base64-to-file@v1
-        with:
-          fileName: 'debug.keystore'
-          fileDir: './example/android/app'
-          encodedString: ${{ secrets.DEBUG_KEY_STORE }}
-
       - name: Cache Gradle
         if: env.turbo_cache_hit != 1
         uses: actions/cache@v3

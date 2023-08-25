@@ -1,4 +1,4 @@
-package com.smileidexample
+package com.smileidentity.react.sample
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
