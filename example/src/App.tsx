@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-smile-id';
+import { SmileID } from 'react-native-smile-id';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [result, setResult] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    SmileID.initialize().then(() => setResult('Initialized'));
   }, []);
 
   return (

@@ -7,6 +7,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -79,7 +83,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: '17'
 
       - name: Finalize Android SDK
         if: env.turbo_cache_hit != 1
@@ -140,7 +144,6 @@ jobs:
             ${{ runner.os }}-cocoapods-
 
       - name: Install cocoapods
-        if: env.turbo_cache_hit != 1 && steps.cocoapods-cache.outputs.cache-hit != 'true'
         run: |
           yarn example pods
         env:

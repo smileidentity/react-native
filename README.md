@@ -50,14 +50,14 @@ Phases tab as shown below.
 
 #### 3. Initialization
 
-Initialize the Smile ID SDK in your app's entry file normally `index.tsx`  by calling `initialize`
+Initialize the Smile ID SDK in your app's entry file (normally `index.tsx`) by calling `initialize`
 
-```dart
-import { SmileID } from 'react-native-smile-id';
+```typescript
+import { initialize } from 'react-native-smile-id';
 
-void main()  {
-  SmileID.initialize();
-}
+React.useEffect(() => {
+  initialize().then(() => setResult("Initialized"));
+}, []);
 ```
 
 ## Getting Help

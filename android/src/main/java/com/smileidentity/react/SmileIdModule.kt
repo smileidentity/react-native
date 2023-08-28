@@ -1,8 +1,9 @@
-package com.smileid
+package com.smileidentity.react
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.Promise
+import com.smileidentity.SmileIdSpec
 
 class SmileIdModule internal constructor(context: ReactApplicationContext) :
   SmileIdSpec(context) {

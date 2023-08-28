@@ -1,7 +1,7 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
-  def smile_id_sdk_version = rootProject.ext.has("SMILE_ID_SDK_VERSION") ? rootProject.ext.get("SMILE_ID_SDK_VERSION") : project.properties["SMILE_ID_SDK_VERSION"]
+  def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : project.properties["SmileId_androidVersion"]
 
   repositories {
     google()
@@ -9,7 +9,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:7.2.1"
+    classpath "com.android.tools.build:gradle:8.1.0"
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
@@ -52,7 +52,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.smileid"
+    namespace "com.smileidentity.react"
 
     sourceSets {
       main {
@@ -72,6 +72,10 @@ android {
     release {
       minifyEnabled false
     }
+  }
+
+  buildFeatures {
+    buildConfig = true
   }
 
   lintOptions {
@@ -104,6 +108,7 @@ repositories {
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
+def smile_id_sdk_version = getExtOrDefault("androidVersion")
 
 dependencies {
   // For < 0.71, this will be from the local maven repo
@@ -118,6 +123,6 @@ if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
     libraryName = "SmileId"
-    codegenJavaPackageName = "com.smileid"
+    codegenJavaPackageName = "com.smileidentity.react"
   }
 }

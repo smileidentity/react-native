@@ -13,7 +13,7 @@ const SmileIdModule = isTurboModuleEnabled
   ? require('./NativeSmileId').default
   : NativeModules.SmileId;
 
-const SmileID = SmileIdModule
+const _SmileID = SmileIdModule
   ? SmileIdModule
   : new Proxy(
       {},
@@ -24,6 +24,6 @@ const SmileID = SmileIdModule
       }
     );
 
-export function initialize(): Promise<number> {
-  return SmileID.initialize();
-}
+export const SmileID = {
+  initialize: () => _SmileID.initialize(),
+};
