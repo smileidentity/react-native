@@ -1,4 +1,5 @@
-import { NativeModules, Platform } from 'react-native';
+import { HostComponent, NativeModules, Platform, ViewProps } from 'react-native';
+import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 
 const LINKING_ERROR =
   `The package 'react-native-smile-id' doesn't seem to be linked. Make sure: \n\n` +
@@ -23,6 +24,14 @@ const _SmileID = SmileIdModule
         },
       }
     );
+
+
+export interface NativeProps extends ViewProps {
+}
+
+export default codegenNativeComponent<NativeProps>(
+  'SmileIDView',
+) as HostComponent<NativeProps>;
 
 export const SmileID = {
   initialize: () => _SmileID.initialize(),

@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply plugin: "kotlin-android"
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -92,6 +93,19 @@ android {
     buildFeatures {
       buildConfig = true
     }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_17.toString()
+  }
+  packagingOptions {
+    resources {
+      excludes += '/META-INF/{AL2.0,LGPL2.1}'
+    }
+  }
 }
 
 dependencies {
