@@ -27,6 +27,7 @@ const _SmileID = SmileIdModule
 
 
 export interface NativeProps extends ViewProps {
+  product?: { userId: string; jobId: string; jobType: string };
 }
 
 export default codegenNativeComponent<NativeProps>(

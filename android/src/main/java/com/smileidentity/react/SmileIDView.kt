@@ -1,17 +1,26 @@
 package com.smileidentity.react
 
-import android.widget.LinearLayout
-import android.Manifest
 import android.content.Context
-import android.util.Log
 import android.view.Choreographer
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.ComposeView
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.smileidentity.SmileID
+import com.smileidentity.compose.SmartSelfieAuthentication
 import com.smileidentity.compose.SmartSelfieEnrollment
+import com.smileidentity.util.randomJobId
+import com.smileidentity.util.randomUserId
+import timber.log.Timber
 
-class SmileIDView (context: Context) : LinearLayout(context) {
+class SmileIDView(context: Context) : LinearLayout(context) {
   private val composeView: ComposeView = ComposeView(context)
+  lateinit var userId: String
+  lateinit var jobId: String
+  lateinit var jobType: String
 
   init {
     val layoutParams = ViewGroup.LayoutParams(
@@ -22,15 +31,41 @@ class SmileIDView (context: Context) : LinearLayout(context) {
     orientation = VERTICAL
 
     composeView.setContent {
-      SmileID.SmartSelfieEnrollment(
-        userId = "userId1",
-        jobId = "userId1",
-        allowAgentMode = true,
-        showInstructions = true,
-      ) { result ->
-        //TODO: handle result
+      val navController = rememberNavController()
+      NavHost(
+        navController,
+        if (jobType == "1") "smart_selfie_enrollment" else "smart_selfie_authentication"
+      ) {
+        composable("smart_selfie_enrollment") {
+          val userId = rememberSaveable { randomUserId() }
+          val jobId = rememberSaveable { randomJobId() }
+          SmileID.SmartSelfieEnrollment(
+            userId = userId,
+            jobId = jobId,
+            allowAgentMode = true,
+            showInstructions = true
+          ) { result ->
+            //TODO: Handle result
+            Timber.d("Result: $result")
+            navController.popBackStack()
+          }
+        }
+        composable("smart_selfie_authentication") {
+          val userId = rememberSaveable { randomJobId( )}
+          val jobId = rememberSaveable { randomJobId() }
+          SmileID.SmartSelfieAuthentication(
+            userId = userId,
+            jobId = jobId,
+            allowAgentMode = true,
+          ) { result ->
+            //TODO: Handle result
+            Timber.d("Result: $result")
+            navController.popBackStack()
+          }
+        }
       }
     }
+
     composeView.layoutParams = ViewGroup.LayoutParams(
       ViewGroup.LayoutParams.MATCH_PARENT,
       ViewGroup.LayoutParams.MATCH_PARENT
@@ -61,8 +96,7 @@ class SmileIDView (context: Context) : LinearLayout(context) {
         )
         child.layout(0, 0, child.measuredWidth, child.measuredHeight)
       }
-    } catch (e: Exception) {
-      Log.d("Started", "$e.message")
+    } catch (_: Exception) {
     }
 
   }

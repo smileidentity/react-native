@@ -13,7 +13,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <SmileIDView style={styles.smileView}/>
+      <SmileIDView style={styles.smileView}
+                   userId= {'xyz'}
+                   jobId ={'xyz'}
+                   jobType= {'1'}
+      />
     </View>
   );
 }
@@ -25,8 +29,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   smileView: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
     backgroundColor: 'red',
     justifyContent: 'center',

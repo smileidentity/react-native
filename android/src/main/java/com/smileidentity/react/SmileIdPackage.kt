@@ -1,18 +1,17 @@
 package com.smileidentity.react
 
 import com.facebook.react.TurboReactPackage
-import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.NativeModule
-import com.facebook.react.module.model.ReactModuleInfoProvider
+import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.model.ReactModuleInfo
+import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
-import com.smileidentity.react.BuildConfig
 import java.util.Collections
-import java.util.HashMap
 
 class SmileIdPackage : TurboReactPackage() {
+
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> =
-    Collections.singletonList(SmileViewManager(reactContext))
+    Collections.singletonList(SmileIDViewManager(reactContext))
 
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return if (name == SmileIdModule.NAME) {
