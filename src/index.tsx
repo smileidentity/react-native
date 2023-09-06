@@ -25,9 +25,11 @@ const _SmileID = SmileIdModule
       }
     );
 
-
+//todo:rename jobtupe to product and make it enum
 export interface NativeProps extends ViewProps {
-  product?: { userId: string; jobId: string; jobType: string };
+  userId?: string;
+  jobId?: string;
+  jobType: string
 }
 
 export default codegenNativeComponent<NativeProps>(
