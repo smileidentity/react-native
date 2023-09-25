@@ -13,6 +13,16 @@ class SmileIDViewManager(private val mCallerContext: ReactApplicationContext) :
     return NAME
   }
 
+  override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
+    return mapOf(
+      "onSmileResult" to mapOf(
+        "phasedRegistrationNames" to mapOf(
+          "bubbled" to "onResult"
+        )
+      )
+    )
+  }
+
   @ReactProp(name = "userId")
   fun setUserId(view: SmileIDView, userId: String?) {
     userId?.let {
@@ -35,7 +45,7 @@ class SmileIDViewManager(private val mCallerContext: ReactApplicationContext) :
   }
 
   override fun createViewInstance(p0: ThemedReactContext): SmileIDView {
-    return SmileIDView(mCallerContext.currentActivity!!)
+    return SmileIDView(mCallerContext)
   }
 
   companion object {

@@ -1,32 +1,44 @@
 package com.smileidentity.react
 
-import android.content.Context
 import android.view.Choreographer
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.ComposeView
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.smileidentity.SmileID
+import com.smileidentity.compose.DocumentVerification
 import com.smileidentity.compose.SmartSelfieAuthentication
 import com.smileidentity.compose.SmartSelfieEnrollment
+import com.smileidentity.models.Document
+import com.smileidentity.results.DocumentVerificationResult
+import com.smileidentity.results.SmartSelfieResult
+import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
-import timber.log.Timber
 
-class SmileIDView(context: Context) : LinearLayout(context) {
-  private val composeView: ComposeView = ComposeView(context)
+class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
+  private val composeView: ComposeView = ComposeView(context.currentActivity!!)
   lateinit var userId: String
   lateinit var jobId: String
   lateinit var jobType: String
+  lateinit var eventEmitter: RCTEventEmitter
+
 
   init {
     val layoutParams = ViewGroup.LayoutParams(
       ViewGroup.LayoutParams.WRAP_CONTENT,
       ViewGroup.LayoutParams.WRAP_CONTENT
     )
+    eventEmitter = (context as ReactContext).getJSModule(RCTEventEmitter::class.java);
     setLayoutParams(layoutParams)
     orientation = VERTICAL
 
@@ -44,23 +56,82 @@ class SmileIDView(context: Context) : LinearLayout(context) {
             jobId = jobId,
             allowAgentMode = true,
             showInstructions = true
-          ) { result ->
-            //TODO: Handle result
-            Timber.d("Result: $result")
-            navController.popBackStack()
+          ) {
+            when (it) {
+              is SmileIDResult.Success -> {
+                val json = try {
+                  SmileID.moshi
+                    .adapter(SmartSelfieResult::class.java)
+                    .toJson(it.data)
+                } catch (e: Exception) {
+                  "null"
+                }
+                emitSuccess(json)
+              }
+              is SmileIDResult.Error -> {
+                it.throwable.printStackTrace()
+                emitFailure(it.throwable)
+              }
+            }
           }
         }
         composable("smart_selfie_authentication") {
-          val userId = rememberSaveable { randomJobId( )}
+          val userId = rememberSaveable { randomJobId() }
           val jobId = rememberSaveable { randomJobId() }
           SmileID.SmartSelfieAuthentication(
             userId = userId,
             jobId = jobId,
-            allowAgentMode = true,
-          ) { result ->
-            //TODO: Handle result
-            Timber.d("Result: $result")
-            navController.popBackStack()
+            allowAgentMode = true){
+            when (it) {
+              is SmileIDResult.Success -> {
+                val json = try {
+                  SmileID.moshi
+                    .adapter(SmartSelfieResult::class.java)
+                    .toJson(it.data)
+                } catch (e: Exception) {
+                  "null"
+                }
+                emitSuccess(json)
+              }
+              is SmileIDResult.Error -> {
+                it.throwable.printStackTrace()
+                emitFailure(it.throwable)
+              }
+            }
+          }
+        }
+        composable("document_verification") {
+          val userId = rememberSaveable { randomUserId() }
+          val jobId = rememberSaveable { randomJobId() }
+          val documentType = remember(it) {
+            Document(
+              it.arguments?.getString("countryCode")!!,
+              it.arguments?.getString("idType")!!,
+            )
+          }
+          SmileID.DocumentVerification(
+            userId = userId,
+            jobId = jobId,
+            idType = documentType,
+            showInstructions = true,
+            allowGalleryUpload = true,
+            captureBothSides = true){result ->
+            when (result) {
+              is SmileIDResult.Success -> {
+                val json = try {
+                  SmileID.moshi
+                    .adapter(DocumentVerificationResult::class.java)
+                    .toJson(result.data)
+                } catch (e: Exception) {
+                  "null"
+                }
+                emitSuccess(json)
+              }
+              is SmileIDResult.Error -> {
+                result.throwable.printStackTrace()
+                emitFailure(result.throwable)
+              }
+            }
           }
         }
       }
@@ -74,6 +145,22 @@ class SmileIDView(context: Context) : LinearLayout(context) {
 
     setupLayoutHack()
     manuallyLayoutChildren()
+  }
+
+  private fun emitSuccess(result: String) {
+    val map = Arguments.createMap()
+    map.putString("result", result)
+    sendEvent(map)
+  }
+
+  private fun sendEvent(map: WritableMap){
+    eventEmitter.receiveEvent(id, "onSmileResult", map)
+  }
+
+  private fun emitFailure(error: Throwable) {
+    val map = Arguments.createMap()
+    map.putString("error", error.message)
+    sendEvent(map)
   }
 
   private fun setupLayoutHack() {
@@ -98,6 +185,5 @@ class SmileIDView(context: Context) : LinearLayout(context) {
       }
     } catch (_: Exception) {
     }
-
   }
 }

@@ -1,24 +1,31 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet} from 'react-native';
 import { SmileID } from 'react-native-smile-id';
-import SmileIDView from 'react-native-smile-id';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HomeScreen } from './HomeScreen';
+import { SmileIDCaptureScreen } from './SmileIDCaptureScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [result, setResult] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    SmileID.initialize().then(() => setResult('Initialized'));
+    SmileID.initialize(false);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <SmileIDView style={styles.smileView}
-                   userId= {'xyz'}
-                   jobId ={'xyz'}
-                   jobType= {'1'}
-      />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{title: 'Welcome'}}
+        />
+        <Stack.Screen name="Capture" component={SmileIDCaptureScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
