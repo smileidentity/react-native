@@ -27,10 +27,10 @@ import com.smileidentity.util.randomUserId
 
 class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
   private val composeView: ComposeView = ComposeView(context.currentActivity!!)
-  lateinit var userId: String
-  lateinit var jobId: String
-  lateinit var jobType: String
-  lateinit var eventEmitter: RCTEventEmitter
+  private var userId : String? = null
+  private var jobId : String? = null
+  private var jobType : String? = null
+  private var eventEmitter: RCTEventEmitter
 
 
   init {
@@ -49,8 +49,8 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
         if (jobType == "1") "smart_selfie_enrollment" else "smart_selfie_authentication"
       ) {
         composable("smart_selfie_enrollment") {
-          val userId = rememberSaveable { randomUserId() }
-          val jobId = rememberSaveable { randomJobId() }
+          val userId = userId ?: rememberSaveable { randomUserId() }
+          val jobId = jobId ?: rememberSaveable { randomJobId() }
           SmileID.SmartSelfieEnrollment(
             userId = userId,
             jobId = jobId,
@@ -76,8 +76,8 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
           }
         }
         composable("smart_selfie_authentication") {
-          val userId = rememberSaveable { randomJobId() }
-          val jobId = rememberSaveable { randomJobId() }
+          val userId = userId ?: rememberSaveable { randomJobId() }
+          val jobId = jobId ?: rememberSaveable { randomJobId() }
           SmileID.SmartSelfieAuthentication(
             userId = userId,
             jobId = jobId,
@@ -101,8 +101,8 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
           }
         }
         composable("document_verification") {
-          val userId = rememberSaveable { randomUserId() }
-          val jobId = rememberSaveable { randomJobId() }
+          val userId = userId ?: rememberSaveable { randomUserId() }
+          val jobId = jobId ?: rememberSaveable { randomJobId() }
           val documentType = remember(it) {
             Document(
               it.arguments?.getString("countryCode")!!,
