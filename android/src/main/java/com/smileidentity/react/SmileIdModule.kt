@@ -23,7 +23,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   }
 
   @ReactMethod
-  override fun initialize(enableCrashReporting: Boolean = false, promise: Promise) {
+  override fun initialize(enableCrashReporting: Boolean, promise: Promise) {
     SmileID.initialize(reactApplicationContext, enableCrashReporting = enableCrashReporting)
     promise.resolve(null)
   }

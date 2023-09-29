@@ -11,7 +11,13 @@ const LINKING_ERROR =
 // @ts-expect-error
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
-export type EnhancedKycRequest = {
+export type SmileIDViewProps = ViewProps & {
+  userId?: string;
+  jobId?: string;
+  partnerParams: PartnerParams;
+}
+
+export type EnhancedKycRequest =  SmileIDViewProps & {
   country: string;
   idType: string;
   idNumber: string;
@@ -27,6 +33,21 @@ export type EnhancedKycRequest = {
   signature: string;
 }
 
+export type DocumentVerificationRequest = SmileIDViewProps & {
+  countryCode: string;
+  documentType?: string;
+  idAspectRatio?: number | null;
+  captureBothSides?: boolean;
+  showAttribution?: boolean;
+  allowGalleryUpload?: boolean;
+  showInstructions?: boolean;
+}
+
+
+export type SmartSelfieRequest = SmileIDViewProps & {
+  allowAgentMode: boolean;
+}
+
 
 export type PartnerParams = {
   jobType?: JobType | null;
@@ -35,9 +56,10 @@ export type PartnerParams = {
   extras?: Map<string, string> | null;
 }
 
-enum JobType {
+export enum JobType {
   BiometricKyc = 1,
-  SmartSelfieEnrollment = 2,
+  SmartSelfieAuthentication = 2,
+  SmartSelfieEnrollment = 4,
   EnhancedKyc = 5,
   DocumentVerification = 6,
 }
@@ -68,12 +90,13 @@ const _SmileID = SmileIdModule
       }
     );
 
-//todo:rename jobtupe to product and make it enum
 export interface NativeProps extends ViewProps {
-  userId?: JobType;
-  jobId?: string;
   jobType: JobType;
-  onResult: (result: String) => void;
+  userId?: string;
+  jobId?: string;
+  countryCode?: string;
+  idType?: string;
+  onResult?: (result: String) => void;
 }
 
 export default codegenNativeComponent<NativeProps>(

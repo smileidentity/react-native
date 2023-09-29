@@ -1,5 +1,6 @@
 package com.smileidentity.react
 
+import android.util.Log
 import android.view.Choreographer
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -19,6 +20,7 @@ import com.smileidentity.compose.DocumentVerification
 import com.smileidentity.compose.SmartSelfieAuthentication
 import com.smileidentity.compose.SmartSelfieEnrollment
 import com.smileidentity.models.Document
+import com.smileidentity.models.JobType
 import com.smileidentity.results.DocumentVerificationResult
 import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
@@ -26,11 +28,31 @@ import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 
 class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
+  var userId: String? = null
+  var jobId: String? = null
+  var countryCode: String? = null
+    set(value) {
+      field = value
+      render()
+    }
+  var idType: String? = null
+    set(value) {
+      field = value
+      render()
+    }
+  var jobType: JobType? = null
+    set(value) {
+      field = value
+      render()
+    }
   private val composeView: ComposeView = ComposeView(context.currentActivity!!)
-  private var userId : String? = null
-  private var jobId : String? = null
-  private var jobType : String? = null
   private var eventEmitter: RCTEventEmitter
+
+  val smartSelfieEnrollmentRoute = "smart_selfie_enrollment"
+  val smartSelfieAuthenticationRoute = "smart_selfie_authentication"
+  val biomentricKycRoute = "bio_kyc"
+  val documentVerificationRoute = "document_verification"
+  val enhancedKycRoute = "enhanced_kyc"
 
 
   init {
@@ -41,14 +63,46 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
     eventEmitter = (context as ReactContext).getJSModule(RCTEventEmitter::class.java);
     setLayoutParams(layoutParams)
     orientation = VERTICAL
+    render()
 
+    composeView.layoutParams = ViewGroup.LayoutParams(
+      ViewGroup.LayoutParams.MATCH_PARENT,
+      ViewGroup.LayoutParams.MATCH_PARENT
+    )
+    addView(composeView)
+
+    setupLayoutHack()
+    manuallyLayoutChildren()
+  }
+
+  private fun render() {
+    Log.v("Japhet", "jobType: $jobType")
+    Log.v("Japhet", "userId: $userId")
+    Log.v("Japhet", "countryCode: $countryCode")
+    Log.v("Japhet", "idType: $idType")
+    if (jobType == null)
+      return
+
+    if (jobType == JobType.DocumentVerification && (countryCode == null || idType == null))
+      return
+
+    val startDestination = when (jobType) {
+      JobType.SmartSelfieEnrollment -> smartSelfieEnrollmentRoute
+      JobType.SmartSelfieAuthentication -> smartSelfieAuthenticationRoute
+      JobType.BiometricKyc -> biomentricKycRoute
+      JobType.DocumentVerification -> documentVerificationRoute
+      JobType.EnhancedKyc -> enhancedKycRoute
+      else -> {
+        smartSelfieEnrollmentRoute
+      }
+    }
     composeView.setContent {
-      val navController = rememberNavController()
+      val navHostController = rememberNavController()
       NavHost(
-        navController,
-        if (jobType == "1") "smart_selfie_enrollment" else "smart_selfie_authentication"
+        navHostController,
+        startDestination = startDestination
       ) {
-        composable("smart_selfie_enrollment") {
+        composable(smartSelfieEnrollmentRoute) {
           val userId = userId ?: rememberSaveable { randomUserId() }
           val jobId = jobId ?: rememberSaveable { randomJobId() }
           SmileID.SmartSelfieEnrollment(
@@ -68,6 +122,7 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
                 }
                 emitSuccess(json)
               }
+
               is SmileIDResult.Error -> {
                 it.throwable.printStackTrace()
                 emitFailure(it.throwable)
@@ -75,13 +130,14 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
             }
           }
         }
-        composable("smart_selfie_authentication") {
+        composable(smartSelfieAuthenticationRoute) {
           val userId = userId ?: rememberSaveable { randomJobId() }
           val jobId = jobId ?: rememberSaveable { randomJobId() }
           SmileID.SmartSelfieAuthentication(
             userId = userId,
             jobId = jobId,
-            allowAgentMode = true){
+            allowAgentMode = true
+          ) {
             when (it) {
               is SmileIDResult.Success -> {
                 val json = try {
@@ -93,6 +149,7 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
                 }
                 emitSuccess(json)
               }
+
               is SmileIDResult.Error -> {
                 it.throwable.printStackTrace()
                 emitFailure(it.throwable)
@@ -100,13 +157,13 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
             }
           }
         }
-        composable("document_verification") {
+        composable(documentVerificationRoute) {
           val userId = userId ?: rememberSaveable { randomUserId() }
           val jobId = jobId ?: rememberSaveable { randomJobId() }
           val documentType = remember(it) {
             Document(
-              it.arguments?.getString("countryCode")!!,
-              it.arguments?.getString("idType")!!,
+              countryCode!!,
+              idType!!,
             )
           }
           SmileID.DocumentVerification(
@@ -115,7 +172,8 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
             idType = documentType,
             showInstructions = true,
             allowGalleryUpload = true,
-            captureBothSides = true){result ->
+            captureBothSides = true
+          ) { result ->
             when (result) {
               is SmileIDResult.Success -> {
                 val json = try {
@@ -127,6 +185,7 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
                 }
                 emitSuccess(json)
               }
+
               is SmileIDResult.Error -> {
                 result.throwable.printStackTrace()
                 emitFailure(result.throwable)
@@ -136,15 +195,6 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
         }
       }
     }
-
-    composeView.layoutParams = ViewGroup.LayoutParams(
-      ViewGroup.LayoutParams.MATCH_PARENT,
-      ViewGroup.LayoutParams.MATCH_PARENT
-    )
-    addView(composeView)
-
-    setupLayoutHack()
-    manuallyLayoutChildren()
   }
 
   private fun emitSuccess(result: String) {
@@ -153,7 +203,7 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
     sendEvent(map)
   }
 
-  private fun sendEvent(map: WritableMap){
+  private fun sendEvent(map: WritableMap) {
     eventEmitter.receiveEvent(id, "onSmileResult", map)
   }
 
