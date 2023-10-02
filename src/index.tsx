@@ -11,10 +11,18 @@ const LINKING_ERROR =
 // @ts-expect-error
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
+export type PartnerParams = {
+  jobType?: JobType | null;
+  jobId: string;
+  userId: string;
+  extras?: Map<string, string> | null;
+}
+
 export type SmileIDViewProps = ViewProps & {
   userId?: string;
   jobId?: string;
-  partnerParams: PartnerParams;
+  partnerParams?: PartnerParams;
+  jobType : JobType;
 }
 
 export type EnhancedKycRequest =  SmileIDViewProps & {
@@ -34,8 +42,8 @@ export type EnhancedKycRequest =  SmileIDViewProps & {
 }
 
 export type DocumentVerificationRequest = SmileIDViewProps & {
+  jobType: JobType.DocumentVerification;
   countryCode: string;
-  documentType?: string;
   idAspectRatio?: number | null;
   captureBothSides?: boolean;
   showAttribution?: boolean;
@@ -46,14 +54,6 @@ export type DocumentVerificationRequest = SmileIDViewProps & {
 
 export type SmartSelfieRequest = SmileIDViewProps & {
   allowAgentMode: boolean;
-}
-
-
-export type PartnerParams = {
-  jobType?: JobType | null;
-  jobId: string;
-  userId: string;
-  extras?: Map<string, string> | null;
 }
 
 export enum JobType {
@@ -91,12 +91,8 @@ const _SmileID = SmileIdModule
     );
 
 export interface NativeProps extends ViewProps {
-  jobType: JobType;
-  userId?: string;
-  jobId?: string;
-  countryCode?: string;
-  idType?: string;
-  onResult?: (result: String) => void;
+  product: SmartSelfieRequest | DocumentVerificationRequest | EnhancedKycRequest;
+  onResult?: (event: any) => void;
 }
 
 export default codegenNativeComponent<NativeProps>(

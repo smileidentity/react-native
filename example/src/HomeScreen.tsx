@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { JobType } from 'react-native-smile-id';
+import { DocumentVerificationRequest, JobType, SmartSelfieRequest } from 'react-native-smile-id';
 import { Product } from './types/Product';
 
 
@@ -17,36 +17,67 @@ export const HomeScreen = ({ navigation }) => {
       </Pressable>);
   };
 
+  // const smileProducts: Array<Product> = [
+  //   {
+  //     title: 'SmartSelfie Enrollment',
+  //     jobType: JobType.SmartSelfieEnrollment,
+  //   },
+  //   {
+  //     title: 'SmartSelfie Authentication',
+  //     userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
+  //     jobType: JobType.SmartSelfieAuthentication,
+  //   },
+  //   {
+  //     title: 'Enhanced KYC',
+  //     jobType: JobType.EnhancedKyc,
+  //   },
+  //   {
+  //     title: 'Biometric KYC',
+  //     jobType: JobType.BiometricKyc,
+  //   },
+  //   {
+  //     title: 'Document Verification',
+  //     countryCode: 'ZW',
+  //     idType: 'PASSPORT',
+  //     jobType: JobType.DocumentVerification,
+  //   },
+  // ];
+
+  const smartSelfieEnrollment: SmartSelfieRequest = {
+    jobType: JobType.SmartSelfieEnrollment,
+    allowAgentMode: true,
+  };
+
+  const smartSelfieAuthentication: SmartSelfieRequest = {
+    jobType: JobType.SmartSelfieAuthentication,
+    allowAgentMode: true,
+    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
+  };
+
+  const documentVerification: DocumentVerificationRequest = {
+    jobType: JobType.DocumentVerification,
+    countryCode: 'ZW',
+  };
+
   const smileProducts: Array<Product> = [
     {
       title: 'SmartSelfie Enrollment',
-      jobType: JobType.SmartSelfieEnrollment,
+      product: smartSelfieEnrollment,
     },
     {
       title: 'SmartSelfie Authentication',
-      userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
-      jobType: JobType.SmartSelfieAuthentication,
-    },
-    {
-      title: 'Enhanced KYC',
-      jobType: JobType.EnhancedKyc,
-    },
-    {
-      title: 'Biometric KYC',
-      jobType: JobType.BiometricKyc,
+      product: smartSelfieAuthentication,
     },
     {
       title: 'Document Verification',
-      countryCode: 'ZW',
-      idType: 'PASSPORT',
-      jobType: JobType.DocumentVerification,
+      product: documentVerification,
     },
   ];
 
 
   return (
     <View style={styles.container}>
-      <Text>
+      <Text style={styles.title}>
         Test Our Products
       </Text>
       <FlatList
@@ -64,6 +95,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFDBDBC4',
     alignItems: 'center',
+  },
+  title: {
+    marginTop: 20,
+    fontSize: 20,
+    color: 'black',
   },
   productButton: {
     margin: 20,
