@@ -22,8 +22,9 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     return NAME
   }
 
-  override fun initialize(enableCrashReporting: Boolean, promise: Promise) {
-    SmileID.initialize(reactApplicationContext, enableCrashReporting = enableCrashReporting, useSandbox = true)
+  @ReactMethod
+  override fun initialize(enableCrashReporting: Boolean,useSandBox: Boolean , promise: Promise) {
+    SmileID.initialize(reactApplicationContext, enableCrashReporting = enableCrashReporting, useSandbox = useSandBox)
     promise.resolve(null)
   }
 

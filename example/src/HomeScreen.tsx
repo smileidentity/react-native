@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import {
-  BiometricKYCRequest,
+  BiometricKYCRequest, BvnConsentRequest, BvnConsentScreen,
   DocumentVerificationRequest,
   JobType,
   SmartSelfieRequest,
@@ -14,7 +14,7 @@ import { Product } from './types/Product';
 export const HomeScreen = ({ navigation }) => {
 
   React.useEffect(() => {
-    SmileID.initialize(false);
+    SmileID.initialize(false,true);
   }, []);
 
   const SmileButton = (props: Product) => {
@@ -28,31 +28,6 @@ export const HomeScreen = ({ navigation }) => {
       </Pressable>);
   };
 
-  // const smileProducts: Array<Product> = [
-  //   {
-  //     title: 'SmartSelfie Enrollment',
-  //     jobType: JobType.SmartSelfieEnrollment,
-  //   },
-  //   {
-  //     title: 'SmartSelfie Authentication',
-  //     userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
-  //     jobType: JobType.SmartSelfieAuthentication,
-  //   },
-  //   {
-  //     title: 'Enhanced KYC',
-  //     jobType: JobType.EnhancedKyc,
-  //   },
-  //   {
-  //     title: 'Biometric KYC',
-  //     jobType: JobType.BiometricKyc,
-  //   },
-  //   {
-  //     title: 'Document Verification',
-  //     countryCode: 'ZW',
-  //     idType: 'PASSPORT',
-  //     jobType: JobType.DocumentVerification,
-  //   },
-  // ];
   const defaultProduct: SmartSelfieRequest = {
     allowAgentMode: false,
     showInstructions: true,
@@ -84,13 +59,23 @@ export const HomeScreen = ({ navigation }) => {
     jobType: JobType.BiometricKyc,
     idInfo: {
       country: 'NG',
-      idType: 'NIN_SLIP',
+      idType: 'NIN_V2',
       idNumber: '00000000000',
+      entered: true,
     },
     partnerIcon: 'si_logo_with_text',
     partnerName: 'Smile React',
     productName: 'NIN_SLIP',
     partnerPrivacyPolicy: 'https://docs.usesmileid.com',
+  };
+
+
+  const bvnConsentScreen: BvnConsentRequest = {
+    jobType: JobType.BVN,
+    partnerIcon: 'si_logo_with_text',
+    partnerName: 'Smile React',
+    partnerPrivacyPolicy: 'https://docs.usesmileid.com',
+    showAttribution:true,
   };
 
   const smileProducts: Array<Product> = [
@@ -109,6 +94,10 @@ export const HomeScreen = ({ navigation }) => {
     {
       title: 'Biometric KYC',
       product: biometricKYC,
+    },
+    {
+      title: 'BVN Consent',
+      product: bvnConsentScreen,
     },
   ];
 

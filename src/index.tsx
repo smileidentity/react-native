@@ -42,6 +42,13 @@ export type SmartSelfieRequest = SmileIDViewProps & {
   showInstructions?: boolean;
 }
 
+export type BvnConsentRequest = SmileIDViewProps & {
+  partnerIcon: string;
+  partnerName: string;
+  showAttribution: boolean;
+  partnerPrivacyPolicy: string;
+}
+
 export type EnhancedKycRequest = SmileIDViewProps & {
   country: string;
   idType: string;
@@ -83,6 +90,7 @@ export enum JobType {
   SmartSelfieEnrollment = 4,
   EnhancedKyc = 5,
   DocumentVerification = 6,
+  BVN = 7,
 }
 
 namespace JobType {
@@ -112,7 +120,7 @@ const _SmileID = SmileIdModule
   );
 
 export interface NativeProps extends ViewProps {
-  product: SmartSelfieRequest | DocumentVerificationRequest | EnhancedKycRequest;
+  product: SmartSelfieRequest | DocumentVerificationRequest | EnhancedKycRequest | BvnConsentRequest;
   onResult?: (event: any) => void;
 }
 
@@ -121,6 +129,6 @@ export default codegenNativeComponent<NativeProps>(
 ) as HostComponent<NativeProps>;
 
 export const SmileID = {
-  initialize: (enableCrashReporting: boolean = false) => _SmileID.initialize(enableCrashReporting),
+  initialize: (enableCrashReporting: boolean = false,useSandBox:boolean = false) => _SmileID.initialize(enableCrashReporting,useSandBox),
   doEnhancedKycAsync: (enhancedKYCRequest: EnhancedKycRequest) => _SmileID.doEnhancedKycAsync(enhancedKYCRequest),
 };

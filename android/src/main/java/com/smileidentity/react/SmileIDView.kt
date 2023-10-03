@@ -18,6 +18,7 @@ import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.smileidentity.SmileID
 import com.smileidentity.compose.BiometricKYC
+import com.smileidentity.compose.BvnConsentScreen
 import com.smileidentity.compose.DocumentVerification
 import com.smileidentity.compose.SmartSelfieAuthentication
 import com.smileidentity.compose.SmartSelfieEnrollment
@@ -38,6 +39,7 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
   private val smartSelfieAuthenticationRoute = "smart_selfie_authentication"
   private val biometricKycRoute = "bio_kyc"
   private val documentVerificationRoute = "document_verification"
+  private val bvnConsentRoute = "bvn_consent_route"
   private val enhancedKycRoute = "enhanced_kyc"
   var product: ReadableMap? = null
     set(value) {
@@ -73,6 +75,8 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
         JobType.SmartSelfieEnrollment -> smartSelfieEnrollmentRoute
         JobType.SmartSelfieAuthentication -> smartSelfieAuthenticationRoute
         JobType.BiometricKyc -> biometricKycRoute
+        JobType.BiometricKyc -> biometricKycRoute
+        JobType.BVN -> bvnConsentRoute
         JobType.DocumentVerification -> documentVerificationRoute
         JobType.EnhancedKyc -> enhancedKycRoute
         else -> {
@@ -187,7 +191,6 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
 
             val logoResName = product.getString("partnerIcon")
             val partnerIcon = context.resources.getIdentifier(logoResName, "drawable", (context as? ReactApplicationContext)?.currentActivity?.packageName)
-
             SmileID.BiometricKYC(
               idInfo = idInfoMap.idInfo()!!,
               partnerIcon = painterResource(id = partnerIcon),
@@ -248,6 +251,36 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
                 }
               }
             }
+          }
+          composable(bvnConsentRoute) {
+            val partnerPrivacyPolicy =  product.getString("partnerPrivacyPolicy")
+            if(partnerPrivacyPolicy == null || !URLUtil.isValidUrl(partnerPrivacyPolicy)) {
+              emitFailure(Throwable("partnerPrivacyPolicy is required for BiometricKYC"))
+              return@composable
+            }
+            val partnerPrivacyPolicyUrl = URL(partnerPrivacyPolicy)
+
+            val partnerName =  product.getString("partnerName")
+            if(partnerName == null) {
+              emitFailure(Throwable("partnerName is required for BiometricKYC"))
+              return@composable
+            }
+            val logoResName = product.getString("partnerIcon")
+            val partnerIcon = context.resources.getIdentifier(logoResName, "drawable", (context as? ReactApplicationContext)?.currentActivity?.packageName)
+
+            SmileID.BvnConsentScreen(
+              partnerIcon = painterResource(
+                id = partnerIcon
+              ),
+              partnerName = partnerName,
+              partnerPrivacyPolicy = partnerPrivacyPolicyUrl,
+              onConsentDenied = {
+                emitSuccess("denied")
+              },
+              onConsentGranted = {
+                emitSuccess("accepted")
+              },
+            )
           }
         }
       }
