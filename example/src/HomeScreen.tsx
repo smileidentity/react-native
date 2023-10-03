@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import {
-  BiometricKYCRequest, BvnConsentRequest, BvnConsentScreen,
+  BiometricKYCRequest,
+  BvnConsentRequest,
   DocumentVerificationRequest,
   JobType,
   SmartSelfieRequest,
@@ -10,22 +11,23 @@ import {
 } from 'react-native-smile-id';
 import { Product } from './types/Product';
 
-
 export const HomeScreen = ({ navigation }) => {
-
   React.useEffect(() => {
-    SmileID.initialize(false,true);
+    SmileID.initialize(false, true);
   }, []);
 
   const SmileButton = (props: Product) => {
     const { product } = props;
     return (
-      <Pressable style={styles.productButton}
-                 onPress={() => {
-                   navigation.navigate('Capture', { product: product });
-                 }}>
+      <Pressable
+        style={styles.productButton}
+        onPress={() => {
+          navigation.navigate('Capture', { product: product });
+        }}
+      >
         <Text style={styles.productButtonText}>{product.title}</Text>
-      </Pressable>);
+      </Pressable>
+    );
   };
 
   const defaultProduct: SmartSelfieRequest = {
@@ -69,13 +71,12 @@ export const HomeScreen = ({ navigation }) => {
     partnerPrivacyPolicy: 'https://docs.usesmileid.com',
   };
 
-
   const bvnConsentScreen: BvnConsentRequest = {
     jobType: JobType.BVN,
     partnerIcon: 'si_logo_with_text',
     partnerName: 'Smile React',
     partnerPrivacyPolicy: 'https://docs.usesmileid.com',
-    showAttribution:true,
+    showAttribution: true,
   };
 
   const smileProducts: Array<Product> = [
@@ -101,17 +102,14 @@ export const HomeScreen = ({ navigation }) => {
     },
   ];
 
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Test Our Products
-      </Text>
+      <Text style={styles.title}>Test Our Products</Text>
       <FlatList
         numColumns={2}
         data={smileProducts}
         renderItem={({ item }) => <SmileButton product={item} />}
-        keyExtractor={item => item.title}
+        keyExtractor={(item) => item.title}
       />
     </View>
   );

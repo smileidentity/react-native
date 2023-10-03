@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { SmileID } from 'react-native-smile-id';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen } from './HomeScreen';
@@ -14,11 +13,11 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name='Smile ID'
+          name="Smile ID"
           component={HomeScreen}
           options={{ title: 'Welcome' }}
         />
-        <Stack.Screen name='Capture' component={SmileIDCaptureScreen} />
+        <Stack.Screen name="Capture" component={SmileIDCaptureScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

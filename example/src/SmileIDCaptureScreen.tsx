@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Alert, Modal, Pressable, StyleSheet, View, Text } from 'react-native';
+import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
 import SmileIDView from 'react-native-smile-id';
 import { Product } from './types/Product';
 import { useState } from 'react';
@@ -13,43 +13,46 @@ export const SmileIDCaptureScreen = ({ navigation, route }) => {
     return (
       <View style={styles.centeredView}>
         <Modal
-          animationType='slide'
+          animationType="slide"
           transparent={true}
           visible={result !== undefined}
           onRequestClose={() => {
             setResult(undefined);
             navigation.popToTop();
-          }}>
+          }}
+        >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.title}>
-                Smile we got your results
-              </Text>
+              <Text style={styles.title}>Smile we got your results</Text>
               <Text style={styles.modalText}>{result}</Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   setResult(undefined);
                   navigation.popToTop();
-                }}>
+                }}
+              >
                 <Text style={styles.textStyle}>Hide Modal</Text>
               </Pressable>
             </View>
           </View>
         </Modal>
-      </View>);
+      </View>
+    );
   };
 
   return (
     <View style={styles.container}>
-      <SmileIDView style={styles.smileView}
-                   product={product.product}
-                   onResult={(event) => {
-                     console.log('Japhet Ndhlovu 1');
-                     console.log(event.nativeEvent.error);
-                     console.log('Japhet Ndhlovu 2');
-                     setResult(event.nativeEvent.result);
-                   }} />
+      <SmileIDView
+        style={styles.smileView}
+        product={product.product}
+        onResult={(event) => {
+          console.log('Japhet Ndhlovu 1');
+          console.log(event.nativeEvent.error);
+          console.log('Japhet Ndhlovu 2');
+          setResult(event.nativeEvent.result);
+        }}
+      />
       {ResultView()}
     </View>
   );
