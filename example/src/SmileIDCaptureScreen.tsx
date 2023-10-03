@@ -45,7 +45,9 @@ export const SmileIDCaptureScreen = ({ navigation, route }) => {
       <SmileIDView style={styles.smileView}
                    product={product.product}
                    onResult={(event) => {
-                     console.log('Japhet Ndhlovu');
+                     console.log('Japhet Ndhlovu 1');
+                     console.log(event.nativeEvent.error);
+                     console.log('Japhet Ndhlovu 2');
                      setResult(event.nativeEvent.result);
                    }} />
       {ResultView()}
@@ -63,7 +65,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    backgroundColor: 'blue',
     justifyContent: 'center',
   },
   box: {

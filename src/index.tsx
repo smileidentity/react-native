@@ -1,15 +1,22 @@
 import { HostComponent, NativeModules, Platform, ViewProps } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
-import PropTypes from 'prop-types';
 
 const LINKING_ERROR =
   `The package 'react-native-smile-id' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
+  Platform.select({ ios: '- You have run \'pod install\'\n', default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
 // @ts-expect-error
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
+
+
+export type SmileIDViewProps = ViewProps & {
+  userId?: string;
+  jobId?: string;
+  partnerParams?: PartnerParams;
+  jobType: JobType;
+}
 
 export type PartnerParams = {
   jobType?: JobType | null;
@@ -18,14 +25,24 @@ export type PartnerParams = {
   extras?: Map<string, string> | null;
 }
 
-export type SmileIDViewProps = ViewProps & {
-  userId?: string;
-  jobId?: string;
-  partnerParams?: PartnerParams;
-  jobType : JobType;
+interface IdInfo {
+  country: string;
+  idType?: string;
+  idNumber?: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  dob?: string;
+  bankCode?: string;
+  entered?: boolean;
 }
 
-export type EnhancedKycRequest =  SmileIDViewProps & {
+export type SmartSelfieRequest = SmileIDViewProps & {
+  allowAgentMode: boolean;
+  showInstructions?: boolean;
+}
+
+export type EnhancedKycRequest = SmileIDViewProps & {
   country: string;
   idType: string;
   idNumber: string;
@@ -41,19 +58,23 @@ export type EnhancedKycRequest =  SmileIDViewProps & {
   signature: string;
 }
 
-export type DocumentVerificationRequest = SmileIDViewProps & {
-  jobType: JobType.DocumentVerification;
+export type DocumentVerificationRequest = SmartSelfieRequest & {
+  jobType:  JobType.DocumentVerification;
   countryCode: string;
+  documentType: string;
   idAspectRatio?: number | null;
   captureBothSides?: boolean;
   showAttribution?: boolean;
   allowGalleryUpload?: boolean;
-  showInstructions?: boolean;
 }
 
-
-export type SmartSelfieRequest = SmileIDViewProps & {
-  allowAgentMode: boolean;
+export type BiometricKYCRequest = SmartSelfieRequest & {
+  idInfo: IdInfo;
+  jobType:  JobType.BiometricKyc;
+  partnerIcon: string;
+  partnerName: string;
+  productName: string;
+  partnerPrivacyPolicy: string;
 }
 
 export enum JobType {
@@ -77,18 +98,18 @@ namespace JobType {
 
 const SmileIdModule = isTurboModuleEnabled
   ? require('./NativeSmileId').default
-  : NativeModules.SmileId;
+  : NativeModules.SmileID;
 
 const _SmileID = SmileIdModule
   ? SmileIdModule
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    },
+  );
 
 export interface NativeProps extends ViewProps {
   product: SmartSelfieRequest | DocumentVerificationRequest | EnhancedKycRequest;
@@ -100,6 +121,6 @@ export default codegenNativeComponent<NativeProps>(
 ) as HostComponent<NativeProps>;
 
 export const SmileID = {
-  initialize: (enableCrashReporting:boolean) => _SmileID.initialize(enableCrashReporting),
-  doEnhancedKycAsync: (enhancedKYCRequest:EnhancedKycRequest) => _SmileID.initialize(enhancedKYCRequest),
+  initialize: (enableCrashReporting: boolean = false) => _SmileID.initialize(enableCrashReporting),
+  doEnhancedKycAsync: (enhancedKYCRequest: EnhancedKycRequest) => _SmileID.doEnhancedKycAsync(enhancedKYCRequest),
 };

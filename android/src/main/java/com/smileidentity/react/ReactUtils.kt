@@ -2,6 +2,7 @@ package com.smileidentity.react
 
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
+import com.smileidentity.models.IdInfo
 
 fun ReadableMap.toMap(): Map<String, String> {
   val map = mutableMapOf<String, String>()
@@ -38,4 +39,23 @@ fun ReadableMap.toArray(): Array<Any?> {
     array.add(value)
   }
   return array.toTypedArray()
+}
+
+
+fun ReadableMap.idInfo(): IdInfo? {
+  if (!hasKey("country")) {
+    return null
+  }
+  val country = getString("country")
+  return IdInfo(
+    country = country!!,
+    idType = if (hasKey("idType")) getString("idType") else null,
+    idNumber = if (hasKey("idNumber")) getString("idNumber") else null,
+    firstName = if (hasKey("firstName")) getString("firstName") else null,
+    middleName = if (hasKey("middleName")) getString("middleName") else null,
+    lastName = if (hasKey("lastName")) getString("lastName") else null,
+    dob = if (hasKey("dob")) getString("dob") else null,
+    bankCode = if (hasKey("bankCode")) getString("bankCode") else null,
+    entered = if (hasKey("entered")) getBoolean("entered") else false,
+  )
 }

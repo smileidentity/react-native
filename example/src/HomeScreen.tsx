@@ -1,11 +1,22 @@
 import * as React from 'react';
 
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { DocumentVerificationRequest, JobType, SmartSelfieRequest } from 'react-native-smile-id';
+import {
+  BiometricKYCRequest,
+  DocumentVerificationRequest,
+  JobType,
+  SmartSelfieRequest,
+  SmileID,
+} from 'react-native-smile-id';
 import { Product } from './types/Product';
 
 
 export const HomeScreen = ({ navigation }) => {
+
+  React.useEffect(() => {
+    SmileID.initialize(false);
+  }, []);
+
   const SmileButton = (props: Product) => {
     const { product } = props;
     return (
@@ -42,21 +53,44 @@ export const HomeScreen = ({ navigation }) => {
   //     jobType: JobType.DocumentVerification,
   //   },
   // ];
+  const defaultProduct: SmartSelfieRequest = {
+    allowAgentMode: false,
+    showInstructions: true,
+    jobType: JobType.SmartSelfieEnrollment,
+  };
 
   const smartSelfieEnrollment: SmartSelfieRequest = {
+    ...defaultProduct,
     jobType: JobType.SmartSelfieEnrollment,
-    allowAgentMode: true,
   };
 
   const smartSelfieAuthentication: SmartSelfieRequest = {
+    ...defaultProduct,
     jobType: JobType.SmartSelfieAuthentication,
-    allowAgentMode: true,
     userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
   };
 
   const documentVerification: DocumentVerificationRequest = {
+    ...defaultProduct,
     jobType: JobType.DocumentVerification,
     countryCode: 'ZW',
+    documentType: 'PASSPORT',
+    captureBothSides: true,
+    allowGalleryUpload: false,
+  };
+
+  const biometricKYC: BiometricKYCRequest = {
+    ...defaultProduct,
+    jobType: JobType.BiometricKyc,
+    idInfo: {
+      country: 'NG',
+      idType: 'NIN_SLIP',
+      idNumber: '00000000000',
+    },
+    partnerIcon: 'si_logo_with_text',
+    partnerName: 'Smile React',
+    productName: 'NIN_SLIP',
+    partnerPrivacyPolicy: 'https://docs.usesmileid.com',
   };
 
   const smileProducts: Array<Product> = [
@@ -71,6 +105,10 @@ export const HomeScreen = ({ navigation }) => {
     {
       title: 'Document Verification',
       product: documentVerification,
+    },
+    {
+      title: 'Biometric KYC',
+      product: biometricKYC,
     },
   ];
 

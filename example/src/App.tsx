@@ -10,19 +10,15 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  React.useEffect(() => {
-    SmileID.initialize(false);
-  }, []);
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Smile ID"
+          name='Smile ID'
           component={HomeScreen}
-          options={{title: 'Welcome'}}
+          options={{ title: 'Welcome' }}
         />
-        <Stack.Screen name="Capture" component={SmileIDCaptureScreen} />
+        <Stack.Screen name='Capture' component={SmileIDCaptureScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

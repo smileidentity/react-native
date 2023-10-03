@@ -22,9 +22,8 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     return NAME
   }
 
-  @ReactMethod
   override fun initialize(enableCrashReporting: Boolean, promise: Promise) {
-    SmileID.initialize(reactApplicationContext, enableCrashReporting = enableCrashReporting)
+    SmileID.initialize(reactApplicationContext, enableCrashReporting = enableCrashReporting, useSandbox = true)
     promise.resolve(null)
   }
 
@@ -74,6 +73,6 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "SmileId"
+    const val NAME = "SmileID"
   }
 }
