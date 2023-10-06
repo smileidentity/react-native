@@ -1,9 +1,5 @@
-import {
-  HostComponent,
-  NativeModules,
-  Platform,
-  ViewProps,
-} from 'react-native';
+import type { HostComponent, ViewProps } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 
 const LINKING_ERROR =
@@ -23,7 +19,7 @@ export type SmileIDViewProps = ViewProps & {
 };
 
 export type PartnerParams = {
-  jobType?: JobType | null;
+  jobType?: JobType;
   jobId: string;
   userId: string;
   extras?: Map<string, string> | null;
@@ -57,13 +53,13 @@ export type EnhancedKycRequest = SmileIDViewProps & {
   country: string;
   idType: string;
   idNumber: string;
-  firstName?: string | null;
-  middleName?: string | null;
-  lastName?: string | null;
-  dob?: string | null;
-  phoneNumber?: string | null;
-  bankCode?: string | null;
-  callbackUrl?: string | null;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  dob?: string;
+  phoneNumber?: string;
+  bankCode?: string;
+  callbackUrl?: string;
   partnerParams: PartnerParams;
   timestamp: string;
   signature: string;
@@ -73,7 +69,7 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
   jobType: JobType.DocumentVerification;
   countryCode: string;
   documentType: string;
-  idAspectRatio?: number | null;
+  idAspectRatio?: number;
   captureBothSides?: boolean;
   showAttribution?: boolean;
   allowGalleryUpload?: boolean;
@@ -95,17 +91,6 @@ export enum JobType {
   EnhancedKyc = 5,
   DocumentVerification = 6,
   BVN = 7,
-}
-
-namespace JobType {
-  export function ofRaw(raw: number): JobType | null {
-    for (const key in JobType) {
-      if (typeof JobType[key] === 'number' && JobType[key] === raw) {
-        return JobType[key] as JobType;
-      }
-    }
-    return null;
-  }
 }
 
 const SmileIdModule = isTurboModuleEnabled

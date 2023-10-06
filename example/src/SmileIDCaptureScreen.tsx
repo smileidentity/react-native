@@ -2,10 +2,16 @@ import * as React from 'react';
 
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
 import SmileIDView from 'react-native-smile-id';
-import { Product } from './types/Product';
+import type { Product } from './types/Product';
 import { useState } from 'react';
 
-export const SmileIDCaptureScreen = ({ navigation, route }) => {
+export const SmileIDCaptureScreen = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   const product: Product = route.params.product;
   const [result, setResult] = useState<string | undefined>();
 

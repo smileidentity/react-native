@@ -1,22 +1,22 @@
 import * as React from 'react';
 
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import {
+import type {
   BiometricKYCRequest,
   BvnConsentRequest,
   DocumentVerificationRequest,
-  JobType,
   SmartSelfieRequest,
-  SmileID,
 } from 'react-native-smile-id';
-import { Product } from './types/Product';
 
-export const HomeScreen = ({ navigation }) => {
+import { JobType, SmileID } from 'react-native-smile-id';
+import type { Product } from './types/Product';
+
+export const HomeScreen = ({ navigation }: { navigation: any }) => {
   React.useEffect(() => {
     SmileID.initialize(false, true);
   }, []);
 
-  const SmileButton = (props: Product) => {
+  const SmileButton = (props: any) => {
     const { product } = props;
     return (
       <Pressable
