@@ -29,6 +29,7 @@ import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
+import timber.log.Timber
 import java.net.URL
 
 class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
@@ -251,6 +252,7 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
                       .adapter(DocumentVerificationResult::class.java)
                       .toJson(result.data)
                   } catch (e: Exception) {
+                    Timber.w(e)
                     "null"
                   }
                   emitSuccess(json)
@@ -343,7 +345,8 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
         )
         child.layout(0, 0, child.measuredWidth, child.measuredHeight)
       }
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+      Timber.w(e)
     }
   }
 }
