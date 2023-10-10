@@ -3,6 +3,9 @@ package com.smileidentity.react
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableType
 import com.smileidentity.models.IdInfo
+import com.smileidentity.models.JobType
+import com.smileidentity.models.PartnerParams
+import com.smileidentity.util.randomUserId
 
 fun ReadableMap.toMap(): Map<String, String> {
   val map = mutableMapOf<String, String>()
@@ -46,7 +49,7 @@ fun ReadableMap.idInfo(): IdInfo? {
   if (!hasKey("country")) {
     return null
   }
-  val country = getString("country") ?: IllegalArgumentException("country is required")
+  val country = getString("country") ?: throw IllegalArgumentException("country is required")
   return IdInfo(
     country = country,
     idType = if (hasKey("idType")) getString("idType") else null,
@@ -57,5 +60,22 @@ fun ReadableMap.idInfo(): IdInfo? {
     dob = if (hasKey("dob")) getString("dob") else null,
     bankCode = if (hasKey("bankCode")) getString("bankCode") else null,
     entered = if (hasKey("entered")) getBoolean("entered") else false,
+  )
+}
+
+
+fun ReadableMap.partnerParams(): PartnerParams {
+  if (hasKey("partnerParams")) {
+    val partnerParams = getMap("partnerParams")
+    return PartnerParams(
+      jobType = if (hasKey("jobType")) JobType.fromValue(getInt("jobType")) else null,
+      userId = if (hasKey("userId")) getString("userId")!! else randomUserId(),
+      jobId = if (hasKey("jobId")) getString("jobId")!! else randomUserId(),
+      extras = if (hasKey("extras")) partnerParams?.getMap("extras")!!.toMap() else emptyMap()
+    )
+  }
+  return PartnerParams(
+    userId = randomUserId(),
+    jobId = randomUserId(),
   )
 }

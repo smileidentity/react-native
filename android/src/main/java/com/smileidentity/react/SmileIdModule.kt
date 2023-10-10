@@ -7,8 +7,6 @@ import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.SmileID
 import com.smileidentity.SmileIdSpec
 import com.smileidentity.models.EnhancedKycRequest
-import com.smileidentity.models.JobType
-import com.smileidentity.models.PartnerParams
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +29,6 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   @ReactMethod
   override fun doEnhancedKycAsync(request: ReadableMap, promise: Promise) = launch(
     work = {
-      val partnerParams = request.getMap("partnerParams")!!
         SmileID.api.doEnhancedKycAsync(
           EnhancedKycRequest(
             country = request.getString("country")!!,
@@ -44,15 +41,10 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
             phoneNumber = request.getString("phoneNumber"),
             bankCode = request.getString("bankCode"),
             callbackUrl = request.getString("callbackUrl"),
-            partnerParams = PartnerParams(
-              jobType = JobType.fromValue(partnerParams.getInt("jobType")),
-              jobId = partnerParams.getString("jobId")!!,
-              userId = partnerParams.getString("userId")!!,
-              extras = partnerParams.getMap("extras")?.toMap() ?: emptyMap()
-            ),
+            partnerParams = request.partnerParams(),
             sourceSdk = "android (react-native)",
-            timestamp = partnerParams.getString("timestamp")!!,
-            signature = partnerParams.getString("signature")!!,
+            timestamp = request.partnerParams().extras["timestamp"]!!,
+            signature = request.partnerParams().extras["signature"]!!,
           )
         )
     },
