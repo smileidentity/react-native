@@ -97,9 +97,12 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
         return;
       }
 
-      val allowAgentMode = if (product.hasKey("allowAgentMode")) product.getBoolean("allowAgentMode") else false
-      val showInstructions = if (product.hasKey("showInstructions")) product.getBoolean("showInstructions") else true
-      val isProduction = if (product.hasKey("isProduction")) product.getBoolean("isProduction") else false
+      val allowAgentMode =
+        if (product.hasKey("allowAgentMode")) product.getBoolean("allowAgentMode") else false
+      val showInstructions =
+        if (product.hasKey("showInstructions")) product.getBoolean("showInstructions") else true
+      val isProduction =
+        if (product.hasKey("isProduction")) product.getBoolean("isProduction") else false
 
       composeView.setContent {
         val navHostController = rememberNavController()
@@ -166,33 +169,41 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
             userId = userId ?: rememberSaveable { randomJobId() }
             jobId = jobId ?: rememberSaveable { randomJobId() }
 
-            val idInfoMap = product.getMap("idInfo")
-            if(idInfoMap == null || idInfoMap.idInfo() == null) {
-              emitFailure(Throwable("idInfo is required for BiometricKYC"))
+            product.idInfo() ?: run {
+              emitFailure(IllegalArgumentException("idInfo is required for BiometricKYC"))
               return@composable
             }
-            val partnerName =  product.getString("partnerName")
-            if(partnerName == null) {
-              emitFailure(Throwable("partnerName is required for BiometricKYC"))
+
+
+            val partnerName = product.getString("partnerName")
+            partnerName ?: run {
+              emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))
               return@composable
             }
-            val productName =  product.getString("productName")
-            if(productName == null) {
-              emitFailure(Throwable("productName is required for BiometricKYC"))
+            val productName = product.getString("productName")
+            productName ?: run {
+              emitFailure(IllegalArgumentException("productName is required for BiometricKYC"))
               return@composable
             }
-            val partnerPrivacyPolicy =  product.getString("partnerPrivacyPolicy")
-            if(partnerPrivacyPolicy == null || !URLUtil.isValidUrl(partnerPrivacyPolicy)) {
-              emitFailure(Throwable("partnerPrivacyPolicy is required for BiometricKYC"))
+            val partnerPrivacyPolicy = product.getString("partnerPrivacyPolicy")
+            partnerPrivacyPolicy ?: run {
+              emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
+              return@composable
+            }
+            if(!URLUtil.isValidUrl(partnerPrivacyPolicy)){
+              emitFailure(IllegalArgumentException("a valid url for partnerPrivacyPolicy is required for BiometricKYC"))
               return@composable
             }
             val partnerPrivacyPolicyUrl = URL(partnerPrivacyPolicy)
 
-
             val logoResName = product.getString("partnerIcon")
-            val partnerIcon = context.resources.getIdentifier(logoResName, "drawable", (context as? ReactApplicationContext)?.currentActivity?.packageName)
+            val partnerIcon = context.resources.getIdentifier(
+              logoResName,
+              "drawable",
+              (context as? ReactApplicationContext)?.currentActivity?.packageName
+            )
             SmileID.BiometricKYC(
-              idInfo = idInfoMap.idInfo()!!,
+              idInfo = product.idInfo()!!,
               partnerIcon = painterResource(id = partnerIcon),
               partnerName = partnerName,
               productName = productName,
@@ -201,7 +212,7 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
               jobId = jobId!!,
               allowAgentMode = allowAgentMode,
               showAttribution = showInstructions,
-              ) { result ->
+            ) { result ->
               when (result) {
                 is SmileIDResult.Success -> {
                   val json = try {
@@ -253,27 +264,33 @@ class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
             }
           }
           composable(bvnConsentRoute) {
-            val partnerPrivacyPolicy =  product.getString("partnerPrivacyPolicy")
-            if(partnerPrivacyPolicy == null || !URLUtil.isValidUrl(partnerPrivacyPolicy)) {
-              emitFailure(Throwable("partnerPrivacyPolicy is required for BiometricKYC"))
+            val partnerName = product.getString("partnerName")
+            partnerName ?: run {
+              emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))
               return@composable
             }
-            val partnerPrivacyPolicyUrl = URL(partnerPrivacyPolicy)
-
-            val partnerName =  product.getString("partnerName")
-            if(partnerName == null) {
-              emitFailure(Throwable("partnerName is required for BiometricKYC"))
+            val partnerPrivacyPolicy = product.getString("partnerPrivacyPolicy")
+            partnerPrivacyPolicy ?: run {
+              emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
+              return@composable
+            }
+            if(!URLUtil.isValidUrl(partnerPrivacyPolicy)){
+              emitFailure(IllegalArgumentException("a valid url for partnerPrivacyPolicy is required for BiometricKYC"))
               return@composable
             }
             val logoResName = product.getString("partnerIcon")
-            val partnerIcon = context.resources.getIdentifier(logoResName, "drawable", (context as? ReactApplicationContext)?.currentActivity?.packageName)
+            val partnerIcon = context.resources.getIdentifier(
+              logoResName,
+              "drawable",
+              (context as? ReactApplicationContext)?.currentActivity?.packageName
+            )
 
             SmileID.BvnConsentScreen(
               partnerIcon = painterResource(
                 id = partnerIcon
               ),
               partnerName = partnerName,
-              partnerPrivacyPolicy = partnerPrivacyPolicyUrl,
+              partnerPrivacyPolicy = URL(partnerPrivacyPolicy),
               onConsentDenied = {
                 emitSuccess("denied")
               },

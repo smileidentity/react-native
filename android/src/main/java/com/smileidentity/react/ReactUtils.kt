@@ -46,20 +46,21 @@ fun ReadableMap.toArray(): Array<Any?> {
 
 
 fun ReadableMap.idInfo(): IdInfo? {
-  if (!hasKey("country")) {
+  if (!hasKey("idInfo") && !hasKey("country")) {
     return null
   }
-  val country = getString("country") ?: throw IllegalArgumentException("country is required")
+  val idInfoMap = getMap("idInfo")
+  val country = idInfoMap?.getString("country")
   return IdInfo(
-    country = country,
-    idType = if (hasKey("idType")) getString("idType") else null,
-    idNumber = if (hasKey("idNumber")) getString("idNumber") else null,
-    firstName = if (hasKey("firstName")) getString("firstName") else null,
-    middleName = if (hasKey("middleName")) getString("middleName") else null,
-    lastName = if (hasKey("lastName")) getString("lastName") else null,
-    dob = if (hasKey("dob")) getString("dob") else null,
-    bankCode = if (hasKey("bankCode")) getString("bankCode") else null,
-    entered = if (hasKey("entered")) getBoolean("entered") else false,
+    country = country!!,
+    idType = if (idInfoMap.hasKey("idType")) idInfoMap.getString("idType") else null,
+    idNumber = if (idInfoMap.hasKey("idNumber")) idInfoMap.getString("idNumber") else null,
+    firstName = if (idInfoMap.hasKey("firstName")) idInfoMap.getString("firstName") else null,
+    middleName = if (idInfoMap.hasKey("middleName")) idInfoMap.getString("middleName") else null,
+    lastName = if (idInfoMap.hasKey("lastName")) idInfoMap.getString("lastName") else null,
+    dob = if (idInfoMap.hasKey("dob")) idInfoMap.getString("dob") else null,
+    bankCode = if (idInfoMap.hasKey("bankCode")) idInfoMap.getString("bankCode") else null,
+    entered = if (idInfoMap.hasKey("entered")) idInfoMap.getBoolean("entered") else false,
   )
 }
 
@@ -68,10 +69,10 @@ fun ReadableMap.partnerParams(): PartnerParams {
   if (hasKey("partnerParams")) {
     val partnerParams = getMap("partnerParams")
     return PartnerParams(
-      jobType = if (hasKey("jobType")) JobType.fromValue(getInt("jobType")) else null,
-      userId = if (hasKey("userId")) getString("userId")!! else randomUserId(),
-      jobId = if (hasKey("jobId")) getString("jobId")!! else randomUserId(),
-      extras = if (hasKey("extras")) partnerParams?.getMap("extras")!!.toMap() else emptyMap()
+      jobType = if (partnerParams!!.hasKey("jobType")) JobType.fromValue(partnerParams.getInt("jobType")) else null,
+      userId = if (partnerParams.hasKey("userId")) partnerParams.getString("userId")!! else randomUserId(),
+      jobId = if (partnerParams.hasKey("jobId")) partnerParams.getString("jobId")!! else randomUserId(),
+      extras = if (partnerParams.hasKey("extras")) partnerParams.getMap("extras")!!.toMap() else emptyMap()
     )
   }
   return PartnerParams(
