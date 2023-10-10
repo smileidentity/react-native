@@ -9,7 +9,7 @@ import com.facebook.react.uimanager.annotations.ReactProp
 
 
 @ReactModule(name = SmileIDViewManager.NAME)
-class SmileIDViewManager(private val mCallerContext: ReactApplicationContext) :
+class SmileIDViewManager(private val reactApplicationContext: ReactApplicationContext) :
   SimpleViewManager<SmileIDView>() {
   override fun getName(): String {
     return NAME
@@ -31,7 +31,7 @@ class SmileIDViewManager(private val mCallerContext: ReactApplicationContext) :
   }
 
   override fun createViewInstance(p0: ThemedReactContext): SmileIDView {
-    return SmileIDView(mCallerContext)
+    return SmileIDView(reactApplicationContext)
   }
 
   companion object {

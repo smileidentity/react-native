@@ -79,7 +79,6 @@ android {
     applicationId "com.smileidentity.react.sample"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    multiDexEnabled true
     versionCode 1
     versionName "1.0"
   }
@@ -113,7 +112,6 @@ android {
 dependencies {
   // The version of react-native is set by the React Native Gradle Plugin
   implementation("com.facebook.react:react-android")
-  implementation 'com.android.support:multidex:2.0.1'
 
   debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
   debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
