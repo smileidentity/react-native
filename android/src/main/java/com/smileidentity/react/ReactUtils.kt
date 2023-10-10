@@ -46,9 +46,9 @@ fun ReadableMap.idInfo(): IdInfo? {
   if (!hasKey("country")) {
     return null
   }
-  val country = getString("country")
+  val country = getString("country") ?: IllegalArgumentException("country is required")
   return IdInfo(
-    country = country!!,
+    country = country,
     idType = if (hasKey("idType")) getString("idType") else null,
     idNumber = if (hasKey("idNumber")) getString("idNumber") else null,
     firstName = if (hasKey("firstName")) getString("firstName") else null,
