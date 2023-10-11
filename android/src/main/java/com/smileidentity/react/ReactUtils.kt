@@ -50,9 +50,12 @@ fun ReadableMap.idInfo(): IdInfo? {
     return null
   }
   val idInfoMap = getMap("idInfo")
-  val country = idInfoMap?.getString("country")
+  val country = idInfoMap?.getString("country") ?: run {
+    Log.w("SmileIdentity", "idInfo.country is required")
+    return null
+  }
   return IdInfo(
-    country = country!!,
+    country = country,
     idType = if (idInfoMap.hasKey("idType")) idInfoMap.getString("idType") else null,
     idNumber = if (idInfoMap.hasKey("idNumber")) idInfoMap.getString("idNumber") else null,
     firstName = if (idInfoMap.hasKey("firstName")) idInfoMap.getString("firstName") else null,
