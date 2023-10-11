@@ -22,7 +22,7 @@ export type PartnerParams = {
   jobType?: JobType;
   jobId: string;
   userId: string;
-  extras?: Map<string, string> | null;
+  extras?: Map<string, string>;
 };
 
 interface IdInfo {
