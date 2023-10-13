@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
-import SmileIDView from 'react-native-smile-id';
+import SmileIDView, { SmileIDSmartSelfieEnrollmentView } from '@smileid/react-native';
 import type { Product } from './types/Product';
 import { useState } from 'react';
 
@@ -49,7 +49,7 @@ export const SmileIDCaptureScreen = ({
 
   return (
     <View style={styles.container}>
-      <SmileIDView
+      <SmileIDSmartSelfieEnrollmentView
         style={styles.smileView}
         product={product.product}
         onResult={(event) => {

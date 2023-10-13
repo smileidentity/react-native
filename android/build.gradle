@@ -1,3 +1,5 @@
+import com.android.Version
+
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
@@ -6,11 +8,10 @@ buildscript {
   repositories {
     google()
     mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:8.1.1"
+    classpath "com.android.tools.build:gradle:8.1.2"
     // noinspection DifferentKotlinGradleVersion
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
@@ -23,9 +24,6 @@ def isNewArchitectureEnabled() {
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-kapt'
-
-
-def appProject = rootProject.allprojects.find { it.plugins.hasPlugin('com.android.application') }
 
 if (isNewArchitectureEnabled()) {
   apply plugin: "com.facebook.react"
@@ -40,7 +38,7 @@ def getExtOrIntegerDefault(name) {
 }
 
 def supportsNamespace() {
-  def parsed = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
+  def parsed = Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
   def major = parsed[0].toInteger()
   def minor = parsed[1].toInteger()
 
@@ -116,7 +114,6 @@ android {
 repositories {
   mavenCentral()
   google()
-  maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")

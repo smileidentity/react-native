@@ -6,12 +6,22 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
-import java.util.Collections
+import com.smileidentity.react.viewmanagers.SmileIDBVNConsentViewManager
+import com.smileidentity.react.viewmanagers.SmileIDBiometricKYCViewManager
+import com.smileidentity.react.viewmanagers.SmileIDDocumentVerificationViewManager
+import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieAuthenticationViewManager
+import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieEnrollmentViewManager
 
 class SmileIdPackage : TurboReactPackage() {
 
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> =
-    Collections.singletonList(SmileIDViewManager(reactContext))
+    listOf(SmileIDSmartSelfieEnrollmentViewManager(reactContext),
+      SmileIDSmartSelfieAuthenticationViewManager(reactContext),
+      SmileIDDocumentVerificationViewManager(reactContext),
+      SmileIDBVNConsentViewManager(reactContext),
+      SmileIDBiometricKYCViewManager(reactContext),
+    )
+
 
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return if (name == SmileIdModule.NAME) {

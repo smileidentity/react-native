@@ -8,7 +8,7 @@ import type {
   SmartSelfieRequest,
 } from 'react-native-smile-id';
 
-import { JobType, SmileID } from 'react-native-smile-id';
+import { JobType, SmileID } from '@smileid/react-native';
 import type { Product } from './types/Product';
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {

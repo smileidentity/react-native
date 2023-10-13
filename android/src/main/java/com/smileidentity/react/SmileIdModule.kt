@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.SmileID
 import com.smileidentity.SmileIdSpec
 import com.smileidentity.models.EnhancedKycRequest
+import com.smileidentity.react.utils.partnerParams
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

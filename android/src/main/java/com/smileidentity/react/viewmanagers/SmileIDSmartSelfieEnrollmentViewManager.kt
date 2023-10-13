@@ -1,4 +1,4 @@
-package com.smileidentity.react
+package com.smileidentity.react.viewmanagers
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
@@ -6,11 +6,12 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.smileidentity.react.views.SmileIDSmartSelfieEnrollment
 
 
-@ReactModule(name = SmileIDViewManager.NAME)
-class SmileIDViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDView>() {
+@ReactModule(name = SmileIDSmartSelfieEnrollmentViewManager.NAME)
+class SmileIDSmartSelfieEnrollmentViewManager(private val reactApplicationContext: ReactApplicationContext) :
+  SimpleViewManager<SmileIDSmartSelfieEnrollment>() {
   override fun getName(): String {
     return NAME
   }
@@ -26,16 +27,16 @@ class SmileIDViewManager(private val reactApplicationContext: ReactApplicationCo
   }
 
   @ReactProp(name = "product")
-  fun setProduct(view: SmileIDView, product: ReadableMap) {
+  fun setProduct(view: SmileIDSmartSelfieEnrollment, product: ReadableMap) {
     view.product = product
   }
 
-  override fun createViewInstance(p0: ThemedReactContext): SmileIDView {
-    return SmileIDView(reactApplicationContext)
+  override fun createViewInstance(p0: ThemedReactContext): SmileIDSmartSelfieEnrollment {
+    return SmileIDSmartSelfieEnrollment(reactApplicationContext)
   }
 
   companion object {
-    const val NAME = "SmileIDView"
+    const val NAME = "SmileIDSmartSelfieEnrollmentView"
   }
 
 }
