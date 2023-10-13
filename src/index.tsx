@@ -122,6 +122,26 @@ export const SmileIDSmartSelfieEnrollmentView =
     'SmileIDSmartSelfieEnrollmentView'
   ) as HostComponent<NativeProps>;
 
+export const SmileIDSmartSelfieAuthenticationView =
+  codegenNativeComponent<NativeProps>(
+    'SmileIDSmartSelfieAuthenticationView'
+  ) as HostComponent<NativeProps>;
+
+export const SmileIDDocumentVerificationView =
+  codegenNativeComponent<NativeProps>(
+    'SmileIDDocumentVerificationView'
+  ) as HostComponent<NativeProps>;
+
+export const SmileIDBVNConsentScreenView =
+  codegenNativeComponent<NativeProps>(
+    'SmileIDBVNConsentScreenView'
+  ) as HostComponent<NativeProps>;
+
+export const SmileIDBiometricKYCView =
+  codegenNativeComponent<NativeProps>(
+    'SmileIDBiometricKYCView'
+  ) as HostComponent<NativeProps>;
+
 export const SmileID = {
   initialize: (
     enableCrashReporting: boolean = false,
