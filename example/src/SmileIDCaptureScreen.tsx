@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
-import SmileIDView, { SmileIDSmartSelfieEnrollmentView } from '@smileid/react-native';
+import { SmileIDSmartSelfieEnrollmentView } from '@smileid/react-native';
 import type { Product } from './types/Product';
 import { useState } from 'react';
 

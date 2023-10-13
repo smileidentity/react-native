@@ -117,9 +117,10 @@ export interface NativeProps extends ViewProps {
   onResult?: (event: any) => void;
 }
 
-export const SmileIDSmartSelfieEnrollmentView =  codegenNativeComponent<NativeProps>(
-  'SmileIDSmartSelfieEnrollmentView'
-) as HostComponent<NativeProps>;
+export const SmileIDSmartSelfieEnrollmentView =
+  codegenNativeComponent<NativeProps>(
+    'SmileIDSmartSelfieEnrollmentView'
+  ) as HostComponent<NativeProps>;
 
 export const SmileID = {
   initialize: (
