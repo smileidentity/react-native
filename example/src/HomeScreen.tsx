@@ -6,7 +6,7 @@ import type {
   BvnConsentRequest,
   DocumentVerificationRequest,
   SmartSelfieRequest,
-} from 'react-native-smile-id';
+} from '@smileid/react-native';
 
 import { JobType, SmileID } from '@smileid/react-native';
 import type { Product } from './types/Product';

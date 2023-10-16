@@ -6,6 +6,7 @@ import com.smileidentity.models.IdInfo
 import com.smileidentity.models.JobType
 import com.smileidentity.models.PartnerParams
 import com.smileidentity.util.randomUserId
+import timber.log.Timber
 
 fun ReadableMap.toMap(): Map<String, String> {
   val map = mutableMapOf<String, String>()
@@ -25,33 +26,14 @@ fun ReadableMap.toMap(): Map<String, String> {
   return map
 }
 
-fun ReadableMap.toArray(): Array<Any?> {
-  val array = mutableListOf<Any?>()
-  val keysIterator = keySetIterator()
-
-  while (keysIterator.hasNextKey()) {
-    val key = keysIterator.nextKey()
-    val value: Any? = when (getType(key)) {
-      ReadableType.Null -> null
-      ReadableType.Boolean -> getBoolean(key)
-      ReadableType.Number -> getDouble(key)
-      ReadableType.String -> getString(key)
-      ReadableType.Map -> getMap(key)?.toArray()
-      ReadableType.Array -> getArray(key)
-    }
-    array.add(value)
-  }
-  return array.toTypedArray()
-}
-
-
 fun ReadableMap.idInfo(): IdInfo? {
   if (!hasKey("idInfo") && !hasKey("country")) {
+    Timber.e("idInfo.country is required")
     return null
   }
   val idInfoMap = getMap("idInfo")
   val country = idInfoMap?.getString("country") ?: run {
-    Log.w("SmileIdentity", "idInfo.country is required")
+    Timber.e("idInfo.country is required")
     return null
   }
   return IdInfo(
@@ -68,7 +50,7 @@ fun ReadableMap.idInfo(): IdInfo? {
 }
 
 
-fun ReadableMap.partnerParams(): PartnerParams {
+fun ReadableMap.partnerParams(): PartnerParams? {
   if (hasKey("partnerParams")) {
     val partnerParams = getMap("partnerParams")
     return PartnerParams(
@@ -78,8 +60,5 @@ fun ReadableMap.partnerParams(): PartnerParams {
       extras = if (partnerParams.hasKey("extras")) partnerParams.getMap("extras")!!.toMap() else emptyMap()
     )
   }
-  return PartnerParams(
-    userId = randomUserId(),
-    jobId = randomUserId(),
-  )
+  return null
 }

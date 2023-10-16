@@ -1,4 +1,4 @@
-import type { NativeProps } from 'react-native-smile-id';
+import type { NativeProps } from '@smileid/react-native';
 
 export type Product = NativeProps & {
   title: string;

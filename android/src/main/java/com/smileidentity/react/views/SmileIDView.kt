@@ -17,11 +17,11 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   val composeView: ComposeView = ComposeView(context.currentActivity!!)
   var userId: String? = null
   var jobId: String? = null
-  var jobType: JobType? = null
-  var allowAgentMode = false
-  var showInstructions = true
+  private var jobType: JobType? = null
+  var allowAgentMode : Boolean? = false
+  var showInstructions : Boolean? = true
   private var eventEmitter: RCTEventEmitter
-  var productThrowable: Throwable? = null
+  private var productThrowable: Throwable? = null
   var product: ReadableMap? = null
     set(value) {
       field = value
@@ -50,18 +50,16 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
 
   private fun checkCommonArgs() {
     if (product == null) {
-      productThrowable = Throwable("Product is null")
+      productThrowable = IllegalArgumentException("Product is null")
       emitFailure(productThrowable!!)
       return;
     }
     userId = product?.getString("userId")
     jobId = product?.getString("userId")
 
-    allowAgentMode =
-      if (product!!.hasKey("allowAgentMode")) product!!.getBoolean("allowAgentMode") else false
-    showInstructions =
-      if (product!!.hasKey("showInstructions")) product!!.getBoolean("showInstructions") else true
-    jobType = JobType.fromValue(product!!.getInt("jobType"))
+    allowAgentMode = if (product?.hasKey("allowAgentMode") == true) product?.getBoolean("allowAgentMode") else false
+    showInstructions = if (product?.hasKey("showInstructions") == true) product?.getBoolean("showInstructions") else true
+    jobType = if (product?.hasKey("jobType") == true) JobType.fromValue(product!!.getInt("jobType")) else null
   }
 
   abstract fun renderContent()
@@ -85,9 +83,9 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
       .receiveEvent(id, "onSmileResult", map)
   }
 
-  open fun emitFailure(error: Throwable) {
+  open fun emitFailure(error: Throwable?) {
     val map = Arguments.createMap()
-    map.putString("error", error.message)
+    map.putString("error", error?.message ?: "Unknown error")
     sendEvent(map)
   }
 

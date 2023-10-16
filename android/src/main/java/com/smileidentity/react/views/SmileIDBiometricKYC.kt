@@ -11,6 +11,7 @@ import com.smileidentity.results.BiometricKycResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
+import timber.log.Timber
 import java.net.URL
 
 class SmileIDBiometricKYC(context: ReactApplicationContext) : SmileIDView(context) {
@@ -48,18 +49,16 @@ class SmileIDBiometricKYC(context: ReactApplicationContext) : SmileIDView(contex
       }
       composeView.apply {
         setContent {
-          userId = userId ?: rememberSaveable { randomUserId() }
-          jobId = jobId ?: rememberSaveable { randomJobId() }
           SmileID.BiometricKYC(
             idInfo = idInfo,
             partnerIcon = painterResource(id = partnerIcon),
             partnerName = partnerName,
             productName = productName,
             partnerPrivacyPolicy = URL(partnerPrivacyPolicy),
-            userId = userId!!,
-            jobId = jobId!!,
-            allowAgentMode = allowAgentMode,
-            showAttribution = showInstructions,
+            userId = userId ?: rememberSaveable { randomUserId() },
+            jobId = jobId ?: rememberSaveable { randomJobId() },
+            allowAgentMode = allowAgentMode ?: false,
+            showAttribution = showInstructions ?: true,
           ) { result ->
             when (result) {
               is SmileIDResult.Success -> {
@@ -68,6 +67,7 @@ class SmileIDBiometricKYC(context: ReactApplicationContext) : SmileIDView(contex
                     .adapter(BiometricKycResult::class.java)
                     .toJson(result.data)
                 } catch (e: Exception) {
+                  Timber.w(e)
                   "null"
                 }
                 emitSuccess(json)

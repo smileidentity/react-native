@@ -1,7 +1,14 @@
 import * as React from 'react';
 
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
-import { SmileIDSmartSelfieEnrollmentView } from '@smileid/react-native';
+import {
+  SmileIDSmartSelfieEnrollmentView,
+  JobType,
+  SmileIDSmartSelfieAuthenticationView,
+  SmileIDDocumentVerificationView,
+  SmileIDBiometricKYCView,
+  SmileIDBVNConsentScreenView,
+} from '@smileid/react-native';
 import type { Product } from './types/Product';
 import { useState } from 'react';
 
@@ -14,7 +21,6 @@ export const SmileIDCaptureScreen = ({
 }) => {
   const product: Product = route.params.product;
   const [result, setResult] = useState<string | undefined>();
-
   const ResultView = () => {
     return (
       <View style={styles.centeredView}>
@@ -49,16 +55,51 @@ export const SmileIDCaptureScreen = ({
 
   return (
     <View style={styles.container}>
-      <SmileIDSmartSelfieEnrollmentView
-        style={styles.smileView}
-        product={product.product}
-        onResult={(event) => {
-          console.log('Japhet Ndhlovu 1');
-          console.log(event.nativeEvent.error);
-          console.log('Japhet Ndhlovu 2');
-          setResult(event.nativeEvent.result);
-        }}
-      />
+      {product.product.jobType === JobType.SmartSelfieEnrollment && (
+        <SmileIDSmartSelfieEnrollmentView
+          style={styles.smileView}
+          product={product}
+          onResult={(event) => {
+            setResult(event.nativeEvent.result);
+          }}
+        />
+      )}
+      {product.product.jobType === JobType.SmartSelfieAuthentication && (
+        <SmileIDSmartSelfieAuthenticationView
+          style={styles.smileView}
+          product={product}
+          onResult={(event) => {
+            setResult(event.nativeEvent.result);
+          }}
+        />
+      )}
+      {product.product.jobType === JobType.DocumentVerification && (
+        <SmileIDDocumentVerificationView
+          style={styles.smileView}
+          product={product}
+          onResult={(event) => {
+            setResult(event.nativeEvent.result);
+          }}
+        />
+      )}
+      {product.product.jobType === JobType.BiometricKyc && (
+        <SmileIDBiometricKYCView
+          style={styles.smileView}
+          product={product}
+          onResult={(event) => {
+            setResult(event.nativeEvent.result);
+          }}
+        />
+      )}
+      {product.product.jobType === JobType.BVN && (
+        <SmileIDBVNConsentScreenView
+          style={styles.smileView}
+          product={product}
+          onResult={(event) => {
+            setResult(event.nativeEvent.result);
+          }}
+        />
+      )}
       {ResultView()}
     </View>
   );

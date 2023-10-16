@@ -4,7 +4,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.DocumentVerification
-import com.smileidentity.models.JobType
 import com.smileidentity.results.DocumentVerificationResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
@@ -14,25 +13,21 @@ import timber.log.Timber
 class SmileIDDocumentVerification(context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    product?.let{product ->
-      val countryCode = product.getString("countryCode")
-      if (jobType == JobType.DocumentVerification && countryCode == null) {
-        productThrowable = Throwable("countryCode is required for DocumentVerification")
-        emitFailure(productThrowable!!)
+    product?.let{ product ->
+      val countryCode = if (product.hasKey("countryCode")) product.getString("countryCode") else {
+        emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
         return;
       }
       val allowGalleryUpload = if (product.hasKey("allowGalleryUpload")) product.getBoolean("allowGalleryUpload") else false
       val captureBothSides = if (product.hasKey("captureBothSides")) product.getBoolean("captureBothSides") else false
       composeView.apply {
         setContent {
-          userId = userId ?: rememberSaveable { randomUserId() }
-          jobId = jobId ?: rememberSaveable { randomJobId() }
           SmileID.DocumentVerification(
-            userId = userId!!,
-            jobId = jobId!!,
+            userId = userId ?: rememberSaveable { randomUserId() },
+            jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
             documentType = product.getString("documentType"),
-            showInstructions = showInstructions,
+            showInstructions = showInstructions ?: true,
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides
           ) { result ->

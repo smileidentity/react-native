@@ -8,6 +8,7 @@ import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
+import timber.log.Timber
 
 class SmileIDSmartSelfieEnrollment (context: ReactApplicationContext) : SmileIDView(context) {
 
@@ -15,13 +16,11 @@ class SmileIDSmartSelfieEnrollment (context: ReactApplicationContext) : SmileIDV
     product?.let {
       composeView.apply {
         setContent {
-          userId = userId ?: rememberSaveable { randomUserId() }
-          jobId = jobId ?: rememberSaveable { randomJobId() }
           SmileID.SmartSelfieEnrollment(
-            userId = userId!!,
-            jobId = jobId!!,
-            allowAgentMode = allowAgentMode,
-            showInstructions = showInstructions
+            userId = userId ?: rememberSaveable { randomUserId() },
+            jobId = jobId ?: rememberSaveable { randomJobId() },
+            allowAgentMode = allowAgentMode ?: false,
+            showInstructions = showInstructions ?: true
           ) { result ->
             when (result) {
               is SmileIDResult.Success -> {
@@ -30,6 +29,7 @@ class SmileIDSmartSelfieEnrollment (context: ReactApplicationContext) : SmileIDV
                     .adapter(SmartSelfieResult::class.java)
                     .toJson(result.data)
                 } catch (e: Exception) {
+                  Timber.w(e)
                   "null"
                 }
                 emitSuccess(json)

@@ -132,15 +132,13 @@ export const SmileIDDocumentVerificationView =
     'SmileIDDocumentVerificationView'
   ) as HostComponent<NativeProps>;
 
-export const SmileIDBVNConsentScreenView =
-  codegenNativeComponent<NativeProps>(
-    'SmileIDBVNConsentScreenView'
-  ) as HostComponent<NativeProps>;
+export const SmileIDBVNConsentScreenView = codegenNativeComponent<NativeProps>(
+  'SmileIDBVNConsentScreenView'
+) as HostComponent<NativeProps>;
 
-export const SmileIDBiometricKYCView =
-  codegenNativeComponent<NativeProps>(
-    'SmileIDBiometricKYCView'
-  ) as HostComponent<NativeProps>;
+export const SmileIDBiometricKYCView = codegenNativeComponent<NativeProps>(
+  'SmileIDBiometricKYCView'
+) as HostComponent<NativeProps>;
 
 export const SmileID = {
   initialize: (
