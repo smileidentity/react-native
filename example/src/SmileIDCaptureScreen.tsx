@@ -58,7 +58,7 @@ export const SmileIDCaptureScreen = ({
       {product.product.jobType === JobType.SmartSelfieEnrollment && (
         <SmileIDSmartSelfieEnrollmentView
           style={styles.smileView}
-          product={product}
+          product={product.product}
           onResult={(event) => {
             setResult(event.nativeEvent.result);
           }}
@@ -67,7 +67,7 @@ export const SmileIDCaptureScreen = ({
       {product.product.jobType === JobType.SmartSelfieAuthentication && (
         <SmileIDSmartSelfieAuthenticationView
           style={styles.smileView}
-          product={product}
+          product={product.product}
           onResult={(event) => {
             setResult(event.nativeEvent.result);
           }}
@@ -76,7 +76,7 @@ export const SmileIDCaptureScreen = ({
       {product.product.jobType === JobType.DocumentVerification && (
         <SmileIDDocumentVerificationView
           style={styles.smileView}
-          product={product}
+          product={product.product}
           onResult={(event) => {
             setResult(event.nativeEvent.result);
           }}
@@ -85,7 +85,7 @@ export const SmileIDCaptureScreen = ({
       {product.product.jobType === JobType.BiometricKyc && (
         <SmileIDBiometricKYCView
           style={styles.smileView}
-          product={product}
+          product={product.product}
           onResult={(event) => {
             setResult(event.nativeEvent.result);
           }}
@@ -94,7 +94,7 @@ export const SmileIDCaptureScreen = ({
       {product.product.jobType === JobType.BVN && (
         <SmileIDBVNConsentScreenView
           style={styles.smileView}
-          product={product}
+          product={product.product}
           onResult={(event) => {
             setResult(event.nativeEvent.result);
           }}
