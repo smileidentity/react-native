@@ -6,6 +6,7 @@ import androidx.compose.ui.res.painterResource
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.BiometricKYC
+import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.utils.idInfo
 import com.smileidentity.results.BiometricKycResult
 import com.smileidentity.results.SmileIDResult
@@ -16,34 +17,35 @@ import java.net.URL
 
 class SmileIDBiometricKYC(context: ReactApplicationContext) : SmileIDView(context) {
   override fun renderContent() {
-    product?.let{product->
+    product?.let { product ->
       val idInfo = product.idInfo() ?: run {
         emitFailure(IllegalArgumentException("idInfo is required for BiometricKYC"))
         return
       }
-      val partnerName = if (product.hasKey("partnerName")) product.getString("partnerName") else null
-      partnerName ?: run {
+      val partnerName = product.getStringOrDefault("partnerName", null) ?: run {
         emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))
         return
       }
-      val partnerPrivacyPolicy = if (product.hasKey("partnerPrivacyPolicy")) product.getString("partnerPrivacyPolicy") else null
-      partnerPrivacyPolicy ?: run {
+
+      val partnerPrivacyPolicy = product.getStringOrDefault("partnerPrivacyPolicy", null) ?: run {
         emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
-      if(!URLUtil.isValidUrl(partnerPrivacyPolicy)){
+      if (!URLUtil.isValidUrl(partnerPrivacyPolicy)) {
         emitFailure(IllegalArgumentException("a valid url for partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
-      val logoResName = if (product.hasKey("partnerIcon")) product.getString("partnerIcon") else null
+      val logoResName = product.getString("partnerIcon") ?: run {
+        emitFailure(IllegalArgumentException("productName is required for BiometricKYC"))
+        return
+      }
       val partnerIcon = context.resources.getIdentifier(
         logoResName,
         "drawable",
         (context as? ReactApplicationContext)?.currentActivity?.packageName
       )
 
-      val productName = if (product.hasKey("productName")) product.getString("productName") else null
-      productName ?: run {
+      val productName = product.getStringOrDefault("productName", null) ?: run {
         emitFailure(IllegalArgumentException("productName is required for BiometricKYC"))
         return
       }

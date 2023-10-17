@@ -27,38 +27,65 @@ fun ReadableMap.toMap(): Map<String, String> {
 }
 
 fun ReadableMap.idInfo(): IdInfo? {
-  if (!hasKey("idInfo") && !hasKey("country")) {
-    Timber.e("idInfo.country is required")
-    return null
-  }
-  val idInfoMap = getMap("idInfo")
-  val country = idInfoMap?.getString("country") ?: run {
+  val idInfoMap = getMapOrDefault("idInfo", null)
+  val country = idInfoMap?.getStringOrDefault("country", null) ?: run {
     Timber.e("idInfo.country is required")
     return null
   }
   return IdInfo(
     country = country,
-    idType = if (idInfoMap.hasKey("idType")) idInfoMap.getString("idType") else null,
-    idNumber = if (idInfoMap.hasKey("idNumber")) idInfoMap.getString("idNumber") else null,
-    firstName = if (idInfoMap.hasKey("firstName")) idInfoMap.getString("firstName") else null,
-    middleName = if (idInfoMap.hasKey("middleName")) idInfoMap.getString("middleName") else null,
-    lastName = if (idInfoMap.hasKey("lastName")) idInfoMap.getString("lastName") else null,
-    dob = if (idInfoMap.hasKey("dob")) idInfoMap.getString("dob") else null,
-    bankCode = if (idInfoMap.hasKey("bankCode")) idInfoMap.getString("bankCode") else null,
-    entered = if (idInfoMap.hasKey("entered")) idInfoMap.getBoolean("entered") else false,
+    idType = idInfoMap.getStringOrDefault("idType", null),
+    idNumber = idInfoMap.getStringOrDefault("idNumber", null),
+    firstName = idInfoMap.getStringOrDefault("firstName", null),
+    middleName = idInfoMap.getStringOrDefault("middleName", null),
+    lastName = idInfoMap.getStringOrDefault("lastName", null),
+    dob = idInfoMap.getStringOrDefault("dob", null),
+    bankCode = idInfoMap.getStringOrDefault("bankCode", null),
+    entered = idInfoMap.getBoolOrDefault("entered", false),
   )
 }
 
 
 fun ReadableMap.partnerParams(): PartnerParams? {
-  if (hasKey("partnerParams")) {
-    val partnerParams = getMap("partnerParams")
-    return PartnerParams(
-      jobType = if (partnerParams!!.hasKey("jobType")) JobType.fromValue(partnerParams.getInt("jobType")) else null,
-      userId = if (partnerParams.hasKey("userId")) partnerParams.getString("userId")!! else randomUserId(),
-      jobId = if (partnerParams.hasKey("jobId")) partnerParams.getString("jobId")!! else randomUserId(),
-      extras = if (partnerParams.hasKey("extras")) partnerParams.getMap("extras")!!.toMap() else emptyMap()
-    )
+  val partnerParams = getMapOrDefault("partnerParams", null) ?: run {
+    Timber.w("partnerParams is required")
+    return null
   }
-  return null
+  val jobTypeValue = partnerParams.getIntOrDefault("jobType", null)
+  val jobType = if (jobTypeValue != null) JobType.fromValue(jobTypeValue) else null
+  return PartnerParams(
+    jobType = jobType,
+    userId = partnerParams.getStringOrDefault("userId", null) ?: run { randomUserId() },
+    jobId = partnerParams.getStringOrDefault("jobId", null) ?: run { randomUserId() },
+    extras = partnerParams.getMapOrDefault("extras", null)?.toMap() ?: run { emptyMap() },
+  )
+}
+
+
+fun ReadableMap.getBoolOrDefault(key: String, defaultValue: Boolean): Boolean {
+  if (hasKey(key)) {
+    return getBoolean(key)
+  }
+  return defaultValue
+}
+
+fun ReadableMap.getStringOrDefault(key: String, defaultValue: String?): String? {
+  if (hasKey(key)) {
+    return getString(key)
+  }
+  return defaultValue
+}
+
+fun ReadableMap.getIntOrDefault(key: String, defaultValue: Int?): Int? {
+  if (hasKey(key)) {
+    return getInt(key)
+  }
+  return defaultValue
+}
+
+fun ReadableMap.getMapOrDefault(key: String, defaultValue: ReadableMap?): ReadableMap? {
+  if (hasKey(key)) {
+    return getMap(key)
+  }
+  return defaultValue
 }

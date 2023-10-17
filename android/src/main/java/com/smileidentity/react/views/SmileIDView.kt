@@ -11,6 +11,8 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.smileidentity.models.JobType
+import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getIntOrDefault
 import timber.log.Timber
 
 abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
@@ -18,8 +20,8 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   var userId: String? = null
   var jobId: String? = null
   private var jobType: JobType? = null
-  var allowAgentMode : Boolean? = false
-  var showInstructions : Boolean? = true
+  var allowAgentMode: Boolean? = false
+  var showInstructions: Boolean? = true
   private var eventEmitter: RCTEventEmitter
   private var productThrowable: Throwable? = null
   var product: ReadableMap? = null
@@ -57,9 +59,12 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     userId = product?.getString("userId")
     jobId = product?.getString("userId")
 
-    allowAgentMode = if (product?.hasKey("allowAgentMode") == true) product?.getBoolean("allowAgentMode") else false
-    showInstructions = if (product?.hasKey("showInstructions") == true) product?.getBoolean("showInstructions") else true
-    jobType = if (product?.hasKey("jobType") == true) JobType.fromValue(product!!.getInt("jobType")) else null
+    allowAgentMode = product?.getBoolOrDefault("allowAgentMode", false)
+    showInstructions = product?.getBoolOrDefault("showInstructions", true)
+    val setJobType = product?.getIntOrDefault("jobType", null)
+    setJobType?.let { jobTypeValue ->
+      jobType = JobType.fromValue(jobTypeValue)
+    }
   }
 
   abstract fun renderContent()

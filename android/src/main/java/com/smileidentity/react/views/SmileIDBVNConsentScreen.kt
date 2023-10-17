@@ -2,18 +2,17 @@ package com.smileidentity.react.views
 
 import android.webkit.URLUtil
 import com.facebook.react.bridge.ReactApplicationContext
+import com.smileidentity.react.utils.getStringOrDefault
 
 class SmileIDBVNConsentScreen (context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
     product?.let {product->
-      val partnerName = if (product.hasKey("partnerName")) product.getString("partnerName") else null
-      partnerName ?: run {
+      val partnerName = product.getStringOrDefault("partnerName",null) ?: run {
         emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))
         return
       }
-      val partnerPrivacyPolicy = if (product.hasKey("partnerPrivacyPolicy")) product.getString("partnerPrivacyPolicy") else null
-      partnerPrivacyPolicy ?: run {
+      val partnerPrivacyPolicy = product.getStringOrDefault("partnerPrivacyPolicy",null)  ?: run {
         emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
@@ -21,7 +20,10 @@ class SmileIDBVNConsentScreen (context: ReactApplicationContext) : SmileIDView(c
         emitFailure(IllegalArgumentException("a valid url for partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
-      val logoResName = if (product.hasKey("partnerIcon")) product.getString("partnerIcon") else null
+      val logoResName = product.getStringOrDefault("partnerIcon",null)  ?: run {
+        emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
+        return
+      }
       val partnerIcon = context.resources.getIdentifier(
         logoResName,
         "drawable",

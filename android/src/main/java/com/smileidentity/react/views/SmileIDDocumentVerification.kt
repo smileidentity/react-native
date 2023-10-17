@@ -4,6 +4,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.DocumentVerification
+import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.results.DocumentVerificationResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
@@ -14,12 +16,12 @@ class SmileIDDocumentVerification(context: ReactApplicationContext) : SmileIDVie
 
   override fun renderContent() {
     product?.let{ product ->
-      val countryCode = if (product.hasKey("countryCode")) product.getString("countryCode") else {
+      val countryCode = product.getStringOrDefault("countryCode",null) ?: run {
         emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
         return;
       }
-      val allowGalleryUpload = if (product.hasKey("allowGalleryUpload")) product.getBoolean("allowGalleryUpload") else false
-      val captureBothSides = if (product.hasKey("captureBothSides")) product.getBoolean("captureBothSides") else false
+      val allowGalleryUpload = product.getBoolOrDefault("allowGalleryUpload",false)
+      val captureBothSides = product.getBoolOrDefault("captureBothSides",false)
       composeView.apply {
         setContent {
           SmileID.DocumentVerification(
