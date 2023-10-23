@@ -8,9 +8,7 @@ buildscript {
   repositories {
     google()
     mavenCentral()
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
+    gradlePluginPortal()
   }
 
   dependencies {
@@ -119,9 +117,7 @@ android {
 repositories {
   mavenCentral()
   google()
-  maven {
-    url "https://plugins.gradle.org/m2/"
-  }
+  gradlePluginPortal()
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")

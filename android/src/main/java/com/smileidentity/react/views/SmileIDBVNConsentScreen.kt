@@ -1,8 +1,12 @@
 package com.smileidentity.react.views
 
 import android.webkit.URLUtil
+import androidx.compose.ui.res.painterResource
 import com.facebook.react.bridge.ReactApplicationContext
+import com.smileidentity.SmileID
+import com.smileidentity.compose.BvnConsentScreen
 import com.smileidentity.react.utils.getStringOrDefault
+import java.net.URL
 
 class SmileIDBVNConsentScreen (context: ReactApplicationContext) : SmileIDView(context) {
 
@@ -31,19 +35,19 @@ class SmileIDBVNConsentScreen (context: ReactApplicationContext) : SmileIDView(c
       )
       composeView.apply {
         setContent {
-//            SmileID.BvnConsentScreen(
-//              partnerIcon = painterResource(
-//                id = partnerIcon
-//              ),
-//              partnerName = partnerName,
-//              partnerPrivacyPolicy = URL(partnerPrivacyPolicy),
-//              onConsentDenied = {
-//                emitSuccess("denied")
-//              },
-//              onConsentGranted = {
-//                emitSuccess("accepted")
-//              },
-//            )
+            SmileID.BvnConsentScreen(
+              partnerIcon = painterResource(
+                id = partnerIcon
+              ),
+              partnerName = partnerName,
+              partnerPrivacyPolicy = URL(partnerPrivacyPolicy),
+              onConsentDenied = {
+                emitSuccess("denied")
+              },
+              onConsentGranted = {
+                emitSuccess("accepted")
+              },
+            )
         }}
     }
    }
