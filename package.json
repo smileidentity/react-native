@@ -1,5 +1,5 @@
 {
-  "name": "react-native-smile-id",
+  "name": "@smileid/react-native",
   "version": "0.1.0",
   "description": "Official wrapper for the Smile ID <v10 android and iOS SDKs",
   "main": "lib/commonjs/index",
