@@ -12,10 +12,12 @@ on:
         type: choice
         description: 'The version to release will default to patch if not provided'
         required: true
+        default: patch
         options:
           - patch
           - minor
           - major
+          - beta
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
