@@ -1,5 +1,4 @@
 name: 'Release SDK'
-
 on:
   workflow_dispatch:
     inputs:
