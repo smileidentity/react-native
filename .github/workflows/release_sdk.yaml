@@ -1,4 +1,4 @@
-name: Release SDK
+name: 'Release SDK'
 
 on:
   workflow_dispatch:
