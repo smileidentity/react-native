@@ -1,2 +1,3 @@
-#### 0.1.5 (2023-10-27)
-
+# 10.0.0-beta01
+- Initial release
+- Support for Enhanced KYC (Async)
