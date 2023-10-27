@@ -48,6 +48,8 @@ jobs:
     steps:
       - name: Bump version
         id: bump_version
+        outputs:
+          version: ${{ steps.bump_version.outputs.version }}
         run: |
           if [[ "${{ github.event.inputs.version_override }}" == beta || "${{ github.event.inputs.version_override }}" == alpha ]]; then
             npm version prerelease --preid="${{ github.event.inputs.version_override }}"
@@ -91,5 +93,5 @@ jobs:
           git tag -a "${tag}" -m "${message}"
           git push origin "${tag}"
         env:
-          tag: v${{ steps.read_version.outputs.version }}
-          message: Release v${{ steps.read_version.outputs.version }}
+          tag: v${{needs.bump-version.outputs.version}}
+          message: Release v${{needs.bump-version.outputs.version}}
