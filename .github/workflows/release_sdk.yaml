@@ -25,15 +25,12 @@ concurrency:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  release-sdk:
+  setup-node:
     uses: ./.github/workflows/ci.yml
     runs-on: ubuntu-latest
     secrets: inherit
     steps:
       - uses: actions/checkout@v3
-        name: Mark Git directory as Safe
-        run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Check out source
         uses: actions/checkout@v3
         with:
@@ -46,6 +43,9 @@ jobs:
   bump-version:
     needs: release-sdk
     steps:
+      - name: Mark Git directory as Safe
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Bump version
         id: bump_version
         outputs:
