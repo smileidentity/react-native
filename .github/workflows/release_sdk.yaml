@@ -1,45 +1,70 @@
+# from node-osc package
+# This is a basic workflow that is manually triggered
+
+name: Bump version
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      release_version:
+        type: choice
+        description: 'The version to release will default to patch if not provided'
+        required: true
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+          - beta
+          - alpha
 
-name: Create Release
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  generate-changelog:
-    name: Generate Changelog
+  release-sdk:
+    uses: ./.github/workflows/ci.yml
     runs-on: ubuntu-latest
+    secrets: inherit
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        name: Mark Git directory as Safe
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Check out source
+        uses: actions/checkout@v3
         with:
-          ref: main
           ssh-key: ${{ secrets.DEPLOY_KEY }}
-
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
-      - name: Setup Git
+  bump-version:
+    needs: release-sdk
+    steps:
+      - name: Bump version
+        id: bump_version
         run: |
-          git config user.name '${{secrets.MAINTAINER_NAME}}'
-          git config user.email '${{secrets.MAINTAINER_EMAIL}}'
-      - name: Install Dependencies
-        run: |
-          npm ci
-      - name: Generate Changelog
-        run: |
-          npm run generate-changelog
-      - name: Commit and Push latest version
-        run: |
-          git add .
-          git commit --allow-empty -m "docs: generate changelog ${{ github.ref_name }} [skip ci]"
-          git push origin main
+          if [[ "${{ github.event.inputs.version_override }}" == beta || "${{ github.event.inputs.version_override }}" == alpha ]]; then
+            npm version prerelease --preid="${{ github.event.inputs.version_override }}"
+          else
+            npm version "${{ github.event.inputs.version_override }}"
+          fi
+          version=$(cat package.json \
+                                 | grep version \
+                                 | head -1 \
+                                 | awk -F: '{ print $2 }' \
+                                 | sed 's/[",]//g')
+          echo "version=$version" >> $GITHUB_OUTPUT
+
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
-    needs: generate-changelog
+    needs: bump-version
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -59,14 +84,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: publish
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Release Notes
-        uses: actions/github-script@v4.0.2
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            await github.request(`POST /repos/${{ github.repository }}/releases`, {
-              tag_name: "${{ github.ref }}",
-              generate_release_notes: true
-            });
+      - name: Push Tag
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git tag -a "${tag}" -m "${message}"
+          git push origin "${tag}"
+        env:
+          tag: v${{ steps.read_version.outputs.version }}
+          message: Release v${{ steps.read_version.outputs.version }}

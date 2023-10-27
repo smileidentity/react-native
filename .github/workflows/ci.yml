@@ -1,5 +1,10 @@
-name: CI
+name: ci
 on:
+  workflow_call:
+    inputs:
+      workflow: ci
+    from:
+      - release_sdk
   push:
     branches:
       - main
