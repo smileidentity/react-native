@@ -1,0 +1,72 @@
+name: 'Release SDK'
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        type: choice
+        description: 'The version to release will default to patch if not provided'
+        required: true
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+          - beta
+          - alpha
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+
+jobs:
+  release:
+    uses: ./.github/workflows/ci.yml
+
+  bump-version:
+    needs: release
+    steps:
+      - name: Mark Git directory as Safe
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          if [[ "${{ github.event.inputs.version_override }}" == beta || "${{ github.event.inputs.version_override }}" == alpha ]]; then
+            main_version="${current_version%-*}"
+            prerelease_version="${current_version#*-}"
+
+            # Extract the prerelease identifier and the numeric part
+            prerelease_identifier="${prerelease_version%[0-9]*}"
+            numeric_part="${prerelease_version#$prerelease_identifier}"
+
+            # Increment the numeric part
+            numeric_part=$(printf "%01d" $((10#$numeric_part + 1)))
+
+            # Construct the new version
+            new_version="${main_version}-${prerelease_identifier}${numeric_part}"
+            npm version $new_version
+          else
+            npm version "${{ github.event.inputs.version_override }}"
+          fi
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Publish
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${PUBLISH_TOKEN}
+          npm ci
+          npm run build
+          npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+
+      - name: Push Tag
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git tag -a "${tag}" -m "${message}"
+          git push origin "${tag}"
+        env:
+          tag: v${{ needs.bump-version.outputs.version }}
+          message: Release v${{ needs.bump-version.outputs.version }}
