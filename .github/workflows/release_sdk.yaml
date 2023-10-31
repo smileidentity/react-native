@@ -1,4 +1,5 @@
 name: 'Release SDK'
+
 on:
   workflow_dispatch:
     inputs:
@@ -27,32 +28,30 @@ jobs:
       - name: Mark Git directory as Safe
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: Bump version
         id: bump_version
-        outputs:
-          version: ${{ steps.bump_version.outputs.version }}
         run: |
           if [[ "${{ github.event.inputs.version_override }}" == beta || "${{ github.event.inputs.version_override }}" == alpha ]]; then
-            npm version prerelease --preid="${{ github.event.inputs.version_override }}"
+            main_version="${current_version%-*}"
+            prerelease_version="${current_version#*-}"
+
+            # Extract the prerelease identifier and the numeric part
+            prerelease_identifier="${prerelease_version%[0-9]*}"
+            numeric_part="${prerelease_version#$prerelease_identifier}"
+
+            # Increment the numeric part
+            numeric_part=$(printf "%01d" $((10#$numeric_part + 1)))
+
+            # Construct the new version
+            new_version="${main_version}-${prerelease_identifier}${numeric_part}"
+            npm version $new_version
           else
             npm version "${{ github.event.inputs.version_override }}"
           fi
-          version=$(cat package.json \
-                                 | grep version \
-                                 | head -1 \
-                                 | awk -F: '{ print $2 }' \
-                                 | sed 's/[",]//g')
+          version=$(node -p "require('./package.json').version")
           echo "version=$version" >> $GITHUB_OUTPUT
 
-  publish:
-    name: Publish to npm
-    runs-on: ubuntu-latest
-    needs: bump-version
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
       - name: Publish
         run: |
           npm config set //registry.npmjs.org/:_authToken ${PUBLISH_TOKEN}
@@ -62,11 +61,6 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
-  create-github-release:
-    name: Create GitHub Release
-    runs-on: ubuntu-latest
-    needs: publish
-    steps:
       - name: Push Tag
         run: |
           git config user.name "${GITHUB_ACTOR}"
@@ -74,5 +68,5 @@ jobs:
           git tag -a "${tag}" -m "${message}"
           git push origin "${tag}"
         env:
-          tag: v${{needs.bump-version.outputs.version}}
-          message: Release v${{needs.bump-version.outputs.version}}
+          tag: v${{ needs.bump-version.outputs.version }}
+          message: Release v${{ needs.bump-version.outputs.version }}
