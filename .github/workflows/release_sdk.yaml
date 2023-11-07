@@ -72,9 +72,12 @@ jobs:
 
       - name: Publish Package
         run: |
+          npm config set //registry.npmjs.org/:_authToken ${NODE_AUTH_TOKEN}
+          npm ci
+          npm run build
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
       - name: Create Pull Request
         run: |
