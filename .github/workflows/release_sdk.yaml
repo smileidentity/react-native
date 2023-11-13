@@ -5,7 +5,7 @@ on:
     inputs:
       release_version:
         type: choice
-        description: 'The version to release will default to patch if not provided'
+        description: 'Select the version type to release'
         required: true
         default: patch
         options:
@@ -23,50 +23,64 @@ jobs:
     uses: ./.github/workflows/ci.yml
 
   bump-version:
+    runs-on: ubuntu-latest
     needs: release
     steps:
-      - name: Mark Git directory as Safe
-        run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Bump version
         id: bump_version
         run: |
-          if [[ "${{ github.event.inputs.version_override }}" == beta || "${{ github.event.inputs.version_override }}" == alpha ]]; then
-            main_version="${current_version%-*}"
-            prerelease_version="${current_version#*-}"
+          # Define function to parse and bump version number
+          bump_version() {
+            if [[ "$1" == "beta" || "$1" == "alpha" ]]; then
+              main_version="${current_version%-*}"
+              prerelease_version="${current_version#*-}"
+              prerelease_identifier="${prerelease_version%[0-9]*}"
+              numeric_part="${prerelease_version#$prerelease_identifier}"
+              numeric_part=$(printf "%01d" $((10#$numeric_part + 1)))
+              echo "${main_version}-${prerelease_identifier}${numeric_part}"
+            else
+              echo "$1"
+            fi
+          }
 
-            # Extract the prerelease identifier and the numeric part
-            prerelease_identifier="${prerelease_version%[0-9]*}"
-            numeric_part="${prerelease_version#$prerelease_identifier}"
+          # Fetch current version and determine new version
+          current_version=$(node -p "require('./package.json').version")
+          new_version=$(bump_version "${{ github.event.inputs.release_version }}")
 
-            # Increment the numeric part
-            numeric_part=$(printf "%01d" $((10#$numeric_part + 1)))
+          # Bump package version and output new version
+          npm version "$new_version" --no-git-tag-version
+          echo "new_version=$new_version" >> $GITHUB_ENV
+          echo "new_branch=release/$new_version" >> $GITHUB_ENV
 
-            # Construct the new version
-            new_version="${main_version}-${prerelease_identifier}${numeric_part}"
-            npm version $new_version
-          else
-            npm version "${{ github.event.inputs.version_override }}"
-          fi
-          version=$(node -p "require('./package.json').version")
-          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "Version bumped to $new_version"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish
+      - name: Create Release Branch
         run: |
-          npm config set //registry.npmjs.org/:_authToken ${PUBLISH_TOKEN}
+          new_branch=$new_version
+          git checkout -b $new_branch
+          git push origin $new_branch
+
+      - name: Create Tag and Release
+        run: |
+          new_tag="v$new_version"
+          git tag $new_tag
+          git push origin $new_tag
+          gh release create $new_tag --title "Release $new_tag" --notes "Release notes for $new_tag"
+
+      - name: Publish Package
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${NODE_AUTH_TOKEN}
           npm ci
           npm run build
           npm publish
         env:
-          NPM_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
-      - name: Push Tag
+      - name: Create Pull Request
         run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git tag -a "${tag}" -m "${message}"
-          git push origin "${tag}"
+          gh pr create --title "Merge release $new_version into main" --body "This is an automated pull request to update the version." --base main --head $new_branch
         env:
-          tag: v${{ needs.bump-version.outputs.version }}
-          message: Release v${{ needs.bump-version.outputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
