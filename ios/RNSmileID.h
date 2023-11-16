@@ -2,11 +2,11 @@
 #ifdef RCT_NEW_ARCH_ENABLED
 #import "RNSmileIdSpec.h"
 
-@interface SmileId : NSObject <NativeSmileIdSpec>
+@interface RNSmileID : NSObject <NativeSmileIdSpec>
 #else
 #import <React/RCTBridgeModule.h>
 
-@interface SmileId : NSObject <RCTBridgeModule>
+@interface RNSmileID : NSObject <RCTBridgeModule>
 #endif
 
 @end

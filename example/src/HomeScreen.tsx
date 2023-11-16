@@ -6,14 +6,13 @@ import type {
   BvnConsentRequest,
   DocumentVerificationRequest,
   SmartSelfieRequest,
-} from '@smileid/react-native';
+} from '@smile_identity/react-native';
 
-import { JobType, SmileID } from '@smileid/react-native';
+import { JobType, SmileID } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
-
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   React.useEffect(() => {
-    SmileID.initialize(false, true);
+    // SmileID.initialize(false, true); // TODO: iOS in progress
   }, []);
 
   const SmileButton = (props: any) => {
@@ -39,6 +38,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const smartSelfieEnrollment: SmartSelfieRequest = {
     ...defaultProduct,
     jobType: JobType.SmartSelfieEnrollment,
+    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
   };
 
   const smartSelfieAuthentication: SmartSelfieRequest = {

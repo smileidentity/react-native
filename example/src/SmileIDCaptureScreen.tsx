@@ -8,7 +8,7 @@ import {
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
   SmileIDBVNConsentScreenView,
-} from '@smileid/react-native';
+} from '@smile_identity/react-native';
 import type { Product } from './types/Product';
 import { useState } from 'react';
 

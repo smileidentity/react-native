@@ -1,6 +1,6 @@
-#import "SmileId.h"
+#import "RNSmileID.h"
 
-@implementation SmileId
+@implementation RNSmileID
 RCT_EXPORT_MODULE()
 
 // Example method
@@ -14,6 +14,8 @@ RCT_EXPORT_METHOD(multiply:(double)a
 
     resolve(result);
 }
+//
+//RCT_EXTERN_MODULE(SmileIDSmartSelfieEnrollmentViewManager, RCTViewManager)
 
 // Don't compile this code when we build for the old architecture.
 #ifdef RCT_NEW_ARCH_ENABLED
@@ -25,3 +27,4 @@ RCT_EXPORT_METHOD(multiply:(double)a
 #endif
 
 @end
+

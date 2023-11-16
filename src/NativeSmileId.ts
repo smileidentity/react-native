@@ -11,4 +11,4 @@ export interface Spec extends TurboModule {
     enhancedKYCRequest: EnhancedKycRequest
   ) => Promise<string>;
 }
-export default TurboModuleRegistry.getEnforcing<Spec>('SmileID');
+export default TurboModuleRegistry.getEnforcing<Spec>('RNSmileID');

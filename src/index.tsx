@@ -95,7 +95,7 @@ export enum JobType {
 
 const SmileIdModule = isTurboModuleEnabled
   ? require('./NativeSmileId').default
-  : NativeModules.SmileID;
+  : NativeModules.RNSmileID;
 
 const _SmileID = SmileIdModule
   ? SmileIdModule
