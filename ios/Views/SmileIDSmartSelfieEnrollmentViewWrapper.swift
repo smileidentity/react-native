@@ -1,10 +1,3 @@
-//
-//  SmileIDSmartSelfieEnrollmentViewWrapper.swift
-//  react-native-smile-id
-//
-//  Created by Japhet Ndhlovu on 2023/11/30.
-//
-
 import Foundation
 
 import SwiftUI

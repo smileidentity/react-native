@@ -1,10 +1,3 @@
-//
-//  SmileIDProductModel.swift
-//  react-native-smile-id
-//
-//  Created by Japhet Ndhlovu on 2023/11/30.
-//
-
 import Foundation
 import Combine
 
@@ -15,5 +8,5 @@ class SmileIDProductModel: ObservableObject {
     @Published var showAttribution: Bool = true
     @Published var showInstructions: Bool = true
     @Published var extraPartnerParams: NSDictionary = [:]
-    @Published var delegate: RNSmileIDDelegate?
+    @Published var delegate: (any RNSmileIDDelegate)?
 }
