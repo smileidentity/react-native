@@ -5,4 +5,6 @@ import React
 @objc(SmileIDSmartSelfieEnrollmentViewManager)
 class SmileIDSmartSelfieEnrollmentViewManager: SmileIDBaseViewManager {
     
+    
+
 }

@@ -38,7 +38,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const smartSelfieEnrollment: SmartSelfieRequest = {
     ...defaultProduct,
     jobType: JobType.SmartSelfieEnrollment,
-    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
+    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d928',
   };
 
   const smartSelfieAuthentication: SmartSelfieRequest = {
