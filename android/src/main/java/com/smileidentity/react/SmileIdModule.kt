@@ -92,6 +92,6 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "SmileID"
+    const val NAME = "RNSmileID"
   }
 }

@@ -1,30 +1,5 @@
-#import "RNSmileID.h"
+#import <React/RCTBridgeModule.h>
 
-@implementation RNSmileID
-RCT_EXPORT_MODULE()
-
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_EXPORT_METHOD(multiply:(double)a
-                  b:(double)b
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
-{
-    NSNumber *result = @(a * b);
-
-    resolve(result);
-}
-//
-//RCT_EXTERN_MODULE(SmileIDSmartSelfieEnrollmentViewManager, RCTViewManager)
-
-// Don't compile this code when we build for the old architecture.
-#ifdef RCT_NEW_ARCH_ENABLED
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
-    (const facebook::react::ObjCTurboModule::InitParams &)params
-{
-    return std::make_shared<facebook::react::NativeSmileIdSpecJSI>(params);
-}
-#endif
-
+@interface RCT_EXTERN_MODULE(RNSmileID, NSObject)
+RCT_EXTERN_METHOD(initialize:(BOOL)enableCrashReporting useSandBox:(BOOL)useSandBox withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 @end
-

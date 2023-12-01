@@ -12,7 +12,7 @@ import { JobType, SmileID } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   React.useEffect(() => {
-    // SmileID.initialize(false, true); // TODO: iOS in progress
+    SmileID.initialize(false, true); // TODO: iOS in progress
   }, []);
 
   const SmileButton = (props: any) => {
