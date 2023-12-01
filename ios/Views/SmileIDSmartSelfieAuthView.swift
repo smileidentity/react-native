@@ -2,12 +2,12 @@ import Foundation
 import SwiftUI
 import SmileID
 
-struct SmileIDSmartSelfieEnrollmentView : View {
+struct SmileIDSmartSelfieAuthView : View {
     @ObservedObject var product: SmileIDProductModel
 
     var body: some View {
         NavigationView {
-            SmileID.smartSelfieEnrollmentScreen(
+            SmileID.smartSelfieAuthenticationScreen(
                 userId:product.userId ?? generateUserId(),
                 jobId: product.jobId ?? generateJobId(),
                 allowAgentMode: product.allowAgentMode,
@@ -17,20 +17,19 @@ struct SmileIDSmartSelfieEnrollmentView : View {
                 delegate:product.delegate ?? self
             )
         }.navigationViewStyle(StackNavigationViewStyle())
-        
     }
 }
 
-extension SmileIDSmartSelfieEnrollmentView: SmartSelfieResultDelegate {
+extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
     func didSucceed(
         selfieImage: URL,
         livenessImages: [URL],
         jobStatusResponse: SmartSelfieJobStatusResponse
     ) {
-       print("SmileIDSmartSelfieEnrollmentView didSucceed no delegate found")
+       print("SmileIDSmartSelfieAuthView didSucceed no delegate found")
     }
     
     func didError(error: Error) {
-        print("SmileIDSmartSelfieEnrollmentView didError no delegate found")
+        print("SmileIDSmartSelfieAuthView didError no delegate found")
     }
 }
