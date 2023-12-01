@@ -4,6 +4,16 @@ import SwiftUI
 import SmileID
 
 class BaseSmileIDViewWrapper: UIView ,RNSmileIDDelegate {
+    func onConsentGranted() {
+        self.onResult?(["result": true, "target": self.reactTag])
+    }
+    
+    func didSucceed(selfie: URL, documentFrontImage: URL, documentBackImage: URL?, jobStatusResponse: DocumentVerificationJobStatusResponse) {
+        let encoder = JSONEncoder()
+        let jsonData = try! encoder.encode(jobStatusResponse)
+        self.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
+    }
+    
     func didError(error: Error) {
         self.onResult?(["error": error.localizedDescription, "target": self.reactTag])
     }
@@ -49,6 +59,21 @@ class BaseSmileIDViewWrapper: UIView ,RNSmileIDDelegate {
         if let jobId = product["jobId"] as? String {
             self.product.jobId = jobId
         }
+        if let partnerIcon = product["partnerIcon"] as? String {
+            self.product.partnerIcon = partnerIcon
+        }
+        if let partnerName = product["partnerName"] as? String {
+            self.product.partnerName = partnerName
+        }
+        if let productName = product["productName"] as? String {
+            self.product.productName = productName
+        }
+        if let partnerPrivacyPolicy = product["partnerPrivacyPolicy"] as? String {
+            self.product.partnerPrivacyPolicy = partnerPrivacyPolicy
+        }
+        if let partnerPrivacyPolicy = product["partnerPrivacyPolicy"] as? String {
+            self.product.partnerPrivacyPolicy = partnerPrivacyPolicy
+        }
         if let allowAgentMode = product["allowAgentMode"] as? Bool {
             self.product.allowAgentMode = allowAgentMode
         }
@@ -60,6 +85,18 @@ class BaseSmileIDViewWrapper: UIView ,RNSmileIDDelegate {
         }
         if let extraPartnerParams = product["extraPartnerParams"] as? NSDictionary {
             self.product.extraPartnerParams = extraPartnerParams
+        }
+        if let countryCode = product["countryCode"] as? String {
+            self.product.countryCode = countryCode
+        }
+        if let documentType = product["documentType"] as? String {
+            self.product.documentType = documentType
+        }
+        if let captureBothSides = product["captureBothSides"] as? Bool {
+            self.product.captureBothSides = captureBothSides
+        }
+        if let allowGalleryUpload = product["allowGalleryUpload"] as? Bool {
+            self.product.allowGalleryUpload = allowGalleryUpload
         }
     }
     

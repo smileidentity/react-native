@@ -5,6 +5,10 @@ import SmileID
 class SmileIDProductModel: ObservableObject {
     @Published var userId: String?
     @Published var jobId: String?
+    @Published var partnerIcon: String?
+    @Published var partnerName: String?
+    @Published var productName: String?
+    @Published var partnerPrivacyPolicy: String?
     @Published var allowAgentMode: Bool = false
     @Published var showAttribution: Bool = true
     @Published var showInstructions: Bool = true
