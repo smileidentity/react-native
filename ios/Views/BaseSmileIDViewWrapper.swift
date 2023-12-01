@@ -3,9 +3,7 @@ import Foundation
 import SwiftUI
 import SmileID
 
-class BaseSmileIDViewWrapper: UIView {
-    typealias ContentView = AnyView
-    
+class BaseSmileIDViewWrapper: UIView ,RNSmileIDDelegate {
     func didError(error: Error) {
         self.onResult?(["error": error.localizedDescription, "target": self.reactTag])
     }
@@ -15,6 +13,7 @@ class BaseSmileIDViewWrapper: UIView {
         let jsonData = try! encoder.encode(jobStatusResponse)
         self.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
     }
+    typealias ContentView = AnyView
     
     var product = SmileIDProductModel()
     @objc var onResult: RCTDirectEventBlock?
@@ -40,6 +39,7 @@ class BaseSmileIDViewWrapper: UIView {
         hostingView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         hostingView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         hostingView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        self.product.delegate = self
     }
     
     @objc public func setProduct(_ product:NSDictionary!) {

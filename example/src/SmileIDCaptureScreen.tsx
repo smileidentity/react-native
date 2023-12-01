@@ -60,6 +60,9 @@ export const SmileIDCaptureScreen = ({
           style={styles.smileView}
           product={product.product}
           onResult={(event) => {
+            console.log("Japhet Ndhlovu got result 1");
+            console.log(event.nativeEvent.result);
+            console.log("Japhet Ndhlovu got result 2");
             setResult(event.nativeEvent.result);
           }}
         />
