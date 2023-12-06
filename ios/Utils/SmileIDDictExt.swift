@@ -1,9 +1,8 @@
 import Foundation
 import SmileID
 
-
 extension NSDictionary {
-   
+
     func toIdInfo() -> IdInfo? {
           guard let country = self["country"] as? String else {
               return nil

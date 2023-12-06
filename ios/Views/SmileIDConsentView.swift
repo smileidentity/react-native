@@ -2,15 +2,15 @@ import Foundation
 import SwiftUI
 import SmileID
 
-struct SmileIDConsentView : View {
+struct SmileIDConsentView: View {
     @ObservedObject var product: SmileIDProductModel
-    var reactTag : NSNumber = -1
-    
+    var reactTag: NSNumber = -1
+
     var body: some View {
         NavigationView {
-            if let partnerIcon = product.partnerIcon ,
-               let partnerName = product.partnerName ,
-               let productName = product.productName ,
+            if let partnerIcon = product.partnerIcon,
+               let partnerName = product.partnerName,
+               let productName = product.productName,
                let partnerPrivacyPolicy = product.productName {
                 SmileID.consentScreen(
                     partnerIcon: UIImage(named: partnerIcon)!,
@@ -22,7 +22,7 @@ struct SmileIDConsentView : View {
                         self.product.onResult?(["result": true, "target": self.reactTag])
                     },
                     onConsentDenied: {
-                        self.product.onResult?(["error":  SmileIDError.consentDenied, "target": self.reactTag])
+                        self.product.onResult?(["error": SmileIDError.consentDenied, "target": self.reactTag])
                     }
                 )
             } else {

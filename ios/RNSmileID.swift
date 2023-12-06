@@ -7,7 +7,7 @@ class RNSmileID: NSObject {
      this method breaks if it's not the same as android
      */
     @objc(initialize:useSandBox:withResolver:withRejecter:)
-    func initialize(enableCrashReporting: Bool, useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) {
+    func initialize(enableCrashReporting: Bool, useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         SmileID.initialize(useSandbox: useSandBox)
         resolve(nil)
     }

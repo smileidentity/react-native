@@ -2,10 +2,10 @@ import Foundation
 import SwiftUI
 import SmileID
 
-struct SmileIDBiometricKYCView : View {
+struct SmileIDBiometricKYCView: View {
     @ObservedObject var product: SmileIDProductModel
-    var reactTag : NSNumber = -1
-    
+    var reactTag: NSNumber = -1
+
     var body: some View {
         NavigationView {
             if let idInfo = product.idInfo {
@@ -17,27 +17,27 @@ struct SmileIDBiometricKYCView : View {
                     showAttribution: product.showAttribution,
                     showInstructions: product.showInstructions,
                     extraPartnerParams: product.extraPartnerParams,
-                    delegate:self
+                    delegate: self
                 )
-            } else{
+            } else {
                 Text("IDInfo is required.")
             }
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
-extension SmileIDBiometricKYCView : BiometricKycResultDelegate {
+extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     func didSucceed(
         selfieImage: URL,
         livenessImages: [URL],
         jobStatusResponse: BiometricKycJobStatusResponse
-    ){
+    ) {
         let encoder = JSONEncoder()
         let jsonData = try! encoder.encode(jobStatusResponse)
         self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
     }
-    
-    func didError(error: Error){
+
+    func didError(error: Error) {
         self.product.onResult?(["error": error.localizedDescription, "target": self.reactTag])
     }
 }

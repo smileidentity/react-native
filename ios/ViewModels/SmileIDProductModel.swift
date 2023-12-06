@@ -22,7 +22,7 @@ class SmileIDProductModel: ObservableObject {
     @Published var idInfo: IdInfo?
     @Published var bypassSelfieCaptureWithFilePath: String?
     @Published var onResult: RCTDirectEventBlock?
-    
+
     var computedBypassSelfieCaptureWithFile: URL? {
         get {
             guard let filePath = bypassSelfieCaptureWithFilePath else { return nil }
