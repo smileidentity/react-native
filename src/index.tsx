@@ -16,6 +16,7 @@ export type SmileIDViewProps = ViewProps & {
   jobId?: string;
   partnerParams?: PartnerParams;
   jobType: JobType;
+  onResult?: (event: any) => void;
 };
 
 export type PartnerParams = {
@@ -107,15 +108,6 @@ const _SmileID = SmileIdModule
         },
       }
     );
-
-export interface NativeProps extends ViewProps {
-  product:
-    | SmartSelfieRequest
-    | DocumentVerificationRequest
-    | EnhancedKycRequest
-    | BvnConsentRequest;
-  onResult?: (event: any) => void;
-}
 
 export const SmileIDSmartSelfieEnrollmentView =
   codegenNativeComponent<SmartSelfieRequest>(
