@@ -9,11 +9,19 @@ struct SmileIDEnhancedDocumentVerificationView : View {
         NavigationView {
             if let countryCode = product.countryCode{
                 SmileID.enhancedDocumentVerificationScreen(
+                    userId: product.userId ?? generateUserId(),
+                    jobId: product.jobId ?? generateJobId(),
                     countryCode: countryCode,
                     documentType: product.documentType,
+                    idAspectRatio: product.idAspectRatio,
+                    bypassSelfieCaptureWithFile:product.computedBypassSelfieCaptureWithFile,
                     captureBothSides: product.captureBothSides,
+                    allowAgentMode: product.allowAgentMode,
                     allowGalleryUpload: product.allowGalleryUpload,
-                    delegate:product.delegate ?? self
+                    showInstructions: product.showInstructions,
+                    showAttribution: product.showAttribution,
+                    extraPartnerParams: product.extraPartnerParams,
+                    delegate:self
                 )
             } else {
                 Text("countryCode is required.")

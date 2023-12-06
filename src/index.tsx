@@ -118,27 +118,27 @@ export interface NativeProps extends ViewProps {
 }
 
 export const SmileIDSmartSelfieEnrollmentView =
-  codegenNativeComponent<NativeProps>(
+  codegenNativeComponent<SmartSelfieRequest>(
     'SmileIDSmartSelfieEnrollmentView'
-  ) as HostComponent<NativeProps>;
+  ) as HostComponent<SmartSelfieRequest>;
 
 export const SmileIDSmartSelfieAuthenticationView =
-  codegenNativeComponent<NativeProps>(
+  codegenNativeComponent<SmartSelfieRequest>(
     'SmileIDSmartSelfieAuthenticationView'
-  ) as HostComponent<NativeProps>;
+  ) as HostComponent<SmartSelfieRequest>;
 
 export const SmileIDDocumentVerificationView =
-  codegenNativeComponent<NativeProps>(
+  codegenNativeComponent<DocumentVerificationRequest>(
     'SmileIDDocumentVerificationView'
-  ) as HostComponent<NativeProps>;
+  ) as HostComponent<DocumentVerificationRequest>;
 
-export const SmileIDBVNConsentScreenView = codegenNativeComponent<NativeProps>(
+export const SmileIDBVNConsentScreenView = codegenNativeComponent<BvnConsentRequest>(
   'SmileIDBVNConsentScreenView'
-) as HostComponent<NativeProps>;
+) as HostComponent<BvnConsentRequest>;
 
-export const SmileIDBiometricKYCView = codegenNativeComponent<NativeProps>(
+export const SmileIDBiometricKYCView = codegenNativeComponent<BiometricKYCRequest>(
   'SmileIDBiometricKYCView'
-) as HostComponent<NativeProps>;
+) as HostComponent<BiometricKYCRequest>;
 
 export const SmileID = {
   initialize: (

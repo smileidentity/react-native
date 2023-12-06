@@ -10,8 +10,13 @@ struct SmileIDBiometricKYCView : View {
             if let idInfo = product.idInfo {
                 SmileID.biometricKycScreen(
                     idInfo: idInfo,
-                    allowAgentMode: true,
-                    delegate:product.delegate ?? self
+                    userId: product.userId ?? generateUserId(),
+                    jobId: product.jobId ?? generateJobId(),
+                    allowAgentMode: product.allowAgentMode,
+                    showAttribution: product.showAttribution,
+                    showInstructions: product.showInstructions,
+                    extraPartnerParams: product.extraPartnerParams,
+                    delegate:self
                 )
             } else{
                 Text("IDInfo is required.")

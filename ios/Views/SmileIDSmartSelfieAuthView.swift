@@ -14,7 +14,7 @@ struct SmileIDSmartSelfieAuthView : View {
                 showAttribution: product.showAttribution,
                 showInstructions: product.showInstructions,
                 extraPartnerParams:(product.extraPartnerParams as? [String : String]) ?? [:],
-                delegate:product.delegate ?? self
+                delegate:self
             )
         }.navigationViewStyle(StackNavigationViewStyle())
     }

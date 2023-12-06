@@ -17,8 +17,8 @@ struct SmileIDConsentView : View {
                     productName: productName,
                     partnerPrivacyPolicy: URL(string: partnerPrivacyPolicy)!,
                     showAttribution: true,
-                    onConsentGranted: {product.delegate?.onConsentGranted()},
-                    onConsentDenied: { product.delegate?.didError(error: SmileIDError.consentDenied) }
+                    onConsentGranted: {},
+                    onConsentDenied: { }
                 )
             } else {
                 Text("countryCode is required.")
