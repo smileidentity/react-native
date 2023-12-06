@@ -4,7 +4,8 @@ import SmileID
 
 struct SmileIDSmartSelfieEnrollmentView : View {
     @ObservedObject var product: SmileIDProductModel
-
+    var reactTag : NSNumber = -1
+    
     var body: some View {
         NavigationView {
             SmileID.smartSelfieEnrollmentScreen(
@@ -27,10 +28,12 @@ extension SmileIDSmartSelfieEnrollmentView: SmartSelfieResultDelegate {
         livenessImages: [URL],
         jobStatusResponse: SmartSelfieJobStatusResponse
     ) {
-       print("SmileIDSmartSelfieEnrollmentView didSucceed no delegate found")
+        let encoder = JSONEncoder()
+        let jsonData = try! encoder.encode(jobStatusResponse)
+        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
     }
     
     func didError(error: Error) {
-        print("SmileIDSmartSelfieEnrollmentView didError no delegate found")
+        self.product.onResult?(["error": error.localizedDescription, "target": self.reactTag])
     }
 }

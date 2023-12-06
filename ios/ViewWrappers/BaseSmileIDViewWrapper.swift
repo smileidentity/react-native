@@ -22,7 +22,7 @@ class BaseSmileIDViewWrapper: UIView {
     private func commonInit() {
         // Perform initialization tasks here
         // For example, setup subviews, add constraints, configure appearance
-        let hostingController = UIHostingController(rootView: getView())
+        let hostingController = UIHostingController(rootView: getView(tag: self.reactTag))
         let hostingView = hostingController.view!
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hostingView)
@@ -30,6 +30,10 @@ class BaseSmileIDViewWrapper: UIView {
         hostingView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         hostingView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         hostingView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+    }
+    
+    @objc public func setOnResult(_ onResult: RCTDirectEventBlock?) {
+        self.product.onResult = onResult
     }
     
     @objc public func setUserId(_ userId: String?) {
@@ -64,7 +68,7 @@ class BaseSmileIDViewWrapper: UIView {
         self.product.countryCode = countryCode
     }
     
-    func getView() -> AnyView {
+    func getView(tag : NSNumber) -> AnyView {
         fatalError("Must be implemented by subclass")
     }
 }

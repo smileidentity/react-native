@@ -4,6 +4,7 @@ import SmileID
 
 struct SmileIDDocumentVerificationView : View {
     @ObservedObject var product: SmileIDProductModel
+    var reactTag : NSNumber = -1
     
     var body: some View {
         NavigationView {
@@ -37,11 +38,13 @@ extension SmileIDDocumentVerificationView : DocumentVerificationResultDelegate {
         documentBackImage: URL?,
         jobStatusResponse: DocumentVerificationJobStatusResponse
     ){
-        print("SmileIDDocumentVerificationView didSucceed no delegate found")
+        let encoder = JSONEncoder()
+        let jsonData = try! encoder.encode(jobStatusResponse)
+        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
     }
     
     
     func didError(error: Error){
-        print("SmileIDDocumentVerificationView didError no delegate found")
+        self.product.onResult?(["error": error.localizedDescription, "target": self.reactTag])
     }
 }

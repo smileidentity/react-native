@@ -9,7 +9,7 @@ class SmileIDBiometricKYCViewWrapper: BaseSmileIDViewWrapper  {
         self.product.idInfo = idInfo?.toIdInfo()
     }
 
-    override func getView() -> AnyView {
-        return AnyView(SmileIDBiometricKYCView(product: self.product))
+    override func getView(tag : NSNumber) -> AnyView {
+        return AnyView(SmileIDBiometricKYCView(product: self.product, reactTag: tag))
     }
 }

@@ -5,7 +5,7 @@ import SmileID
 
 class SmileIDSmartSelfieEnrollmentViewWrapper: BaseSmileIDViewWrapper  {
 
-    override func getView() -> AnyView {
-        return AnyView(SmileIDSmartSelfieEnrollmentView(product: self.product))
+    override func getView(tag : NSNumber) -> AnyView {
+        return AnyView(SmileIDSmartSelfieEnrollmentView(product: self.product, reactTag: tag))
     }
 }

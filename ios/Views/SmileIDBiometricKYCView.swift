@@ -4,6 +4,7 @@ import SmileID
 
 struct SmileIDBiometricKYCView : View {
     @ObservedObject var product: SmileIDProductModel
+    var reactTag : NSNumber = -1
     
     var body: some View {
         NavigationView {
@@ -31,10 +32,12 @@ extension SmileIDBiometricKYCView : BiometricKycResultDelegate {
         livenessImages: [URL],
         jobStatusResponse: BiometricKycJobStatusResponse
     ){
-        print("SmileIDBiometricKYCView didSucceed no delegate found")
+        let encoder = JSONEncoder()
+        let jsonData = try! encoder.encode(jobStatusResponse)
+        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
     }
     
     func didError(error: Error){
-        print("SmileIDBiometricKYCView didError no delegate found")
+        self.product.onResult?(["error": error.localizedDescription, "target": self.reactTag])
     }
 }
