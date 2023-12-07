@@ -21,7 +21,7 @@ class SmileIDConsentViewWrapper: BaseSmileIDViewWrapper {
         self.product.partnerPrivacyPolicy = partnerPrivacyPolicy
     }
 
-    override func getView(tag: NSNumber) -> AnyView {
-        return AnyView(SmileIDConsentView(product: self.product, reactTag: tag))
+    override func getView() -> AnyView {
+        return AnyView(SmileIDConsentView(product: self.product))
     }
 }

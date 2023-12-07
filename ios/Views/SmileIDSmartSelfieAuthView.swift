@@ -4,7 +4,6 @@ import SmileID
 
 struct SmileIDSmartSelfieAuthView: View {
     @ObservedObject var product: SmileIDProductModel
-    var reactTag: NSNumber = -1
 
     var body: some View {
         NavigationView {
@@ -28,11 +27,14 @@ extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
         jobStatusResponse: SmartSelfieJobStatusResponse
     ) {
         let encoder = JSONEncoder()
-        let jsonData = try! encoder.encode(jobStatusResponse)
-        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
+        guard let jsonData = try? encoder.encode(jobStatusResponse) else {
+            self.product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error")])
+            return
+        }
+        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!)])
     }
 
     func didError(error: Error) {
-        self.product.onResult?(["error": error.localizedDescription, "target": self.reactTag])
+        self.product.onResult?(["error": error.localizedDescription])
     }
 }

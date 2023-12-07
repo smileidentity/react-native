@@ -17,7 +17,7 @@ class SmileIDEnhancedDocumentVerificationViewWrapper: BaseSmileIDViewWrapper {
         self.product.captureBothSides = captureBothSides
     }
 
-    override func getView(tag: NSNumber) -> AnyView {
-        return AnyView(SmileIDEnhancedDocumentVerificationView(product: self.product, reactTag: tag))
+    override func getView() -> AnyView {
+        return AnyView(SmileIDEnhancedDocumentVerificationView(product: self.product))
     }
 }

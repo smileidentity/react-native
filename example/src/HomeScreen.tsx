@@ -95,11 +95,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     {
       title: 'Biometric KYC',
       product: biometricKYC,
-    },
-    {
-      title: 'BVN Consent',
-      product: bvnConsentScreen,
-    },
+    }
   ];
 
   return (

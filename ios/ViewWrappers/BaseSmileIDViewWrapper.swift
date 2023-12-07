@@ -1,7 +1,5 @@
 import Foundation
-
 import SwiftUI
-import SmileID
 
 class BaseSmileIDViewWrapper: UIView {
 
@@ -22,7 +20,7 @@ class BaseSmileIDViewWrapper: UIView {
     private func commonInit() {
         // Perform initialization tasks here
         // For example, setup subviews, add constraints, configure appearance
-        let hostingController = UIHostingController(rootView: getView(tag: self.reactTag))
+        let hostingController = UIHostingController(rootView: getView())
         let hostingView = hostingController.view!
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hostingView)
@@ -68,7 +66,7 @@ class BaseSmileIDViewWrapper: UIView {
         self.product.countryCode = countryCode
     }
 
-    func getView(tag: NSNumber) -> AnyView {
+    func getView() -> AnyView {
         fatalError("Must be implemented by subclass")
     }
 }

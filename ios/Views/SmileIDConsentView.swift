@@ -4,7 +4,6 @@ import SmileID
 
 struct SmileIDConsentView: View {
     @ObservedObject var product: SmileIDProductModel
-    var reactTag: NSNumber = -1
 
     var body: some View {
         NavigationView {
@@ -19,10 +18,10 @@ struct SmileIDConsentView: View {
                     partnerPrivacyPolicy: URL(string: partnerPrivacyPolicy)!,
                     showAttribution: true,
                     onConsentGranted: {
-                        self.product.onResult?(["result": true, "target": self.reactTag])
+                        self.product.onResult?(["result": true])
                     },
                     onConsentDenied: {
-                        self.product.onResult?(["error": SmileIDError.consentDenied, "target": self.reactTag])
+                        self.product.onResult?(["error": SmileIDError.consentDenied])
                     }
                 )
             } else {

@@ -4,8 +4,7 @@ import SmileID
 
 struct SmileIDBiometricKYCView: View {
     @ObservedObject var product: SmileIDProductModel
-    var reactTag: NSNumber = -1
-
+    
     var body: some View {
         NavigationView {
             if let idInfo = product.idInfo {
@@ -34,10 +33,10 @@ extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     ) {
         let encoder = JSONEncoder()
         let jsonData = try! encoder.encode(jobStatusResponse)
-        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!), "target": self.reactTag])
+        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!)])
     }
-
+    
     func didError(error: Error) {
-        self.product.onResult?(["error": error.localizedDescription, "target": self.reactTag])
+        self.product.onResult?(["error": error.localizedDescription])
     }
 }
