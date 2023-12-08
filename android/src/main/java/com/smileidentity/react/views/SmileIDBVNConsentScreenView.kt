@@ -11,12 +11,12 @@ import java.net.URL
 class SmileIDBVNConsentScreenView (context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    params?.let { product->
-      val partnerName = product.getStringOrDefault("partnerName",null) ?: run {
+    params?.let { params ->
+      val partnerName = params.getStringOrDefault("partnerName",null) ?: run {
         emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))
         return
       }
-      val partnerPrivacyPolicy = product.getStringOrDefault("partnerPrivacyPolicy",null)  ?: run {
+      val partnerPrivacyPolicy = params.getStringOrDefault("partnerPrivacyPolicy",null)  ?: run {
         emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
@@ -24,7 +24,7 @@ class SmileIDBVNConsentScreenView (context: ReactApplicationContext) : SmileIDVi
         emitFailure(IllegalArgumentException("a valid url for partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
-      val logoResName = product.getStringOrDefault("partnerIcon",null)  ?: run {
+      val logoResName = params.getStringOrDefault("partnerIcon",null)  ?: run {
         emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }

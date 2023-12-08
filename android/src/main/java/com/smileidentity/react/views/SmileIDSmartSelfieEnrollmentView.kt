@@ -8,6 +8,7 @@ import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
+import kotlinx.collections.immutable.toImmutableMap
 import timber.log.Timber
 
 class SmileIDSmartSelfieEnrollmentView (context: ReactApplicationContext) : SmileIDView(context) {
@@ -22,6 +23,7 @@ class SmileIDSmartSelfieEnrollmentView (context: ReactApplicationContext) : Smil
             allowAgentMode = allowAgentMode ?: false,
             showAttribution = showAttribution ?: true,
             showInstructions = showInstructions ?: true,
+            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
           ) { result ->
             when (result) {
               is SmileIDResult.Success -> {
