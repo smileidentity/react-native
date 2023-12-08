@@ -10,17 +10,18 @@ import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import timber.log.Timber
 
-class SmileIDSmartSelfieEnrollment (context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDSmartSelfieEnrollmentView (context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    product?.let {
+    params?.let {
       composeView.apply {
         setContent {
           SmileID.SmartSelfieEnrollment(
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
             allowAgentMode = allowAgentMode ?: false,
-            showInstructions = showInstructions ?: true
+            showAttribution = showAttribution ?: true,
+            showInstructions = showInstructions ?: true,
           ) { result ->
             when (result) {
               is SmileIDResult.Success -> {

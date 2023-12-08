@@ -6,12 +6,12 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
-import com.smileidentity.react.views.SmileIDBiometricKYC
+import com.smileidentity.react.views.SmileIDBiometricKYCView
 
 
 @ReactModule(name = SmileIDBiometricKYCViewManager.NAME)
 class SmileIDBiometricKYCViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDBiometricKYC>() {
+  SimpleViewManager<SmileIDBiometricKYCView>() {
   override fun getName(): String {
     return NAME
   }
@@ -26,13 +26,13 @@ class SmileIDBiometricKYCViewManager(private val reactApplicationContext: ReactA
     )
   }
 
-  @ReactProp(name = "product")
-  fun setProduct(view: SmileIDBiometricKYC, product: ReadableMap) {
-    view.product = product
+  @ReactProp(name = "params")
+  fun setParams(view: SmileIDBiometricKYCView, params: ReadableMap) {
+    view.params = params
   }
 
-  override fun createViewInstance(p0: ThemedReactContext): SmileIDBiometricKYC {
-    return SmileIDBiometricKYC(reactApplicationContext)
+  override fun createViewInstance(p0: ThemedReactContext): SmileIDBiometricKYCView {
+    return SmileIDBiometricKYCView(reactApplicationContext)
   }
 
   companion object {

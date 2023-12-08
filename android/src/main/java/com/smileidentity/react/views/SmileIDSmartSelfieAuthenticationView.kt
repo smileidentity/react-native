@@ -10,10 +10,10 @@ import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import timber.log.Timber
 
-class SmileIDSmartSelfieAuthentication(context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    product?.let {
+    params?.let {
       composeView.apply {
         setContent {
           SmileID.SmartSelfieAuthentication(

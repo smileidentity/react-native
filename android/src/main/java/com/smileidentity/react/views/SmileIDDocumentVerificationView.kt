@@ -12,10 +12,10 @@ import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import timber.log.Timber
 
-class SmileIDDocumentVerification(context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    product?.let{ product ->
+    params?.let{ product ->
       val countryCode = product.getStringOrDefault("countryCode",null) ?: run {
         emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
         return;

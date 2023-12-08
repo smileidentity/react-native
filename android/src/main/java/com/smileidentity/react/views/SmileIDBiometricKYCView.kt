@@ -15,9 +15,9 @@ import com.smileidentity.util.randomUserId
 import timber.log.Timber
 import java.net.URL
 
-class SmileIDBiometricKYC(context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(context) {
   override fun renderContent() {
-    product?.let { product ->
+    params?.let { product ->
       val idInfo = product.idInfo() ?: run {
         emitFailure(IllegalArgumentException("idInfo is required for BiometricKYC"))
         return

@@ -8,10 +8,10 @@ import com.smileidentity.compose.BvnConsentScreen
 import com.smileidentity.react.utils.getStringOrDefault
 import java.net.URL
 
-class SmileIDBVNConsentScreen (context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDBVNConsentScreenView (context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    product?.let {product->
+    params?.let { product->
       val partnerName = product.getStringOrDefault("partnerName",null) ?: run {
         emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))
         return
