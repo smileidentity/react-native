@@ -39,9 +39,27 @@ const _SmileID = SmileIdModule
     );
 
 const SmileID = {
+  /**
+   * Initialise the Smile ID SDK
+   */
   initialize: (useSandBox: boolean = false) => _SmileID.initialize(useSandBox),
+  /**
+   * NB: Only available on Android
+   * Disable crash reporting
+   */
+  disableCrashReporting: () =>
+    Platform.OS === 'android' ? _SmileID.disableCrashReporting() : () => {},
+  /**
+   *Headless run enhanced kyc async
+   */
   doEnhancedKycAsync: (enhancedKYCRequest: EnhancedKycRequest) =>
     _SmileID.doEnhancedKycAsync(enhancedKYCRequest),
+
+  /**
+   *Headless run enhanced kyc async
+   */
+  doEnhancedKyc: (enhancedKYCRequest: EnhancedKycRequest) =>
+    _SmileID.doEnhancedKyc(enhancedKYCRequest),
 };
 
 export {

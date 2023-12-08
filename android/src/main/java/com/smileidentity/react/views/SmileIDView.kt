@@ -66,7 +66,8 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     allowAgentMode = params?.getBoolOrDefault("allowAgentMode", false)
     showInstructions = params?.getBoolOrDefault("showInstructions", true)
     showAttribution = params?.getBoolOrDefault("showAttribution", true)
-    extraPartnerParams = params?.getMapOrDefault("extraPartnerParams", null)?.toMap() ?: run { emptyMap() }
+    extraPartnerParams =
+      params?.getMapOrDefault("extraPartnerParams", null)?.toMap() ?: run { emptyMap() }
     val setJobType = params?.getIntOrDefault("jobType", null)
     setJobType?.let { jobTypeValue ->
       jobType = JobType.fromValue(jobTypeValue)

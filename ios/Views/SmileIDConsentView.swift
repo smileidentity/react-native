@@ -10,8 +10,7 @@ struct SmileIDConsentView: View {
             if let partnerIcon = product.partnerIcon,
                let partnerName = product.partnerName,
                let productName = product.productName,
-               let partnerPrivacyPolicy = product.partnerPrivacyPolicy
-            {
+               let partnerPrivacyPolicy = product.partnerPrivacyPolicy {
                 SmileID.consentScreen(
                     partnerIcon: UIImage(named: partnerIcon)!,
                     partnerName: partnerName,

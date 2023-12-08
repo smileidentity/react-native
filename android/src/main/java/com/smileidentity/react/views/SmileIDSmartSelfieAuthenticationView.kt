@@ -11,7 +11,8 @@ import com.smileidentity.util.randomUserId
 import kotlinx.collections.immutable.toImmutableMap
 import timber.log.Timber
 
-class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
+  SmileIDView(context) {
 
   override fun renderContent() {
     params?.let {

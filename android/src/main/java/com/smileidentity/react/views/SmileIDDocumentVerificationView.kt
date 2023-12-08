@@ -18,16 +18,16 @@ import java.io.File
 class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    params?.let{ params ->
-      val countryCode = params.getStringOrDefault("countryCode",null) ?: run {
+    params?.let { params ->
+      val countryCode = params.getStringOrDefault("countryCode", null) ?: run {
         emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
         return;
       }
-      val allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload",false)
-      val captureBothSides = params.getBoolOrDefault("captureBothSides",false)
-      var bypassSelfieCaptureWithFile : File? = null
-      params.getStringOrDefault("bypassSelfieCaptureWithFile",null)?.let {
-         bypassSelfieCaptureWithFile = File(it)
+      val allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload", false)
+      val captureBothSides = params.getBoolOrDefault("captureBothSides", false)
+      var bypassSelfieCaptureWithFile: File? = null
+      params.getStringOrDefault("bypassSelfieCaptureWithFile", null)?.let {
+        bypassSelfieCaptureWithFile = File(it)
       }
       composeView.apply {
         setContent {
@@ -36,7 +36,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
             documentType = params.getString("documentType"),
-            idAspectRatio = params.getFloatOrDefault("idAspectRatio",-1f),
+            idAspectRatio = params.getFloatOrDefault("idAspectRatio", -1f),
             showAttribution = showAttribution ?: true,
             showInstructions = showInstructions ?: true,
             allowGalleryUpload = allowGalleryUpload,

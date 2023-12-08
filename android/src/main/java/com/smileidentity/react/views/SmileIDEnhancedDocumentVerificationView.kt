@@ -14,16 +14,17 @@ import com.smileidentity.util.randomUserId
 import kotlinx.collections.immutable.toImmutableMap
 import timber.log.Timber
 
-class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) :
+  SmileIDView(context) {
 
   override fun renderContent() {
-    params?.let{ params ->
-      val countryCode = params.getStringOrDefault("countryCode",null) ?: run {
+    params?.let { params ->
+      val countryCode = params.getStringOrDefault("countryCode", null) ?: run {
         emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
         return;
       }
-      val allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload",false)
-      val captureBothSides = params.getBoolOrDefault("captureBothSides",false)
+      val allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload", false)
+      val captureBothSides = params.getBoolOrDefault("captureBothSides", false)
       composeView.apply {
         setContent {
           SmileID.EnhancedDocumentVerificationScreen(
@@ -31,7 +32,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
             documentType = params.getString("documentType"),
-            idAspectRatio = params.getFloatOrDefault("idAspectRatio",-1f),
+            idAspectRatio = params.getFloatOrDefault("idAspectRatio", -1f),
             showAttribution = showAttribution ?: true,
             showInstructions = showInstructions ?: true,
             allowGalleryUpload = allowGalleryUpload,

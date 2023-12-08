@@ -28,4 +28,23 @@ extension NSDictionary {
             entered: entered
         )
     }
+
+    func toPartnerParams() -> PartnerParams? {
+        guard let country = self["country"] as? String else {
+            return nil
+        }
+        var jobType: JobType?
+        let jobId = self["jobId"] as? String
+        let userId = self["userId"] as? String
+        if let jobTypeValue = self["jobType"] as? Int {
+            jobType = JobType(rawValue: jobTypeValue)
+        }
+        let extras = self["extras"] as? [String: String] ?? [:]
+        return PartnerParams(
+            jobId: jobId ?? generateJobId(),
+            userId: userId ?? generateUserId(),
+            jobType: jobType,
+            extras: extras
+        )
+    }
 }
