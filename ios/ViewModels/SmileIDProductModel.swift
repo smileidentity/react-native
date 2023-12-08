@@ -1,5 +1,5 @@
-import Foundation
 import Combine
+import Foundation
 import SmileID
 
 //
@@ -20,16 +20,6 @@ class SmileIDProductModel: ObservableObject {
     @Published var captureBothSides: Bool = false
     @Published var allowGalleryUpload: Bool = false
     @Published var idInfo: IdInfo?
-    @Published var bypassSelfieCaptureWithFilePath: String?
+    @Published var bypassSelfieCaptureWithFilePath: URL?
     @Published var onResult: RCTDirectEventBlock?
-
-    var computedBypassSelfieCaptureWithFile: URL? {
-        get {
-            guard let filePath = bypassSelfieCaptureWithFilePath else { return nil }
-            return URL(fileURLWithPath: filePath)
-        }
-        set {
-            bypassSelfieCaptureWithFilePath = newValue?.path
-        }
-    }
 }

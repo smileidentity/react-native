@@ -1,6 +1,18 @@
-import type { HostComponent, ViewProps } from 'react-native';
 import { NativeModules, Platform } from 'react-native';
-import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+import SmileIDSmartSelfieEnrollmentView from './SmileIDSmartSelfieEnrollmentView';
+import SmileIDSmartSelfieAuthenticationView from './SmileIDSmartSelfieEnrollmentView';
+import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
+import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
+import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
+import {
+  EnhancedKycRequest,
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  SmileIDViewProps,
+  ConsentRequest,
+} from './types';
 
 const LINKING_ERROR =
   `The package 'react-native-smile-id' doesn't seem to be linked. Make sure: \n\n` +
@@ -10,89 +22,6 @@ const LINKING_ERROR =
 
 // @ts-expect-error
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
-
-export type SmileIDViewProps = ViewProps & {
-  userId?: string;
-  jobId?: string;
-  partnerParams?: PartnerParams;
-  jobType: JobType;
-  onResult?: (event: any) => void;
-};
-
-export type PartnerParams = {
-  jobType?: JobType;
-  jobId: string;
-  userId: string;
-  extras?: Map<string, string>;
-};
-
-interface IdInfo {
-  country: string;
-  idType?: string;
-  idNumber?: string;
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  dob?: string;
-  bankCode?: string;
-  entered?: boolean;
-}
-
-export type SmartSelfieRequest = SmileIDViewProps & {
-  allowAgentMode: boolean;
-  showInstructions?: boolean;
-};
-
-export type BvnConsentRequest = SmileIDViewProps & {
-  partnerIcon: string;
-  partnerName: string;
-  showAttribution: boolean;
-  partnerPrivacyPolicy: string;
-};
-
-export type EnhancedKycRequest = SmileIDViewProps & {
-  country: string;
-  idType: string;
-  idNumber: string;
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  dob?: string;
-  phoneNumber?: string;
-  bankCode?: string;
-  callbackUrl?: string;
-  partnerParams: PartnerParams;
-  timestamp: string;
-  signature: string;
-};
-
-export type DocumentVerificationRequest = SmartSelfieRequest & {
-  jobType: JobType.DocumentVerification;
-  countryCode: string;
-  documentType: string;
-  idAspectRatio?: number;
-  captureBothSides?: boolean;
-  showAttribution?: boolean;
-  allowGalleryUpload?: boolean;
-};
-
-export type BiometricKYCRequest = SmartSelfieRequest & {
-  idInfo: IdInfo;
-  jobType: JobType.BiometricKyc;
-  partnerIcon: string;
-  partnerName: string;
-  productName: string;
-  partnerPrivacyPolicy: string;
-};
-
-export enum JobType {
-  BiometricKyc = 1,
-  SmartSelfieAuthentication = 2,
-  SmartSelfieEnrollment = 4,
-  EnhancedKyc = 5,
-  DocumentVerification = 6,
-  BVN = 7,
-}
 
 const SmileIdModule = isTurboModuleEnabled
   ? require('./NativeSmileId').default
@@ -109,34 +38,27 @@ const _SmileID = SmileIdModule
       }
     );
 
-export const SmileIDSmartSelfieEnrollmentView =
-  codegenNativeComponent<SmartSelfieRequest>(
-    'SmileIDSmartSelfieEnrollmentView'
-  ) as HostComponent<SmartSelfieRequest>;
-
-export const SmileIDSmartSelfieAuthenticationView =
-  codegenNativeComponent<SmartSelfieRequest>(
-    'SmileIDSmartSelfieAuthenticationView'
-  ) as HostComponent<SmartSelfieRequest>;
-
-export const SmileIDDocumentVerificationView =
-  codegenNativeComponent<DocumentVerificationRequest>(
-    'SmileIDDocumentVerificationView'
-  ) as HostComponent<DocumentVerificationRequest>;
-
-export const SmileIDBVNConsentScreenView = codegenNativeComponent<BvnConsentRequest>(
-  'SmileIDBVNConsentScreenView'
-) as HostComponent<BvnConsentRequest>;
-
-export const SmileIDBiometricKYCView = codegenNativeComponent<BiometricKYCRequest>(
-  'SmileIDBiometricKYCView'
-) as HostComponent<BiometricKYCRequest>;
-
-export const SmileID = {
-  initialize: (
-    enableCrashReporting: boolean = false,
-    useSandBox: boolean = false
-  ) => _SmileID.initialize(enableCrashReporting, useSandBox),
+const SmileID = {
+  initialize: (useSandBox: boolean = false) => _SmileID.initialize(useSandBox),
   doEnhancedKycAsync: (enhancedKYCRequest: EnhancedKycRequest) =>
     _SmileID.doEnhancedKycAsync(enhancedKYCRequest),
+};
+
+export {
+  //module
+  SmileID,
+  //views
+  SmileIDSmartSelfieEnrollmentView,
+  SmileIDSmartSelfieAuthenticationView,
+  SmileIDDocumentVerificationView,
+  SmileIDBiometricKYCView,
+  SmileIDEnhancedDocumentVerificationView,
+  //types
+  EnhancedKycRequest,
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  SmileIDViewProps,
+  ConsentRequest,
 };

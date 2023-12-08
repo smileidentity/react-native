@@ -1,11 +1,10 @@
 import Foundation
 
-import SwiftUI
 import SmileID
+import SwiftUI
 
 class SmileIDSmartSelfieEnrollmentViewWrapper: BaseSmileIDViewWrapper {
-
     override func getView() -> AnyView {
-        return AnyView(SmileIDSmartSelfieEnrollmentView(product: self.product))
+        AnyView(SmileIDSmartSelfieEnrollmentView(product: product))
     }
 }

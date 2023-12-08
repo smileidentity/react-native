@@ -1,6 +1,6 @@
 import Foundation
-import SwiftUI
 import SmileID
+import SwiftUI
 
 struct SmileIDDocumentVerificationView: View {
     @ObservedObject var product: SmileIDProductModel
@@ -11,20 +11,20 @@ struct SmileIDDocumentVerificationView: View {
                 SmileID.documentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
-                    countryCode: countryCode,
+                    countryCode: countryCode, // already validated in SmileIDDocumentVerificationViewManager
                     documentType: product.documentType,
                     idAspectRatio: product.idAspectRatio,
-                    bypassSelfieCaptureWithFile: product.computedBypassSelfieCaptureWithFile,
+                    bypassSelfieCaptureWithFile: product.bypassSelfieCaptureWithFilePath,
                     captureBothSides: product.captureBothSides,
                     allowAgentMode: product.allowAgentMode,
                     allowGalleryUpload: product.allowGalleryUpload,
                     showInstructions: product.showInstructions,
                     showAttribution: product.showAttribution,
-                    extraPartnerParams: product.extraPartnerParams,
+                    extraPartnerParams: product.extraPartnerParams as [String: String],
                     delegate: self
                 )
             } else {
-                Text("Document type is required.")
+                Text("An error has occured")
             }
         }.navigationViewStyle(StackNavigationViewStyle())
     }
@@ -32,20 +32,20 @@ struct SmileIDDocumentVerificationView: View {
 
 extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
     func didSucceed(
-        selfie: URL,
-        documentFrontImage: URL,
-        documentBackImage: URL?,
+        selfie _: URL,
+        documentFrontImage _: URL,
+        documentBackImage _: URL?,
         jobStatusResponse: DocumentVerificationJobStatusResponse
     ) {
         let encoder = JSONEncoder()
         guard let jsonData = try? encoder.encode(jobStatusResponse) else {
-            self.product.onResult?(["error": SmileIDError.unknown("SmileIDDocumentVerificationView encoding error")])
+            product.onResult?(["error": SmileIDError.unknown("SmileIDDocumentVerificationView encoding error")])
             return
         }
-        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!)])
+        product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
 
     func didError(error: Error) {
-        self.product.onResult?(["error": error.localizedDescription])
+        product.onResult?(["error": error.localizedDescription])
     }
 }

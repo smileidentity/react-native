@@ -1,25 +1,25 @@
 import Foundation
-import SwiftUI
 import SmileID
+import SwiftUI
 
 struct SmileIDBiometricKYCView: View {
     @ObservedObject var product: SmileIDProductModel
-    
+
     var body: some View {
         NavigationView {
             if let idInfo = product.idInfo {
                 SmileID.biometricKycScreen(
-                    idInfo: idInfo,
+                    idInfo: idInfo, // already validated in the SmileIDBiometricKYCViewManager
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
                     allowAgentMode: product.allowAgentMode,
                     showAttribution: product.showAttribution,
                     showInstructions: product.showInstructions,
-                    extraPartnerParams: product.extraPartnerParams,
+                    extraPartnerParams: product.extraPartnerParams as [String: String],
                     delegate: self
                 )
             } else {
-                Text("IDInfo is required.")
+                Text("An error has occured")
             }
         }.navigationViewStyle(StackNavigationViewStyle())
     }
@@ -27,16 +27,16 @@ struct SmileIDBiometricKYCView: View {
 
 extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     func didSucceed(
-        selfieImage: URL,
-        livenessImages: [URL],
+        selfieImage _: URL,
+        livenessImages _: [URL],
         jobStatusResponse: BiometricKycJobStatusResponse
     ) {
         let encoder = JSONEncoder()
         let jsonData = try! encoder.encode(jobStatusResponse)
-        self.product.onResult?(["result": (String(data: jsonData, encoding: .utf8)!)])
+        product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-    
+
     func didError(error: Error) {
-        self.product.onResult?(["error": error.localizedDescription])
+        product.onResult?(["error": error.localizedDescription])
     }
 }

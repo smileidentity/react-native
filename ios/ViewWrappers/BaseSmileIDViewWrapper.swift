@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 
 class BaseSmileIDViewWrapper: UIView {
-
     typealias ContentView = AnyView
 
     var product = SmileIDProductModel()
@@ -24,46 +23,10 @@ class BaseSmileIDViewWrapper: UIView {
         let hostingView = hostingController.view!
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hostingView)
-        hostingView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        hostingView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        hostingView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        hostingView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-    }
-
-    @objc public func setOnResult(_ onResult: RCTDirectEventBlock?) {
-        self.product.onResult = onResult
-    }
-
-    @objc public func setUserId(_ userId: String?) {
-        self.product.userId = userId
-    }
-
-    @objc public func setJobId(_ jobId: String?) {
-        self.product.jobId = jobId
-    }
-
-    @objc public func setAllowAgentMode(_ allowAgentMode: Bool) {
-        self.product.allowAgentMode = allowAgentMode
-    }
-
-    @objc public func setShowAttribution(_ showAttribution: Bool) {
-        self.product.showAttribution = showAttribution
-    }
-
-    @objc public func setShowInstructions(_ showInstructions: Bool) {
-        self.product.showInstructions = showInstructions
-    }
-
-    @objc public func setExtraPartnerParams(_ extraPartnerParams: NSDictionary) {
-        for (key, value) in extraPartnerParams {
-            if let keyString = key as? String, let valueString = value as? String {
-                self.product.extraPartnerParams[keyString] = valueString
-            }
-        }
-    }
-
-    @objc public func setCountryCode(_ countryCode: String?) {
-        self.product.countryCode = countryCode
+        hostingView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        hostingView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        hostingView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        hostingView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
 
     func getView() -> AnyView {

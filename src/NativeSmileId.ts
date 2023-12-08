@@ -3,10 +3,7 @@ import { TurboModuleRegistry } from 'react-native';
 import type { EnhancedKycRequest } from './index';
 
 export interface Spec extends TurboModule {
-  initialize: (
-    enableCrashReporting: boolean,
-    useSandBox: boolean
-  ) => Promise<void>;
+  initialize: (useSandBox: boolean) => Promise<void>;
   doEnhancedKycAsync: (
     enhancedKYCRequest: EnhancedKycRequest
   ) => Promise<string>;

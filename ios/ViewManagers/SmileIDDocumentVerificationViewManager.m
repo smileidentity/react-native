@@ -2,16 +2,5 @@
 #import <React/RCTViewManager.h>
 
 @interface RCT_EXTERN_MODULE(SmileIDDocumentVerificationViewManager, RCTViewManager)
-RCT_EXPORT_VIEW_PROPERTY(userId, NSString);
-RCT_EXPORT_VIEW_PROPERTY(jobId, NSString);
-RCT_EXPORT_VIEW_PROPERTY(documentType, NSString);
-RCT_EXPORT_VIEW_PROPERTY(bypassSelfieCaptureWithFile, NSString);
-RCT_EXPORT_VIEW_PROPERTY(countryCode, NSString);
-RCT_EXPORT_VIEW_PROPERTY(allowAgentMode, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(showAttribution, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(captureBothSides, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(allowGalleryUpload, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(showInstructions, BOOL);
-RCT_EXPORT_VIEW_PROPERTY(extraPartnerParams, NSDictionary);
-RCT_EXPORT_VIEW_PROPERTY(onResult, RCTDirectEventBlock);
+RCT_EXTERN_METHOD(setParams:(nonnull NSNumber *)node params:(NSDictionary *)params)
 @end

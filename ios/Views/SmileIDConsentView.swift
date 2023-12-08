@@ -1,6 +1,6 @@
 import Foundation
-import SwiftUI
 import SmileID
+import SwiftUI
 
 struct SmileIDConsentView: View {
     @ObservedObject var product: SmileIDProductModel
@@ -10,7 +10,8 @@ struct SmileIDConsentView: View {
             if let partnerIcon = product.partnerIcon,
                let partnerName = product.partnerName,
                let productName = product.productName,
-               let partnerPrivacyPolicy = product.productName {
+               let partnerPrivacyPolicy = product.partnerPrivacyPolicy
+            {
                 SmileID.consentScreen(
                     partnerIcon: UIImage(named: partnerIcon)!,
                     partnerName: partnerName,
@@ -18,14 +19,14 @@ struct SmileIDConsentView: View {
                     partnerPrivacyPolicy: URL(string: partnerPrivacyPolicy)!,
                     showAttribution: true,
                     onConsentGranted: {
-                        self.product.onResult?(["result": true])
+                        product.onResult?(["result": true])
                     },
                     onConsentDenied: {
-                        self.product.onResult?(["error": SmileIDError.consentDenied])
+                        product.onResult?(["error": SmileIDError.consentDenied])
                     }
                 )
             } else {
-                Text("countryCode is required.")
+                Text("An error has occured")
             }
         }.navigationViewStyle(StackNavigationViewStyle())
     }

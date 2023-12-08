@@ -1,15 +1,10 @@
 import Foundation
 
-import SwiftUI
 import SmileID
+import SwiftUI
 
 class SmileIDBiometricKYCViewWrapper: BaseSmileIDViewWrapper {
-
-    @objc public func setIdInfo(_ idInfo: NSDictionary?) {
-        self.product.idInfo = idInfo?.toIdInfo()
-    }
-
     override func getView() -> AnyView {
-        return AnyView(SmileIDBiometricKYCView(product: self.product))
+        AnyView(SmileIDBiometricKYCView(product: product))
     }
 }

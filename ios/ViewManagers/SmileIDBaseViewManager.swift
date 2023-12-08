@@ -1,6 +1,6 @@
 import Foundation
-import SwiftUI
 import React
+import SwiftUI
 
 class SmileIDBaseViewManager: RCTViewManager, SmileIDUIViewDelegate {
     func getView() -> UIView {
@@ -8,10 +8,10 @@ class SmileIDBaseViewManager: RCTViewManager, SmileIDUIViewDelegate {
     }
 
     override func view() -> UIView! {
-        return getView()
+        getView()
     }
 
     @objc override static func requiresMainQueueSetup() -> Bool {
-        return true
+        true
     }
 }
