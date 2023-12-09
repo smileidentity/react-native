@@ -1,12 +1,11 @@
 import Foundation
+
 import SmileID
 import SwiftUI
 
-struct SmileIDBiometricKYCView: View {
-    @ObservedObject var product: SmileIDProductModel
-
-    var body: some View {
-        NavigationView {
+class SmileIDBiometricKYCView: BaseSmileIDView {
+    override func getView() -> AnyView {
+        AnyView( NavigationView {
             if let idInfo = product.idInfo {
                 SmileID.biometricKycScreen(
                     idInfo: idInfo, // already validated in the SmileIDBiometricKYCViewManager
@@ -21,7 +20,7 @@ struct SmileIDBiometricKYCView: View {
             } else {
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.navigationViewStyle(StackNavigationViewStyle()))
     }
 }
 
@@ -35,7 +34,7 @@ extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
         let jsonData = try! encoder.encode(jobStatusResponse)
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-
+    
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }

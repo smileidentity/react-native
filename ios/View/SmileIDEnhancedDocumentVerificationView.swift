@@ -1,12 +1,11 @@
 import Foundation
+
 import SmileID
 import SwiftUI
 
-struct SmileIDEnhancedDocumentVerificationView: View {
-    @ObservedObject var product: SmileIDProductModel
-
-    var body: some View {
-        NavigationView {
+class SmileIDEnhancedDocumentVerificationView: BaseSmileIDView {
+    override func getView() -> AnyView {
+        AnyView(NavigationView {
             if let countryCode = product.countryCode {
                 SmileID.enhancedDocumentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
@@ -26,7 +25,7 @@ struct SmileIDEnhancedDocumentVerificationView: View {
             } else {
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.navigationViewStyle(StackNavigationViewStyle()))
     }
 }
 
@@ -44,7 +43,7 @@ extension SmileIDEnhancedDocumentVerificationView: EnhancedDocumentVerificationR
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-
+    
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }
