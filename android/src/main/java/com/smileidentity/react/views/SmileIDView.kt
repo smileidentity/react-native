@@ -57,7 +57,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
       return;
     }
     userId = product?.getString("userId")
-    jobId = product?.getString("userId")
+    jobId = product?.getString("jobId")
 
     allowAgentMode = product?.getBoolOrDefault("allowAgentMode", false)
     showInstructions = product?.getBoolOrDefault("showInstructions", true)
