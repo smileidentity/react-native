@@ -23,6 +23,9 @@ class SmileIDEnhancedDocumentVerificationView: BaseSmileIDView {
                     delegate: self
                 )
             } else {
+                //This exists for debugging purposes and will show in extreme cases
+                //when the params were not set NB: setParams in the viewmanager will always
+                //return an error if the required data is missing
                 Text("An error has occured")
             }
         }.navigationViewStyle(StackNavigationViewStyle()))

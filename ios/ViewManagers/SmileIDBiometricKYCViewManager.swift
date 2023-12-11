@@ -6,12 +6,12 @@ import SwiftUI
 @objc(SmileIDBiometricKYCViewManager)
 class SmileIDBiometricKYCViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        SmileIDBiometricKYCViewWrapper()
+        SmileIDBiometricKYCView()
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
         DispatchQueue.main.async {
-            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDBiometricKYCViewWrapper {
+            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDBiometricKYCView {
                 let onResult = params["onResult"] as? RCTDirectEventBlock
                 guard let idInfo = params["idInfo"] as? NSDictionary else {
                     onResult?(["error": SmileIDError.unknown("idInfo is required to run Biometric KYC")])

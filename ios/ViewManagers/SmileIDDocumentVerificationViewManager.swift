@@ -6,12 +6,12 @@ import SwiftUI
 @objc(SmileIDDocumentVerificationViewManager)
 class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        SmileIDDocumentVerificationViewWrapper()
+        SmileIDDocumentVerificationView()
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
         DispatchQueue.main.async {
-            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDDocumentVerificationViewWrapper {
+            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDDocumentVerificationView {
                 let onResult = params["onResult"] as? RCTDirectEventBlock
                 guard let countryCode = params["countryCode"] as? String else {
                     onResult?(["error": SmileIDError.unknown("countryCode is required to run Enhanced Document Verification")])

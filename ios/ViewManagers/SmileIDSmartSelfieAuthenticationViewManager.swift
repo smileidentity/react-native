@@ -5,12 +5,12 @@ import SwiftUI
 @objc(SmileIDSmartSelfieAuthenticationViewManager)
 class SmileIDSmartSelfieAuthenticationViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        SmileIDSmartSelfieAuthViewWrapper()
+        SmileIDSmartSelfieAuthView()
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
         DispatchQueue.main.async {
-            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDSmartSelfieAuthViewWrapper {
+            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDSmartSelfieAuthView {
                 component.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
                 component.product.userId = params["userId"] as? String
                 component.product.jobId = params["jobId"] as? String
