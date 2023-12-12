@@ -9,6 +9,8 @@ class SmileIDSmartSelfieEnrollmentViewManager: SmileIDBaseViewManager {
     }
     
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
+        /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle of the run loop, preventing any potential blocking of the UI if the update were to take a noticeable amount of time
+         */
         DispatchQueue.main.async {
             if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDSmartSelfieEnrollmentView {
                 component.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
