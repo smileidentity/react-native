@@ -7,7 +7,7 @@ class SmileIDSmartSelfieEnrollmentViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
         SmileIDSmartSelfieEnrollmentView()
     }
-
+    
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
         DispatchQueue.main.async {
             if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDSmartSelfieEnrollmentView {
