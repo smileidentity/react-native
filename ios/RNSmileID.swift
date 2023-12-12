@@ -1,5 +1,5 @@
-import SmileID
 import Combine
+import SmileID
 
 @objc(RNSmileID)
 class RNSmileID: NSObject {
@@ -13,7 +13,6 @@ class RNSmileID: NSObject {
 
     @objc(doEnhancedKyc:withResolver:withRejecter:)
     func doEnhancedKyc(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-
         guard let partnerParamsDict = request["partnerParams"] as? NSDictionary else {
             reject("doEnhancedKyc", "partnerParams is required", nil)
             return
@@ -22,23 +21,23 @@ class RNSmileID: NSObject {
             reject("doEnhancedKyc", "partnerParams is missing required data", nil)
             return
         }
-        guard let country =  request["country"] as? String else {
+        guard let country = request["country"] as? String else {
             reject("doEnhancedKyc", "country is required", nil)
             return
         }
-        guard let idType =  request["idType"] as? String else {
+        guard let idType = request["idType"] as? String else {
             reject("doEnhancedKyc", "idType is required", nil)
             return
         }
-        guard let idNumber =  request["idNumber"] as? String else {
+        guard let idNumber = request["idNumber"] as? String else {
             reject("doEnhancedKyc", "idNumber is required", nil)
             return
         }
-        guard let timestamp =  request["timestamp"] as? String else {
+        guard let timestamp = request["timestamp"] as? String else {
             reject("doEnhancedKyc", "timestamp is required", nil)
             return
         }
-        guard let signature =  request["signature"] as? String else {
+        guard let signature = request["signature"] as? String else {
             reject("doEnhancedKyc", "signature is required", nil)
             return
         }
@@ -63,7 +62,7 @@ class RNSmileID: NSObject {
         SmileID.api.doEnhancedKyc(request: request)
             .sink(receiveCompletion: { completion in
                 switch completion {
-                case .failure(let error):
+                case let .failure(error):
                     reject("Error", error.localizedDescription, error)
                 case .finished:
                     break
@@ -89,23 +88,23 @@ class RNSmileID: NSObject {
             reject("doEnhancedKyc", "partnerParams is missing required data", nil)
             return
         }
-        guard let country =  request["country"] as? String else {
+        guard let country = request["country"] as? String else {
             reject("doEnhancedKyc", "country is required", nil)
             return
         }
-        guard let idType =  request["idType"] as? String else {
+        guard let idType = request["idType"] as? String else {
             reject("doEnhancedKyc", "idType is required", nil)
             return
         }
-        guard let idNumber =  request["idNumber"] as? String else {
+        guard let idNumber = request["idNumber"] as? String else {
             reject("doEnhancedKyc", "idNumber is required", nil)
             return
         }
-        guard let timestamp =  request["timestamp"] as? String else {
+        guard let timestamp = request["timestamp"] as? String else {
             reject("doEnhancedKyc", "timestamp is required", nil)
             return
         }
-        guard let signature =  request["signature"] as? String else {
+        guard let signature = request["signature"] as? String else {
             reject("doEnhancedKyc", "signature is required", nil)
             return
         }
@@ -130,7 +129,7 @@ class RNSmileID: NSObject {
         SmileID.api.doEnhancedKycAsync(request: request)
             .sink(receiveCompletion: { completion in
                 switch completion {
-                case .failure(let error):
+                case let .failure(error):
                     reject("Error", error.localizedDescription, error)
                 case .finished:
                     break

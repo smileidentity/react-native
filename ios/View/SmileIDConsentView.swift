@@ -9,7 +9,8 @@ class SmileIDConsentView: BaseSmileIDView {
             if let partnerIcon = product.partnerIcon,
                let partnerName = product.partnerName,
                let productName = product.productName,
-               let partnerPrivacyPolicy = product.partnerPrivacyPolicy {
+               let partnerPrivacyPolicy = product.partnerPrivacyPolicy
+            {
                 SmileID.consentScreen(
                     partnerIcon: UIImage(named: partnerIcon)!,
                     partnerName: partnerName,
@@ -24,9 +25,9 @@ class SmileIDConsentView: BaseSmileIDView {
                     }
                 )
             } else {
-                //This exists for debugging purposes and will show in extreme cases
-                //when the params were not set NB: setParams in the viewmanager will always
-                //return an error if the required data is missing
+                // This exists for debugging purposes and will show in extreme cases
+                // when the params were not set NB: setParams in the viewmanager will always
+                // return an error if the required data is missing
                 Text("An error has occured")
             }
         }.navigationViewStyle(StackNavigationViewStyle()))

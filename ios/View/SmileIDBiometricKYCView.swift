@@ -5,7 +5,7 @@ import SwiftUI
 
 class SmileIDBiometricKYCView: BaseSmileIDView {
     override func getView() -> AnyView {
-        AnyView( NavigationView {
+        AnyView(NavigationView {
             if let idInfo = product.idInfo {
                 SmileID.biometricKycScreen(
                     idInfo: idInfo, // already validated in the SmileIDBiometricKYCViewManager
@@ -18,9 +18,9 @@ class SmileIDBiometricKYCView: BaseSmileIDView {
                     delegate: self
                 )
             } else {
-                //This exists for debugging purposes and will show in extreme cases
-                //when the params were not set NB: setParams in the viewmanager will always
-                //return an error if the required data is missing
+                // This exists for debugging purposes and will show in extreme cases
+                // when the params were not set NB: setParams in the viewmanager will always
+                // return an error if the required data is missing
                 Text("An error has occured")
             }
         }.navigationViewStyle(StackNavigationViewStyle()))
@@ -37,7 +37,7 @@ extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
         let jsonData = try! encoder.encode(jobStatusResponse)
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-    
+
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }

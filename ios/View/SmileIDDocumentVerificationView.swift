@@ -5,7 +5,7 @@ import SwiftUI
 
 class SmileIDDocumentVerificationView: BaseSmileIDView {
     override func getView() -> AnyView {
-        AnyView( NavigationView {
+        AnyView(NavigationView {
             if let countryCode = product.countryCode {
                 SmileID.documentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
@@ -23,9 +23,9 @@ class SmileIDDocumentVerificationView: BaseSmileIDView {
                     delegate: self
                 )
             } else {
-                //This exists for debugging purposes and will show in extreme cases
-                //when the params were not set NB: setParams in the viewmanager will always
-                //return an error if the required data is missing
+                // This exists for debugging purposes and will show in extreme cases
+                // when the params were not set NB: setParams in the viewmanager will always
+                // return an error if the required data is missing
                 Text("An error has occured")
             }
         }.navigationViewStyle(StackNavigationViewStyle()))
@@ -46,7 +46,7 @@ extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-    
+
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }

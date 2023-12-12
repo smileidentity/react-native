@@ -5,7 +5,7 @@ import SwiftUI
 
 class SmileIDSmartSelfieEnrollmentView: BaseSmileIDView {
     override func getView() -> AnyView {
-        AnyView( NavigationView {
+        AnyView(NavigationView {
             SmileID.smartSelfieEnrollmentScreen(
                 userId: product.userId ?? generateUserId(),
                 jobId: product.jobId ?? generateJobId(),
@@ -19,7 +19,7 @@ class SmileIDSmartSelfieEnrollmentView: BaseSmileIDView {
     }
 }
 
-extension SmileIDSmartSelfieEnrollmentView : SmartSelfieResultDelegate {
+extension SmileIDSmartSelfieEnrollmentView: SmartSelfieResultDelegate {
     func didSucceed(
         selfieImage _: URL,
         livenessImages _: [URL],
@@ -32,7 +32,7 @@ extension SmileIDSmartSelfieEnrollmentView : SmartSelfieResultDelegate {
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-    
+
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }
