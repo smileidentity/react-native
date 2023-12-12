@@ -8,23 +8,23 @@ import com.smileidentity.compose.BvnConsentScreen
 import com.smileidentity.react.utils.getStringOrDefault
 import java.net.URL
 
-class SmileIDBVNConsentScreen (context: ReactApplicationContext) : SmileIDView(context) {
+class SmileIDBVNConsentScreenView(context: ReactApplicationContext) : SmileIDView(context) {
 
   override fun renderContent() {
-    product?.let {product->
-      val partnerName = product.getStringOrDefault("partnerName",null) ?: run {
+    params?.let { params ->
+      val partnerName = params.getStringOrDefault("partnerName", null) ?: run {
         emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))
         return
       }
-      val partnerPrivacyPolicy = product.getStringOrDefault("partnerPrivacyPolicy",null)  ?: run {
+      val partnerPrivacyPolicy = params.getStringOrDefault("partnerPrivacyPolicy", null) ?: run {
         emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
-      if(!URLUtil.isValidUrl(partnerPrivacyPolicy)){
+      if (!URLUtil.isValidUrl(partnerPrivacyPolicy)) {
         emitFailure(IllegalArgumentException("a valid url for partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
-      val logoResName = product.getStringOrDefault("partnerIcon",null)  ?: run {
+      val logoResName = params.getStringOrDefault("partnerIcon", null) ?: run {
         emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
         return
       }
@@ -35,20 +35,21 @@ class SmileIDBVNConsentScreen (context: ReactApplicationContext) : SmileIDView(c
       )
       composeView.apply {
         setContent {
-            SmileID.BvnConsentScreen(
-              partnerIcon = painterResource(
-                id = partnerIcon
-              ),
-              partnerName = partnerName,
-              partnerPrivacyPolicy = URL(partnerPrivacyPolicy),
-              onConsentDenied = {
-                emitSuccess("denied")
-              },
-              onConsentGranted = {
-                emitSuccess("accepted")
-              },
-            )
-        }}
+          SmileID.BvnConsentScreen(
+            partnerIcon = painterResource(
+              id = partnerIcon
+            ),
+            partnerName = partnerName,
+            partnerPrivacyPolicy = URL(partnerPrivacyPolicy),
+            onConsentDenied = {
+              emitSuccess("denied")
+            },
+            onConsentGranted = {
+              emitSuccess("accepted")
+            },
+          )
+        }
+      }
     }
-   }
+  }
 }

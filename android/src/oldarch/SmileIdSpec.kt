@@ -8,6 +8,9 @@ import com.facebook.react.bridge.ReadableMap
 abstract class SmileIdSpec internal constructor(context: ReactApplicationContext) :
   ReactContextBaseJavaModule(context) {
 
-  abstract fun initialize(enableCrashReporting: Boolean,useSandBox: Boolean ,promise: Promise)
+  abstract fun initialize(useSandBox: Boolean ,promise: Promise)
+
+  abstract fun disableCrashReporting(promise: Promise)
   abstract fun doEnhancedKycAsync(request: ReadableMap, promise: Promise)
+  abstract fun doEnhancedKyc(request: ReadableMap, promise: Promise)
 }

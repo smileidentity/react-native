@@ -1,12 +1,11 @@
 import Foundation
+
 import SmileID
 import SwiftUI
 
-struct SmileIDBiometricKYCView: View {
-    @ObservedObject var product: SmileIDProductModel
-
-    var body: some View {
-        NavigationView {
+class SmileIDBiometricKYCView: BaseSmileIDView {
+    override func getView() -> AnyView {
+        AnyView(NavigationView {
             if let idInfo = product.idInfo {
                 SmileID.biometricKycScreen(
                     idInfo: idInfo, // already validated in the SmileIDBiometricKYCViewManager
@@ -19,9 +18,12 @@ struct SmileIDBiometricKYCView: View {
                     delegate: self
                 )
             } else {
+                // This exists for debugging purposes and will show in extreme cases
+                // when the params were not set NB: setParams in the viewmanager will always
+                // return an error if the required data is missing
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.navigationViewStyle(StackNavigationViewStyle()))
     }
 }
 

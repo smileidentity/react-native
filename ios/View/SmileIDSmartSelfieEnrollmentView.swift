@@ -1,12 +1,11 @@
 import Foundation
+
 import SmileID
 import SwiftUI
 
-struct SmileIDSmartSelfieEnrollmentView: View {
-    @ObservedObject var product: SmileIDProductModel
-
-    var body: some View {
-        NavigationView {
+class SmileIDSmartSelfieEnrollmentView: BaseSmileIDView {
+    override func getView() -> AnyView {
+        AnyView(NavigationView {
             SmileID.smartSelfieEnrollmentScreen(
                 userId: product.userId ?? generateUserId(),
                 jobId: product.jobId ?? generateJobId(),
@@ -16,7 +15,7 @@ struct SmileIDSmartSelfieEnrollmentView: View {
                 extraPartnerParams: product.extraPartnerParams as [String: String],
                 delegate: self
             )
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.navigationViewStyle(StackNavigationViewStyle()))
     }
 }
 

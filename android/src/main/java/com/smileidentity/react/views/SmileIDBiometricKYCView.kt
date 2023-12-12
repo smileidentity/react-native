@@ -1,43 +1,48 @@
 package com.smileidentity.react.views
 
+import android.webkit.URLUtil
 import androidx.compose.runtime.saveable.rememberSaveable
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
-import com.smileidentity.compose.DocumentVerification
-import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.compose.BiometricKYC
 import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.results.DocumentVerificationResult
+import com.smileidentity.react.utils.idInfo
+import com.smileidentity.results.BiometricKycResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import timber.log.Timber
 
-class SmileIDDocumentVerification(context: ReactApplicationContext) : SmileIDView(context) {
-
+class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(context) {
   override fun renderContent() {
-    product?.let{ product ->
-      val countryCode = product.getStringOrDefault("countryCode",null) ?: run {
-        emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
-        return;
+    params?.let { params ->
+      val idInfo = params.idInfo() ?: run {
+        emitFailure(IllegalArgumentException("idInfo is required for BiometricKYC"))
+        return
       }
-      val allowGalleryUpload = product.getBoolOrDefault("allowGalleryUpload",false)
-      val captureBothSides = product.getBoolOrDefault("captureBothSides",false)
+
+      val partnerPrivacyPolicy = params.getStringOrDefault("partnerPrivacyPolicy", null) ?: run {
+        emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required for BiometricKYC"))
+        return
+      }
+      if (!URLUtil.isValidUrl(partnerPrivacyPolicy)) {
+        emitFailure(IllegalArgumentException("a valid url for partnerPrivacyPolicy is required for BiometricKYC"))
+        return
+      }
       composeView.apply {
         setContent {
-          SmileID.DocumentVerification(
+          SmileID.BiometricKYC(
+            idInfo = idInfo,
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
-            countryCode = countryCode!!,
-            documentType = product.getString("documentType"),
-            showInstructions = showInstructions ?: true,
-            allowGalleryUpload = allowGalleryUpload,
-            captureBothSides = captureBothSides
+            allowAgentMode = allowAgentMode ?: false,
+            showAttribution = showInstructions ?: true,
           ) { result ->
             when (result) {
               is SmileIDResult.Success -> {
                 val json = try {
                   SmileID.moshi
-                    .adapter(DocumentVerificationResult::class.java)
+                    .adapter(BiometricKycResult::class.java)
                     .toJson(result.data)
                 } catch (e: Exception) {
                   Timber.w(e)
@@ -56,4 +61,5 @@ class SmileIDDocumentVerification(context: ReactApplicationContext) : SmileIDVie
       }
     }
   }
+
 }

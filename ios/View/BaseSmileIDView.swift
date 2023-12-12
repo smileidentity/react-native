@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class BaseSmileIDViewWrapper: UIView {
+class BaseSmileIDView: UIView {
     typealias ContentView = AnyView
 
     var product = SmileIDProductModel()

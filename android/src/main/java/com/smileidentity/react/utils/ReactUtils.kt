@@ -69,6 +69,13 @@ fun ReadableMap.getBoolOrDefault(key: String, defaultValue: Boolean): Boolean {
   return defaultValue
 }
 
+fun ReadableMap.getFloatOrDefault(key: String, defaultValue: Float?): Float? {
+  if (hasKey(key)) {
+    return getDouble(key).toFloat()
+  }
+  return defaultValue
+}
+
 fun ReadableMap.getStringOrDefault(key: String, defaultValue: String?): String? {
   if (hasKey(key)) {
     return getString(key)

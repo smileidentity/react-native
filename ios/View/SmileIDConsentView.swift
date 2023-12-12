@@ -1,12 +1,11 @@
 import Foundation
+
 import SmileID
 import SwiftUI
 
-struct SmileIDConsentView: View {
-    @ObservedObject var product: SmileIDProductModel
-
-    var body: some View {
-        NavigationView {
+class SmileIDConsentView: BaseSmileIDView {
+    override func getView() -> AnyView {
+        AnyView(NavigationView {
             if let partnerIcon = product.partnerIcon,
                let partnerName = product.partnerName,
                let productName = product.productName,
@@ -19,15 +18,18 @@ struct SmileIDConsentView: View {
                     partnerPrivacyPolicy: URL(string: partnerPrivacyPolicy)!,
                     showAttribution: true,
                     onConsentGranted: {
-                        product.onResult?(["result": true])
+                        self.product.onResult?(["result": true])
                     },
                     onConsentDenied: {
-                        product.onResult?(["error": SmileIDError.consentDenied])
+                        self.product.onResult?(["error": SmileIDError.consentDenied])
                     }
                 )
             } else {
+                // This exists for debugging purposes and will show in extreme cases
+                // when the params were not set NB: setParams in the viewmanager will always
+                // return an error if the required data is missing
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.navigationViewStyle(StackNavigationViewStyle()))
     }
 }

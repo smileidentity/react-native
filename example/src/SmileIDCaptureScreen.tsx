@@ -37,6 +37,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
   return (
     <View style={styles.container}>
       {title === 'SmartSelfie Enrollment' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDSmartSelfieEnrollmentView
           {...product}
           style={styles.smileView}
@@ -46,6 +47,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         />
       )}
       {title === 'SmartSelfie Authentication' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDSmartSelfieAuthenticationView
           {...product}
           style={styles.smileView}
@@ -55,6 +57,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         />
       )}
       {title === 'Document Verification' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDDocumentVerificationView
           {...product}
           style={styles.smileView}
@@ -64,6 +67,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         />
       )}
       {title === 'Enhanced Document Verification' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDEnhancedDocumentVerificationView
           {...product}
           style={styles.smileView}
@@ -73,6 +77,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         />
       )}
       {title === 'Biometric KYC' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDBiometricKYCView
           {...product}
           style={styles.smileView}
@@ -82,6 +87,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         />
       )}
       {title === 'Consent Screen' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDConsentView
           {...product}
           style={styles.smileView}

@@ -13,6 +13,8 @@ import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.smileidentity.models.JobType
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getIntOrDefault
+import com.smileidentity.react.utils.getMapOrDefault
+import com.smileidentity.react.utils.toMap
 import timber.log.Timber
 
 abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
@@ -22,9 +24,11 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   private var jobType: JobType? = null
   var allowAgentMode: Boolean? = false
   var showInstructions: Boolean? = true
+  var showAttribution: Boolean? = true
+  var extraPartnerParams: Map<String, String>? = null
   private var eventEmitter: RCTEventEmitter
   private var productThrowable: Throwable? = null
-  var product: ReadableMap? = null
+  var params: ReadableMap? = null
     set(value) {
       field = value
       render()
@@ -51,17 +55,20 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   }
 
   private fun checkCommonArgs() {
-    if (product == null) {
+    if (params == null) {
       productThrowable = IllegalArgumentException("Product is null")
       emitFailure(productThrowable!!)
       return;
     }
-    userId = product?.getString("userId")
-    jobId = product?.getString("jobId")
+    userId = params?.getString("userId")
+    jobId = params?.getString("jobId")
 
-    allowAgentMode = product?.getBoolOrDefault("allowAgentMode", false)
-    showInstructions = product?.getBoolOrDefault("showInstructions", true)
-    val setJobType = product?.getIntOrDefault("jobType", null)
+    allowAgentMode = params?.getBoolOrDefault("allowAgentMode", false)
+    showInstructions = params?.getBoolOrDefault("showInstructions", true)
+    showAttribution = params?.getBoolOrDefault("showAttribution", true)
+    extraPartnerParams =
+      params?.getMapOrDefault("extraPartnerParams", null)?.toMap() ?: run { emptyMap() }
+    val setJobType = params?.getIntOrDefault("jobType", null)
     setJobType?.let { jobTypeValue ->
       jobType = JobType.fromValue(jobTypeValue)
     }

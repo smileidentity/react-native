@@ -1,12 +1,11 @@
 import Foundation
+
 import SmileID
 import SwiftUI
 
-struct SmileIDEnhancedDocumentVerificationView: View {
-    @ObservedObject var product: SmileIDProductModel
-
-    var body: some View {
-        NavigationView {
+class SmileIDEnhancedDocumentVerificationView: BaseSmileIDView {
+    override func getView() -> AnyView {
+        AnyView(NavigationView {
             if let countryCode = product.countryCode {
                 SmileID.enhancedDocumentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
@@ -24,9 +23,12 @@ struct SmileIDEnhancedDocumentVerificationView: View {
                     delegate: self
                 )
             } else {
+                // This exists for debugging purposes and will show in extreme cases
+                // when the params were not set NB: setParams in the viewmanager will always
+                // return an error if the required data is missing
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle())
+        }.navigationViewStyle(StackNavigationViewStyle()))
     }
 }
 

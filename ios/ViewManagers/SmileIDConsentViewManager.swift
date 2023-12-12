@@ -6,12 +6,14 @@ import SwiftUI
 @objc(SmileIDConsentViewManager)
 class SmileIDConsentViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        SmileIDConsentViewWrapper()
+        SmileIDConsentView()
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
+        /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle of the run loop, preventing any potential blocking of the UI if the update were to take a noticeable amount of time
+         */
         DispatchQueue.main.async {
-            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDConsentViewWrapper {
+            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDConsentView {
                 let onResult = params["onResult"] as? RCTDirectEventBlock
                 guard let partnerIcon = params["partnerIcon"] as? String else {
                     onResult?(["error": SmileIDError.unknown("partnerIcon is required to run show consent screen")])

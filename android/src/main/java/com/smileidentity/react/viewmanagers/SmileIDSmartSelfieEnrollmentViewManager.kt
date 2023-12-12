@@ -6,12 +6,12 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
-import com.smileidentity.react.views.SmileIDSmartSelfieEnrollment
+import com.smileidentity.react.views.SmileIDSmartSelfieEnrollmentView
 
 
 @ReactModule(name = SmileIDSmartSelfieEnrollmentViewManager.NAME)
 class SmileIDSmartSelfieEnrollmentViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDSmartSelfieEnrollment>() {
+  SimpleViewManager<SmileIDSmartSelfieEnrollmentView>() {
   override fun getName(): String {
     return NAME
   }
@@ -26,13 +26,13 @@ class SmileIDSmartSelfieEnrollmentViewManager(private val reactApplicationContex
     )
   }
 
-  @ReactProp(name = "product")
-  fun setProduct(view: SmileIDSmartSelfieEnrollment, product: ReadableMap) {
-    view.product = product
+  @ReactProp(name = "params")
+  fun setParams(view: SmileIDSmartSelfieEnrollmentView, params: ReadableMap) {
+    view.params = params
   }
 
-  override fun createViewInstance(p0: ThemedReactContext): SmileIDSmartSelfieEnrollment {
-    return SmileIDSmartSelfieEnrollment(reactApplicationContext)
+  override fun createViewInstance(p0: ThemedReactContext): SmileIDSmartSelfieEnrollmentView {
+    return SmileIDSmartSelfieEnrollmentView(reactApplicationContext)
   }
 
   companion object {
