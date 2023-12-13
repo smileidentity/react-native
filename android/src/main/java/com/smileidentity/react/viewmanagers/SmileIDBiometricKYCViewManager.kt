@@ -1,11 +1,14 @@
 package com.smileidentity.react.viewmanagers
 
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
-import com.facebook.react.uimanager.annotations.ReactProp
+import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getStringOrDefault
+import com.smileidentity.react.utils.idInfo
+import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDBiometricKYCView
 
 
@@ -26,9 +29,34 @@ class SmileIDBiometricKYCViewManager(private val reactApplicationContext: ReactA
     )
   }
 
-  @ReactProp(name = "params")
-  fun setParams(view: SmileIDBiometricKYCView, params: ReadableMap) {
-    view.params = params
+  override fun getCommandsMap(): Map<String, Int> {
+    return mapOf("setParams" to COMMAND_SET_PARAMS)
+  }
+
+  override fun receiveCommand(
+    view: SmileIDBiometricKYCView,
+    commandId: String?,
+    args: ReadableArray?
+  ) {
+    super.receiveCommand(view, commandId, args)
+    when (commandId?.toInt()) {
+      COMMAND_SET_PARAMS -> {
+        // Extract params from args and apply to view
+        val params = args?.getMap(0)
+        params?.let {
+          val idInfoMap = params.getMap("idInfo") ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
+          val idInfo = idInfoMap.idInfo() ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
+          view.extraPartnerParams = params.getMap("extraPartnerParams")?.toMap()
+          view.userId = params.getStringOrDefault("userId",null)
+          view.jobId = params.getStringOrDefault("jobId",null)
+          view.idInfo = idInfo
+          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode",false)
+          view.showAttribution = params.getBoolOrDefault("showAttribution",true)
+          view.showInstructions = params.getBoolOrDefault("showInstructions",true)
+          view.renderContent()
+        }
+      }
+    }
   }
 
   override fun createViewInstance(p0: ThemedReactContext): SmileIDBiometricKYCView {
@@ -37,6 +65,7 @@ class SmileIDBiometricKYCViewManager(private val reactApplicationContext: ReactA
 
   companion object {
     const val NAME = "SmileIDBiometricKYCView"
+    const val COMMAND_SET_PARAMS = 6
   }
 
 }

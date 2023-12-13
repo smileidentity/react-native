@@ -25,7 +25,7 @@ export default class SmileIDEnhancedDocumentVerificationView extends Component<D
     if (typeof commandId !== 'undefined') {
       UIManager.dispatchViewManagerCommand(
         findNodeHandle(this.viewRef.current),
-        commandId,
+        commandId.toString(),
         [parameters]
       );
     } else {

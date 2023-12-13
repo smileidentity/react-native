@@ -6,16 +6,15 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.react.utils.getBoolOrDefault
-import com.smileidentity.react.utils.getFloatOrDefault
 import com.smileidentity.react.utils.getMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.utils.toMap
-import com.smileidentity.react.views.SmileIDEnhancedDocumentVerificationView
+import com.smileidentity.react.views.SmileIDConsentView
 
 
-@ReactModule(name = SmileIDEnhancedDocumentVerificationViewManager.NAME)
-class SmileIDEnhancedDocumentVerificationViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDEnhancedDocumentVerificationView>() {
+@ReactModule(name = SmileIDConsentViewManager.NAME)
+class SmileIDConsentViewManager(private val reactApplicationContext: ReactApplicationContext) :
+  SimpleViewManager<SmileIDConsentView>() {
   override fun getName(): String {
     return NAME
   }
@@ -35,7 +34,7 @@ class SmileIDEnhancedDocumentVerificationViewManager(private val reactApplicatio
   }
 
   override fun receiveCommand(
-    view: SmileIDEnhancedDocumentVerificationView,
+    view: SmileIDConsentView,
     commandId: String?,
     args: ReadableArray?
   ) {
@@ -45,31 +44,34 @@ class SmileIDEnhancedDocumentVerificationViewManager(private val reactApplicatio
         // Extract params from args and apply to view
         val params = args?.getMap(0)
         params?.let {
-          val countryCode = params.getString("countryCode") ?: return view.emitFailure(IllegalArgumentException("countryCode is required to run Enhanced Document Verification"))
-          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams", null)?.toMap()
+
+          val partnerName = params.getString("partnerName") ?: return view.emitFailure(IllegalArgumentException("partnerName is required to show Consent Screen"))
+          val partnerPrivacyPolicy = params.getString("partnerPrivacyPolicy") ?: return view.emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required to show Consent Screen"))
+          val logoResName = params.getString("partnerIcon") ?: return view.emitFailure(IllegalArgumentException("partnerIcon is required to show Consent Screen"))
+          val productName = params.getString("productName") ?: return view.emitFailure(IllegalArgumentException("productName is required to show Consent Screen"))
+
+          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams",null)?.toMap()
           view.userId = params.getStringOrDefault("userId",null)
           view.jobId = params.getStringOrDefault("jobId",null)
-          view.countryCode = countryCode
+          view.partnerName = partnerName
+          view.partnerPrivacyPolicy = partnerPrivacyPolicy
+          view.logoResName = logoResName
+          view.productName = productName
           view.allowAgentMode = params.getBoolOrDefault("allowAgentMode",false)
           view.showAttribution = params.getBoolOrDefault("showAttribution",true)
-          view.captureBothSides = params.getBoolOrDefault("captureBothSides",false)
           view.showInstructions = params.getBoolOrDefault("showInstructions",true)
-          view.allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload",false)
-          view.documentType = params.getStringOrDefault("documentType",null)
-          view.idAspectRatio = params.getFloatOrDefault("idAspectRatio",-1f)
           view.renderContent()
         }
       }
     }
   }
-
-  override fun createViewInstance(p0: ThemedReactContext): SmileIDEnhancedDocumentVerificationView {
-    return SmileIDEnhancedDocumentVerificationView(reactApplicationContext)
+  override fun createViewInstance(p0: ThemedReactContext): SmileIDConsentView {
+    return SmileIDConsentView(reactApplicationContext)
   }
 
   companion object {
-    const val NAME = "SmileIDEnhancedDocumentVerificationView"
-    const val COMMAND_SET_PARAMS = 3
+    const val NAME = "SmileIDConsentView"
+    const val COMMAND_SET_PARAMS = 5
   }
 
 }

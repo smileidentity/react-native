@@ -24,7 +24,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
   const smartSelfieEnrollment: SmartSelfieEnrollmentRequest = {
     ...defaultProduct,
-    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d456',
+    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8dsds6',
   };
 
   const smartSelfieAuthentication: SmartSelfieAuthenticationRequest = {
@@ -36,7 +36,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     ...defaultProduct,
     countryCode: 'ZW',
     documentType: 'PASSPORT',
-    captureBothSides: true,
+    captureBothSides: false,
     allowGalleryUpload: false,
   };
 

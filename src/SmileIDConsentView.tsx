@@ -23,7 +23,7 @@ export default class SmileIDConsentView extends Component<ConsentRequest> {
     if (typeof commandId !== 'undefined') {
       UIManager.dispatchViewManagerCommand(
         findNodeHandle(this.viewRef.current),
-        commandId,
+        commandId.toString(),
         [parameters]
       );
     } else {

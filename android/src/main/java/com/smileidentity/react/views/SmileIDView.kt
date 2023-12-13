@@ -7,14 +7,9 @@ import androidx.compose.ui.platform.ComposeView
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContext
-import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.smileidentity.models.JobType
-import com.smileidentity.react.utils.getBoolOrDefault
-import com.smileidentity.react.utils.getIntOrDefault
-import com.smileidentity.react.utils.getMapOrDefault
-import com.smileidentity.react.utils.toMap
 import timber.log.Timber
 
 abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
@@ -28,11 +23,6 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   var extraPartnerParams: Map<String, String>? = null
   private var eventEmitter: RCTEventEmitter
   private var productThrowable: Throwable? = null
-  var params: ReadableMap? = null
-    set(value) {
-      field = value
-      render()
-    }
 
   init {
     val layoutParams = ViewGroup.LayoutParams(
@@ -54,31 +44,9 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     manuallyLayoutChildren()
   }
 
-  private fun checkCommonArgs() {
-    if (params == null) {
-      productThrowable = IllegalArgumentException("Product is null")
-      emitFailure(productThrowable!!)
-      return;
-    }
-    userId = params?.getString("userId")
-    jobId = params?.getString("jobId")
-
-    allowAgentMode = params?.getBoolOrDefault("allowAgentMode", false)
-    showInstructions = params?.getBoolOrDefault("showInstructions", true)
-    showAttribution = params?.getBoolOrDefault("showAttribution", true)
-    extraPartnerParams =
-      params?.getMapOrDefault("extraPartnerParams", null)?.toMap() ?: run { emptyMap() }
-    val setJobType = params?.getIntOrDefault("jobType", null)
-    setJobType?.let { jobTypeValue ->
-      jobType = JobType.fromValue(jobTypeValue)
-    }
-  }
-
   abstract fun renderContent()
 
   open fun render() {
-    checkCommonArgs();
-    checkCommonArgs();
     renderContent()
   }
 
