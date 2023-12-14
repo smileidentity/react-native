@@ -1,6 +1,18 @@
-import type { HostComponent, ViewProps } from 'react-native';
 import { NativeModules, Platform } from 'react-native';
-import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+import SmileIDSmartSelfieEnrollmentView from './SmileIDSmartSelfieEnrollmentView';
+import SmileIDSmartSelfieAuthenticationView from './SmileIDSmartSelfieAuthenticationView';
+import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
+import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
+import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
+import {
+  EnhancedKycRequest,
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  SmileIDViewProps,
+  ConsentRequest,
+} from './types';
 
 const LINKING_ERROR =
   `The package 'react-native-smile-id' doesn't seem to be linked. Make sure: \n\n` +
@@ -11,91 +23,9 @@ const LINKING_ERROR =
 // @ts-expect-error
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
-export type SmileIDViewProps = ViewProps & {
-  userId?: string;
-  jobId?: string;
-  partnerParams?: PartnerParams;
-  jobType: JobType;
-};
-
-export type PartnerParams = {
-  jobType?: JobType;
-  jobId: string;
-  userId: string;
-  extras?: Map<string, string>;
-};
-
-interface IdInfo {
-  country: string;
-  idType?: string;
-  idNumber?: string;
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  dob?: string;
-  bankCode?: string;
-  entered?: boolean;
-}
-
-export type SmartSelfieRequest = SmileIDViewProps & {
-  allowAgentMode: boolean;
-  showInstructions?: boolean;
-};
-
-export type BvnConsentRequest = SmileIDViewProps & {
-  partnerIcon: string;
-  partnerName: string;
-  showAttribution: boolean;
-  partnerPrivacyPolicy: string;
-};
-
-export type EnhancedKycRequest = SmileIDViewProps & {
-  country: string;
-  idType: string;
-  idNumber: string;
-  firstName?: string;
-  middleName?: string;
-  lastName?: string;
-  dob?: string;
-  phoneNumber?: string;
-  bankCode?: string;
-  callbackUrl?: string;
-  partnerParams: PartnerParams;
-  timestamp: string;
-  signature: string;
-};
-
-export type DocumentVerificationRequest = SmartSelfieRequest & {
-  jobType: JobType.DocumentVerification;
-  countryCode: string;
-  documentType: string;
-  idAspectRatio?: number;
-  captureBothSides?: boolean;
-  showAttribution?: boolean;
-  allowGalleryUpload?: boolean;
-};
-
-export type BiometricKYCRequest = SmartSelfieRequest & {
-  idInfo: IdInfo;
-  jobType: JobType.BiometricKyc;
-  partnerIcon: string;
-  partnerName: string;
-  productName: string;
-  partnerPrivacyPolicy: string;
-};
-
-export enum JobType {
-  BiometricKyc = 1,
-  SmartSelfieAuthentication = 2,
-  SmartSelfieEnrollment = 4,
-  EnhancedKyc = 5,
-  DocumentVerification = 6,
-  BVN = 7,
-}
-
 const SmileIdModule = isTurboModuleEnabled
   ? require('./NativeSmileId').default
-  : NativeModules.SmileID;
+  : NativeModules.RNSmileID;
 
 const _SmileID = SmileIdModule
   ? SmileIdModule
@@ -108,43 +38,45 @@ const _SmileID = SmileIdModule
       }
     );
 
-export interface NativeProps extends ViewProps {
-  product:
-    | SmartSelfieRequest
-    | DocumentVerificationRequest
-    | EnhancedKycRequest
-    | BvnConsentRequest;
-  onResult?: (event: any) => void;
-}
-
-export const SmileIDSmartSelfieEnrollmentView =
-  codegenNativeComponent<NativeProps>(
-    'SmileIDSmartSelfieEnrollmentView'
-  ) as HostComponent<NativeProps>;
-
-export const SmileIDSmartSelfieAuthenticationView =
-  codegenNativeComponent<NativeProps>(
-    'SmileIDSmartSelfieAuthenticationView'
-  ) as HostComponent<NativeProps>;
-
-export const SmileIDDocumentVerificationView =
-  codegenNativeComponent<NativeProps>(
-    'SmileIDDocumentVerificationView'
-  ) as HostComponent<NativeProps>;
-
-export const SmileIDBVNConsentScreenView = codegenNativeComponent<NativeProps>(
-  'SmileIDBVNConsentScreenView'
-) as HostComponent<NativeProps>;
-
-export const SmileIDBiometricKYCView = codegenNativeComponent<NativeProps>(
-  'SmileIDBiometricKYCView'
-) as HostComponent<NativeProps>;
-
-export const SmileID = {
-  initialize: (
-    enableCrashReporting: boolean = false,
-    useSandBox: boolean = false
-  ) => _SmileID.initialize(enableCrashReporting, useSandBox),
+const SmileID = {
+  /**
+   * Initialise the Smile ID SDK
+   */
+  initialize: (useSandBox: boolean = false) => _SmileID.initialize(useSandBox),
+  /**
+   * NB: Only available on Android
+   * Disable crash reporting
+   */
+  disableCrashReporting: () =>
+    Platform.OS === 'android' ? _SmileID.disableCrashReporting() : () => {},
+  /**
+   *Headless run enhanced kyc async
+   */
   doEnhancedKycAsync: (enhancedKYCRequest: EnhancedKycRequest) =>
     _SmileID.doEnhancedKycAsync(enhancedKYCRequest),
+
+  /**
+   *Headless run enhanced kyc async
+   */
+  doEnhancedKyc: (enhancedKYCRequest: EnhancedKycRequest) =>
+    _SmileID.doEnhancedKyc(enhancedKYCRequest),
+};
+
+export {
+  //module
+  SmileID,
+  //views
+  SmileIDSmartSelfieEnrollmentView,
+  SmileIDSmartSelfieAuthenticationView,
+  SmileIDDocumentVerificationView,
+  SmileIDBiometricKYCView,
+  SmileIDEnhancedDocumentVerificationView,
+  //types
+  EnhancedKycRequest,
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  SmileIDViewProps,
+  ConsentRequest,
 };

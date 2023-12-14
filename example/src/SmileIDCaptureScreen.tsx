@@ -1,106 +1,130 @@
 import * as React from 'react';
 
-import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   SmileIDSmartSelfieEnrollmentView,
-  JobType,
   SmileIDSmartSelfieAuthenticationView,
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
-  SmileIDBVNConsentScreenView,
-} from '@smileid/react-native';
-import type { Product } from './types/Product';
+  SmileIDEnhancedDocumentVerificationView,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  DocumentVerificationRequest,
+  ConsentRequest,
+  BiometricKYCRequest,
+} from '@smile_identity/react-native';
 import { useState } from 'react';
+import SmileIDConsentView from '../../src/SmileIDConsentView';
+import { ResultView } from './ResultView';
 
-export const SmileIDCaptureScreen = ({
+interface SmileIDCaptureScreenProps {
+  navigation: any; // Replace with the actual type of your navigation prop
+  route: any; // Replace with the actual type of your route prop
+}
+
+export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
   navigation,
   route,
-}: {
-  navigation: any;
-  route: any;
 }) => {
-  const product: Product = route.params.product;
+  const title: string = route.params.title;
+  const product:
+    | SmartSelfieEnrollmentRequest
+    | SmartSelfieAuthenticationRequest
+    | ConsentRequest
+    | BiometricKYCRequest
+    | DocumentVerificationRequest = route.params.product;
   const [result, setResult] = useState<string | undefined>();
-  const ResultView = () => {
-    return (
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={result !== undefined}
-          onRequestClose={() => {
-            setResult(undefined);
-            navigation.popToTop();
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.title}>Smile we got your results</Text>
-              <Text style={styles.modalText}>{result}</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                  setResult(undefined);
-                  navigation.popToTop();
-                }}
-              >
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-      </View>
-    );
-  };
-
   return (
     <View style={styles.container}>
-      {product.product.jobType === JobType.SmartSelfieEnrollment && (
+      {title === 'SmartSelfie Enrollment' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDSmartSelfieEnrollmentView
+          {...product}
           style={styles.smileView}
-          product={product.product}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
       )}
-      {product.product.jobType === JobType.SmartSelfieAuthentication && (
+      {title === 'SmartSelfie Authentication' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDSmartSelfieAuthenticationView
+          {...product}
           style={styles.smileView}
-          product={product.product}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
       )}
-      {product.product.jobType === JobType.DocumentVerification && (
+      {title === 'Document Verification' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDDocumentVerificationView
+          {...product}
           style={styles.smileView}
-          product={product.product}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
       )}
-      {product.product.jobType === JobType.BiometricKyc && (
+      {title === 'Enhanced Document Verification' && (
+        // @ts-ignore - this is a known issue with the type definitions
+        <SmileIDEnhancedDocumentVerificationView
+          {...product}
+          style={styles.smileView}
+          onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
+            setResult(event.nativeEvent.result);
+          }}
+        />
+      )}
+      {title === 'Biometric KYC' && (
+        // @ts-ignore - this is a known issue with the type definitions
         <SmileIDBiometricKYCView
+          {...product}
           style={styles.smileView}
-          product={product.product}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
       )}
-      {product.product.jobType === JobType.BVN && (
-        <SmileIDBVNConsentScreenView
+      {title === 'Consent Screen' && (
+        // @ts-ignore - this is a known issue with the type definitions
+        <SmileIDConsentView
+          {...product}
           style={styles.smileView}
-          product={product.product}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
       )}
-      {ResultView()}
+      <ResultView
+        result={result}
+        setResult={setResult}
+        navigation={navigation}
+      />
     </View>
   );
 };

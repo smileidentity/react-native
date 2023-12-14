@@ -7,12 +7,9 @@ import androidx.compose.ui.platform.ComposeView
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContext
-import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.smileidentity.models.JobType
-import com.smileidentity.react.utils.getBoolOrDefault
-import com.smileidentity.react.utils.getIntOrDefault
 import timber.log.Timber
 
 abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
@@ -22,13 +19,10 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   private var jobType: JobType? = null
   var allowAgentMode: Boolean? = false
   var showInstructions: Boolean? = true
+  var showAttribution: Boolean? = true
+  var extraPartnerParams: Map<String, String>? = null
   private var eventEmitter: RCTEventEmitter
   private var productThrowable: Throwable? = null
-  var product: ReadableMap? = null
-    set(value) {
-      field = value
-      render()
-    }
 
   init {
     val layoutParams = ViewGroup.LayoutParams(
@@ -50,28 +44,9 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     manuallyLayoutChildren()
   }
 
-  private fun checkCommonArgs() {
-    if (product == null) {
-      productThrowable = IllegalArgumentException("Product is null")
-      emitFailure(productThrowable!!)
-      return;
-    }
-    userId = product?.getString("userId")
-    jobId = product?.getString("userId")
-
-    allowAgentMode = product?.getBoolOrDefault("allowAgentMode", false)
-    showInstructions = product?.getBoolOrDefault("showInstructions", true)
-    val setJobType = product?.getIntOrDefault("jobType", null)
-    setJobType?.let { jobTypeValue ->
-      jobType = JobType.fromValue(jobTypeValue)
-    }
-  }
-
   abstract fun renderContent()
 
   open fun render() {
-    checkCommonArgs();
-    checkCommonArgs();
     renderContent()
   }
 

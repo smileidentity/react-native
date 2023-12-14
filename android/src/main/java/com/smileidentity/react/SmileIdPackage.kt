@@ -6,9 +6,10 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
-import com.smileidentity.react.viewmanagers.SmileIDBVNConsentViewManager
 import com.smileidentity.react.viewmanagers.SmileIDBiometricKYCViewManager
+import com.smileidentity.react.viewmanagers.SmileIDConsentViewManager
 import com.smileidentity.react.viewmanagers.SmileIDDocumentVerificationViewManager
+import com.smileidentity.react.viewmanagers.SmileIDEnhancedDocumentVerificationViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieAuthenticationViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieEnrollmentViewManager
 
@@ -18,7 +19,8 @@ class SmileIdPackage : TurboReactPackage() {
     listOf(SmileIDSmartSelfieEnrollmentViewManager(reactContext),
       SmileIDSmartSelfieAuthenticationViewManager(reactContext),
       SmileIDDocumentVerificationViewManager(reactContext),
-      SmileIDBVNConsentViewManager(reactContext),
+      SmileIDEnhancedDocumentVerificationViewManager(reactContext),
+      SmileIDConsentViewManager(reactContext),
       SmileIDBiometricKYCViewManager(reactContext),
     )
 

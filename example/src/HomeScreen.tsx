@@ -1,64 +1,47 @@
 import * as React from 'react';
 
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import type {
   BiometricKYCRequest,
-  BvnConsentRequest,
+  ConsentRequest,
   DocumentVerificationRequest,
-  SmartSelfieRequest,
-} from '@smileid/react-native';
+  SmartSelfieAuthenticationRequest,
+  SmartSelfieEnrollmentRequest,
+} from '@smile_identity/react-native';
 
-import { JobType, SmileID } from '@smileid/react-native';
+import { SmileID } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
-
+import { SmileButton } from './SmileButton';
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   React.useEffect(() => {
-    SmileID.initialize(false, true);
+    SmileID.initialize(true);
   }, []);
 
-  const SmileButton = (props: any) => {
-    const { product } = props;
-    return (
-      <Pressable
-        style={styles.productButton}
-        onPress={() => {
-          navigation.navigate('Capture', { product: product });
-        }}
-      >
-        <Text style={styles.productButtonText}>{product.title}</Text>
-      </Pressable>
-    );
-  };
-
-  const defaultProduct: SmartSelfieRequest = {
+  const defaultProduct = {
     allowAgentMode: false,
     showInstructions: true,
-    jobType: JobType.SmartSelfieEnrollment,
   };
 
-  const smartSelfieEnrollment: SmartSelfieRequest = {
+  const smartSelfieEnrollment: SmartSelfieEnrollmentRequest = {
     ...defaultProduct,
-    jobType: JobType.SmartSelfieEnrollment,
+    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8dsds6',
   };
 
-  const smartSelfieAuthentication: SmartSelfieRequest = {
+  const smartSelfieAuthentication: SmartSelfieAuthenticationRequest = {
     ...defaultProduct,
-    jobType: JobType.SmartSelfieAuthentication,
     userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
   };
 
   const documentVerification: DocumentVerificationRequest = {
     ...defaultProduct,
-    jobType: JobType.DocumentVerification,
     countryCode: 'ZW',
     documentType: 'PASSPORT',
-    captureBothSides: true,
+    captureBothSides: false,
     allowGalleryUpload: false,
   };
 
   const biometricKYC: BiometricKYCRequest = {
     ...defaultProduct,
-    jobType: JobType.BiometricKyc,
     idInfo: {
       country: 'NG',
       idType: 'NIN_V2',
@@ -71,10 +54,10 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     partnerPrivacyPolicy: 'https://docs.usesmileid.com',
   };
 
-  const bvnConsentScreen: BvnConsentRequest = {
-    jobType: JobType.BVN,
+  const consentScreen: ConsentRequest = {
     partnerIcon: 'si_logo_with_text',
     partnerName: 'Smile React',
+    productName: 'BVN',
     partnerPrivacyPolicy: 'https://docs.usesmileid.com',
     showAttribution: true,
   };
@@ -93,12 +76,16 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       product: documentVerification,
     },
     {
+      title: 'Enhanced Document Verification',
+      product: documentVerification,
+    },
+    {
       title: 'Biometric KYC',
       product: biometricKYC,
     },
     {
-      title: 'BVN Consent',
-      product: bvnConsentScreen,
+      title: 'Consent Screen',
+      product: consentScreen,
     },
   ];
 
@@ -108,7 +95,9 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       <FlatList
         numColumns={2}
         data={smileProducts}
-        renderItem={({ item }) => <SmileButton product={item} />}
+        renderItem={({ item }) => (
+          <SmileButton navigation={navigation} smileProduct={item} />
+        )}
         keyExtractor={(item) => item.title}
       />
     </View>

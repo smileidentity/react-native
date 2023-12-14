@@ -5,6 +5,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.SmileID
+import com.smileidentity.SmileIDCrashReporting
 import com.smileidentity.SmileIdSpec
 import com.smileidentity.models.EnhancedKycRequest
 import com.smileidentity.react.utils.getStringOrDefault
@@ -23,13 +24,17 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   }
 
   @ReactMethod
-  override fun initialize(enableCrashReporting: Boolean, useSandBox: Boolean, promise: Promise) {
+  override fun initialize(useSandBox: Boolean, promise: Promise) {
     SmileID.initialize(
       reactApplicationContext,
-      enableCrashReporting = enableCrashReporting,
       useSandbox = useSandBox
     )
     promise.resolve(null)
+  }
+
+  @ReactMethod
+  override fun disableCrashReporting(promise: Promise) {
+    SmileIDCrashReporting.disable()
   }
 
   @ReactMethod
@@ -39,24 +44,69 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
       partnerParams ?: run {
         throw IllegalArgumentException("partnerParams is required for enhanced kyc")
       }
-      val country  = product.getStringOrDefault("country",null) ?: run {
+      val country = product.getStringOrDefault("country", null) ?: run {
         throw IllegalArgumentException("country is required for enhanced kyc")
       }
-      val idType  = product.getStringOrDefault("idType",null)  ?: run {
+      val idType = product.getStringOrDefault("idType", null) ?: run {
         throw IllegalArgumentException("idType is required for enhanced kyc")
       }
-      val idNumber  = product.getStringOrDefault("idNumber",null)  ?: run {
+      val idNumber = product.getStringOrDefault("idNumber", null) ?: run {
         throw IllegalArgumentException("idNumber is required for enhanced kyc")
       }
 
-      val timestamp  = partnerParams?.extras?.get("timestamp")  ?: run {
+      val timestamp = partnerParams?.extras?.get("timestamp") ?: run {
         throw IllegalArgumentException("partnerParams.timestamp is required for enhanced kyc")
       }
-      val signature  = partnerParams?.extras?.get("timestamp")  ?: run {
+      val signature = partnerParams?.extras?.get("timestamp") ?: run {
         throw IllegalArgumentException("partnerParams.signature is required for enhanced kyc")
       }
       SmileID.api.doEnhancedKycAsync(
-        EnhancedKycRequest(
+        request = EnhancedKycRequest(
+          country = country,
+          idType = idType,
+          idNumber = idNumber,
+          firstName = product.getString("firstName"),
+          middleName = product.getString("middleName"),
+          lastName = product.getString("lastName"),
+          dob = product.getString("dob"),
+          phoneNumber = product.getString("phoneNumber"),
+          bankCode = product.getString("bankCode"),
+          callbackUrl = product.getString("callbackUrl"),
+          partnerParams = partnerParams,
+          sourceSdk = "android (react-native)",
+          timestamp = timestamp,
+          signature = signature,
+        )
+      )
+    },
+    promise = promise
+  )
+
+  @ReactMethod
+  override fun doEnhancedKyc(product: ReadableMap, promise: Promise) = launch(
+    work = {
+      val partnerParams = product.partnerParams()
+      partnerParams ?: run {
+        throw IllegalArgumentException("partnerParams is required for enhanced kyc")
+      }
+      val country = product.getStringOrDefault("country", null) ?: run {
+        throw IllegalArgumentException("country is required for enhanced kyc")
+      }
+      val idType = product.getStringOrDefault("idType", null) ?: run {
+        throw IllegalArgumentException("idType is required for enhanced kyc")
+      }
+      val idNumber = product.getStringOrDefault("idNumber", null) ?: run {
+        throw IllegalArgumentException("idNumber is required for enhanced kyc")
+      }
+
+      val timestamp = partnerParams?.extras?.get("timestamp") ?: run {
+        throw IllegalArgumentException("partnerParams.timestamp is required for enhanced kyc")
+      }
+      val signature = partnerParams?.extras?.get("timestamp") ?: run {
+        throw IllegalArgumentException("partnerParams.signature is required for enhanced kyc")
+      }
+      SmileID.api.doEnhancedKyc(
+        request = EnhancedKycRequest(
           country = country,
           idType = idType,
           idNumber = idNumber,
@@ -92,6 +142,6 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "SmileID"
+    const val NAME = "RNSmileID"
   }
 }

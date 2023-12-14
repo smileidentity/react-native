@@ -27,21 +27,20 @@ fun ReadableMap.toMap(): Map<String, String> {
 }
 
 fun ReadableMap.idInfo(): IdInfo? {
-  val idInfoMap = getMapOrDefault("idInfo", null)
-  val country = idInfoMap?.getStringOrDefault("country", null) ?: run {
+  val country = getStringOrDefault("country", null) ?: run {
     Timber.e("idInfo.country is required")
     return null
   }
   return IdInfo(
     country = country,
-    idType = idInfoMap.getStringOrDefault("idType", null),
-    idNumber = idInfoMap.getStringOrDefault("idNumber", null),
-    firstName = idInfoMap.getStringOrDefault("firstName", null),
-    middleName = idInfoMap.getStringOrDefault("middleName", null),
-    lastName = idInfoMap.getStringOrDefault("lastName", null),
-    dob = idInfoMap.getStringOrDefault("dob", null),
-    bankCode = idInfoMap.getStringOrDefault("bankCode", null),
-    entered = idInfoMap.getBoolOrDefault("entered", false),
+    idType = getStringOrDefault("idType", null),
+    idNumber = getStringOrDefault("idNumber", null),
+    firstName = getStringOrDefault("firstName", null),
+    middleName = getStringOrDefault("middleName", null),
+    lastName = getStringOrDefault("lastName", null),
+    dob = getStringOrDefault("dob", null),
+    bankCode = getStringOrDefault("bankCode", null),
+    entered = getBoolOrDefault("entered", false),
   )
 }
 
@@ -65,6 +64,13 @@ fun ReadableMap.partnerParams(): PartnerParams? {
 fun ReadableMap.getBoolOrDefault(key: String, defaultValue: Boolean): Boolean {
   if (hasKey(key)) {
     return getBoolean(key)
+  }
+  return defaultValue
+}
+
+fun ReadableMap.getFloatOrDefault(key: String, defaultValue: Float?): Float? {
+  if (hasKey(key)) {
+    return getDouble(key).toFloat()
   }
   return defaultValue
 }
