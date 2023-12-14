@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { HostComponent, UIManager, findNodeHandle } from 'react-native';
+import {
+  HostComponent,
+  UIManager,
+  findNodeHandle,
+  Platform,
+} from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import { DocumentVerificationRequest } from './index';
 
@@ -25,7 +30,7 @@ export default class SmileIDDocumentVerificationView extends Component<DocumentV
     if (typeof commandId !== 'undefined') {
       UIManager.dispatchViewManagerCommand(
         findNodeHandle(this.viewRef.current),
-        commandId.toString(),
+        Platform.OS === 'android' ? commandId.toString() : commandId,
         [parameters]
       );
     } else {
