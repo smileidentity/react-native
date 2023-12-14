@@ -25,7 +25,7 @@ export default class SmileIDSmartSelfieAuthenticationView extends Component<Smar
     if (typeof commandId !== 'undefined') {
       UIManager.dispatchViewManagerCommand(
         findNodeHandle(this.viewRef.current),
-        commandId,
+        commandId.toString(),
         [parameters]
       );
     } else {

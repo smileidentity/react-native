@@ -24,7 +24,7 @@ export default class SmileIDBiometricKYCView extends Component<BiometricKYCReque
     if (typeof commandId !== 'undefined') {
       UIManager.dispatchViewManagerCommand(
         findNodeHandle(this.viewRef.current),
-        commandId,
+        commandId.toString(),
         [parameters]
       );
     } else {

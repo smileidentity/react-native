@@ -42,6 +42,10 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           {...product}
           style={styles.smileView}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
@@ -52,6 +56,10 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           {...product}
           style={styles.smileView}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
@@ -62,6 +70,10 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           {...product}
           style={styles.smileView}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
@@ -72,6 +84,10 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           {...product}
           style={styles.smileView}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
@@ -82,6 +98,10 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           {...product}
           style={styles.smileView}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />
@@ -92,6 +112,10 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           {...product}
           style={styles.smileView}
           onResult={(event) => {
+            if (event.nativeEvent.error) {
+              setResult(event.nativeEvent.error);
+              return;
+            }
             setResult(event.nativeEvent.result);
           }}
         />

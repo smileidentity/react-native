@@ -15,34 +15,32 @@ class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
   SmileIDView(context) {
 
   override fun renderContent() {
-    params?.let {
-      composeView.apply {
-        setContent {
-          SmileID.SmartSelfieAuthentication(
-            userId = userId ?: rememberSaveable { randomUserId() },
-            jobId = jobId ?: rememberSaveable { randomJobId() },
-            allowAgentMode = allowAgentMode ?: false,
-            showAttribution = showAttribution ?: true,
-            showInstructions = showInstructions ?: true,
-            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
-          ) { result ->
-            when (result) {
-              is SmileIDResult.Success -> {
-                val json = try {
-                  SmileID.moshi
-                    .adapter(SmartSelfieResult::class.java)
-                    .toJson(result.data)
-                } catch (e: Exception) {
-                  Timber.w(e)
-                  "null"
-                }
-                emitSuccess(json)
+    composeView.apply {
+      setContent {
+        SmileID.SmartSelfieAuthentication(
+          userId = userId ?: rememberSaveable { randomUserId() },
+          jobId = jobId ?: rememberSaveable { randomJobId() },
+          allowAgentMode = allowAgentMode ?: false,
+          showAttribution = showAttribution ?: true,
+          showInstructions = showInstructions ?: true,
+          extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
+        ) { result ->
+          when (result) {
+            is SmileIDResult.Success -> {
+              val json = try {
+                SmileID.moshi
+                  .adapter(SmartSelfieResult::class.java)
+                  .toJson(result.data)
+              } catch (e: Exception) {
+                Timber.w(e)
+                "null"
               }
+              emitSuccess(json)
+            }
 
-              is SmileIDResult.Error -> {
-                result.throwable.printStackTrace()
-                emitFailure(result.throwable)
-              }
+            is SmileIDResult.Error -> {
+              result.throwable.printStackTrace()
+              emitFailure(result.throwable)
             }
           }
         }
