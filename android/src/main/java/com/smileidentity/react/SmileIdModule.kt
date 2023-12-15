@@ -25,10 +25,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
 
   @ReactMethod
   override fun initialize(useSandBox: Boolean, promise: Promise) {
-    SmileID.initialize(
-      reactApplicationContext,
-      useSandbox = useSandBox
-    )
+    SmileID.initialize(reactApplicationContext, useSandbox = useSandBox)
     promise.resolve(null)
   }
 
@@ -38,95 +35,76 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   }
 
   @ReactMethod
-  override fun doEnhancedKycAsync(product: ReadableMap, promise: Promise) = launch(
-    work = {
-      val partnerParams = product.partnerParams()
-      partnerParams ?: run {
-        throw IllegalArgumentException("partnerParams is required for enhanced kyc")
-      }
-      val country = product.getStringOrDefault("country", null) ?: run {
-        throw IllegalArgumentException("country is required for enhanced kyc")
-      }
-      val idType = product.getStringOrDefault("idType", null) ?: run {
-        throw IllegalArgumentException("idType is required for enhanced kyc")
-      }
-      val idNumber = product.getStringOrDefault("idNumber", null) ?: run {
-        throw IllegalArgumentException("idNumber is required for enhanced kyc")
-      }
-
-      val timestamp = partnerParams?.extras?.get("timestamp") ?: run {
-        throw IllegalArgumentException("partnerParams.timestamp is required for enhanced kyc")
-      }
-      val signature = partnerParams?.extras?.get("timestamp") ?: run {
-        throw IllegalArgumentException("partnerParams.signature is required for enhanced kyc")
-      }
-      SmileID.api.doEnhancedKycAsync(
-        request = EnhancedKycRequest(
-          country = country,
-          idType = idType,
-          idNumber = idNumber,
-          firstName = product.getString("firstName"),
-          middleName = product.getString("middleName"),
-          lastName = product.getString("lastName"),
-          dob = product.getString("dob"),
-          phoneNumber = product.getString("phoneNumber"),
-          bankCode = product.getString("bankCode"),
-          callbackUrl = product.getString("callbackUrl"),
-          partnerParams = partnerParams,
-          sourceSdk = "android (react-native)",
-          timestamp = timestamp,
-          signature = signature,
-        )
-      )
-    },
+  override fun authenticate(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.authenticate(request = request.toAuthenticationRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  override fun doEnhancedKyc(product: ReadableMap, promise: Promise) = launch(
-    work = {
-      val partnerParams = product.partnerParams()
-      partnerParams ?: run {
-        throw IllegalArgumentException("partnerParams is required for enhanced kyc")
-      }
-      val country = product.getStringOrDefault("country", null) ?: run {
-        throw IllegalArgumentException("country is required for enhanced kyc")
-      }
-      val idType = product.getStringOrDefault("idType", null) ?: run {
-        throw IllegalArgumentException("idType is required for enhanced kyc")
-      }
-      val idNumber = product.getStringOrDefault("idNumber", null) ?: run {
-        throw IllegalArgumentException("idNumber is required for enhanced kyc")
-      }
-
-      val timestamp = partnerParams?.extras?.get("timestamp") ?: run {
-        throw IllegalArgumentException("partnerParams.timestamp is required for enhanced kyc")
-      }
-      val signature = partnerParams?.extras?.get("timestamp") ?: run {
-        throw IllegalArgumentException("partnerParams.signature is required for enhanced kyc")
-      }
-      SmileID.api.doEnhancedKyc(
-        request = EnhancedKycRequest(
-          country = country,
-          idType = idType,
-          idNumber = idNumber,
-          firstName = product.getString("firstName"),
-          middleName = product.getString("middleName"),
-          lastName = product.getString("lastName"),
-          dob = product.getString("dob"),
-          phoneNumber = product.getString("phoneNumber"),
-          bankCode = product.getString("bankCode"),
-          callbackUrl = product.getString("callbackUrl"),
-          partnerParams = partnerParams,
-          sourceSdk = "android (react-native)",
-          timestamp = timestamp,
-          signature = signature,
-        )
-      )
-    },
+  fun prepUpload(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.prepUpload(request = request.toPrepUploadRequest()) },
     promise = promise
   )
 
+  @ReactMethod
+  fun upload(url: String, request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.upload(url, request.toUploadRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun doEnhancedKyc(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.doEnhancedKyc(request = request.toEnhancedKycRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun doEnhancedKycAsync(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.doEnhancedKycAsync(request = request.toEnhancedKycRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun getSmartSelfieJobStatus(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.getSmartSelfieJobStatus(request = request.toJobStatusRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun getDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.getDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun getBiometricKycJobStatus(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.getBiometricKycJobStatus(request = request.toJobStatusRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun getEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.getEnhancedDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun getProductsConfig(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.getProductsConfig(request = request.toProductsConfigRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun getValidDocuments(request: ReadableMap, promise: Promise) = launch(
+    work = { SmileID.api.getValidDocuments(request = request.toProductsConfigRequest()) },
+    promise = promise
+  )
+
+  @ReactMethod
+  fun getServices(promise: Promise) = launch(
+    work = { SmileID.api.getServices() },
+    promise = promise
+  )
 
   private fun <T> launch(
     work: suspend () -> T,

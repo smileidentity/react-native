@@ -44,12 +44,12 @@ class SmileIDSmartSelfieEnrollmentViewManager(private val reactApplicationContex
         // Extract params from args and apply to view
         val params = args?.getMap(0)
         params?.let {
-          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams", null)?.toMap()
-          view.userId = params.getStringOrDefault("userId",null)
-          view.jobId = params.getStringOrDefault("jobId",null)
-          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode",false)
-          view.showAttribution = params.getBoolOrDefault("showAttribution",true)
-          view.showInstructions = params.getBoolOrDefault("showInstructions",true)
+          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams")?.toMap()
+          view.userId = params.getStringOrDefault("userId")
+          view.jobId = params.getStringOrDefault("jobId")
+          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
+          view.showAttribution = params.getBoolOrDefault("showAttribution", true)
+          view.showInstructions = params.getBoolOrDefault("showInstructions", true)
           view.renderContent()
         }
       }

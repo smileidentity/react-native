@@ -45,19 +45,20 @@ class SmileIDDocumentVerificationViewManager(private val reactApplicationContext
         // Extract params from args and apply to view
         val params = args?.getMap(0)
         params?.let {
-          val countryCode = params.getString("countryCode") ?: return view.emitFailure(IllegalArgumentException("countryCode is required to run Document Verification"))
-          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams", null)?.toMap()
-          view.userId = params.getStringOrDefault("userId",null)
-          view.jobId = params.getStringOrDefault("jobId",null)
+          val countryCode = params.getString("countryCode")
+            ?: return view.emitFailure(IllegalArgumentException("countryCode is required to run Document Verification"))
+          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams")?.toMap()
+          view.userId = params.getStringOrDefault("userId")
+          view.jobId = params.getStringOrDefault("jobId")
           view.countryCode = countryCode
-          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode",false)
-          view.showAttribution = params.getBoolOrDefault("showAttribution",true)
-          view.captureBothSides = params.getBoolOrDefault("captureBothSides",false)
-          view.showInstructions = params.getBoolOrDefault("showInstructions",true)
-          view.allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload",false)
-          view.bypassSelfieCaptureWithFilePath = params.getStringOrDefault("bypassSelfieCaptureWithFilePath",null)
-          view.documentType = params.getStringOrDefault("documentType",null)
-          view.idAspectRatio = params.getFloatOrDefault("idAspectRatio",-1f)
+          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
+          view.showAttribution = params.getBoolOrDefault("showAttribution", true)
+          view.captureBothSides = params.getBoolOrDefault("captureBothSides", false)
+          view.showInstructions = params.getBoolOrDefault("showInstructions", true)
+          view.allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload", false)
+          view.bypassSelfieCaptureWithFilePath = params.getStringOrDefault("bypassSelfieCaptureWithFilePath", null)
+          view.documentType = params.getStringOrDefault("documentType", null)
+          view.idAspectRatio = params.getFloatOrDefault("idAspectRatio", -1f)
           view.renderContent()
         }
       }

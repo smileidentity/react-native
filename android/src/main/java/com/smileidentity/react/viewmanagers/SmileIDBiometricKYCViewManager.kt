@@ -44,15 +44,17 @@ class SmileIDBiometricKYCViewManager(private val reactApplicationContext: ReactA
         // Extract params from args and apply to view
         val params = args?.getMap(0)
         params?.let {
-          val idInfoMap = params.getMap("idInfo") ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
-          val idInfo = idInfoMap.idInfo() ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
+          val idInfoMap = params.getMap("idInfo")
+            ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
+          val idInfo = idInfoMap.toIdInfo()
+            ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
           view.extraPartnerParams = params.getMap("extraPartnerParams")?.toMap()
-          view.userId = params.getStringOrDefault("userId",null)
-          view.jobId = params.getStringOrDefault("jobId",null)
+          view.userId = params.getStringOrDefault("userId")
+          view.jobId = params.getStringOrDefault("jobId")
           view.idInfo = idInfo
-          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode",false)
-          view.showAttribution = params.getBoolOrDefault("showAttribution",true)
-          view.showInstructions = params.getBoolOrDefault("showInstructions",true)
+          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
+          view.showAttribution = params.getBoolOrDefault("showAttribution", true)
+          view.showInstructions = params.getBoolOrDefault("showInstructions", true)
           view.renderContent()
         }
       }
