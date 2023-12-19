@@ -23,7 +23,7 @@ jobs:
       - name: Read build.gradle
         id: read-file
         run: |
-          sed -i "s/\(SmileId_androidVersion=\).*/\1\"$(echo "${{ github.event.inputs.new_android_version }}" | cut -c 2-)\"/" android/gradle.properties
+          sed -i "s/\(SmileId_androidVersion=\).*/\1\"$(echo "${{ github.event.inputs.android_release_version }}" | cut -c 2-)\"/" android/gradle.properties
       - name: Commit and Push Changes
         run: |
           git config user.name "GitHub Actions"
