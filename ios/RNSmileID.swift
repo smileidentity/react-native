@@ -11,6 +11,47 @@ class RNSmileID: NSObject {
         resolve(nil)
     }
 
+    @objc(authenticate:withResolver:withRejecter:)
+    func authenticate(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let authenticationRequest = request.toAuthenticationRequest() else {
+            reject("Error", "Invalid request data", nil)
+            return
+        }
+
+        SmileID.api.authenticate(request: authenticationRequest)
+            .sink(receiveCompletion: { completion in
+                handleCompletion(completion, reject: reject)
+            }, receiveValue: { response in
+                resolveResponse(response, resolve: resolve, reject: reject)
+            }).store(in: &cancellables)
+    }
+
+    @objc(prepUpload:withResolver:withRejecter:)
+    func prepUpload(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let prepUploadRequest = request.toPrepUploadRequest() else {
+            reject("Error", "Invalid prep upload request", nil)
+            return
+        }
+
+        SmileID.api.prepUpload(request: prepUploadRequest)
+            .sink(receiveCompletion: { completion in handleCompletion(completion, reject: reject) },
+                  receiveValue: { response in resolveResponse(response, resolve: resolve, reject: reject) })
+            .store(in: &cancellables)
+    }
+
+    @objc(upload:request:withResolver:withRejecter:)
+    func upload(url: String, request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let uploadRequest = request.toUploadRequest() else {
+            reject("Error", "Invalid upload request", nil)
+            return
+        }
+
+        SmileID.api.upload(url: url, request: uploadRequest)
+            .sink(receiveCompletion: { completion in handleCompletion(completion, reject: reject) },
+                  receiveValue: { _ in resolve(nil) }) // Assuming no response to return
+            .store(in: &cancellables)
+    }
+
     @objc(doEnhancedKyc:withResolver:withRejecter:)
     func doEnhancedKyc(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         guard let partnerParamsDict = request["partnerParams"] as? NSDictionary else {
@@ -143,5 +184,89 @@ class RNSmileID: NSObject {
                 }
                 resolve(["result": String(data: jsonData, encoding: .utf8)!]) // Assuming you have a method to convert response to a dictionary
             }).store(in: &cancellables)
+    }
+
+    @objc(getSmartSelfieJobStatus:withResolver:withRejecter:)
+    func getSmartSelfieJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        getJobStatus(request: request, resolve: resolve, reject: reject)
+    }
+
+    @objc(getDocumentVerificationJobStatus:withResolver:withRejecter:)
+    func getDocumentVerificationJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        getJobStatus(request: request, resolve: resolve, reject: reject)
+    }
+
+    @objc(getBiometricKycJobStatus:withResolver:withRejecter:)
+    func getBiometricKycJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        getJobStatus(request: request, resolve: resolve, reject: reject)
+    }
+
+    @objc(getEnhancedDocumentVerificationJobStatus:withResolver:withRejecter:)
+    func getEnhancedDocumentVerificationJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        getJobStatus(request: request, resolve: resolve, reject: reject)
+    }
+
+    @objc(getProductsConfig:withResolver:withRejecter:)
+    func getProductsConfig(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let productsConfigRequest = request.toProductsConfigRequest() else {
+            reject("Error", "Invalid products config request", nil)
+            return
+        }
+
+        SmileID.api.getProductsConfig(request: productsConfigRequest)
+            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
+                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
+            .store(in: &cancellables)
+    }
+
+    @objc(getValidDocuments:withResolver:withRejecter:)
+    func getValidDocuments(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let validDocumentsRequest = request.toProductsConfigRequest() else {
+            reject("Error", "Invalid valid documents request", nil)
+            return
+        }
+
+        SmileID.api.getValidDocuments(request: validDocumentsRequest)
+            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
+                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
+            .store(in: &cancellables)
+    }
+
+    @objc(getServicesWithResolver:withRejecter:)
+    func getServices(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        SmileID.api.getServices()
+            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
+                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
+            .store(in: &cancellables)
+    }
+
+    private func getJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let jobStatusRequest = request.toJobStatusRequest() else {
+            reject("Error", "Invalid job status request", nil)
+            return
+        }
+
+        SmileID.api.getJobStatus(request: jobStatusRequest)
+            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
+                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
+            .store(in: &cancellables)
+    }
+
+    private func handleCompletion(_ completion: Subscribers.Completion<Error>, reject: @escaping RCTPromiseRejectBlock) {
+        switch completion {
+        case let .failure(error):
+            reject("Error", error.localizedDescription, error)
+        case .finished:
+            break
+        }
+    }
+
+    private func resolveResponse<T: Encodable>(_ response: T, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        let encoder = JSONEncoder()
+        guard let jsonData = try? encoder.encode(response) else {
+            reject("Error", "Encoding error", nil)
+            return
+        }
+        resolve(String(data: jsonData, encoding: .utf8) ?? "")
     }
 }

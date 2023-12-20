@@ -65,17 +65,73 @@ const SmileID = {
    */
   disableCrashReporting: () =>
     Platform.OS === 'android' ? _SmileID.disableCrashReporting() : () => {},
-  /**
-   *Headless run enhanced kyc async
-   */
-  doEnhancedKycAsync: (enhancedKYCRequest: EnhancedKycRequest) =>
-    _SmileID.doEnhancedKycAsync(enhancedKYCRequest),
+
+  authenticate: (request: AuthenticationRequest) =>
+    _SmileID.authenticate(request),
 
   /**
-   *Headless run enhanced kyc async
+   * Prepare upload process
    */
-  doEnhancedKyc: (enhancedKYCRequest: EnhancedKycRequest) =>
-    _SmileID.doEnhancedKyc(enhancedKYCRequest),
+  prepUpload: (request: PrepUploadRequest) => _SmileID.prepUpload(request),
+
+  /**
+   * Perform the upload operation
+   */
+  upload: (url: string, request: UploadRequest) =>
+    _SmileID.upload(url, request),
+
+  /**
+   * Perform Enhanced KYC
+   */
+  doEnhancedKyc: (request: EnhancedKycRequest) =>
+    _SmileID.doEnhancedKyc(request),
+
+  /**
+   * Perform Enhanced KYC asynchronously
+   */
+  doEnhancedKycAsync: (request: EnhancedKycRequest) =>
+    _SmileID.doEnhancedKycAsync(request),
+
+  /**
+   * Get the status of a Smart Selfie job
+   */
+  getSmartSelfieJobStatus: (request: JobStatusRequest) =>
+    _SmileID.getSmartSelfieJobStatus(request),
+
+  /**
+   * Get the status of a document verification job
+   */
+  getDocumentVerificationJobStatus: (request: JobStatusRequest) =>
+    _SmileID.getDocumentVerificationJobStatus(request),
+
+  /**
+   * Get the status of a biometric KYC job
+   */
+  getBiometricKycJobStatus: (request: JobStatusRequest) =>
+    _SmileID.getBiometricKycJobStatus(request),
+
+  /**
+   * Get the status of an enhanced document verification job
+   */
+  getEnhancedDocumentVerificationJobStatus: (request: JobStatusRequest) =>
+    _SmileID.getEnhancedDocumentVerificationJobStatus(request),
+
+  /**
+   * Get products configuration
+   */
+  getProductsConfig: (request: ProductsConfigRequest) =>
+    _SmileID.getProductsConfig(request),
+
+  /**
+   * Get valid documents based on products configuration
+   */
+  getValidDocuments: (request: ProductsConfigRequest) =>
+    _SmileID.getValidDocuments(request),
+
+  /**
+   * Get available services
+   */
+  getServices: () => _SmileID.getServices(),
 };
 
 export {
