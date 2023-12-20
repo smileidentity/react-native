@@ -118,7 +118,12 @@ export class PartnerParams {
   userId: string;
   extras?: [string: string];
 
-  constructor(jobType: JobType, jobId: string, userId: string, extras?: [string: string]) {
+  constructor(
+    jobType: JobType,
+    jobId: string,
+    userId: string,
+    extras?: [string: string]
+  ) {
     this.jobType = jobType;
     this.jobId = jobId;
     this.userId = userId;
@@ -237,7 +242,12 @@ export class PrepUploadResponse {
   uploadUrl: string;
   smileJobId: string;
 
-  constructor(code: string, refId: string, uploadUrl: string, smileJobId: string) {
+  constructor(
+    code: string,
+    refId: string,
+    uploadUrl: string,
+    smileJobId: string
+  ) {
     this.code = code;
     this.refId = refId;
     this.uploadUrl = uploadUrl;
@@ -933,7 +943,10 @@ export class ProductsConfigResponse {
   consentRequired: Map<string, string[]>;
   idSelection: IdSelection;
 
-  constructor(consentRequired: Map<string, string[]>, idSelection: IdSelection) {
+  constructor(
+    consentRequired: Map<string, string[]>,
+    idSelection: IdSelection
+  ) {
     this.consentRequired = consentRequired;
     this.idSelection = idSelection;
   }
@@ -1020,7 +1033,11 @@ export class CountryInfo {
   name: string;
   availableIdTypes: AvailableIdType[];
 
-  constructor(countryCode: string, name: string, availableIdTypes: AvailableIdType[]) {
+  constructor(
+    countryCode: string,
+    name: string,
+    availableIdTypes: AvailableIdType[]
+  ) {
     this.countryCode = countryCode;
     this.name = name;
     this.availableIdTypes = availableIdTypes;

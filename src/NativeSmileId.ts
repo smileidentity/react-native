@@ -1,5 +1,5 @@
-import type {TurboModule} from 'react-native';
-import {TurboModuleRegistry} from 'react-native';
+import type { TurboModule } from 'react-native';
+import { TurboModuleRegistry } from 'react-native';
 import type {
   AuthenticationRequest,
   AuthenticationResponse,
@@ -17,9 +17,8 @@ import type {
   ServicesResponse,
   SmartSelfieJobStatusResponse,
   UploadRequest,
-  ValidDocumentsResponse
+  ValidDocumentsResponse,
 } from './index';
-
 
 export interface Spec extends TurboModule {
   /**
@@ -40,21 +39,33 @@ export interface Spec extends TurboModule {
 
   doEnhancedKyc(request: EnhancedKycRequest): Promise<EnhancedKycResponse>;
 
-  doEnhancedKycAsync(request: EnhancedKycRequest): Promise<EnhancedKycAsyncResponse>;
+  doEnhancedKycAsync(
+    request: EnhancedKycRequest
+  ): Promise<EnhancedKycAsyncResponse>;
 
-  getSmartSelfieJobStatus(request: JobStatusRequest): Promise<SmartSelfieJobStatusResponse>;
+  getSmartSelfieJobStatus(
+    request: JobStatusRequest
+  ): Promise<SmartSelfieJobStatusResponse>;
 
-  getDocumentVerificationJobStatus(request: JobStatusRequest): Promise<DocumentVerificationJobStatusResponse>;
+  getDocumentVerificationJobStatus(
+    request: JobStatusRequest
+  ): Promise<DocumentVerificationJobStatusResponse>;
 
-  getBiometricKycJobStatus(request: JobStatusRequest): Promise<BiometricKycJobStatusResponse>;
+  getBiometricKycJobStatus(
+    request: JobStatusRequest
+  ): Promise<BiometricKycJobStatusResponse>;
 
   getEnhancedDocumentVerificationJobStatus(
     request: JobStatusRequest
   ): Promise<EnhancedDocumentVerificationJobStatusResponse>;
 
-  getProductsConfig(request: ProductsConfigRequest): Promise<ProductsConfigResponse>;
+  getProductsConfig(
+    request: ProductsConfigRequest
+  ): Promise<ProductsConfigResponse>;
 
-  getValidDocuments(request: ProductsConfigRequest): Promise<ValidDocumentsResponse>;
+  getValidDocuments(
+    request: ProductsConfigRequest
+  ): Promise<ValidDocumentsResponse>;
 
   getServices(): Promise<ServicesResponse>;
 }

@@ -27,7 +27,7 @@ import {
   ServicesResponse,
   SmartSelfieJobStatusResponse,
   UploadRequest,
-  ValidDocumentsResponse
+  ValidDocumentsResponse,
 } from './types';
 
 const LINKING_ERROR =
@@ -96,13 +96,19 @@ export {
   SmileIDViewProps,
   ConsentRequest,
   AuthenticationRequest,
-  AuthenticationResponse, BiometricKycJobStatusResponse,
-  DocumentVerificationJobStatusResponse, EnhancedDocumentVerificationJobStatusResponse,
+  AuthenticationResponse,
+  BiometricKycJobStatusResponse,
+  DocumentVerificationJobStatusResponse,
+  EnhancedDocumentVerificationJobStatusResponse,
   EnhancedKycAsyncResponse,
   EnhancedKycResponse,
   JobStatusRequest,
   PrepUploadRequest,
-  PrepUploadResponse, ProductsConfigRequest, ProductsConfigResponse, ServicesResponse,
+  PrepUploadResponse,
+  ProductsConfigRequest,
+  ProductsConfigResponse,
+  ServicesResponse,
   SmartSelfieJobStatusResponse,
-  UploadRequest, ValidDocumentsResponse
+  UploadRequest,
+  ValidDocumentsResponse,
 };
