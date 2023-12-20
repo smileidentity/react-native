@@ -6,10 +6,13 @@ import com.smileidentity.models.*
 import com.smileidentity.react.utils.*
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
+import java.io.File
 
 fun ReadableMap.toAuthenticationRequest(): AuthenticationRequest {
   return AuthenticationRequest(
-    jobType = getStringOrDefault("jobType")?.let { JobType.fromValue(it) },
+    jobType = getIntOrDefault("jobType")?.let { JobType.fromValue(it) } ?: run {
+      throw IllegalArgumentException("jobType is required")
+    },
     country = getStringOrDefault("country"),
     idType = getStringOrDefault("idType"),
     updateEnrolledImage = getBoolOrDefault("updateEnrolledImage", false),
@@ -18,23 +21,14 @@ fun ReadableMap.toAuthenticationRequest(): AuthenticationRequest {
   )
 }
 
-fun ReadableMap.toAuthenticationRequest(): AuthenticationRequest {
-  return AuthenticationRequest(
-    jobType = getStringOrDefault("jobType")?.let { JobType.fromValue(it) },
-    country = getStringOrDefault("country"),
-    idType = getStringOrDefault("idType"),
-    updateEnrolledImage = getBoolean("updateEnrolledImage"),
-    jobId = getStringOrDefault("jobId"),
-    userId = getStringOrDefault("userId")
-  )
-}
-
 fun ReadableMap.toPartnerParams(): PartnerParams {
   return PartnerParams(
-    jobType = getStringOrDefault("jobType")?.let { JobType.fromValue(it) },
-    jobId = getStringOrDefault("jobId"),
-    userId = getStringOrDefault("userId"),
-    extras = getMapOrDefault("extras")?.toHashMap()
+    jobType = getIntOrDefault("jobType")?.let { JobType.fromValue(it) } ?: run {
+      throw IllegalArgumentException("jobType is required")
+    },
+    jobId = getStringOrDefault("jobId") ?: randomJobId(),
+    userId = getStringOrDefault("userId") ?: randomUserId(),
+    extras = getMapOrDefault("extras")?.toMap() ?: emptyMap()
   )
 }
 
@@ -47,12 +41,20 @@ fun ReadableMap.toConsentInfo(): ConsentInfo {
 
 fun ReadableMap.toPrepUploadRequest(): PrepUploadRequest {
   return PrepUploadRequest(
-    partnerParams = getMapOrDefault("partnerParams")?.toPartnerParams(),
+    partnerParams = getMapOrDefault("partnerParams")?.toPartnerParams() ?: run {
+      throw IllegalArgumentException("partnerParams is required")
+    },
     callbackUrl = getStringOrDefault("callbackUrl"),
-    partnerId = getStringOrDefault("partnerId"),
-    sourceSdk = getStringOrDefault("sourceSdk"),
-    timestamp = getDouble("timestamp"),
-    signature = getStringOrDefault("signature")
+    partnerId = getStringOrDefault("partnerId") ?: run {
+      throw IllegalArgumentException("partnerId is required")
+    },
+    sourceSdk = getStringOrDefault("sourceSdk") ?: "react-native",
+    timestamp = getStringOrDefault("timestamp") ?: run {
+      throw IllegalArgumentException("timestamp is required")
+    },
+    signature = getStringOrDefault("signature") ?: run {
+      throw IllegalArgumentException("signature is required")
+    },
   )
 }
 
@@ -68,14 +70,20 @@ fun ReadableMap.toUploadRequest(): UploadRequest {
 
 fun ReadableMap.toUploadImageInfo(): UploadImageInfo {
   return UploadImageInfo(
-    imageTypeId = getStringOrDefault("imageTypeId")?.let { ImageType.valueOf(it) },
-    image = File(getStringOrDefault("imageName"))
+    imageTypeId = getStringOrDefault("imageTypeId")?.let { ImageType.valueOf(it) } ?: run {
+      throw IllegalArgumentException("imageTypeId is required")
+    },
+    image = File(getStringOrDefault("imageName") ?: run {
+      throw IllegalArgumentException("imageName is required")
+    }),
   )
 }
 
 fun ReadableMap.toIdInfo(): IdInfo {
   return IdInfo(
-    country = getStringOrDefault("country"),
+    country = getStringOrDefault("country") ?: run {
+      throw IllegalArgumentException("country is required")
+    },
     idType = getStringOrDefault("idType"),
     idNumber = getStringOrDefault("idNumber"),
     firstName = getStringOrDefault("firstName"),
@@ -89,9 +97,15 @@ fun ReadableMap.toIdInfo(): IdInfo {
 
 fun ReadableMap.toEnhancedKycRequest(): EnhancedKycRequest {
   return EnhancedKycRequest(
-    country = getStringOrDefault("country"),
-    idType = getStringOrDefault("idType"),
-    idNumber = getStringOrDefault("idNumber"),
+    country = getStringOrDefault("country") ?: run {
+      throw IllegalArgumentException("country is required")
+    },
+    idType = getStringOrDefault("idType") ?: run {
+      throw IllegalArgumentException("idType is required")
+    },
+    idNumber = getStringOrDefault("idNumber") ?: run {
+      throw IllegalArgumentException("idNumber is required")
+    },
     firstName = getStringOrDefault("firstName"),
     middleName = getStringOrDefault("middleName"),
     lastName = getStringOrDefault("lastName"),
@@ -99,30 +113,51 @@ fun ReadableMap.toEnhancedKycRequest(): EnhancedKycRequest {
     phoneNumber = getStringOrDefault("phoneNumber"),
     bankCode = getStringOrDefault("bankCode"),
     callbackUrl = getStringOrDefault("callbackUrl"),
-    partnerParams = getMapOrDefault("partnerParams")?.toPartnerParams(),
-    sourceSdk = getStringOrDefault("sourceSdk"),
-    timestamp = getDouble("timestamp"),
-    signature = getStringOrDefault("signature")
+    partnerParams = getMapOrDefault("partnerParams")?.toPartnerParams() ?: run {
+      throw IllegalArgumentException("partnerParams is required")
+    },
+    sourceSdk = getStringOrDefault("sourceSdk") ?: "react-native",
+    timestamp = getStringOrDefault("timestamp") ?: run {
+      throw IllegalArgumentException("timestamp is required")
+    },
+    signature = getStringOrDefault("signature") ?: run {
+      throw IllegalArgumentException("signature is required")
+    },
   )
 }
 
 fun ReadableMap.toJobStatusRequest(): JobStatusRequest {
   return JobStatusRequest(
-    userId = getStringOrDefault("userId"),
-    jobId = getStringOrDefault("jobId"),
-    includeImageLinks = getBoolean("includeImageLinks"),
-    includeHistory = getBoolean("includeHistory"),
-    partnerId = getStringOrDefault("partnerId"),
-    timestamp = getDouble("timestamp"),
-    signature = getStringOrDefault("signature")
+    userId = getStringOrDefault("userId") ?: run {
+      throw IllegalArgumentException("userId is required")
+    },
+    jobId = getStringOrDefault("jobId") ?: run {
+      throw IllegalArgumentException("jobId is required")
+    },
+    includeImageLinks = getBoolOrDefault("includeImageLinks", false),
+    includeHistory = getBoolOrDefault("includeHistory", false),
+    partnerId = getStringOrDefault("partnerId") ?: run {
+      throw IllegalArgumentException("partnerId is required")
+    },
+    timestamp = getStringOrDefault("timestamp") ?: run {
+      throw IllegalArgumentException("timestamp is required")
+    },
+    signature = getStringOrDefault("signature") ?: run {
+      throw IllegalArgumentException("signature is required")
+    }
   )
 }
 
-// Extension for ProductsConfigRequest
 fun ReadableMap.toProductsConfigRequest(): ProductsConfigRequest {
   return ProductsConfigRequest(
-    partnerId = getStringOrDefault("partnerId"),
-    timestamp = getDouble("timestamp"),
-    signature = getStringOrDefault("signature")
+    partnerId = getStringOrDefault("partnerId") ?: run {
+      throw IllegalArgumentException("partnerId is required")
+    },
+    timestamp = getStringOrDefault("timestamp") ?: run {
+      throw IllegalArgumentException("timestamp is required")
+    },
+    signature = getStringOrDefault("signature") ?: run {
+      throw IllegalArgumentException("signature is required")
+    }
   )
 }

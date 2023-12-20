@@ -5,10 +5,8 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
-import com.smileidentity.react.utils.getBoolOrDefault
-import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.react.utils.idInfo
-import com.smileidentity.react.utils.toMap
+import com.smileidentity.react.utils.*
+import com.smileidentity.react.*
 import com.smileidentity.react.views.SmileIDBiometricKYCView
 
 

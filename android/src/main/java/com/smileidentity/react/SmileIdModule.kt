@@ -9,7 +9,6 @@ import com.smileidentity.SmileIDCrashReporting
 import com.smileidentity.SmileIdSpec
 import com.smileidentity.models.EnhancedKycRequest
 import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.react.utils.partnerParams
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,67 +40,67 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   )
 
   @ReactMethod
-  fun prepUpload(request: ReadableMap, promise: Promise) = launch(
+  override fun prepUpload(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.prepUpload(request = request.toPrepUploadRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun upload(url: String, request: ReadableMap, promise: Promise) = launch(
+  override fun upload(url: String, request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.upload(url, request.toUploadRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun doEnhancedKyc(request: ReadableMap, promise: Promise) = launch(
+  override fun doEnhancedKyc(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.doEnhancedKyc(request = request.toEnhancedKycRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun doEnhancedKycAsync(request: ReadableMap, promise: Promise) = launch(
+  override fun doEnhancedKycAsync(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.doEnhancedKycAsync(request = request.toEnhancedKycRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun getSmartSelfieJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun getSmartSelfieJobStatus(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getSmartSelfieJobStatus(request = request.toJobStatusRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun getDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun getDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun getBiometricKycJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun getBiometricKycJobStatus(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getBiometricKycJobStatus(request = request.toJobStatusRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun getEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun getEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getEnhancedDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun getProductsConfig(request: ReadableMap, promise: Promise) = launch(
+  override fun getProductsConfig(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getProductsConfig(request = request.toProductsConfigRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun getValidDocuments(request: ReadableMap, promise: Promise) = launch(
+  override fun getValidDocuments(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getValidDocuments(request = request.toProductsConfigRequest()) },
     promise = promise
   )
 
   @ReactMethod
-  fun getServices(promise: Promise) = launch(
+  override fun getServices(promise: Promise) = launch(
     work = { SmileID.api.getServices() },
     promise = promise
   )
