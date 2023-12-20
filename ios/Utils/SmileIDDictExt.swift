@@ -15,23 +15,11 @@ extension NSDictionary {
 
         return AuthenticationRequest(
             jobType: jobType,
-            country: country,
-            idType: idType,
             updateEnrolledImage: updateEnrolledImage,
             jobId: jobId,
-            userId: userId
-        )
-    }
-
-    func toConsentInfo() -> ConsentInfo? {
-        guard let canAccess = self["canAccess"] as? Bool,
-              let consentRequired = self["consentRequired"] as? Bool else {
-            return nil
-        }
-
-        return ConsentInfo(
-            canAccess: canAccess,
-            consentRequired: consentRequired
+            userId: userId,
+            country: country,
+            idType: idType
         )
     }
 
@@ -40,7 +28,6 @@ extension NSDictionary {
               let partnerParams = partnerParamsDict.toPartnerParams(),
               let callbackUrl = self["callbackUrl"] as? String,
               let partnerId = self["partnerId"] as? String,
-              let sourceSdk = self["sourceSdk"] as? String ?? "react-native",
               let timestamp = self["timestamp"] as? String,
               let signature = self["signature"] as? String else {
             return nil
@@ -50,7 +37,7 @@ extension NSDictionary {
             partnerParams: partnerParams,
             callbackUrl: callbackUrl,
             partnerId: partnerId,
-            sourceSdk: sourceSdk,
+            sourceSdk: self["sourceSdk"] as? String ?? "react-native",
             timestamp: timestamp,
             signature: signature
         )
@@ -76,11 +63,9 @@ extension NSDictionary {
             return nil
         }
 
-        let image = File(imageName) // Make sure to convert this to the appropriate File type in Swift
-
         return UploadImageInfo(
             imageTypeId: imageTypeId,
-            image: image
+            fileName: imageName
         )
     }
 
@@ -124,7 +109,6 @@ extension NSDictionary {
               let callbackUrl = self["callbackUrl"] as? String,
               let partnerParamsDict = self["partnerParams"] as? NSDictionary,
               let partnerParams = partnerParamsDict.toPartnerParams(),
-              let sourceSdk = self["sourceSdk"] as? String ?? "react-native",
               let timestamp = self["timestamp"] as? String,
               let signature = self["signature"] as? String else {
             return nil
@@ -142,7 +126,7 @@ extension NSDictionary {
             bankCode: bankCode,
             callbackUrl: callbackUrl,
             partnerParams: partnerParams,
-            sourceSdk: sourceSdk,
+            sourceSdk: self["sourceSdk"] as? String ?? "react-native",
             timestamp: timestamp,
             signature: signature
         )
@@ -178,9 +162,9 @@ extension NSDictionary {
         }
 
         return ProductsConfigRequest(
-            partnerId: partnerId,
             timestamp: timestamp,
-            signature: signature
+            signature: signature,
+            partnerId: partnerId
         )
     }
 

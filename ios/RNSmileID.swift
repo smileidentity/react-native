@@ -20,9 +20,9 @@ class RNSmileID: NSObject {
 
         SmileID.api.authenticate(request: authenticationRequest)
             .sink(receiveCompletion: { completion in
-                handleCompletion(completion, reject: reject)
+                self.handleCompletion(completion, reject: reject)
             }, receiveValue: { response in
-                resolveResponse(response, resolve: resolve, reject: reject)
+                self.resolveResponse(response, resolve: resolve, reject: reject)
             }).store(in: &cancellables)
     }
 
@@ -34,9 +34,10 @@ class RNSmileID: NSObject {
         }
 
         SmileID.api.prepUpload(request: prepUploadRequest)
-            .sink(receiveCompletion: { completion in handleCompletion(completion, reject: reject) },
-                  receiveValue: { response in resolveResponse(response, resolve: resolve, reject: reject) })
-            .store(in: &cancellables)
+            .sink(
+                receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
+                receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject)
+            }).store(in: &cancellables)
     }
 
     @objc(upload:request:withResolver:withRejecter:)
@@ -46,7 +47,7 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.upload(url: url, request: uploadRequest)
+        SmileID.api.upload(zip: toZip(uploadRequest: uploadRequest), to: url)
             .sink(receiveCompletion: { completion in handleCompletion(completion, reject: reject) },
                   receiveValue: { _ in resolve(nil) }) // Assuming no response to return
             .store(in: &cancellables)
@@ -214,9 +215,10 @@ class RNSmileID: NSObject {
         }
 
         SmileID.api.getProductsConfig(request: productsConfigRequest)
-            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
-                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
-            .store(in: &cancellables)
+            .sink(
+                receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
+                receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject)
+            }).store(in: &cancellables)
     }
 
     @objc(getValidDocuments:withResolver:withRejecter:)

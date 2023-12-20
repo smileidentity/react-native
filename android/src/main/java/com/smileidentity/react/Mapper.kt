@@ -32,13 +32,6 @@ fun ReadableMap.toPartnerParams(): PartnerParams {
   )
 }
 
-fun ReadableMap.toConsentInfo(): ConsentInfo {
-  return ConsentInfo(
-    canAccess = getBoolOrDefault("canAccess", false),
-    consentRequired = getBoolOrDefault("consentRequired", true)
-  )
-}
-
 fun ReadableMap.toPrepUploadRequest(): PrepUploadRequest {
   return PrepUploadRequest(
     partnerParams = getMapOrDefault("partnerParams")?.toPartnerParams() ?: run {
