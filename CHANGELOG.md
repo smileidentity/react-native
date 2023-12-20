@@ -1,7 +1,15 @@
-# 10.0.0-beta03
+## 10.0.0-beta03 (unrleased)
+
+### Added
 - Added networking wrappers
 
-# 10.0.0-beta02
+### Changed
+
+### Fixed
+
+### Removed
+
+## 10.0.0-beta02
 
 ### Added
 - Added support for both android and iOS
@@ -20,10 +28,18 @@
 ### Removed
 - BVN Consent in favor of consent screen as that is available on both platforms
 
-# 10.0.0-beta01
+## 10.0.0-beta01
+
+### Added
 - Initial release focused on the below products only for Android
 - Support for Biometric KYC
 - Support for BVN Consent
 - Support for Document Verification
 - Support for SmartSelfie Enrollment
 - Support for SmartSelfie Authentication
+
+### Changed
+
+### Fixed
+
+### Removed
