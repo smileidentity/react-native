@@ -34,8 +34,8 @@ fun ReadableMap.toPartnerParams(): PartnerParams {
 
 fun ReadableMap.toConsentInfo(): ConsentInfo {
   return ConsentInfo(
-    canAccess = getBoolean("canAccess"),
-    consentRequired = getBoolean("consentRequired")
+    canAccess = getBoolOrDefault("canAccess", false),
+    consentRequired = getBoolOrDefault("consentRequired", true)
   )
 }
 
