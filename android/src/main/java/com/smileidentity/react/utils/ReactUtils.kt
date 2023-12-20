@@ -33,28 +33,28 @@ fun ReadableMap.getBoolOrDefault(key: String, defaultValue: Boolean): Boolean {
   return defaultValue
 }
 
-fun ReadableMap.getFloatOrDefault(key: String, defaultValue: Float?): Float? {
+fun ReadableMap.getFloatOrDefault(key: String, defaultValue: Float? = null): Float? {
   if (hasKey(key)) {
     return getDouble(key).toFloat()
   }
   return defaultValue
 }
 
-fun ReadableMap.getStringOrDefault(key: String, defaultValue: String?): String? {
+fun ReadableMap.getStringOrDefault(key: String, defaultValue: String? = null): String? {
   if (hasKey(key)) {
     return getString(key)
   }
   return defaultValue
 }
 
-fun ReadableMap.getIntOrDefault(key: String, defaultValue: Int?): Int? {
+fun ReadableMap.getIntOrDefault(key: String, defaultValue: Int? = null): Int? {
   if (hasKey(key)) {
     return getInt(key)
   }
   return defaultValue
 }
 
-fun ReadableMap.getMapOrDefault(key: String, defaultValue: ReadableMap?): ReadableMap? {
+fun ReadableMap.getMapOrDefault(key: String, defaultValue: ReadableMap? = null): ReadableMap? {
   if (hasKey(key)) {
     return getMap(key)
   }
