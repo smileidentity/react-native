@@ -1,6 +1,24 @@
 import type { TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
-import type { EnhancedKycRequest } from './index';
+import type {
+  AuthenticationRequest,
+  AuthenticationResponse,
+  BiometricKycJobStatusResponse,
+  DocumentVerificationJobStatusResponse,
+  EnhancedDocumentVerificationJobStatusResponse,
+  EnhancedKycRequest,
+  EnhancedKycAsyncResponse,
+  EnhancedKycResponse,
+  JobStatusRequest,
+  PrepUploadRequest,
+  PrepUploadResponse,
+  ProductsConfigRequest,
+  ProductsConfigResponse,
+  ServicesResponse,
+  SmartSelfieJobStatusResponse,
+  UploadRequest,
+  ValidDocumentsResponse,
+} from './index';
 
 export interface Spec extends TurboModule {
   /**
@@ -12,15 +30,44 @@ export interface Spec extends TurboModule {
    * Disable crash reporting
    */
   disableCrashReporting: () => Promise<void>;
-  /**
-   *Headless run enhanced kyc async
-   */
-  doEnhancedKycAsync: (
-    enhancedKYCRequest: EnhancedKycRequest
-  ) => Promise<string>;
-  /**
-   *Headless run enhanced kyc async
-   */
-  doEnhancedKyc: (enhancedKYCRequest: EnhancedKycRequest) => Promise<string>;
+
+  authenticate(request: AuthenticationRequest): Promise<AuthenticationResponse>;
+
+  prepUpload(request: PrepUploadRequest): Promise<PrepUploadResponse>;
+
+  upload(url: string, request: UploadRequest): Promise<void>;
+
+  doEnhancedKyc(request: EnhancedKycRequest): Promise<EnhancedKycResponse>;
+
+  doEnhancedKycAsync(
+    request: EnhancedKycRequest
+  ): Promise<EnhancedKycAsyncResponse>;
+
+  getSmartSelfieJobStatus(
+    request: JobStatusRequest
+  ): Promise<SmartSelfieJobStatusResponse>;
+
+  getDocumentVerificationJobStatus(
+    request: JobStatusRequest
+  ): Promise<DocumentVerificationJobStatusResponse>;
+
+  getBiometricKycJobStatus(
+    request: JobStatusRequest
+  ): Promise<BiometricKycJobStatusResponse>;
+
+  getEnhancedDocumentVerificationJobStatus(
+    request: JobStatusRequest
+  ): Promise<EnhancedDocumentVerificationJobStatusResponse>;
+
+  getProductsConfig(
+    request: ProductsConfigRequest
+  ): Promise<ProductsConfigResponse>;
+
+  getValidDocuments(
+    request: ProductsConfigRequest
+  ): Promise<ValidDocumentsResponse>;
+
+  getServices(): Promise<ServicesResponse>;
 }
+
 export default TurboModuleRegistry.getEnforcing<Spec>('RNSmileID');

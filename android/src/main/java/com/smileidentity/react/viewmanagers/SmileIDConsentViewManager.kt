@@ -45,26 +45,32 @@ class SmileIDConsentViewManager(private val reactApplicationContext: ReactApplic
         val params = args?.getMap(0)
         params?.let {
 
-          val partnerName = params.getString("partnerName") ?: return view.emitFailure(IllegalArgumentException("partnerName is required to show Consent Screen"))
-          val partnerPrivacyPolicy = params.getString("partnerPrivacyPolicy") ?: return view.emitFailure(IllegalArgumentException("partnerPrivacyPolicy is required to show Consent Screen"))
-          val logoResName = params.getString("partnerIcon") ?: return view.emitFailure(IllegalArgumentException("partnerIcon is required to show Consent Screen"))
-          val productName = params.getString("productName") ?: return view.emitFailure(IllegalArgumentException("productName is required to show Consent Screen"))
+          val partnerName = params.getString("partnerName")
+            ?: return view.emitFailure(IllegalArgumentException("partnerName is required to show Consent Screen"))
+          val partnerPrivacyPolicy = params.getString("partnerPrivacyPolicy") ?: return view.emitFailure(
+            IllegalArgumentException("partnerPrivacyPolicy is required to show Consent Screen")
+          )
+          val logoResName = params.getString("partnerIcon")
+            ?: return view.emitFailure(IllegalArgumentException("partnerIcon is required to show Consent Screen"))
+          val productName = params.getString("productName")
+            ?: return view.emitFailure(IllegalArgumentException("productName is required to show Consent Screen"))
 
-          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams",null)?.toMap()
-          view.userId = params.getStringOrDefault("userId",null)
-          view.jobId = params.getStringOrDefault("jobId",null)
+          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams")?.toMap()
+          view.userId = params.getStringOrDefault("userId")
+          view.jobId = params.getStringOrDefault("jobId")
           view.partnerName = partnerName
           view.partnerPrivacyPolicy = partnerPrivacyPolicy
           view.logoResName = logoResName
           view.productName = productName
-          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode",false)
-          view.showAttribution = params.getBoolOrDefault("showAttribution",true)
-          view.showInstructions = params.getBoolOrDefault("showInstructions",true)
+          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
+          view.showAttribution = params.getBoolOrDefault("showAttribution", true)
+          view.showInstructions = params.getBoolOrDefault("showInstructions", true)
           view.renderContent()
         }
       }
     }
   }
+
   override fun createViewInstance(p0: ThemedReactContext): SmileIDConsentView {
     return SmileIDConsentView(reactApplicationContext)
   }

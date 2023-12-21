@@ -26,41 +26,6 @@ fun ReadableMap.toMap(): Map<String, String> {
   return map
 }
 
-fun ReadableMap.idInfo(): IdInfo? {
-  val country = getStringOrDefault("country", null) ?: run {
-    Timber.e("idInfo.country is required")
-    return null
-  }
-  return IdInfo(
-    country = country,
-    idType = getStringOrDefault("idType", null),
-    idNumber = getStringOrDefault("idNumber", null),
-    firstName = getStringOrDefault("firstName", null),
-    middleName = getStringOrDefault("middleName", null),
-    lastName = getStringOrDefault("lastName", null),
-    dob = getStringOrDefault("dob", null),
-    bankCode = getStringOrDefault("bankCode", null),
-    entered = getBoolOrDefault("entered", false),
-  )
-}
-
-
-fun ReadableMap.partnerParams(): PartnerParams? {
-  val partnerParams = getMapOrDefault("partnerParams", null) ?: run {
-    Timber.w("partnerParams is required")
-    return null
-  }
-  val jobTypeValue = partnerParams.getIntOrDefault("jobType", null)
-  val jobType = if (jobTypeValue != null) JobType.fromValue(jobTypeValue) else null
-  return PartnerParams(
-    jobType = jobType,
-    userId = partnerParams.getStringOrDefault("userId", null) ?: run { randomUserId() },
-    jobId = partnerParams.getStringOrDefault("jobId", null) ?: run { randomUserId() },
-    extras = partnerParams.getMapOrDefault("extras", null)?.toMap() ?: run { emptyMap() },
-  )
-}
-
-
 fun ReadableMap.getBoolOrDefault(key: String, defaultValue: Boolean): Boolean {
   if (hasKey(key)) {
     return getBoolean(key)
@@ -68,28 +33,28 @@ fun ReadableMap.getBoolOrDefault(key: String, defaultValue: Boolean): Boolean {
   return defaultValue
 }
 
-fun ReadableMap.getFloatOrDefault(key: String, defaultValue: Float?): Float? {
+fun ReadableMap.getFloatOrDefault(key: String, defaultValue: Float? = null): Float? {
   if (hasKey(key)) {
     return getDouble(key).toFloat()
   }
   return defaultValue
 }
 
-fun ReadableMap.getStringOrDefault(key: String, defaultValue: String?): String? {
+fun ReadableMap.getStringOrDefault(key: String, defaultValue: String? = null): String? {
   if (hasKey(key)) {
     return getString(key)
   }
   return defaultValue
 }
 
-fun ReadableMap.getIntOrDefault(key: String, defaultValue: Int?): Int? {
+fun ReadableMap.getIntOrDefault(key: String, defaultValue: Int? = null): Int? {
   if (hasKey(key)) {
     return getInt(key)
   }
   return defaultValue
 }
 
-fun ReadableMap.getMapOrDefault(key: String, defaultValue: ReadableMap?): ReadableMap? {
+fun ReadableMap.getMapOrDefault(key: String, defaultValue: ReadableMap? = null): ReadableMap? {
   if (hasKey(key)) {
     return getMap(key)
   }

@@ -1,6 +1,7 @@
 ## 10.0.0-beta03 (unrleased)
 
 ### Added
+- Added networking wrappers
 
 ### Changed
 

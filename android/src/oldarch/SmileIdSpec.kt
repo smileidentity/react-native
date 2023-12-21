@@ -11,6 +11,28 @@ abstract class SmileIdSpec internal constructor(context: ReactApplicationContext
   abstract fun initialize(useSandBox: Boolean ,promise: Promise)
 
   abstract fun disableCrashReporting(promise: Promise)
-  abstract fun doEnhancedKycAsync(request: ReadableMap, promise: Promise)
+
+  abstract fun authenticate(request: ReadableMap, promise: Promise)
+
+  abstract fun prepUpload(request: ReadableMap, promise: Promise)
+
+  abstract fun upload(url: String, request: ReadableMap, promise: Promise)
+
   abstract fun doEnhancedKyc(request: ReadableMap, promise: Promise)
+
+  abstract fun doEnhancedKycAsync(request: ReadableMap, promise: Promise)
+
+  abstract fun getSmartSelfieJobStatus(request: ReadableMap, promise: Promise)
+
+  abstract fun getDocumentVerificationJobStatus(request: ReadableMap, promise: Promise)
+
+  abstract fun getBiometricKycJobStatus(request: ReadableMap, promise: Promise)
+
+  abstract fun getEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise)
+
+  abstract fun getProductsConfig(request: ReadableMap, promise: Promise)
+
+  abstract fun getValidDocuments(request: ReadableMap, promise: Promise)
+
+  abstract fun getServices(promise: Promise)
 }
