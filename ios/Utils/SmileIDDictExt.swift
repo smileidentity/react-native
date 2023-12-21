@@ -37,7 +37,7 @@ extension NSDictionary {
             partnerParams: partnerParams,
             callbackUrl: callbackUrl,
             partnerId: partnerId,
-            sourceSdk: self["sourceSdk"] as? String ?? "react-native",
+            sourceSdk: self["sourceSdk"] as? String ?? "ios (react-native)",
             timestamp: timestamp,
             signature: signature
         )
@@ -126,7 +126,7 @@ extension NSDictionary {
             bankCode: bankCode,
             callbackUrl: callbackUrl,
             partnerParams: partnerParams,
-            sourceSdk: self["sourceSdk"] as? String ?? "react-native",
+            sourceSdk: self["sourceSdk"] as? String ?? "ios (react-native)",
             timestamp: timestamp,
             signature: signature
         )
