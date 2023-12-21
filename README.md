@@ -27,7 +27,7 @@ Add the dependency to your `package.json`:
 ```json
 {
   "dependencies": {
-    "rn-smile-id": "<latest-version>"
+    "@smile_identity/react-native": "<latest-version>"
   }
 }
 ```

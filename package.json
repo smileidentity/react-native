@@ -1,6 +1,6 @@
 {
   "name": "@smile_identity/react-native",
-  "version": "10.0.0-beta01",
+  "version": "10.0.0-beta02",
   "description": "Official wrapper for the Smile ID <v10 android and iOS SDKs",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -43,13 +43,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://docs.usesmileid.com/",
+  "repository": "https://github.com/smileidentity/react-native",
   "author": "Smile ID <japhet@smileidentity.com> (https://docs.usesmileid.com/)",
   "license": "MIT",
   "bugs": {
     "url": "https://docs.usesmileid.com//issues"
   },
-  "homepage": "https://docs.usesmileid.com/#readme",
+  "homepage": "https://docs.usesmileid.com/",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
