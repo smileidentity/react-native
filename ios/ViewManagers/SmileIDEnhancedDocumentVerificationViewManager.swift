@@ -6,14 +6,14 @@ import SwiftUI
 @objc(SmileIDEnhancedDocumentVerificationViewManager)
 class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        SmileIDEnhancedDocumentVerificationView()
+        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDEnhancedDocumentVerificationView(product: self.product)))
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
         /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle of the run loop, preventing any potential blocking of the UI if the update were to take a noticeable amount of time
          */
         DispatchQueue.main.async {
-            if let component = self.bridge.uiManager.view(forReactTag: node) as? SmileIDEnhancedDocumentVerificationView {
+            if let component = self.bridge.uiManager.view(forReactTag: node) as? BaseSmileIDView {
                 let onResult = params["onResult"] as? RCTDirectEventBlock
                 guard let countryCode = params["countryCode"] as? String else {
                     onResult?(["error": SmileIDError.unknown("countryCode is required to run Enhanced Document Verification")])
@@ -29,19 +29,19 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
                     bypassSelfieCaptureWithFilePath = URL(string: filePath)
                 }
 
-                component.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
-                component.product.userId = params["userId"] as? String
-                component.product.jobId = params["jobId"] as? String
-                component.product.countryCode = countryCode
-                component.product.allowAgentMode = params["allowAgentMode"] as? Bool ?? false
-                component.product.showAttribution = params["showAttribution"] as? Bool ?? true
-                component.product.showInstructions = params["showInstructions"] as? Bool ?? true
-                component.product.documentType = params["documentType"] as? String
-                component.product.idAspectRatio = params["idAspectRatio"] as? Double
-                component.product.bypassSelfieCaptureWithFilePath = bypassSelfieCaptureWithFilePath
-                component.product.captureBothSides = params["captureBothSides"] as? Bool ?? true
-                component.product.allowGalleryUpload = params["allowGalleryUpload"] as? Bool ?? false
-                component.product.onResult = params["onResult"] as? RCTDirectEventBlock
+                self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
+                self.product.userId = params["userId"] as? String
+                self.product.jobId = params["jobId"] as? String
+                self.product.countryCode = countryCode
+                self.product.allowAgentMode = params["allowAgentMode"] as? Bool ?? false
+                self.product.showAttribution = params["showAttribution"] as? Bool ?? true
+                self.product.showInstructions = params["showInstructions"] as? Bool ?? true
+                self.product.documentType = params["documentType"] as? String
+                self.product.idAspectRatio = params["idAspectRatio"] as? Double
+                self.product.bypassSelfieCaptureWithFilePath = bypassSelfieCaptureWithFilePath
+                self.product.captureBothSides = params["captureBothSides"] as? Bool ?? true
+                self.product.allowGalleryUpload = params["allowGalleryUpload"] as? Bool ?? false
+                self.product.onResult = params["onResult"] as? RCTDirectEventBlock
             }
         }
     }
