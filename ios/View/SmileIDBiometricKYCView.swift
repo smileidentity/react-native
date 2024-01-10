@@ -12,6 +12,7 @@ struct SmileIDBiometricKYCView: View {
                     idInfo: idInfo, // already validated in the SmileIDBiometricKYCViewManager
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
+                    allowNewEnroll: product.allowNewEnroll,
                     allowAgentMode: product.allowAgentMode,
                     showAttribution: product.showAttribution,
                     showInstructions: product.showInstructions,

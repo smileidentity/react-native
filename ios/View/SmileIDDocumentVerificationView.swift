@@ -11,6 +11,7 @@ struct SmileIDDocumentVerificationView: View {
                 SmileID.documentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
+                    allowNewEnroll: product.allowNewEnroll,
                     countryCode: countryCode, // already validated in SmileIDDocumentVerificationViewManager
                     documentType: product.documentType,
                     idAspectRatio: product.idAspectRatio,

@@ -11,6 +11,7 @@ struct SmileIDEnhancedDocumentVerificationView: View {
                 SmileID.enhancedDocumentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
+                    allowNewEnroll: product.allowNewEnroll,
                     countryCode: countryCode, // already validated in the view manager
                     documentType: product.documentType,
                     idAspectRatio: product.idAspectRatio,
