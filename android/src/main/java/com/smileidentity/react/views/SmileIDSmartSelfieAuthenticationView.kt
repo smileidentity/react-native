@@ -21,6 +21,7 @@ class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
           userId = userId ?: rememberSaveable { randomUserId() },
           jobId = jobId ?: rememberSaveable { randomJobId() },
           allowAgentMode = allowAgentMode ?: false,
+          allowNewEnroll = allowNewEnroll ?: false,
           showAttribution = showAttribution ?: true,
           showInstructions = showInstructions ?: true,
           extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),

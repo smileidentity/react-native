@@ -24,12 +24,12 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
   const smartSelfieEnrollment: SmartSelfieEnrollmentRequest = {
     ...defaultProduct,
-    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8dsds6',
+    // userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8dsds8',
   };
 
   const smartSelfieAuthentication: SmartSelfieAuthenticationRequest = {
     ...defaultProduct,
-    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8d927',
+    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8dsds7',
   };
 
   const documentVerification: DocumentVerificationRequest = {

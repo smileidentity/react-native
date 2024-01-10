@@ -58,6 +58,7 @@ class SmileIDEnhancedDocumentVerificationViewManager(private val reactApplicatio
           view.allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload", false)
           view.documentType = params.getStringOrDefault("documentType")
           view.idAspectRatio = params.getFloatOrDefault("idAspectRatio", -1f)
+          view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
           view.renderContent()
         }
       }
