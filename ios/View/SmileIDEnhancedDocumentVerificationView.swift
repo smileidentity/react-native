@@ -3,9 +3,10 @@ import Foundation
 import SmileID
 import SwiftUI
 
-class SmileIDEnhancedDocumentVerificationView: BaseSmileIDView {
-    override func getView() -> AnyView {
-        AnyView(NavigationView {
+struct SmileIDEnhancedDocumentVerificationView: View {
+    @ObservedObject var product : SmileIDProductModel
+    var body: some View {
+        NavigationView {
             if let countryCode = product.countryCode {
                 SmileID.enhancedDocumentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
@@ -28,7 +29,7 @@ class SmileIDEnhancedDocumentVerificationView: BaseSmileIDView {
                 // return an error if the required data is missing
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle()))
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

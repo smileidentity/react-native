@@ -3,9 +3,10 @@ import Foundation
 import SmileID
 import SwiftUI
 
-class SmileIDConsentView: BaseSmileIDView {
-    override func getView() -> AnyView {
-        AnyView(NavigationView {
+struct SmileIDConsentView: View {
+    @ObservedObject var product : SmileIDProductModel
+    var body: some View {
+        NavigationView {
             if let partnerIcon = product.partnerIcon,
                let partnerName = product.partnerName,
                let productName = product.productName,
@@ -30,6 +31,6 @@ class SmileIDConsentView: BaseSmileIDView {
                 // return an error if the required data is missing
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle()))
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }

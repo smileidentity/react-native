@@ -3,9 +3,10 @@ import Foundation
 import SmileID
 import SwiftUI
 
-class SmileIDBiometricKYCView: BaseSmileIDView {
-    override func getView() -> AnyView {
-        AnyView(NavigationView {
+struct SmileIDBiometricKYCView: View {
+    @ObservedObject var product : SmileIDProductModel
+    var body: some View{
+        NavigationView {
             if let idInfo = product.idInfo {
                 SmileID.biometricKycScreen(
                     idInfo: idInfo, // already validated in the SmileIDBiometricKYCViewManager
@@ -23,7 +24,7 @@ class SmileIDBiometricKYCView: BaseSmileIDView {
                 // return an error if the required data is missing
                 Text("An error has occured")
             }
-        }.navigationViewStyle(StackNavigationViewStyle()))
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
