@@ -5,8 +5,10 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
-import com.smileidentity.react.utils.*
-import com.smileidentity.react.*
+import com.smileidentity.react.toIdInfo
+import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getStringOrDefault
+import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDBiometricKYCView
 
 
@@ -53,6 +55,7 @@ class SmileIDBiometricKYCViewManager(private val reactApplicationContext: ReactA
           view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
           view.showAttribution = params.getBoolOrDefault("showAttribution", true)
           view.showInstructions = params.getBoolOrDefault("showInstructions", true)
+          view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
           view.renderContent()
         }
       }

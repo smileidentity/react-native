@@ -3,6 +3,7 @@ import React
 import SwiftUI
 
 class SmileIDBaseViewManager: RCTViewManager, SmileIDUIViewDelegate {
+    var product = SmileIDProductModel()
     func getView() -> UIView {
         fatalError("Must be implemented by subclass")
     }

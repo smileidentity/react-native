@@ -1,6 +1,10 @@
 package com.smileidentity.react.views
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.SmartSelfieEnrollment
@@ -15,31 +19,35 @@ class SmileIDSmartSelfieEnrollmentView(context: ReactApplicationContext) : Smile
 
   override fun renderContent() {
     composeView.apply {
+      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
       setContent {
-        SmileID.SmartSelfieEnrollment(
-          userId = userId ?: rememberSaveable { randomUserId() },
-          jobId = jobId ?: rememberSaveable { randomJobId() },
-          allowAgentMode = allowAgentMode ?: false,
-          showAttribution = showAttribution ?: true,
-          showInstructions = showInstructions ?: true,
-          extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
-        ) { result ->
-          when (result) {
-            is SmileIDResult.Success -> {
-              val json = try {
-                SmileID.moshi
-                  .adapter(SmartSelfieResult::class.java)
-                  .toJson(result.data)
-              } catch (e: Exception) {
-                Timber.w(e)
-                "null"
+        CompositionLocalProvider(LocalViewModelStoreOwner provides (context as ViewModelStoreOwner)) {
+          SmileID.SmartSelfieEnrollment(
+            userId = userId ?: rememberSaveable { randomUserId() },
+            jobId = jobId ?: rememberSaveable { randomJobId() },
+            allowAgentMode = allowAgentMode ?: false,
+            allowNewEnroll = allowNewEnroll ?: false,
+            showAttribution = showAttribution ?: true,
+            showInstructions = showInstructions ?: true,
+            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
+          ) { result ->
+            when (result) {
+              is SmileIDResult.Success -> {
+                val json = try {
+                  SmileID.moshi
+                    .adapter(SmartSelfieResult::class.java)
+                    .toJson(result.data)
+                } catch (e: Exception) {
+                  Timber.w(e)
+                  "null"
+                }
+                emitSuccess(json)
               }
-              emitSuccess(json)
-            }
 
-            is SmileIDResult.Error -> {
-              result.throwable.printStackTrace()
-              emitFailure(result.throwable)
+              is SmileIDResult.Error -> {
+                result.throwable.printStackTrace()
+                emitFailure(result.throwable)
+              }
             }
           }
         }

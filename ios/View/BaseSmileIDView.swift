@@ -3,10 +3,10 @@ import SwiftUI
 
 class BaseSmileIDView: UIView {
     typealias ContentView = AnyView
+    var contentView : AnyView?
 
-    var product = SmileIDProductModel()
-
-    override init(frame: CGRect) {
+    init(frame: CGRect,contentView:AnyView) {
+        self.contentView = contentView
         super.init(frame: frame)
         commonInit()
     }
@@ -19,7 +19,7 @@ class BaseSmileIDView: UIView {
     private func commonInit() {
         // Perform initialization tasks here
         // For example, setup subviews, add constraints, configure appearance
-        let hostingController = UIHostingController(rootView: getView())
+        let hostingController = UIHostingController(rootView:contentView)
         let hostingView = hostingController.view!
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hostingView)
@@ -29,7 +29,7 @@ class BaseSmileIDView: UIView {
         hostingView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
 
-    func getView() -> AnyView {
+    func getView(product:SmileIDProductModel) -> AnyView {
         fatalError("Must be implemented by subclass")
     }
 }

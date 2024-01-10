@@ -3,19 +3,21 @@ import Foundation
 import SmileID
 import SwiftUI
 
-class SmileIDSmartSelfieAuthView: BaseSmileIDView {
-    override func getView() -> AnyView {
-        AnyView(NavigationView {
+struct SmileIDSmartSelfieAuthView: View {
+    @ObservedObject var product : SmileIDProductModel
+    var body: some View {
+        NavigationView {
             SmileID.smartSelfieAuthenticationScreen(
                 userId: product.userId ?? generateUserId(),
                 jobId: product.jobId ?? generateJobId(),
+                allowNewEnroll: product.allowNewEnroll,
                 allowAgentMode: product.allowAgentMode,
                 showAttribution: product.showAttribution,
                 showInstructions: product.showInstructions,
                 extraPartnerParams: product.extraPartnerParams as [String: String],
                 delegate: self
             )
-        }.navigationViewStyle(StackNavigationViewStyle()))
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

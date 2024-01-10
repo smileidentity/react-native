@@ -1,6 +1,10 @@
 package com.smileidentity.react.views
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.EnhancedDocumentVerificationScreen
@@ -25,35 +29,39 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
       return;
     }
     composeView.apply {
+      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
       setContent {
-        SmileID.EnhancedDocumentVerificationScreen(
-          userId = userId ?: rememberSaveable { randomUserId() },
-          jobId = jobId ?: rememberSaveable { randomJobId() },
-          countryCode = countryCode!!,
-          documentType = documentType,
-          idAspectRatio = idAspectRatio,
-          showAttribution = showAttribution ?: true,
-          showInstructions = showInstructions ?: true,
-          allowGalleryUpload = allowGalleryUpload,
-          captureBothSides = captureBothSides,
-          extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
-        ) { result ->
-          when (result) {
-            is SmileIDResult.Success -> {
-              val json = try {
-                SmileID.moshi
-                  .adapter(EnhancedDocumentVerificationResult::class.java)
-                  .toJson(result.data)
-              } catch (e: Exception) {
-                Timber.w(e)
-                "null"
+        CompositionLocalProvider(LocalViewModelStoreOwner provides (context as ViewModelStoreOwner)) {
+          SmileID.EnhancedDocumentVerificationScreen(
+            userId = userId ?: rememberSaveable { randomUserId() },
+            jobId = jobId ?: rememberSaveable { randomJobId() },
+            countryCode = countryCode!!,
+            documentType = documentType,
+            idAspectRatio = idAspectRatio,
+            showAttribution = showAttribution ?: true,
+            showInstructions = showInstructions ?: true,
+            allowNewEnroll = allowNewEnroll ?: false,
+            allowGalleryUpload = allowGalleryUpload,
+            captureBothSides = captureBothSides,
+            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
+          ) { result ->
+            when (result) {
+              is SmileIDResult.Success -> {
+                val json = try {
+                  SmileID.moshi
+                    .adapter(EnhancedDocumentVerificationResult::class.java)
+                    .toJson(result.data)
+                } catch (e: Exception) {
+                  Timber.w(e)
+                  "null"
+                }
+                emitSuccess(json)
               }
-              emitSuccess(json)
-            }
 
-            is SmileIDResult.Error -> {
-              result.throwable.printStackTrace()
-              emitFailure(result.throwable)
+              is SmileIDResult.Error -> {
+                result.throwable.printStackTrace()
+                emitFailure(result.throwable)
+              }
             }
           }
         }

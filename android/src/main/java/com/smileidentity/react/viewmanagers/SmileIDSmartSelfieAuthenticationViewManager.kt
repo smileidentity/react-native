@@ -50,6 +50,7 @@ class SmileIDSmartSelfieAuthenticationViewManager(private val reactApplicationCo
           view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
           view.showAttribution = params.getBoolOrDefault("showAttribution", true)
           view.showInstructions = params.getBoolOrDefault("showInstructions", true)
+          view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
           view.renderContent()
         }
       }
