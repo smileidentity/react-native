@@ -40,7 +40,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             idAspectRatio = idAspectRatio,
             showAttribution = showAttribution ?: true,
             showInstructions = showInstructions ?: true,
-            allowNewEnroll = allowNewEnroll ?: true,
+            allowNewEnroll = allowNewEnroll ?: false,
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
             extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
