@@ -3,8 +3,9 @@ import Foundation
 import SmileID
 import SwiftUI
 
-class SmileIDDocumentVerificationView: BaseSmileIDView {
-    override func getView() -> AnyView {
+struct SmileIDDocumentVerificationView: View {
+    @ObservedObject var product : SmileIDProductModel
+    var body : some View {
         AnyView(NavigationView {
             if let countryCode = product.countryCode {
                 SmileID.documentVerificationScreen(
@@ -46,7 +47,7 @@ extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-
+    
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }
