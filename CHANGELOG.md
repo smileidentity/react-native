@@ -1,13 +1,23 @@
-## 10.0.0-beta03 (unrleased)
+## 10.0.0-beta04 (unrleased)
 
 ### Added
-- Added networking wrappers
 
 ### Changed
 
 ### Fixed
 
 ### Removed
+## 10.0.0-beta03 (unrleased)
+
+### Added
+- Added networking wrappers
+- Allow new enroll flag
+
+### Changed
+
+### Fixed
+- Android docv and enhanced docv crashes
+- IOS docv and enhanced docv crashes
 
 ## 10.0.0-beta02
 
