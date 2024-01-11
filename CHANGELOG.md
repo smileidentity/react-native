@@ -7,7 +7,7 @@
 ### Fixed
 
 ### Removed
-## 10.0.0-beta03 (unrleased)
+## 10.0.0-beta03
 
 ### Added
 - Added networking wrappers

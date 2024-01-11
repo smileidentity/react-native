@@ -18,7 +18,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   }, []);
 
   const defaultProduct = {
-    allowAgentMode: false,
+    allowAgentMode: true,
     showInstructions: true,
   };
 
@@ -36,7 +36,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     ...defaultProduct,
     countryCode: 'ZW',
     documentType: 'PASSPORT',
-    captureBothSides: false,
+    captureBothSides: true,
     allowGalleryUpload: false,
   };
 

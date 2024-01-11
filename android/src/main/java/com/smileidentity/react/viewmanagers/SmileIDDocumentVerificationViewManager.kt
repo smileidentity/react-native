@@ -58,7 +58,7 @@ class SmileIDDocumentVerificationViewManager(private val reactApplicationContext
           view.allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload", false)
           view.bypassSelfieCaptureWithFilePath = params.getStringOrDefault("bypassSelfieCaptureWithFilePath", null)
           view.documentType = params.getStringOrDefault("documentType", null)
-          view.idAspectRatio = params.getFloatOrDefault("idAspectRatio", -1f)
+          view.idAspectRatio = params.getFloatOrDefault("idAspectRatio", null)
           view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
           view.renderContent()
         }

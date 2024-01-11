@@ -2,7 +2,6 @@ package com.smileidentity.react.views
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
@@ -34,7 +33,6 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
       bypassSelfieCaptureWithFile = File(it)
     }
     composeView.apply {
-      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
       setContent {
         CompositionLocalProvider(LocalViewModelStoreOwner provides (context as ViewModelStoreOwner)) {
           SmileID.DocumentVerification(

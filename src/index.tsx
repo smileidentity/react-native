@@ -4,6 +4,7 @@ import SmileIDSmartSelfieAuthenticationView from './SmileIDSmartSelfieAuthentica
 import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
 import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
 import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
+import SmileIDConsentView from './SmileIDConsentView';
 import {
   DocumentVerificationRequest,
   SmartSelfieEnrollmentRequest,
@@ -87,6 +88,7 @@ export {
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
+  SmileIDConsentView,
   //types
   EnhancedKycRequest,
   DocumentVerificationRequest,
