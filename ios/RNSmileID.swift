@@ -47,8 +47,18 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.upload(zip: toZip(uploadRequest: uploadRequest), to: url)
-            .sink(receiveCompletion: { completion in handleCompletion(completion, reject: reject) },
+        guard let zipUrl = try? LocalStorage.toZip(uploadRequest: uploadRequest) else {
+            reject("Error", "Unable to zip file", nil)
+            return
+        }
+
+        guard let zipData = try? Data(contentsOf: zipUrl) else {
+            reject("Error", "Unable to read zip file", nil)
+            return
+        }
+
+        SmileID.api.upload(zip: zipData, to: url)
+            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
                   receiveValue: { _ in resolve(nil) }) // Assuming no response to return
             .store(in: &cancellables)
     }
