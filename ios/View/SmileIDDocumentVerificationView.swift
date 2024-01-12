@@ -3,13 +3,15 @@ import Foundation
 import SmileID
 import SwiftUI
 
-class SmileIDDocumentVerificationView: BaseSmileIDView {
-    override func getView() -> AnyView {
+struct SmileIDDocumentVerificationView: View {
+    @ObservedObject var product : SmileIDProductModel
+    var body : some View {
         AnyView(NavigationView {
             if let countryCode = product.countryCode {
                 SmileID.documentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
+                    allowNewEnroll: product.allowNewEnroll,
                     countryCode: countryCode, // already validated in SmileIDDocumentVerificationViewManager
                     documentType: product.documentType,
                     idAspectRatio: product.idAspectRatio,
@@ -46,7 +48,7 @@ extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-
+    
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }

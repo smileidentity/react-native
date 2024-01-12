@@ -38,6 +38,10 @@ type SmartSelfieRequest = SmileIDViewProps & {
    * Whether to show the Smile ID attribution on the Instructions screen.
    */
   showAttribution?: boolean;
+  /**
+   * Whether to allow the user to reentoll
+   */
+  allowNewEnroll?: boolean;
 };
 
 export type SmartSelfieEnrollmentRequest = SmartSelfieRequest;

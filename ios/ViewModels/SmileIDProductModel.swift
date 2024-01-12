@@ -15,6 +15,7 @@ class SmileIDProductModel: ObservableObject {
     @Published var productName: String?
     @Published var partnerPrivacyPolicy: String?
     @Published var allowAgentMode: Bool = false
+    @Published var allowNewEnroll: Bool = false
     @Published var showAttribution: Bool = true
     @Published var showInstructions: Bool = true
     @Published var extraPartnerParams: [String: String] = [:]

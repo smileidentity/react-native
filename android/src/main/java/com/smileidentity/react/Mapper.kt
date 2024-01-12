@@ -1,9 +1,23 @@
 package com.smileidentity.react
 
 import com.facebook.react.bridge.ReadableMap
-import com.facebook.react.bridge.ReadableType
-import com.smileidentity.models.*
-import com.smileidentity.react.utils.*
+import com.smileidentity.models.AuthenticationRequest
+import com.smileidentity.models.ConsentInfo
+import com.smileidentity.models.EnhancedKycRequest
+import com.smileidentity.models.IdInfo
+import com.smileidentity.models.ImageType
+import com.smileidentity.models.JobStatusRequest
+import com.smileidentity.models.JobType
+import com.smileidentity.models.PartnerParams
+import com.smileidentity.models.PrepUploadRequest
+import com.smileidentity.models.ProductsConfigRequest
+import com.smileidentity.models.UploadImageInfo
+import com.smileidentity.models.UploadRequest
+import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getIntOrDefault
+import com.smileidentity.react.utils.getMapOrDefault
+import com.smileidentity.react.utils.getStringOrDefault
+import com.smileidentity.react.utils.toMap
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import java.io.File
@@ -45,6 +59,8 @@ fun ReadableMap.toPrepUploadRequest(): PrepUploadRequest {
     timestamp = getStringOrDefault("timestamp") ?: run {
       throw IllegalArgumentException("timestamp is required")
     },
+    //TODO: Remove this and use strings once the backend is updated
+    allowNewEnroll = getBoolOrDefault("allowNewEnroll", false).toString(),
     signature = getStringOrDefault("signature") ?: run {
       throw IllegalArgumentException("signature is required")
     },
