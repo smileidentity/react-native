@@ -1,6 +1,7 @@
 ## 10.0.0-beta04 (unrleased)
 
 ### Added
+- Networking for iOS
 
 ### Changed
 
