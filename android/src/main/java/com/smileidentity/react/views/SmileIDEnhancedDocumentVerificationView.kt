@@ -2,7 +2,6 @@ package com.smileidentity.react.views
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
@@ -27,9 +26,11 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
       emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
       return;
     }
+
     composeView.apply {
+      val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
-        CompositionLocalProvider(LocalViewModelStoreOwner provides (context as ViewModelStoreOwner)) {
+        CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
           SmileID.EnhancedDocumentVerificationScreen(
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
@@ -37,6 +38,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             documentType = documentType,
             idAspectRatio = idAspectRatio,
             showAttribution = showAttribution ?: true,
+            allowAgentMode = allowAgentMode ?: false,
             showInstructions = showInstructions ?: true,
             allowNewEnroll = allowNewEnroll ?: false,
             allowGalleryUpload = allowGalleryUpload,
