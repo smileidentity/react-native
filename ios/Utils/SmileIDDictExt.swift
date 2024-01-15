@@ -7,13 +7,13 @@ extension NSDictionary {
             return nil
         }
 
-        let idType = self["id_type"] as? String
-        let idNumber = self["id_number"] as? String
-        let firstName = self["first_name"] as? String
-        let middleName = self["middle_name"] as? String
-        let lastName = self["last_name"] as? String
+        let idType = self["idType"] as? String
+        let idNumber = self["idNumber"] as? String
+        let firstName = self["firstName"] as? String
+        let middleName = self["middleName"] as? String
+        let lastName = self["lastName"] as? String
         let dob = self["dob"] as? String
-        let bankCode = self["bank_code"] as? String
+        let bankCode = self["bankCode"] as? String
         let entered = self["entered"] as? Bool
 
         return IdInfo(
