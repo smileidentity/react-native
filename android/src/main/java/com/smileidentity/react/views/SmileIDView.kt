@@ -40,16 +40,20 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     manuallyLayoutChildren()
   }
 
-  private fun setUpViews(){
-    if(::composeView.isInitialized && contains(composeView)){
+  private fun setUpViews() {
+    if (::composeView.isInitialized && contains(composeView)) {
       removeView(composeView)
     }
-    composeView =  ComposeView((context as ReactContext).currentActivity!!)
-    composeView.layoutParams = ViewGroup.LayoutParams(
-      ViewGroup.LayoutParams.MATCH_PARENT,
-      ViewGroup.LayoutParams.MATCH_PARENT
-    )
-    addView(composeView)
+    (context as ReactContext).currentActivity?.let {
+      it.runOnUiThread {
+        composeView = ComposeView(it)
+        composeView.layoutParams = ViewGroup.LayoutParams(
+          ViewGroup.LayoutParams.MATCH_PARENT,
+          ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        addView(composeView)
+      }
+    }
   }
 
   abstract fun renderContent()
