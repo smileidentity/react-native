@@ -11,7 +11,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1EC535D52B512AD500A0E7DC /* smile_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 1EC535D42B512AD500A0E7DC /* smile_config.json */; };
 		4412F44500CA8885BDF7BEC1 /* libPods-SmileIdExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33D776C44FDF66A8FD920D30 /* libPods-SmileIdExample.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		F42C75247660B5AF48BEB438 /* libPods-SmileIdExample-SmileIdExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 981BD1F364E1D2DA5F20ECB6 /* libPods-SmileIdExample-SmileIdExampleTests.a */; };
@@ -249,7 +248,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				1EC535D52B512AD500A0E7DC /* smile_config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
