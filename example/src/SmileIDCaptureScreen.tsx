@@ -12,9 +12,9 @@ import {
   DocumentVerificationRequest,
   ConsentRequest,
   BiometricKYCRequest,
+  SmileIDConsentView,
 } from '@smile_identity/react-native';
 import { useState } from 'react';
-import SmileIDConsentView from '../../src/SmileIDConsentView';
 import { ResultView } from './ResultView';
 
 interface SmileIDCaptureScreenProps {

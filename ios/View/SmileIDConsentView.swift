@@ -5,24 +5,30 @@ import SwiftUI
 
 struct SmileIDConsentView: View {
     @ObservedObject var product : SmileIDProductModel
+    var onResult: RCTBubblingEventBlock?
     var body: some View {
         NavigationView {
             if let partnerIcon = product.partnerIcon,
                let partnerName = product.partnerName,
                let productName = product.productName,
-               let partnerPrivacyPolicy = product.partnerPrivacyPolicy
+               let partnerPrivacyPolicy = product.partnerPrivacyPolicy,
+               let uiImage = UIImage(named: partnerIcon, in: Bundle.main, compatibleWith: nil)
             {
                 SmileID.consentScreen(
-                    partnerIcon: UIImage(named: partnerIcon)!,
+                    partnerIcon: uiImage,
                     partnerName: partnerName,
                     productName: productName,
                     partnerPrivacyPolicy: URL(string: partnerPrivacyPolicy)!,
                     showAttribution: true,
                     onConsentGranted: {
-                        self.product.onResult?(["result": true])
+                        DispatchQueue.main.async {
+                            self.product.onResult?(["result": true])
+                        }
                     },
                     onConsentDenied: {
-                        self.product.onResult?(["error": SmileIDError.consentDenied])
+                        DispatchQueue.main.async {
+                            self.product.onResult?(["error": true])
+                        }
                     }
                 )
             } else {

@@ -6,7 +6,7 @@ import SwiftUI
 @objc(SmileIDBiometricKYCViewManager)
 class SmileIDBiometricKYCViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDBiometricKYCView(product: self.product)))
+        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDBiometricKYCView(product: self.product)),product:self.product)
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {

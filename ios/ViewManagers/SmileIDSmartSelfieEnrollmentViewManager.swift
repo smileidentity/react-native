@@ -5,7 +5,7 @@ import SwiftUI
 @objc(SmileIDSmartSelfieEnrollmentViewManager)
 class SmileIDSmartSelfieEnrollmentViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDSmartSelfieEnrollmentView(product: self.product)))
+        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDSmartSelfieEnrollmentView(product: self.product)),product:self.product)
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {
@@ -20,7 +20,7 @@ class SmileIDSmartSelfieEnrollmentViewManager: SmileIDBaseViewManager {
                 self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true
                 self.product.showInstructions = params["showInstructions"] as? Bool ?? true
-                self.product.onResult = params["onResult"] as? RCTDirectEventBlock
+                self.product.onResult = params["onResult"] as? RCTBubblingEventBlock
             }
         }
     }

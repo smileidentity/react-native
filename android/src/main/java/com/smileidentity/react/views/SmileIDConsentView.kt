@@ -2,9 +2,7 @@ package com.smileidentity.react.views
 
 import android.webkit.URLUtil
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
@@ -43,9 +41,9 @@ class SmileIDConsentView(context: ReactApplicationContext) : SmileIDView(context
       (context as? ReactApplicationContext)?.currentActivity?.packageName
     )
     composeView.apply {
-      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+      val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
-        CompositionLocalProvider(LocalViewModelStoreOwner provides (context as ViewModelStoreOwner)) {
+        CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
           SmileID.ConsentScreen(
             partnerIcon = painterResource(
               id = partnerIcon

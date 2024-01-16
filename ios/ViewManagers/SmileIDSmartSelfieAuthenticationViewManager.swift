@@ -5,7 +5,7 @@ import SwiftUI
 @objc(SmileIDSmartSelfieAuthenticationViewManager)
 class SmileIDSmartSelfieAuthenticationViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDSmartSelfieAuthView(product: self.product)))
+        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDSmartSelfieAuthView(product: self.product)),product:self.product)
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {

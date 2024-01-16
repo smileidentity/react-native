@@ -6,7 +6,7 @@ import SwiftUI
 @objc(SmileIDDocumentVerificationViewManager)
 class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDDocumentVerificationView(product: self.product)))
+        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDDocumentVerificationView(product: self.product)),product:self.product)
     }
 
     @objc func setParams(_ node: NSNumber, params: NSDictionary) {

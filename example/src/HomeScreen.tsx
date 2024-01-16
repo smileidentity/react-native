@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
 import type {
   BiometricKYCRequest,
   ConsentRequest,
@@ -18,7 +18,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   }, []);
 
   const defaultProduct = {
-    allowAgentMode: false,
+    allowAgentMode: true,
     showInstructions: true,
   };
 
@@ -36,7 +36,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     ...defaultProduct,
     countryCode: 'ZW',
     documentType: 'PASSPORT',
-    captureBothSides: false,
+    captureBothSides: true,
     allowGalleryUpload: false,
   };
 
@@ -48,14 +48,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       idNumber: '00000000000',
       entered: true,
     },
-    partnerIcon: 'si_logo_with_text',
+    partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
     partnerName: 'Smile React',
     productName: 'NIN_SLIP',
     partnerPrivacyPolicy: 'https://docs.usesmileid.com',
   };
 
   const consentScreen: ConsentRequest = {
-    partnerIcon: 'si_logo_with_text',
+    partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
     partnerName: 'Smile React',
     productName: 'BVN',
     partnerPrivacyPolicy: 'https://docs.usesmileid.com',

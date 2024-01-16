@@ -1,4 +1,4 @@
-## 10.0.0-beta04 (unrleased)
+## 10.0.1
 
 ### Added
 - Networking for iOS
@@ -8,7 +8,20 @@
 ### Fixed
 
 ### Removed
-## 10.0.0-beta03 (unrleased)
+## 10.0.0
+
+### Added
+- Remove beta
+### Changed
+
+### Fixed
+- IOS:Biometric KYC allow agent mode
+- IOS:Document capture captureBothSides fixes
+- IOS:Biometric KYC invalid payload fixes
+- Android: Document capture crash fixes
+- IOS & Android: Consent screen import fixes
+### Removed
+## 10.0.0-beta03
 
 ### Added
 - Added networking wrappers

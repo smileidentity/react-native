@@ -4,6 +4,7 @@ import android.view.Choreographer
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.compose.ui.platform.ComposeView
+import androidx.core.view.contains
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContext
@@ -13,7 +14,7 @@ import com.smileidentity.models.JobType
 import timber.log.Timber
 
 abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
-  val composeView: ComposeView = ComposeView(context.currentActivity!!)
+  lateinit var composeView: ComposeView
   var userId: String? = null
   var jobId: String? = null
   private var jobType: JobType? = null
@@ -35,19 +36,30 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     orientation = VERTICAL
     render()
 
-    composeView.layoutParams = ViewGroup.LayoutParams(
-      ViewGroup.LayoutParams.MATCH_PARENT,
-      ViewGroup.LayoutParams.MATCH_PARENT
-    )
-    addView(composeView)
-
     setupLayoutHack()
     manuallyLayoutChildren()
+  }
+
+  private fun setUpViews() {
+    if (::composeView.isInitialized && contains(composeView)) {
+      removeView(composeView)
+    }
+    (context as ReactContext).currentActivity?.let {
+      it.runOnUiThread {
+        composeView = ComposeView(it)
+        composeView.layoutParams = ViewGroup.LayoutParams(
+          ViewGroup.LayoutParams.MATCH_PARENT,
+          ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        addView(composeView)
+      }
+    }
   }
 
   abstract fun renderContent()
 
   open fun render() {
+    setUpViews()
     renderContent()
   }
 

@@ -2,8 +2,6 @@ package com.smileidentity.react.views
 
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
@@ -19,9 +17,9 @@ class SmileIDSmartSelfieEnrollmentView(context: ReactApplicationContext) : Smile
 
   override fun renderContent() {
     composeView.apply {
-      setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+      val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
-        CompositionLocalProvider(LocalViewModelStoreOwner provides (context as ViewModelStoreOwner)) {
+        CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
           SmileID.SmartSelfieEnrollment(
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },

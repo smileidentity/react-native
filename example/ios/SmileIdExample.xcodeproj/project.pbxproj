@@ -37,6 +37,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmileIdExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SmileIdExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmileIdExample/main.m; sourceTree = "<group>"; };
+		1EC535D42B512AD500A0E7DC /* smile_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = smile_config.json; path = ../android/app/src/main/assets/smile_config.json; sourceTree = "<group>"; };
 		1EE4023C2B066384003A8717 /* smile_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = smile_config.json; path = SmileIdExample/smile_config.json; sourceTree = "<group>"; };
 		33D776C44FDF66A8FD920D30 /* libPods-SmileIdExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SmileIdExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		648FAF294D37E1B7AAC22BA8 /* Pods-SmileIdExample-SmileIdExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmileIdExample-SmileIdExampleTests.release.xcconfig"; path = "Target Support Files/Pods-SmileIdExample-SmileIdExampleTests/Pods-SmileIdExample-SmileIdExampleTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				1EE4023C2B066384003A8717 /* smile_config.json */,
+				1EC535D42B512AD500A0E7DC /* smile_config.json */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
