@@ -1,6 +1,7 @@
 ## 10.0.1
 
 ### Added
+- Networking for iOS
 
 ### Changed
 

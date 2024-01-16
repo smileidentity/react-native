@@ -46,13 +46,6 @@ fun ReadableMap.toPartnerParams(): PartnerParams {
   )
 }
 
-fun ReadableMap.toConsentInfo(): ConsentInfo {
-  return ConsentInfo(
-    canAccess = getBoolOrDefault("canAccess", false),
-    consentRequired = getBoolOrDefault("consentRequired", true)
-  )
-}
-
 fun ReadableMap.toPrepUploadRequest(): PrepUploadRequest {
   return PrepUploadRequest(
     partnerParams = getMapOrDefault("partnerParams")?.toPartnerParams() ?: run {
@@ -62,7 +55,7 @@ fun ReadableMap.toPrepUploadRequest(): PrepUploadRequest {
     partnerId = getStringOrDefault("partnerId") ?: run {
       throw IllegalArgumentException("partnerId is required")
     },
-    sourceSdk = getStringOrDefault("sourceSdk") ?: "react-native",
+    sourceSdk = getStringOrDefault("sourceSdk") ?: "android (react-native)",
     timestamp = getStringOrDefault("timestamp") ?: run {
       throw IllegalArgumentException("timestamp is required")
     },
@@ -132,7 +125,7 @@ fun ReadableMap.toEnhancedKycRequest(): EnhancedKycRequest {
     partnerParams = getMapOrDefault("partnerParams")?.toPartnerParams() ?: run {
       throw IllegalArgumentException("partnerParams is required")
     },
-    sourceSdk = getStringOrDefault("sourceSdk") ?: "react-native",
+    sourceSdk = getStringOrDefault("sourceSdk") ?: "android (react-native)",
     timestamp = getStringOrDefault("timestamp") ?: run {
       throw IllegalArgumentException("timestamp is required")
     },

@@ -375,9 +375,13 @@ PODS:
   - React-jsinspector (0.72.4)
   - React-logger (0.72.4):
     - glog
-  - react-native-safe-area-context (4.7.2):
+  - react-native-safe-area-context (4.8.2):
     - React-Core
+<<<<<<< HEAD
   - react-native-smile-id (10.0.0-beta04):
+=======
+  - react-native-smile-id (10.0.0-beta03):
+>>>>>>> main
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - SmileID (= 10.0.6)
@@ -738,4 +742,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5a17279f8de4db208dc3eb12815dafa31df01527
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.14.3
