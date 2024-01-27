@@ -3,7 +3,9 @@ updates:
 - package-ecosystem: github-actions
   directory: /
   schedule:
-    cron: 0 16 19 * *
+    interval: monthly
+    day: tuesday
+    time: '15:00'
   groups:
     github-actions:
       patterns:
