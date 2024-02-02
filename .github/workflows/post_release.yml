@@ -1,0 +1,34 @@
+name: Post-Release Actions
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  update-docs-release-notes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout react-native
+        uses: actions/checkout@v4
+        with:
+          path: react-native
+      - name: Checkout docs
+        uses: actions/checkout@v4
+        with:
+          repository: smileidentity/docs
+          path: docs
+          token: ${{ secrets.GH_PAT }}
+      - name: Copy CHANGELOG.md to Release Notes
+        run: cp react-native/CHANGELOG.md docs/integration-options/mobile/react-native-v10/release-notes.md
+      - name: Create docs PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_PAT }}
+          path: docs
+          commit-message: React Native ${{ github.event.release.tag_name }} Release Notes
+          title: React Native ${{ github.event.release.tag_name }} Release Notes
+          body: Automated PR to update the release notes
+          branch: react-native-release-notes-${{ github.event.release.tag_name }}
+          labels: "release-notes"
+          team-reviewers: "smileidentity/mobile"
