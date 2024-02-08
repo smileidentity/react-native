@@ -3,6 +3,7 @@
 ## 10.0.1
 
 * Networking for iOS
+* Update java version to 17
 
 ## 10.0.0
 
