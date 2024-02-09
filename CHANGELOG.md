@@ -5,6 +5,7 @@
 * Bump Android to 10.0.4 (https://github.com/smileidentity/android/releases/tag/v10.0.4)
 * Bump iOS to 10.0.8 (https://github.com/smileidentity/ios/releases/tag/v10.0.8)
 * Networking for iOS
+* Update java version to 17
 
 ## 10.0.0
 
