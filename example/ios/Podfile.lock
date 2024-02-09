@@ -380,7 +380,7 @@ PODS:
   - react-native-smile-id (10.0.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - SmileID (= 10.0.6)
+    - SmileID (= 10.0.8)
   - React-NativeModulesApple (0.72.4):
     - hermes-engine
     - React-callinvoker
@@ -494,7 +494,7 @@ PODS:
   - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
-  - SmileID (10.0.6):
+  - SmileID (10.0.8):
     - Zip (~> 2.1.0)
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
@@ -711,7 +711,7 @@ SPEC CHECKSUMS:
   React-jsinspector: aaed4cf551c4a1c98092436518c2d267b13a673f
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
-  react-native-smile-id: 0fcec0e5d9628c81834efe859f32a8c01e958d0a
+  react-native-smile-id: 0b362b01226fe9f46e319d7793eee039db489269
   React-NativeModulesApple: edb5ace14f73f4969df6e7b1f3e41bef0012740f
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
   React-RCTActionSheet: 02904b932b50e680f4e26e7a686b33ebf7ef3c00
@@ -730,7 +730,7 @@ SPEC CHECKSUMS:
   React-utils: b79f2411931f9d3ea5781404dcbb2fa8a837e13a
   ReactCommon: 4b2bdcb50a3543e1c2b2849ad44533686610826d
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
-  SmileID: 2d013156c65093640ccbce84af8218d47c11ac61
+  SmileID: 24d87fc7e49a13afc486bf9f30fd75862e7aa595
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
@@ -738,4 +738,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5a17279f8de4db208dc3eb12815dafa31df01527
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.15.2

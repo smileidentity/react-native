@@ -25,14 +25,22 @@ extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
     func didSucceed(
         selfieImage _: URL,
         livenessImages _: [URL],
-        jobStatusResponse: SmartSelfieJobStatusResponse
+        jobStatusResponse: SmartSelfieJobStatusResponse?
     ) {
         let encoder = JSONEncoder()
-        guard let jsonData = try? encoder.encode(jobStatusResponse) else {
-            product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error")])
-            return
+        let jsonData: String
+        if let jobStatusResponse {
+            guard let encodedJsonData = try? encoder.encode(jobStatusResponse) else {
+                product.onResult?(
+                    ["error": SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error")]
+                )
+                return
+            }
+            jsonData = String(data: encodedJsonData, encoding: .utf8)!
+        } else {
+            jsonData = "null"
         }
-        product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
+        product.onResult?(["result": jsonData])
     }
 
     func didError(error: Error) {
