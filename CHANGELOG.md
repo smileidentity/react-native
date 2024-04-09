@@ -1,5 +1,11 @@
 # Release Notes
 
+## 10.0.2
+
+* Bump iOS to 10.0.9 (https://github.com/smileidentity/ios/releases/tag/v10.0.9)
+* Update java version to 17 on all instances
+* Update kotlin to version 1.9.23
+
 ## 10.0.1
 
 * Bump Android to 10.0.4 (https://github.com/smileidentity/android/releases/tag/v10.0.4)
