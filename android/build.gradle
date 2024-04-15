@@ -4,6 +4,7 @@ buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
   def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : project.properties["SmileId_androidVersion"]
+  project.logger.debug('Japhet Ndhlovu - SmileId - build.gradle - kotlin_version: ' + kotlin_version)
 
   repositories {
     google()
@@ -12,10 +13,9 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:8.1.2"
-    // noinspection DifferentKotlinGradleVersion
+    classpath "com.android.tools.build:gradle:8.3.1"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath "org.jlleitschuh.gradle:ktlint-gradle:11.6.0"
+    classpath "org.jlleitschuh.gradle:ktlint-gradle:12.1.0"
   }
 }
 
@@ -83,7 +83,7 @@ android {
   }
 
   kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.toString()
+    jvmTarget = JavaVersion.VERSION_17.toString()
   }
 
   lintOptions {
@@ -91,7 +91,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion '1.5.3'
+    kotlinCompilerExtensionVersion '1.5.11'
   }
 
   compileOptions {
@@ -130,7 +130,7 @@ dependencies {
   implementation "com.smileidentity:android-sdk:$smile_id_sdk_version"
   implementation "com.jakewharton.timber:timber"
   implementation 'androidx.appcompat:appcompat:1.6.1'
-  implementation("androidx.navigation:navigation-compose:2.7.4")
+  implementation("androidx.navigation:navigation-compose:2.7.7")
   testImplementation 'junit:junit:4.13.2'
   androidTestImplementation 'androidx.test.ext:junit:1.1.5'
   androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

@@ -720,3 +720,5 @@ lib/
 
 smile_config.json
 *.keystore
+
+*.xcode.env.local

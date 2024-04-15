@@ -97,11 +97,11 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
   kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.toString()
+    jvmTarget = JavaVersion.VERSION_17.toString()
   }
   packagingOptions {
     resources {
@@ -113,7 +113,7 @@ android {
 dependencies {
   // The version of react-native is set by the React Native Gradle Plugin
   implementation("com.facebook.react:react-android")
-
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
   debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
     exclude group: 'com.squareup.okhttp3', module: 'okhttp'
