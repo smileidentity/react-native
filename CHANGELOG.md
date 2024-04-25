@@ -1,5 +1,8 @@
 # Release Notes
 
+## 10.0.3
+* Bump iOS to 10.0.11 (https://github.com/smileidentity/ios/releases/tag/v10.0.11)
+
 ## 10.0.2
 
 * Bump iOS to 10.0.9 (https://github.com/smileidentity/ios/releases/tag/v10.0.9)
