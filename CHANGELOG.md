@@ -1,5 +1,14 @@
 # Release Notes
 
+## 10.1.0
+
+* Moved SmartSelfie enrollment and authentication to synchronous endpoints
+* Introduced polling methods for products
+  * SmartSelfie
+  * Biometric kyc
+  * Document verification
+  * Enhanced document verification
+
 ## 10.0.3
 * Bump iOS to 10.0.11 (https://github.com/smileidentity/ios/releases/tag/v10.0.11)
 
