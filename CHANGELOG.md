@@ -2,13 +2,12 @@
 
 ## 10.1.0
 
-* Moved SmartSelfie enrollment and authentication to synchronous endpoints
 * Introduced polling methods for products
   * SmartSelfie
   * Biometric kyc
   * Document verification
   * Enhanced document verification
-* JT2 and JT4 synchronous responses
+* Moved SmartSelfie enrollment and authentication to synchronous endpoints
 * Offline responses for the rest of the products
 * Updated to react native 0.74.1
 
