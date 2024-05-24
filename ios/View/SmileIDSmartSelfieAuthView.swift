@@ -22,27 +22,24 @@ struct SmileIDSmartSelfieAuthView: View {
 }
 
 extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
-    func didSucceed(
-        selfieImage _: URL,
-        livenessImages _: [URL],
-        jobStatusResponse: SmartSelfieJobStatusResponse?
-    ) {
+    func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse: SmartSelfieResponse?) {
         let encoder = JSONEncoder()
-        let jsonData: String
-        if let jobStatusResponse {
-            guard let encodedJsonData = try? encoder.encode(jobStatusResponse) else {
-                product.onResult?(
-                    ["error": SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error")]
-                )
-                return
-            }
-            jsonData = String(data: encodedJsonData, encoding: .utf8)!
-        } else {
-            jsonData = "null"
+        var params: [String: Any] = [
+            "selfie": selfieImage.absoluteString,
+            "livenessImages": livenessImages,
+        ]
+        if let apiResponse = apiResponse {
+            params["apiResponse"] = apiResponse
         }
-        product.onResult?(["result": jsonData])
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else {
+            product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error")])
+            return
+        }
+        product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-
+    
+    
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }

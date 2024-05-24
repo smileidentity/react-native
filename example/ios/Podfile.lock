@@ -1206,6 +1206,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - SmileID (from `https://github.com/smileidentity/ios.git`, branch `main`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1223,7 +1224,6 @@ SPEC REPOS:
     - libevent
     - lottie-ios
     - OpenSSL-Universal
-    - SmileID
     - SocketRocket
     - Zip
 
@@ -1329,8 +1329,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  SmileID:
+    :branch: main
+    :git: https://github.com/smileidentity/ios.git
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
+
+CHECKOUT OPTIONS:
+  SmileID:
+    :commit: b2dedffe56af0137319136db5c715a6c7980f320
+    :git: https://github.com/smileidentity/ios.git
 
 SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
@@ -1401,6 +1409,6 @@ SPEC CHECKSUMS:
   Yoga: 805bf71192903b20fc14babe48080582fee65a80
   Zip: b3fef584b147b6e582b2256a9815c897d60ddc67
 
-PODFILE CHECKSUM: 28547d9eb5e71edbea4256c6a3127b72662fd6fc
+PODFILE CHECKSUM: 24c9b92abe231bb77f45d04eea22045e8a4c0a91
 
 COCOAPODS: 1.15.2
