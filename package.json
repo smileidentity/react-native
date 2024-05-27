@@ -167,6 +167,7 @@
   "dependencies": {
     "@eslint/js": "^9.3.0",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
-    "@typescript-eslint/parser": "^7.10.0"
+    "@typescript-eslint/parser": "^7.10.0",
+    "babel-plugin-module-resolver": "^5.0.2"
   }
 }
