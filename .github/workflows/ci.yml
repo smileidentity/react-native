@@ -42,14 +42,10 @@ jobs:
       - name: Build package
         run: yarn prepack
 
-  build-examples:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        platform: [android, ios]
+  build-android:
+    runs-on: ubuntu-latest
     env:
-      TURBO_CACHE_DIR: .turbo/${{ matrix.platform }}
+      TURBO_CACHE_DIR: .turbo/android
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,9 +57,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.TURBO_CACHE_DIR }}
-          key: ${{ runner.os }}-turborepo-${{ matrix.platform }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-turborepo-android-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-turborepo-${{ matrix.platform }}-
+            ${{ runner.os }}-turborepo-android-
 
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -71,29 +67,56 @@ jobs:
           path: |
             ~/.gradle/wrapper
             ~/.gradle/caches
-            **/ios/Pods
-          key: ${{ runner.os }}-${{ matrix.platform }}-deps-${{ hashFiles('example/android/gradle/wrapper/gradle-wrapper.properties', 'example/ios/Podfile.lock') }}
+          key: ${{ runner.os }}-android-deps-${{ hashFiles('example/android/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.platform }}-deps-
+            ${{ runner.os }}-android-deps-
 
-      - name: Set up JDK (Android)
-        if: matrix.platform == 'android'
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Xcode (iOS)
-        if: matrix.platform == 'ios'
+      - name: Build example
+        run: yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}" --no-cache
+
+  build-ios:
+    runs-on: macos-latest
+    env:
+      TURBO_CACHE_DIR: .turbo/ios
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Cache turborepo
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.TURBO_CACHE_DIR }}
+          key: ${{ runner.os }}-turborepo-ios-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-turborepo-ios-
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/ios/Pods
+          key: ${{ runner.os }}-ios-deps-${{ hashFiles('example/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-ios-deps-
+
+      - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 15.2
 
-      - name: Install cocoapods (iOS)
-        if: matrix.platform == 'ios'
+      - name: Install cocoapods
         run: yarn example pods
         env:
           NO_FLIPPER: 1
 
       - name: Build example
-        run: yarn turbo run build:${{ matrix.platform }} --cache-dir="${{ env.TURBO_CACHE_DIR }}" --no-cache
+        run: yarn turbo run build:ios --cache-dir="${{ env.TURBO_CACHE_DIR }}" --no-cache
