@@ -11,6 +11,7 @@
 * Offline responses for the rest of the products
 * Updated to react native 0.73.8
 * Bump android to 10.1.4 (https://github.com/smileidentity/android/releases/tag/v10.1.4)
+* Bump kotlin version to 2.0.0
 
 ## 10.0.3
 * Bump iOS to 10.0.11 (https://github.com/smileidentity/ios/releases/tag/v10.0.11)

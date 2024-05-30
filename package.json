@@ -164,5 +164,8 @@
     "name": "RNSmileIdSpec",
     "type": "modules",
     "jsSrcsDir": "src"
+  },
+  "dependencies": {
+    "babel-plugin-module-resolver": "^5.0.2"
   }
 }
