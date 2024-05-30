@@ -9,7 +9,7 @@
   * Enhanced document verification
 * Moved SmartSelfie enrollment and authentication to synchronous endpoints
 * Offline responses for the rest of the products
-* Updated to react native 0.74.1
+* Updated to react native 0.73.8
 
 ## 10.0.3
 * Bump iOS to 10.0.11 (https://github.com/smileidentity/ios/releases/tag/v10.0.11)
