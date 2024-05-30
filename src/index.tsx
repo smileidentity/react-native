@@ -133,6 +133,86 @@ const SmileID = {
    * Get available services
    */
   getServices: () => _SmileID.getServices(),
+
+  /**
+   * Polls the status of a smart selfie job.
+   *
+   * @param {JobStatusRequest} request - The job status request object.
+   * @param {number} interval - The interval duration (in milliseconds) between each polling attempt.
+   * @param {number} numAttempts - The number of polling attempts before stopping.
+   */
+  pollSmartSelfieJobStatus: (
+    request: JobStatusRequest,
+    interval: number,
+    numAttempts: number
+  ) => {
+    if (!Number.isInteger(interval) || !Number.isInteger(numAttempts)) {
+      throw new Error(`interval and numAttempts must be an integer.`);
+    }
+    request.interval = interval;
+    request.numAttempts = numAttempts;
+    _SmileID.pollSmartSelfieJobStatus(request);
+  },
+
+  /**
+   * Polls the status of a document verification job.
+   *
+   * @param {JobStatusRequest} request - The job status request object.
+   * @param {number} interval - The interval duration (in milliseconds) between each polling attempt.
+   * @param {number} numAttempts - The number of polling attempts before stopping.
+   */
+  pollDocumentVerificationJobStatus: (
+    request: JobStatusRequest,
+    interval: number,
+    numAttempts: number
+  ) => {
+    if (!Number.isInteger(interval) || !Number.isInteger(numAttempts)) {
+      throw new Error(`interval and numAttempts must be an integer.`);
+    }
+    request.interval = interval;
+    request.numAttempts = numAttempts;
+    _SmileID.pollDocumentVerificationJobStatus(request);
+  },
+
+  /**
+   * Polls the status of a biometric KYC job.
+   *
+   * @param {JobStatusRequest} request - The job status request object.
+   * @param {number} interval - The interval duration (in milliseconds) between each polling attempt.
+   * @param {number} numAttempts - The number of polling attempts before stopping.
+   */
+  pollBiometricKycJobStatus: (
+    request: JobStatusRequest,
+    interval: number,
+    numAttempts: number
+  ) => {
+    if (!Number.isInteger(interval) || !Number.isInteger(numAttempts)) {
+      throw new Error(`interval and numAttempts must be an integer.`);
+    }
+    request.interval = interval;
+    request.numAttempts = numAttempts;
+    _SmileID.pollBiometricKycJobStatus(request);
+  },
+
+  /**
+   * Polls the status of an enhanced document verification job.
+   *
+   * @param {JobStatusRequest} request - The job status request object.
+   * @param {number} interval - The interval duration (in milliseconds) between each polling attempt.
+   * @param {number} numAttempts - The number of polling attempts before stopping.
+   */
+  pollEnhancedDocumentVerificationJobStatus: (
+    request: JobStatusRequest,
+    interval: number,
+    numAttempts: number
+  ) => {
+    if (!Number.isInteger(interval) || !Number.isInteger(numAttempts)) {
+      throw new Error(`interval and numAttempts must be an integer.`);
+    }
+    request.interval = interval;
+    request.numAttempts = numAttempts;
+    _SmileID.pollEnhancedDocumentVerificationJobStatus(request);
+  },
 };
 
 export {

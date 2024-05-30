@@ -68,6 +68,22 @@ export interface Spec extends TurboModule {
   ): Promise<ValidDocumentsResponse>;
 
   getServices(): Promise<ServicesResponse>;
+
+  pollSmartSelfieJobStatus(
+    request: JobStatusRequest
+  ): Promise<SmartSelfieJobStatusResponse>;
+
+  pollDocumentVerificationJobStatus(
+    request: JobStatusRequest
+  ): Promise<DocumentVerificationJobStatusResponse>;
+
+  pollBiometricKycJobStatus(
+    request: JobStatusRequest
+  ): Promise<BiometricKycJobStatusResponse>;
+
+  pollEnhancedDocumentVerificationJobStatus(
+    request: JobStatusRequest
+  ): Promise<EnhancedDocumentVerificationJobStatusResponse>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('RNSmileID');

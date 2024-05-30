@@ -536,6 +536,8 @@ export class JobStatusRequest {
   partnerId: string;
   timestamp: string;
   signature: string;
+  interval?: number;
+  numAttempts?: number;
 
   constructor(
     userId: string,

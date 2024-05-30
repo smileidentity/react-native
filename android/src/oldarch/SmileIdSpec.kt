@@ -35,4 +35,12 @@ abstract class SmileIdSpec internal constructor(context: ReactApplicationContext
   abstract fun getValidDocuments(request: ReadableMap, promise: Promise)
 
   abstract fun getServices(promise: Promise)
+
+  abstract fun pollSmartSelfieJobStatus(request: ReadableMap, promise: Promise)
+
+  abstract fun pollDocumentVerificationJobStatus(request: ReadableMap, promise: Promise)
+
+  abstract fun pollBiometricKycJobStatus(request: ReadableMap, promise: Promise)
+
+  abstract fun pollEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise)
 }

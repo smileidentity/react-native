@@ -4,7 +4,6 @@ buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
   def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : project.properties["SmileId_androidVersion"]
-  project.logger.debug('Japhet Ndhlovu - SmileId - build.gradle - kotlin_version: ' + kotlin_version)
 
   repositories {
     google()

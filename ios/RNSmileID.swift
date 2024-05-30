@@ -37,7 +37,7 @@ class RNSmileID: NSObject {
             .sink(
                 receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
                 receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject)
-            }).store(in: &cancellables)
+                }).store(in: &cancellables)
     }
 
     @objc(upload:request:withResolver:withRejecter:)
@@ -228,7 +228,7 @@ class RNSmileID: NSObject {
             .sink(
                 receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
                 receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject)
-            }).store(in: &cancellables)
+                }).store(in: &cancellables)
     }
 
     @objc(getValidDocuments:withResolver:withRejecter:)
@@ -252,7 +252,8 @@ class RNSmileID: NSObject {
             .store(in: &cancellables)
     }
 
-    private func getJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+    @objc(getJobStatus:withResolver:withRejecter:)
+    func getJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         guard let jobStatusRequest = request.toJobStatusRequest() else {
             reject("Error", "Invalid job status request", nil)
             return
@@ -262,6 +263,148 @@ class RNSmileID: NSObject {
             .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
                   receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
             .store(in: &cancellables)
+    }
+
+    @objc(pollSmartSelfieJobStatus:withResolver:withRejecter:)
+    func pollSmartSelfieJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let jobStatusRequest = request.toJobStatusRequest() else {
+            reject("Error", "Invalid job status request", nil)
+            return
+        }
+
+        guard let interval = request["interval"] as? Int64  else {
+            reject("Error", "interval is required", nil)
+            return
+        }
+
+        guard let numAttempts = request["numAttempts"] as? Int64  else {
+            reject("Error", "numAttempts is required", nil)
+            return
+        }
+
+        pollJobStatus(
+            apiCall: SmileID.api.pollSmartSelfieJobStatus,
+            request: jobStatusRequest,
+            interval: interval,
+            numAttempts: numAttempts,
+            resolve: resolve,
+            reject: reject
+        )
+    }
+
+    @objc(pollDocumentVerificationJobStatus:withResolver:withRejecter:)
+    func pollDocumentVerificationJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let jobStatusRequest = request.toJobStatusRequest() else {
+            reject("Error", "Invalid job status request", nil)
+            return
+        }
+
+        guard let interval = request["interval"] as? Int64  else {
+            reject("Error", "interval is required", nil)
+            return
+        }
+
+        guard let numAttempts = request["numAttempts"] as? Int64  else {
+            reject("Error", "numAttempts is required", nil)
+            return
+        }
+
+        pollJobStatus(
+            apiCall: SmileID.api.pollDocumentVerificationJobStatus,
+            request: jobStatusRequest,
+            interval: interval,
+            numAttempts: numAttempts,
+            resolve: resolve,
+            reject: reject
+        )
+    }
+
+    @objc(pollBiometricKycJobStatus:withResolver:withRejecter:)
+    func pollBiometricKycJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let jobStatusRequest = request.toJobStatusRequest() else {
+            reject("Error", "Invalid job status request", nil)
+            return
+        }
+
+        guard let interval = request["interval"] as? Int64  else {
+            reject("Error", "interval is required", nil)
+            return
+        }
+
+        guard let numAttempts = request["numAttempts"] as? Int64  else {
+            reject("Error", "numAttempts is required", nil)
+            return
+        }
+
+        pollJobStatus(
+            apiCall: SmileID.api.pollBiometricKycJobStatus,
+            request: jobStatusRequest,
+            interval: interval,
+            numAttempts: numAttempts,
+            resolve: resolve,
+            reject: reject
+        )
+    }
+
+    @objc(pollEnhancedDocumentVerificationJobStatus:withResolver:withRejecter:)
+    func pollEnhancedDocumentVerificationJobStatus(request: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        guard let jobStatusRequest = request.toJobStatusRequest() else {
+            reject("Error", "Invalid job status request", nil)
+            return
+        }
+
+        guard let interval = request["interval"] as? Int64  else {
+            reject("Error", "interval is required", nil)
+            return
+        }
+
+        guard let numAttempts = request["numAttempts"] as? Int64  else {
+            reject("Error", "numAttempts is required", nil)
+            return
+        }
+
+        pollJobStatus(
+            apiCall: SmileID.api.pollEnhancedDocumentVerificationJobStatus,
+            request: jobStatusRequest,
+            interval: interval,
+            numAttempts: numAttempts,
+            resolve: resolve,
+            reject: reject
+        )
+    }
+
+    func pollJobStatus<RequestType, ResponseType: Encodable>(
+        apiCall: @escaping (RequestType, TimeInterval, Int) -> AnyPublisher<ResponseType, Error>,
+        request: RequestType,
+        interval: Int64,
+        numAttempts: Int64,
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject: @escaping RCTPromiseRejectBlock
+    ) {
+        let timeInterval = convertToTimeInterval(milliSeconds: interval)
+        guard let numAttemptsInt = Int(exactly: numAttempts) else {
+            reject("InvalidNumAttempts", "Invalid numAttempts value", NSError(domain: "Invalid numAttempts value", code: -1, userInfo: nil))
+            return
+        }
+
+        apiCall(request, timeInterval, numAttemptsInt)
+            .sink(receiveCompletion: { status in
+                switch status {
+                case .failure(let error):
+                    reject("ApiCallFailure", "API call failed with error: \(error.localizedDescription)", error)
+                case .finished:
+                    break
+                }
+            }, receiveValue: { [self] response in
+                resolveResponse(response, resolve: resolve, reject: reject)
+            })
+            .store(in: &cancellables)
+    }
+
+
+    func convertToTimeInterval(milliSeconds:Int64) -> TimeInterval {
+        let seconds = milliSeconds/1000
+        return TimeInterval(seconds)
     }
 
     private func handleCompletion(_ completion: Subscribers.Completion<Error>, reject: @escaping RCTPromiseRejectBlock) {

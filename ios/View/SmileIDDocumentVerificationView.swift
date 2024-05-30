@@ -35,14 +35,18 @@ struct SmileIDDocumentVerificationView: View {
 }
 
 extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
-    func didSucceed(
-        selfie _: URL,
-        documentFrontImage _: URL,
-        documentBackImage _: URL?,
-        jobStatusResponse: DocumentVerificationJobStatusResponse
-    ) {
+    func didSucceed(selfie: URL, documentFrontImage: URL, documentBackImage: URL?, didSubmitDocumentVerificationJob: Bool) {
         let encoder = JSONEncoder()
-        guard let jsonData = try? encoder.encode(jobStatusResponse) else {
+        var params: [String: Any] = [
+            "selfie": selfie.absoluteString,
+            "documentFrontImage": documentFrontImage.absoluteString,
+            "didSubmitDocumentVerificationJob": didSubmitDocumentVerificationJob
+        ]
+        if let documentBackImage = documentBackImage {
+            params["documentBackImage"] = documentBackImage.absoluteString
+        }
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else {
             product.onResult?(["error": SmileIDError.unknown("SmileIDDocumentVerificationView encoding error")])
             return
         }
