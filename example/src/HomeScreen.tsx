@@ -14,7 +14,8 @@ import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   React.useEffect(() => {
-    SmileID.initialize(true);
+    SmileID.initialize(false);
+    SmileID.disableCrashReporting();
   }, []);
 
   const defaultProduct = {
@@ -39,7 +40,6 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     captureBothSides: true,
     allowGalleryUpload: false,
   };
-
   const biometricKYC: BiometricKYCRequest = {
     ...defaultProduct,
     idInfo: {

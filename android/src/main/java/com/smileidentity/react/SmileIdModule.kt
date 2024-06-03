@@ -1,5 +1,6 @@
 package com.smileidentity.react
 
+import android.util.Log
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
@@ -7,13 +8,25 @@ import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.SmileID
 import com.smileidentity.SmileIDCrashReporting
 import com.smileidentity.SmileIdSpec
+import com.smileidentity.models.AuthenticationResponse
+import com.smileidentity.models.BiometricKycJobStatusResponse
+import com.smileidentity.models.DocumentVerificationJobStatusResponse
+import com.smileidentity.models.EnhancedDocumentVerificationJobStatusResponse
+import com.smileidentity.models.EnhancedKycAsyncResponse
 import com.smileidentity.models.EnhancedKycRequest
+import com.smileidentity.models.EnhancedKycResponse
+import com.smileidentity.models.PrepUploadResponse
+import com.smileidentity.models.ProductsConfigResponse
+import com.smileidentity.models.ServicesResponse
+import com.smileidentity.models.SmartSelfieJobStatusResponse
+import com.smileidentity.models.ValidDocumentsResponse
 import com.smileidentity.networking.pollBiometricKycJobStatus
 import com.smileidentity.networking.pollDocumentVerificationJobStatus
 import com.smileidentity.networking.pollEnhancedDocumentVerificationJobStatus
 import com.smileidentity.networking.pollSmartSelfieJobStatus
 import com.smileidentity.react.utils.getIntOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
+import com.smileidentity.results.SmartSelfieResult
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,49 +59,59 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
 
   @ReactMethod
   override fun authenticate(request: ReadableMap, promise: Promise) = launch(
-    work = { SmileID.api.authenticate(request = request.toAuthenticationRequest()) },
+    work = {
+      SmileID.api.authenticate(request = request.toAuthenticationRequest())
+    },
+    clazz = AuthenticationResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun prepUpload(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.prepUpload(request = request.toPrepUploadRequest()) },
+    clazz = PrepUploadResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun upload(url: String, request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.upload(url, request.toUploadRequest()) },
+    clazz = Unit::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun doEnhancedKyc(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.doEnhancedKyc(request = request.toEnhancedKycRequest()) },
+    clazz = EnhancedKycResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun doEnhancedKycAsync(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.doEnhancedKycAsync(request = request.toEnhancedKycRequest()) },
+    clazz = EnhancedKycAsyncResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun getSmartSelfieJobStatus(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getSmartSelfieJobStatus(request = request.toJobStatusRequest()) },
+    clazz = SmartSelfieJobStatusResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun getDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
+    clazz = DocumentVerificationJobStatusResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun getBiometricKycJobStatus(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getBiometricKycJobStatus(request = request.toJobStatusRequest()) },
+    clazz = BiometricKycJobStatusResponse::class.java,
     promise = promise
   )
 
@@ -96,24 +119,28 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   override fun getEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) =
     launch(
       work = { SmileID.api.getEnhancedDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
+      clazz = EnhancedDocumentVerificationJobStatusResponse::class.java,
       promise = promise
     )
 
   @ReactMethod
   override fun getProductsConfig(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getProductsConfig(request = request.toProductsConfigRequest()) },
+    clazz = ProductsConfigResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun getValidDocuments(request: ReadableMap, promise: Promise) = launch(
     work = { SmileID.api.getValidDocuments(request = request.toProductsConfigRequest()) },
+    clazz = ValidDocumentsResponse::class.java,
     promise = promise
   )
 
   @ReactMethod
   override fun getServices(promise: Promise) = launch(
     work = { SmileID.api.getServices() },
+    clazz = ServicesResponse::class.java,
     promise = promise
   )
 
@@ -134,6 +161,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
         numAttempts = numAttempts.toLong(),
       )
     },
+    clazz = SmartSelfieJobStatusResponse::class.java,
     promise = promise
   )
 
@@ -154,6 +182,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
         numAttempts = numAttempts.toLong(),
       )
     },
+    clazz = DocumentVerificationJobStatusResponse::class.java,
     promise = promise
   )
 
@@ -174,6 +203,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
         numAttempts = numAttempts.toLong(),
       )
     },
+    clazz = BiometricKycJobStatusResponse::class.java,
     promise = promise
   )
 
@@ -195,6 +225,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
           numAttempts = numAttempts.toLong(),
         )
       },
+      clazz = EnhancedDocumentVerificationJobStatusResponse::class.java,
       promise = promise
     )
 
@@ -208,7 +239,9 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
       val response =
         withContext(Dispatchers.IO) {
           apiCall(request, interval.milliseconds, numAttempts.toInt())
-            .map { it }
+            .map {
+              it
+            }
             .single()
         }
       response
@@ -217,8 +250,15 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     }
   }
 
+  private fun <T> toJson(result: T, clazz: Class<T>): String {
+    val adapter = SmileID.moshi.adapter(clazz)
+    return adapter.toJson(result)
+  }
+
+
   private fun <T> launch(
     work: suspend () -> T,
+    clazz: Class<T>,
     promise: Promise,
     scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
   ) {
@@ -226,7 +266,17 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
       promise.reject(throwable.message)
     }
     scope.launch(handler) {
-      promise.resolve(Result.success(work()))
+      try {
+        val result = work()
+        if (clazz == Unit::class.java) {
+          promise.resolve(null)
+        } else {
+          val jsonResult = toJson(result, clazz)
+          promise.resolve(jsonResult)
+        }
+      } catch (e: Exception) {
+        promise.reject(e.message)
+      }
     }
   }
 

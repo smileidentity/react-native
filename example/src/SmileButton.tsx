@@ -15,7 +15,7 @@ export const SmileButton: React.FC<SmileButtonProps> = ({
   return (
     <Pressable
       style={styles.productButton}
-      onPress={() => {
+      onPress={async () => {
         navigation.navigate('Capture', { product, title });
       }}
     >
