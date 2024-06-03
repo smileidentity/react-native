@@ -1,4 +1,7 @@
 # Release Notes
+## 10.1.1
+
+* Exposed JobType Enum which was missing in exports
 
 ## 10.1.0
 
