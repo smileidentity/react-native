@@ -29,6 +29,7 @@ import {
   SmartSelfieJobStatusResponse,
   UploadRequest,
   ValidDocumentsResponse,
+  JobType,
 } from './types';
 
 const LINKING_ERROR =
@@ -226,6 +227,7 @@ export {
   SmileIDEnhancedDocumentVerificationView,
   SmileIDConsentView,
   //types
+  JobType,
   EnhancedKycRequest,
   DocumentVerificationRequest,
   SmartSelfieEnrollmentRequest,
