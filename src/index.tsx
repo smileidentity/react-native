@@ -31,6 +31,7 @@ import {
   ValidDocumentsResponse,
   JobType,
 } from './types';
+import { Spec } from './NativeSmileId';
 
 const LINKING_ERROR =
   `The package 'react-native-smile-id' doesn't seem to be linked. Make sure: \n\n` +
@@ -45,7 +46,7 @@ const SmileIdModule = isTurboModuleEnabled
   ? require('./NativeSmileId').default
   : NativeModules.RNSmileID;
 
-const _SmileID = SmileIdModule
+const _SmileID: Spec = SmileIdModule
   ? SmileIdModule
   : new Proxy(
       {},
@@ -152,7 +153,7 @@ const SmileID = {
     }
     request.interval = interval;
     request.numAttempts = numAttempts;
-    _SmileID.pollSmartSelfieJobStatus(request);
+    return _SmileID.pollSmartSelfieJobStatus(request);
   },
 
   /**
@@ -172,7 +173,7 @@ const SmileID = {
     }
     request.interval = interval;
     request.numAttempts = numAttempts;
-    _SmileID.pollDocumentVerificationJobStatus(request);
+    return _SmileID.pollDocumentVerificationJobStatus(request);
   },
 
   /**
@@ -192,7 +193,7 @@ const SmileID = {
     }
     request.interval = interval;
     request.numAttempts = numAttempts;
-    _SmileID.pollBiometricKycJobStatus(request);
+    return _SmileID.pollBiometricKycJobStatus(request);
   },
 
   /**
@@ -212,7 +213,7 @@ const SmileID = {
     }
     request.interval = interval;
     request.numAttempts = numAttempts;
-    _SmileID.pollEnhancedDocumentVerificationJobStatus(request);
+    return _SmileID.pollEnhancedDocumentVerificationJobStatus(request);
   },
 };
 
