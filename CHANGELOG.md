@@ -1,4 +1,9 @@
 # Release Notes
+## 10.1.2
+
+* Return correct types in all networking methods
+* Serialize networking methods to json
+
 ## 10.1.1
 
 * Exposed JobType Enum which was missing in exports
