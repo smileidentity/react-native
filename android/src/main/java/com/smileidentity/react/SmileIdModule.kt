@@ -31,6 +31,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
@@ -242,7 +243,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
             .map {
               it
             }
-            .single()
+            .last()
         }
       response
     } catch (e: Exception) {

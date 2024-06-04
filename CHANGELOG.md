@@ -1,8 +1,13 @@
 # Release Notes
+## 10.1.3
+
+* Fix polling when instantly starting polling after capture result
+
 ## 10.1.2
 
 * Return correct types in all networking methods
 * Serialize networking methods to json
+* Fix authentication request optional params
 
 ## 10.1.1
 
