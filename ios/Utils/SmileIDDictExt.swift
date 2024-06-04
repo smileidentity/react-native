@@ -5,13 +5,14 @@ extension NSDictionary {
     func toAuthenticationRequest() -> AuthenticationRequest? {
         guard let jobTypeValue = self["jobType"] as? Int,
               let jobType = JobType(rawValue: jobTypeValue),
-              let country = self["country"] as? String,
-              let idType = self["idType"] as? String,
-              let updateEnrolledImage = self["updateEnrolledImage"] as? Bool,
               let jobId = self["jobId"] as? String,
               let userId = self["userId"] as? String else {
             return nil
         }
+
+        let country = self["country"] as? String
+        let idType = self["idType"] as? String
+        let updateEnrolledImage = self["updateEnrolledImage"] as? Bool
 
         return AuthenticationRequest(
             jobType: jobType,
