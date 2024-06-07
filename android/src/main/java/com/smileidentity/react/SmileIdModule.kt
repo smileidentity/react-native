@@ -1,10 +1,12 @@
 package com.smileidentity.react
 
 import android.util.Log
+import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.WritableArray
 import com.smileidentity.SmileID
 import com.smileidentity.SmileIDCrashReporting
 import com.smileidentity.SmileIdSpec
@@ -56,6 +58,51 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   @ReactMethod
   override fun disableCrashReporting(promise: Promise) {
     SmileIDCrashReporting.disable()
+  }
+
+  override fun setAllowOfflineMode(allowOfflineMode: Boolean, promise: Promise) {
+    SmileID.setAllowOfflineMode(allowOfflineMode)
+    promise.resolve(null)
+  }
+
+  override fun submitJob(jobId: String, promise: Promise) = launch(
+    work = { SmileID.submitJob(jobId) },
+    clazz = Unit::class.java,
+    promise = promise
+  )
+
+
+  override fun getUnsubmittedJobs(promise: Promise) {
+    try {
+      val writableArray: WritableArray = Arguments.createArray()
+      SmileID.getUnsubmittedJobs().forEach {
+        writableArray.pushString(it)
+      }
+      promise.resolve(writableArray)
+    } catch (e: Exception) {
+      promise.reject(e)
+    }
+  }
+
+  override fun getSubmittedJobs(promise: Promise) {
+    try {
+      val writableArray: WritableArray = Arguments.createArray()
+      SmileID.getSubmittedJobs().forEach {
+        writableArray.pushString(it)
+      }
+      promise.resolve(writableArray)
+    } catch (e: Exception) {
+      promise.reject(e)
+    }
+  }
+
+  override fun cleanup(jobId: String, promise: Promise) {
+    try {
+      SmileID.cleanup(jobId)
+      promise.resolve(null)
+    } catch (e: Exception) {
+      promise.resolve(e)
+    }
   }
 
   @ReactMethod
@@ -264,7 +311,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
   ) {
     val handler = CoroutineExceptionHandler { _, throwable ->
-      promise.reject(throwable.message)
+      promise.reject(throwable)
     }
     scope.launch(handler) {
       try {
@@ -276,7 +323,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
           promise.resolve(jsonResult)
         }
       } catch (e: Exception) {
-        promise.reject(e.message)
+        promise.reject(e)
       }
     }
   }

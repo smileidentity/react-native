@@ -10,6 +10,15 @@ abstract class SmileIdSpec internal constructor(context: ReactApplicationContext
 
   abstract fun initialize(useSandBox: Boolean ,promise: Promise)
 
+  abstract fun setAllowOfflineMode(allowOfflineMode: Boolean ,promise: Promise)
+
+  abstract fun submitJob(jobId: String ,promise: Promise)
+
+  abstract fun getUnsubmittedJobs(promise: Promise)
+  abstract fun getSubmittedJobs(promise: Promise)
+
+  abstract fun cleanup(jobId: String ,promise: Promise)
+
   abstract fun disableCrashReporting(promise: Promise)
 
   abstract fun authenticate(request: ReadableMap, promise: Promise)

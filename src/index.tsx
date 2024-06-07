@@ -62,6 +62,33 @@ const SmileID = {
    * Initialise the Smile ID SDK
    */
   initialize: (useSandBox: boolean = false) => _SmileID.initialize(useSandBox),
+
+  /**
+   * Sets allow offline mode which enables
+   * offline mode functionality to capture jobs offline and submit later
+   */
+  setAllowOfflineMode: (allowOfflineMode: boolean = false) =>
+    _SmileID.setAllowOfflineMode(allowOfflineMode),
+
+  /**
+   * Submits an already captured job id
+   */
+  submitJob: (jobId: string) => _SmileID.submitJob(jobId),
+
+  /**
+   * Gets all job ids from the unsubmitted directory
+   */
+  getUnsubmittedJobs: () => _SmileID.getUnsubmittedJobs(),
+
+  /**
+   * Gets all job ids from the unsubmitted directory
+   */
+  getSubmittedJobs: () => _SmileID.getSubmittedJobs(),
+
+  /**
+   * Cleans up a job id from the submitted or unsubmitted directory
+   */
+  cleanup: (jobId: string) => _SmileID.cleanup(jobId),
   /**
    * NB: Only available on Android
    * Disable crash reporting
