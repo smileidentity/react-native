@@ -1,4 +1,13 @@
 # Release Notes
+## 10.1.4
+
+* Added offline functionality
+  * setAllowOfflineMode
+  * submitJob
+  * getUnsubmittedJobs
+  * getSubmittedJobs
+  * cleanup
+
 ## 10.1.3
 
 * Fix polling when instantly starting polling after capture result
