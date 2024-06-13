@@ -7,6 +7,8 @@
   * getUnsubmittedJobs
   * getSubmittedJobs
   * cleanup
+* Bump android to 10.1.6 (https://github.com/smileidentity/android/releases/tag/v10.1.6)
+* Bump iOS to 10.1.6 (https://github.com/smileidentity/ios/releases/tag/v10.1.6)
 
 ## 10.1.3
 
