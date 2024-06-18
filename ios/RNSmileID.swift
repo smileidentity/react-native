@@ -61,11 +61,13 @@ class RNSmileID: NSObject {
             return
         }
 
-        do {
-            let response = try SmileID.authenticate(request: authenticationRequest)
-            self.resolveResponse(response, resolve: resolve, reject: reject)
-        } catch {
-            reject("Error", error.localizedDescription, error)
+        Task {
+            do {
+                let response = try await SmileID.api.authenticate(request: authenticationRequest)
+                self.resolveResponse(response, resolve: resolve, reject: reject)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
         }
     }
 
@@ -458,15 +460,6 @@ class RNSmileID: NSObject {
     func convertToTimeInterval(milliSeconds:Int64) -> TimeInterval {
         let seconds = milliSeconds/1000
         return TimeInterval(seconds)
-    }
-
-    private func handleCompletion(_ completion: Subscribers.Completion<Error>, reject: @escaping RCTPromiseRejectBlock) {
-        switch completion {
-        case let .failure(error):
-            reject("Error", error.localizedDescription, error)
-        case .finished:
-            break
-        }
     }
 
     private func resolveResponse<T: Encodable>(_ response: T, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
