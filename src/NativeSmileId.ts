@@ -37,7 +37,7 @@ export interface Spec extends TurboModule {
    * While the job_status API can be polled to get a result, a better method is to set up a
    * callback url and let the system POST a JSON response.
    */
-  setCallbackUrl: (callbackUrl: URL) => Promise<void>;
+  setCallbackUrl: (callbackUrl: string) => Promise<void>;
 
   /**
    * Sets allow offline mode which enables
