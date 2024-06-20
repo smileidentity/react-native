@@ -25,6 +25,20 @@ export interface Spec extends TurboModule {
    * Initialise the Smile ID SDK
    */
   initialize: (useSandBox: boolean) => Promise<void>;
+
+  /** Switches the SDK between the sandbox and production API at runtime. Please note that if the
+   * environment is switched while you or the SDK is in the middle of a job (i.e. polling job
+   * status), this may cause API errors.
+   */
+  setEnvironment: (useSandbox: boolean) => Promise<void>;
+
+  /**
+   * The callback mechanism allows for asynchronous job requests and responses.
+   * While the job_status API can be polled to get a result, a better method is to set up a
+   * callback url and let the system POST a JSON response.
+   */
+  setCallbackUrl: (callbackUrl: URL) => Promise<void>;
+
   /**
    * Sets allow offline mode which enables
    * the ability to capture jobs offline and submit later

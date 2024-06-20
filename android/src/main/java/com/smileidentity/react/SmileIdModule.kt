@@ -56,6 +56,18 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   }
 
   @ReactMethod
+  override fun setEnvironment(useSandBox: Boolean, promise: Promise) {
+    SmileID.setEnvironment(reactApplicationContext, useSandbox = useSandBox)
+    promise.resolve(null)
+  }
+
+  @ReactMethod
+  override fun setCallbackUrl(callbackUrl: URL, promise: Promise) {
+    SmileID.initialize(reactApplicationContext, callbackUrl = callbackUrl)
+    promise.resolve(null)
+  }
+
+  @ReactMethod
   override fun disableCrashReporting(promise: Promise) {
     SmileIDCrashReporting.disable()
   }
