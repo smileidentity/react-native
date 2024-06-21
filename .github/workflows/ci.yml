@@ -55,6 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TURBO_CACHE_DIR: .turbo/android
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -71,27 +72,24 @@ jobs:
             ${{ runner.os }}-turborepo-android-
 
       - name: Check turborepo cache for Android
+        id: turbo-cache-check
         run: |
-          TURBO_CACHE_STATUS=$(node -p "($(yarn --silent turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}" --dry=json)).tasks.find(t => t.task === 'build:android').cache.status")
-
-          if [[ $TURBO_CACHE_STATUS == "HIT" ]]; then
-            echo "turbo_cache_hit=1" >> $GITHUB_ENV
-          fi
+          TURBO_CACHE_STATUS=$(yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}" --dry=json | jq -r '.tasks[] | select(.task == "build:android") | .cache.status')
+          echo "TURBO_CACHE_HIT=$([[ $TURBO_CACHE_STATUS == "HIT" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
 
       - name: Install JDK
-        if: env.turbo_cache_hit != 1
+        if: steps.turbo-cache-check.outputs.TURBO_CACHE_HIT != 'true'
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
       - name: Finalize Android SDK
-        if: env.turbo_cache_hit != 1
-        run: |
-          /bin/bash -c "yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null"
+        if: steps.turbo-cache-check.outputs.TURBO_CACHE_HIT != 'true'
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null
 
       - name: Cache Gradle
-        if: env.turbo_cache_hit != 1
+        if: steps.turbo-cache-check.outputs.TURBO_CACHE_HIT != 'true'
         uses: actions/cache@v4
         with:
           path: |
@@ -102,9 +100,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build example for Android
-        run: |
-          yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}"
-
+        run: yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}"
   build-ios:
     runs-on: macos-14
     env:
