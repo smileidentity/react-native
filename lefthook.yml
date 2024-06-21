@@ -2,9 +2,11 @@ pre-commit:
   parallel: true
   commands:
     lint:
-      run: git diff --name-only --cached | grep '\.\(js\|ts\|jsx\|tsx\)$' | xargs npx eslint
+      glob: "*.{js,ts,jsx,tsx}"
+      run: npx eslint {staged_files}
     types:
-      run: git diff --name-only --cached | grep '\.\(js\|ts\|jsx\|tsx\)$' | xargs npx tsc --noEmit
+      glob: "*.{js,ts, jsx, tsx}"
+      run: npx tsc --noEmit
 commit-msg:
   parallel: true
   commands:

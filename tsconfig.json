@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "rootDir": ".",
     "paths": {
       "@smile_identity/react-native": ["./src/index"]
     },
@@ -23,6 +23,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": true
   }
 }
