@@ -1,10 +1,10 @@
 {
   "name": "@smile_identity/react-native",
-  "version": "10.1.4",
+  "version": "10.1.5",
   "description": "Official wrapper for the Smile ID <v10 android and iOS SDKs",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
-  "types": "lib/typescript/src/index.d.ts",
+  "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
@@ -14,6 +14,7 @@
     "ios",
     "cpp",
     "*.podspec",
+    "!lib/typescript/example",
     "!ios/build",
     "!android/build",
     "!android/gradle",
@@ -68,7 +69,7 @@
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "turbo": "^1.10.7",
-    "typescript": "5.1.6"
+    "typescript": "^5.2.2"
   },
   "resolutions": {
     "@types/react": "^18.2.44"
@@ -153,10 +154,5 @@
         }
       ]
     ]
-  },
-  "codegenConfig": {
-    "name": "RNSmileIdSpec",
-    "type": "modules",
-    "jsSrcsDir": "src"
   }
 }
