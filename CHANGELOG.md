@@ -1,9 +1,5 @@
 # Release Notes
 
-## 10.1.5
-
-* Bump iOS to 10.2.0
-
 ## 10.1.4
 
 * Added offline functionality
@@ -13,7 +9,7 @@
   * getSubmittedJobs
   * cleanup
 * Bump android to 10.1.6 (https://github.com/smileidentity/android/releases/tag/v10.1.6)
-* Bump iOS to 10.1.6 (https://github.com/smileidentity/ios/releases/tag/v10.1.6)
+* Bump iOS to 10.2.0 (https://github.com/smileidentity/ios/releases/tag/v10.2.0)
 
 ## 10.1.3
 
