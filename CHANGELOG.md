@@ -1,4 +1,9 @@
 # Release Notes
+
+## 10.1.5
+
+* Bump iOS to 10.2.0
+
 ## 10.1.4
 
 * Added offline functionality
