@@ -2,6 +2,7 @@
 
 ## 10.1.4
 
+* Support for react native 0.74.x
 * Added offline functionality
   * setAllowOfflineMode
   * submitJob
