@@ -2,7 +2,7 @@
 
 ## 10.1.4
 
-* Support for react native 0.74.x
+* Support for react native 0.74.x see (https://reactnative.dev/blog/2024/04/22/release-0.74)
 * Android minSdkVersion 23 as per react native 0.74.x (https://reactnative.dev/blog/2024/04/22/release-0.74#android-minimum-sdk-bump-android-60)
 * Added offline functionality
   * setAllowOfflineMode
