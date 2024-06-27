@@ -60,18 +60,20 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     SmileIDCrashReporting.disable()
   }
 
+@ReactMethod
   override fun setAllowOfflineMode(allowOfflineMode: Boolean, promise: Promise) {
     SmileID.setAllowOfflineMode(allowOfflineMode)
     promise.resolve(null)
   }
 
+@ReactMethod
   override fun submitJob(jobId: String, promise: Promise) = launch(
     work = { SmileID.submitJob(jobId) },
     clazz = Unit::class.java,
     promise = promise
   )
 
-
+@ReactMethod
   override fun getUnsubmittedJobs(promise: Promise) {
     try {
       val writableArray: WritableArray = Arguments.createArray()
@@ -84,6 +86,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     }
   }
 
+@ReactMethod
   override fun getSubmittedJobs(promise: Promise) {
     try {
       val writableArray: WritableArray = Arguments.createArray()
@@ -96,6 +99,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     }
   }
 
+@ReactMethod
   override fun cleanup(jobId: String, promise: Promise) {
     try {
       SmileID.cleanup(jobId)

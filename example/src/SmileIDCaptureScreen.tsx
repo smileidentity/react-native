@@ -7,13 +7,17 @@ import {
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
+  SmileIDConsentView,
+} from '@smile_identity/react-native';
+
+import type {
   SmartSelfieEnrollmentRequest,
   SmartSelfieAuthenticationRequest,
   DocumentVerificationRequest,
   ConsentRequest,
   BiometricKYCRequest,
-  SmileIDConsentView,
 } from '@smile_identity/react-native';
+
 import { useState } from 'react';
 import { ResultView } from './ResultView';
 

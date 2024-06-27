@@ -38,7 +38,7 @@ extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
             "didSubmitBiometricJob": didSubmitBiometricJob,
         ]
         
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
             product.onResult?(["error": SmileIDError.unknown("SmileIDBiometricKYCView encoding error")])
             return
         }

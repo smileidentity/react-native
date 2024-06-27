@@ -5,7 +5,7 @@ import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
 import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
 import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
 import SmileIDConsentView from './SmileIDConsentView';
-import {
+import type {
   DocumentVerificationRequest,
   SmartSelfieEnrollmentRequest,
   SmartSelfieAuthenticationRequest,
@@ -31,7 +31,7 @@ import {
   ValidDocumentsResponse,
   JobType,
 } from './types';
-import { Spec } from './NativeSmileId';
+import type { Spec } from './NativeSmileId';
 
 const LINKING_ERROR =
   `The package 'react-native-smile-id' doesn't seem to be linked. Make sure: \n\n` +
@@ -254,6 +254,9 @@ export {
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
   SmileIDConsentView,
+};
+
+export type {
   //types
   JobType,
   EnhancedKycRequest,

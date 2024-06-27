@@ -1,17 +1,17 @@
 # Release Notes
 
-## 10.1.5
-
-* Bump iOS to 10.2.0
-
 ## 10.1.4
 
+* Support for react native 0.74.x see (https://reactnative.dev/blog/2024/04/22/release-0.74)
+* Android minSdkVersion 23 as per react native 0.74.x (https://reactnative.dev/blog/2024/04/22/release-0.74#android-minimum-sdk-bump-android-60)
 * Added offline functionality
   * setAllowOfflineMode
   * submitJob
   * getUnsubmittedJobs
   * getSubmittedJobs
   * cleanup
+* Bump android to 10.1.6 (https://github.com/smileidentity/android/releases/tag/v10.1.6)
+* Bump iOS to 10.2.0 (https://github.com/smileidentity/ios/releases/tag/v10.2.0)
 
 ## 10.1.3
 

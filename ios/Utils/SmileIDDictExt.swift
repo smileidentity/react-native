@@ -188,3 +188,19 @@ extension NSDictionary {
         )
     }
 }
+
+extension Dictionary where Key == String, Value == Any {
+    func toJSONCompatibleDictionary() -> [String: Any] {
+        var jsonCompatibleDict = [String: Any]()
+        for (key, value) in self {
+            if let arrayValue = value as? [String] {
+                jsonCompatibleDict[key] = arrayValue
+            } else if let stringValue = value as? String {
+                jsonCompatibleDict[key] = stringValue
+            } else {
+                jsonCompatibleDict[key] = (value as? [String: Any])?.toJSONCompatibleDictionary() ?? [:]
+            }
+        }
+        return jsonCompatibleDict
+    }
+}

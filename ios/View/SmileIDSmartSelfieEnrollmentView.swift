@@ -32,7 +32,7 @@ extension SmileIDSmartSelfieEnrollmentView: SmartSelfieResultDelegate {
             params["apiResponse"] = apiResponse
         }
         
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
             product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieEnrollmentView encoding error")])
             return
         }
