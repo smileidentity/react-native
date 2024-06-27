@@ -8,6 +8,18 @@ class RNSmileID: NSObject {
         resolve(nil)
     }
 
+    @objc(setEnvironment:withResolver:withRejecter:)
+    func setEnvironment(useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
+        SmileID.setEnvironment(useSandbox: useSandBox)
+        resolve(nil)
+    }
+
+    @objc(setCallbackUrl:withResolver:withRejecter:)
+    func setCallbackUrl(callbackUrl: URL, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
+        SmileID.setCallbackUrl(callbackUrl: callbackUrl)
+        resolve(nil)
+    }
+
     @objc(setAllowOfflineMode:withResolver:withRejecter:)
     func setAllowOfflineMode(allowOfflineMode: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
         SmileID.setAllowOfflineMode(allowOfflineMode: allowOfflineMode)

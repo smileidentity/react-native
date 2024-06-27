@@ -10,6 +10,7 @@
   * getUnsubmittedJobs
   * getSubmittedJobs
   * cleanup
+* Added missing setEnvironment and setCallbackUrl interfaces
 * Bump android to 10.1.6 (https://github.com/smileidentity/android/releases/tag/v10.1.6)
 * Bump iOS to 10.2.0 (https://github.com/smileidentity/ios/releases/tag/v10.2.0)
 

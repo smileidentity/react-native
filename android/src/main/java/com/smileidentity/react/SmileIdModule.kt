@@ -29,6 +29,7 @@ import com.smileidentity.networking.pollSmartSelfieJobStatus
 import com.smileidentity.react.utils.getIntOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.results.SmartSelfieResult
+import java.net.URL
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +53,18 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
   @ReactMethod
   override fun initialize(useSandBox: Boolean, promise: Promise) {
     SmileID.initialize(reactApplicationContext, useSandbox = useSandBox)
+    promise.resolve(null)
+  }
+
+  @ReactMethod
+  override fun setEnvironment(useSandBox: Boolean, promise: Promise) {
+    SmileID.setEnvironment(useSandbox = useSandBox)
+    promise.resolve(null)
+  }
+
+  @ReactMethod
+  override fun setCallbackUrl(callbackUrl: String, promise: Promise) {
+    SmileID.setCallbackUrl(callbackUrl = URL(callbackUrl))
     promise.resolve(null)
   }
 
