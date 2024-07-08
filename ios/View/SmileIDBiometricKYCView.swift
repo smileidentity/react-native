@@ -31,8 +31,8 @@ struct SmileIDBiometricKYCView: View {
 
 extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     func didSucceed(selfieImage: URL, livenessImages: [URL], didSubmitBiometricJob: Bool) {
-        let encoder = JSONEncoder()
-        var params: [String: Any] = [
+    
+        let params: [String: Any] = [
             "selfie": selfieImage.absoluteString,
             "documentFrontImage": livenessImages,
             "didSubmitBiometricJob": didSubmitBiometricJob,

@@ -1,4 +1,10 @@
 # Release Notes
+## 10.1.5
+
+* Fix setCallbackUrl crash on ios
+* Bump android to 10.1.6 (https://github.com/smileidentity/android/releases/tag/v10.1.7)
+* Bump iOS to 10.2.1 (https://github.com/smileidentity/ios/releases/tag/v10.2.1)
+
 
 ## 10.1.4
 

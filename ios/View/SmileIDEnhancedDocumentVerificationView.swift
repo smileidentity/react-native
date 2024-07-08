@@ -36,7 +36,6 @@ struct SmileIDEnhancedDocumentVerificationView: View {
 
 extension SmileIDEnhancedDocumentVerificationView: EnhancedDocumentVerificationResultDelegate {
     func didSucceed(selfie: URL, documentFrontImage: URL, documentBackImage: URL?, didSubmitEnhancedDocVJob: Bool) {
-        let encoder = JSONEncoder()
         var params: [String: Any] = [
             "selfie": selfie.absoluteString,
             "documentFrontImage": documentFrontImage.absoluteString,
