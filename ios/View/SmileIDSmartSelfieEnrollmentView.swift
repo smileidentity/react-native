@@ -23,7 +23,6 @@ struct SmileIDSmartSelfieEnrollmentView: View {
 
 extension SmileIDSmartSelfieEnrollmentView: SmartSelfieResultDelegate {
     func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse: SmartSelfieResponse?) {
-        let encoder = JSONEncoder()
         var params: [String: Any] = [
             "selfie": selfieImage.absoluteString,
             "livenessImages": livenessImages,

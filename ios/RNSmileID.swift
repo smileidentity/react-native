@@ -15,8 +15,8 @@ class RNSmileID: NSObject {
     }
 
     @objc(setCallbackUrl:withResolver:withRejecter:)
-    func setCallbackUrl(callbackUrl: URL, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
-        SmileID.setCallbackUrl(callbackUrl: callbackUrl)
+    func setCallbackUrl(callbackUrl: String, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
+        SmileID.setCallbackUrl(url: URL(string: callbackUrl))
         resolve(nil)
     }
 
