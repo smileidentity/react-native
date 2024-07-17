@@ -37,12 +37,12 @@ struct SmileIDDocumentVerificationView: View {
 extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
     func didSucceed(selfie: URL, documentFrontImage: URL, documentBackImage: URL?, didSubmitDocumentVerificationJob: Bool) {
         var params: [String: Any] = [
-            "selfie": selfie.absoluteString,
-            "documentFrontImage": documentFrontImage.absoluteString,
+            "selfieFile": selfie.absoluteString,
+            "documentFrontFile": documentFrontImage.absoluteString,
             "didSubmitDocumentVerificationJob": didSubmitDocumentVerificationJob
         ]
         if let documentBackImage = documentBackImage {
-            params["documentBackImage"] = documentBackImage.absoluteString
+            params["documentBackFile"] = documentBackImage.absoluteString
         }
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {

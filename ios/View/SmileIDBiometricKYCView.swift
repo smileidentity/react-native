@@ -33,9 +33,9 @@ extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     func didSucceed(selfieImage: URL, livenessImages: [URL], didSubmitBiometricJob: Bool) {
 
         let params: [String: Any] = [
-            "selfie": selfieImage.absoluteString,
-            "documentFrontImage": livenessImages,
-            "didSubmitBiometricJob": didSubmitBiometricJob,
+            "selfieFile": selfieImage.absoluteString,
+            "livenessFiles": livenessImages,
+            "didSubmitBiometricKycJob": didSubmitBiometricJob,
         ]
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
