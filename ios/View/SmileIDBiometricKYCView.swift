@@ -31,20 +31,20 @@ struct SmileIDBiometricKYCView: View {
 
 extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     func didSucceed(selfieImage: URL, livenessImages: [URL], didSubmitBiometricJob: Bool) {
-        let encoder = JSONEncoder()
-        var params: [String: Any] = [
+
+        let params: [String: Any] = [
             "selfie": selfieImage.absoluteString,
             "documentFrontImage": livenessImages,
             "didSubmitBiometricJob": didSubmitBiometricJob,
         ]
-        
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) else {
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
             product.onResult?(["error": SmileIDError.unknown("SmileIDBiometricKYCView encoding error")])
             return
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-    
+
     func didSucceed(
         selfieImage _: URL,
         livenessImages _: [URL],
@@ -54,7 +54,7 @@ extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
         let jsonData = try! encoder.encode(jobStatusResponse)
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-    
+
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }

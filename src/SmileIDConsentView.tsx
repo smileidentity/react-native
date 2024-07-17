@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import {
-  HostComponent,
-  UIManager,
-  findNodeHandle,
-  Platform,
-} from 'react-native';
+import type { HostComponent } from 'react-native';
+import { UIManager, findNodeHandle, Platform } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
-import { ConsentRequest } from './index';
+import type { ConsentRequest } from './index';
 
 const SmileIDConsentComponent = codegenNativeComponent<ConsentRequest>(
   'SmileIDConsentView'

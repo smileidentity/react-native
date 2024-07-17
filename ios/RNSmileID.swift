@@ -1,14 +1,69 @@
-import Combine
 import SmileID
 
 @objc(RNSmileID)
 class RNSmileID: NSObject {
-    private var cancellables = Set<AnyCancellable>()
-
     @objc(initialize:withResolver:withRejecter:)
     func initialize(useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
         SmileID.initialize(useSandbox: useSandBox)
         resolve(nil)
+    }
+
+    @objc(setEnvironment:withResolver:withRejecter:)
+    func setEnvironment(useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
+        SmileID.setEnvironment(useSandbox: useSandBox)
+        resolve(nil)
+    }
+
+    @objc(setCallbackUrl:withResolver:withRejecter:)
+    func setCallbackUrl(callbackUrl: String, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
+        SmileID.setCallbackUrl(url: URL(string: callbackUrl))
+        resolve(nil)
+    }
+
+    @objc(setAllowOfflineMode:withResolver:withRejecter:)
+    func setAllowOfflineMode(allowOfflineMode: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
+        SmileID.setAllowOfflineMode(allowOfflineMode: allowOfflineMode)
+        resolve(nil)
+    }
+
+    @objc(submitJob:withResolver:withRejecter:)
+    func submitJob(jobId: String, resolve: @escaping RCTPromiseResolveBlock, reject : @escaping RCTPromiseRejectBlock) {
+        do {
+            try SmileID.submitJob(jobId: jobId)
+            resolve(nil)
+        } catch let error as NSError {
+            reject("Error", error.localizedDescription, error)
+        }
+    }
+
+    @objc(getSubmittedJobs:withRejecter:)
+    func getSubmittedJobs(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        do {
+            let jobs: [String] =  SmileID.getUnsubmittedJobs()
+            resolve(jobs)
+        } catch let error as NSError {
+            reject("Error", error.localizedDescription, error)
+        }
+    }
+
+    @objc(getUnsubmittedJobs:withRejecter:)
+    func getUnsubmittedJobs(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        do {
+            let jobs: [String] =  SmileID.getUnsubmittedJobs()
+            resolve(jobs)
+        } catch let error as NSError {
+            reject("Error", error.localizedDescription, error)
+        }
+    }
+
+    @objc(cleanup:withResolver:withRejecter:)
+    func cleanup(jobId: String, resolve: @escaping RCTPromiseResolveBlock, reject : @escaping RCTPromiseRejectBlock) {
+        do {
+            try SmileID.cleanup(jobId: jobId)
+            resolve(nil)
+        } catch let error as NSError {
+            reject("Error", error.localizedDescription, error)
+        }
     }
 
     @objc(authenticate:withResolver:withRejecter:)
@@ -18,12 +73,14 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.authenticate(request: authenticationRequest)
-            .sink(receiveCompletion: { completion in
-                self.handleCompletion(completion, reject: reject)
-            }, receiveValue: { response in
+        Task {
+            do {
+                let response = try await SmileID.api.authenticate(request: authenticationRequest)
                 self.resolveResponse(response, resolve: resolve, reject: reject)
-            }).store(in: &cancellables)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(prepUpload:withResolver:withRejecter:)
@@ -33,11 +90,14 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.prepUpload(request: prepUploadRequest)
-            .sink(
-                receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
-                receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject)
-                }).store(in: &cancellables)
+        Task {
+            do {
+                let response = try await SmileID.api.prepUpload(request: prepUploadRequest)
+                self.resolveResponse(response, resolve: resolve, reject: reject)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(upload:request:withResolver:withRejecter:)
@@ -57,10 +117,14 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.upload(zip: zipData, to: url)
-            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
-                  receiveValue: { _ in resolve(nil) }) // Assuming no response to return
-            .store(in: &cancellables)
+        Task {
+            do {
+                try await SmileID.api.upload(zip: zipData, to: url)
+                resolve(nil)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(doEnhancedKyc:withResolver:withRejecter:)
@@ -111,23 +175,19 @@ class RNSmileID: NSObject {
             signature: signature
         )
 
-        SmileID.api.doEnhancedKyc(request: request)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case let .failure(error):
-                    reject("Error", error.localizedDescription, error)
-                case .finished:
-                    break
-                }
-            }, receiveValue: { response in
+        Task {
+            do {
+                let response = try await SmileID.api.doEnhancedKyc(request: request)
                 let encoder = JSONEncoder()
                 guard let jsonData = try? encoder.encode(response) else {
-                    reject("Error", "doEnhancedKyc encoding error ",
-                           SmileIDError.unknown("doEnhancedKyc encoding error "))
-                    return
+                    throw SmileIDError.unknown("doEnhancedKyc encoding error")
                 }
-                resolve(["result": String(data: jsonData, encoding: .utf8)!]) // Assuming you have a method to convert response to a dictionary
-            }).store(in: &cancellables)
+                // Assuming you have a method to convert response to a dictionary
+                resolve(["result": String(data: jsonData, encoding: .utf8)!])
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(doEnhancedKycAsync:withResolver:withRejecter:)
@@ -178,23 +238,19 @@ class RNSmileID: NSObject {
             signature: signature
         )
 
-        SmileID.api.doEnhancedKycAsync(request: request)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case let .failure(error):
-                    reject("Error", error.localizedDescription, error)
-                case .finished:
-                    break
-                }
-            }, receiveValue: { response in
-                let encoder = JSONEncoder()
-                guard let jsonData = try? encoder.encode(response) else {
-                    reject("Error", "doEnhancedKyc encoding error ",
-                           SmileIDError.unknown("doEnhancedKyc encoding error "))
-                    return
-                }
-                resolve(["result": String(data: jsonData, encoding: .utf8)!]) // Assuming you have a method to convert response to a dictionary
-            }).store(in: &cancellables)
+        Task {
+          do {
+              let response = try await SmileID.api.doEnhancedKycAsync(request: request)
+              let encoder = JSONEncoder()
+              guard let jsonData = try? encoder.encode(response) else {
+                  throw SmileIDError.unknown("doEnhancedKyc encoding error")
+              }
+              // Assuming you have a method to convert response to a dictionary
+              resolve(["result": String(data: jsonData, encoding: .utf8)!])
+          } catch {
+              reject("Error", error.localizedDescription, error)
+          }
+        }
     }
 
     @objc(getSmartSelfieJobStatus:withResolver:withRejecter:)
@@ -224,11 +280,14 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.getProductsConfig(request: productsConfigRequest)
-            .sink(
-                receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
-                receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject)
-                }).store(in: &cancellables)
+        Task {
+            do {
+                let response = try await SmileID.api.getProductsConfig(request: productsConfigRequest)
+                self.resolveResponse(response, resolve: resolve, reject: reject)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(getValidDocuments:withResolver:withRejecter:)
@@ -238,18 +297,26 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.getValidDocuments(request: validDocumentsRequest)
-            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
-                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
-            .store(in: &cancellables)
+        Task {
+            do {
+                let response = try await SmileID.api.getValidDocuments(request: validDocumentsRequest)
+                self.resolveResponse(response, resolve: resolve, reject: reject)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(getServicesWithResolver:withRejecter:)
     func getServices(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-        SmileID.api.getServices()
-            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
-                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
-            .store(in: &cancellables)
+        Task {
+            do {
+                let response = try await SmileID.api.getServices()
+                self.resolveResponse(response, resolve: resolve, reject: reject)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(getJobStatus:withResolver:withRejecter:)
@@ -259,10 +326,14 @@ class RNSmileID: NSObject {
             return
         }
 
-        SmileID.api.getJobStatus(request: jobStatusRequest)
-            .sink(receiveCompletion: { completion in self.handleCompletion(completion, reject: reject) },
-                  receiveValue: { response in self.resolveResponse(response, resolve: resolve, reject: reject) })
-            .store(in: &cancellables)
+        Task {
+            do {
+                let response = try await SmileID.api.getJobStatus(request: jobStatusRequest)
+                self.resolveResponse(response, resolve: resolve, reject: reject)
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
+        }
     }
 
     @objc(pollSmartSelfieJobStatus:withResolver:withRejecter:)
@@ -374,7 +445,7 @@ class RNSmileID: NSObject {
     }
 
     func pollJobStatus<RequestType, ResponseType: Encodable>(
-        apiCall: @escaping (RequestType, TimeInterval, Int) -> AnyPublisher<ResponseType, Error>,
+        apiCall: @escaping (RequestType, TimeInterval, Int) async throws -> ResponseType,
         request: RequestType,
         interval: Int64,
         numAttempts: Int64,
@@ -387,33 +458,20 @@ class RNSmileID: NSObject {
             return
         }
 
-        apiCall(request, timeInterval, numAttemptsInt)
-            .sink(receiveCompletion: { status in
-                switch status {
-                case .failure(let error):
-                    reject("ApiCallFailure", "API call failed with error: \(error.localizedDescription)", error)
-                case .finished:
-                    break
-                }
-            }, receiveValue: { [self] response in
-                resolveResponse(response, resolve: resolve, reject: reject)
-            })
-            .store(in: &cancellables)
+        Task {
+            do {
+                let response = try await apiCall(request, timeInterval, numAttemptsInt)
+                self.resolveResponse(response, resolve: resolve, reject: reject)
+            } catch {
+                reject("ApiCallFailure", "API call failed with error: \(error.localizedDescription)", error)
+            }
+        }
     }
 
 
     func convertToTimeInterval(milliSeconds:Int64) -> TimeInterval {
         let seconds = milliSeconds/1000
         return TimeInterval(seconds)
-    }
-
-    private func handleCompletion(_ completion: Subscribers.Completion<Error>, reject: @escaping RCTPromiseRejectBlock) {
-        switch completion {
-        case let .failure(error):
-            reject("Error", error.localizedDescription, error)
-        case .finished:
-            break
-        }
     }
 
     private func resolveResponse<T: Encodable>(_ response: T, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {

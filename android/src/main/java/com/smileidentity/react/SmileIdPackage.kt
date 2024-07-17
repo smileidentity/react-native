@@ -36,7 +36,7 @@ class SmileIdPackage : TurboReactPackage() {
   override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
     return ReactModuleInfoProvider {
       val moduleInfos: MutableMap<String, ReactModuleInfo> = HashMap()
-      val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
+
       moduleInfos[SmileIdModule.NAME] = ReactModuleInfo(
         SmileIdModule.NAME,
         SmileIdModule.NAME,
@@ -44,7 +44,7 @@ class SmileIdPackage : TurboReactPackage() {
         false,  // needsEagerInit
         true,  // hasConstants
         false,  // isCxxModule
-        isTurboModule // isTurboModule
+        false // isTurboModule
       )
       moduleInfos
     }
