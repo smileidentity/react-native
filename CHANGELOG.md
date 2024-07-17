@@ -1,4 +1,17 @@
 # Release Notes
+
+## 10.1.3.1
+
+* Bump iOS to 10.2.2 (https://github.com/smileidentity/ios/releases/tag/v10.2.2) which fixes retry crash
+* Bump android to 10.1.1 (https://github.com/smileidentity/android/releases/tag/v10.1.7)
+* Added offline functionality
+  * setAllowOfflineMode
+  * submitJob
+  * getUnsubmittedJobs
+  * getSubmittedJobs
+  * cleanup
+* Added missing setEnvironment and setCallbackUrl interfaces
+
 ## 10.1.3
 
 * Fix polling when instantly starting polling after capture result
