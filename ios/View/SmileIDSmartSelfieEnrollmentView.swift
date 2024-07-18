@@ -24,21 +24,21 @@ struct SmileIDSmartSelfieEnrollmentView: View {
 extension SmileIDSmartSelfieEnrollmentView: SmartSelfieResultDelegate {
     func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse: SmartSelfieResponse?) {
         var params: [String: Any] = [
-            "selfie": selfieImage.absoluteString,
-            "livenessImages": livenessImages,
+            "selfieFile": selfieImage.absoluteString,
+            "livenessFiles": livenessImages,
         ]
         if let apiResponse = apiResponse {
             params["apiResponse"] = apiResponse
         }
-        
+
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
             product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieEnrollmentView encoding error")])
             return
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-    
-    
+
+
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
     }
