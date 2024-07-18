@@ -5,6 +5,7 @@
 * Return the correct type exports and class exports
 * Sample app updates to include polling
 * Fix ios results to make them uniform with android
+* Bump android to 10.2.2 (https://github.com/smileidentity/android/releases/tag/v10.2.2)
 
 ## 10.1.6
 
