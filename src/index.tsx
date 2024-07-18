@@ -30,6 +30,7 @@ import {
   UploadRequest,
   ValidDocumentsResponse,
   JobType,
+  IdInfo,
 } from './types';
 import type { Spec } from './NativeSmileId';
 
@@ -266,6 +267,7 @@ export {
   PrepUploadRequest,
   ProductsConfigRequest,
   UploadRequest,
+  IdInfo,
 };
 
 export type {
