@@ -5,13 +5,7 @@ import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
 import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
 import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
 import SmileIDConsentView from './SmileIDConsentView';
-import type {
-  DocumentVerificationRequest,
-  SmartSelfieEnrollmentRequest,
-  SmartSelfieAuthenticationRequest,
-  BiometricKYCRequest,
-  SmileIDViewProps,
-  ConsentRequest,
+import {
   AuthenticationRequest,
   AuthenticationResponse,
   BiometricKycJobStatusResponse,
@@ -30,6 +24,15 @@ import type {
   UploadRequest,
   ValidDocumentsResponse,
   JobType,
+  IdInfo,
+} from './types';
+import type {
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  SmileIDViewProps,
+  ConsentRequest,
 } from './types';
 import type { Spec } from './NativeSmileId';
 
@@ -254,32 +257,33 @@ export {
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
   SmileIDConsentView,
+  EnhancedKycRequest,
+  JobType,
+  AuthenticationRequest,
+  JobStatusRequest,
+  PrepUploadRequest,
+  ProductsConfigRequest,
+  UploadRequest,
+  IdInfo,
 };
 
 export type {
   //types
-  JobType,
-  EnhancedKycRequest,
-  DocumentVerificationRequest,
-  SmartSelfieEnrollmentRequest,
-  SmartSelfieAuthenticationRequest,
-  BiometricKYCRequest,
   SmileIDViewProps,
-  ConsentRequest,
-  AuthenticationRequest,
   AuthenticationResponse,
   BiometricKycJobStatusResponse,
   DocumentVerificationJobStatusResponse,
   EnhancedDocumentVerificationJobStatusResponse,
   EnhancedKycAsyncResponse,
   EnhancedKycResponse,
-  JobStatusRequest,
-  PrepUploadRequest,
   PrepUploadResponse,
-  ProductsConfigRequest,
   ProductsConfigResponse,
   ServicesResponse,
   SmartSelfieJobStatusResponse,
-  UploadRequest,
   ValidDocumentsResponse,
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  ConsentRequest,
 };

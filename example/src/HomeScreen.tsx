@@ -18,14 +18,26 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     SmileID.disableCrashReporting();
   }, []);
 
+  const generateUuid = (prefix: 'job_' | 'user_'): string => {
+    return (
+      prefix +
+      'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      })
+    );
+  };
+
   const defaultProduct = {
     allowAgentMode: true,
     showInstructions: true,
+    userId: generateUuid('user_'),
+    jobId: generateUuid('job_'),
   };
 
   const smartSelfieEnrollment: SmartSelfieEnrollmentRequest = {
     ...defaultProduct,
-    // userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8dsds8',
   };
 
   const smartSelfieAuthentication: SmartSelfieAuthenticationRequest = {

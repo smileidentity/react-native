@@ -7,7 +7,12 @@ import {
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
+  AuthenticationRequest,
+  JobType,
   SmileIDConsentView,
+  SmileID,
+  IdInfo,
+  JobStatusRequest,
 } from '@smile_identity/react-native';
 
 import type {
@@ -17,7 +22,6 @@ import type {
   ConsentRequest,
   BiometricKYCRequest,
 } from '@smile_identity/react-native';
-
 import { useState } from 'react';
 import { ResultView } from './ResultView';
 
@@ -38,6 +42,82 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
     | BiometricKYCRequest
     | DocumentVerificationRequest = route.params.product;
   const [result, setResult] = useState<string | undefined>();
+  const partnerId = '<YOUR PARTNER ID>';
+  type SmileIDPollingFunction = keyof typeof SmileID;
+  const getAuthInfo = async (
+    jobType: JobType,
+    userId: string,
+    jobId: string,
+    partnerId: string,
+    pollingFunctionName: SmileIDPollingFunction,
+    idInfo?: IdInfo | null,
+    ...pollingArgs: any[]
+  ) => {
+    const request = new AuthenticationRequest(jobType);
+    request.jobId = jobId;
+    request.userId = userId;
+    if (idInfo) {
+      request.country = idInfo.country;
+      request.idType = idInfo.idType;
+    }
+    const response = await SmileID.authenticate(request);
+    // TODO: Fix and test all native method calls to make sure they return objects
+    // @ts-ignore - this is a known issue with the type definitions
+    const parsedResponse = JSON.parse(response);
+    if (parsedResponse) {
+      try {
+        const pollingFunction = SmileID[pollingFunctionName] as (
+          ...args: any[]
+        ) => Promise<any>;
+        if (typeof pollingFunction !== 'function') {
+          throw new Error(
+            `${pollingFunctionName} is not a function in SmileID`
+          );
+        }
+        const jobStatusRequest = new JobStatusRequest(
+          userId,
+          jobId,
+          false,
+          false,
+          partnerId,
+          parsedResponse.timestamp,
+          parsedResponse.signature
+        );
+        const pollingResult = await pollingFunction(
+          jobStatusRequest,
+          ...pollingArgs
+        );
+        console.log('Got polling results', pollingResult);
+        return pollingResult;
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    }
+  };
+
+  const handleResponse = (
+    jobType: JobType,
+    pollingFunctionName?: SmileIDPollingFunction,
+    response?: string,
+    userId?: string,
+    jobId?: string
+  ) => {
+    if (response && userId && jobId && pollingFunctionName) {
+      getAuthInfo(
+        jobType,
+        userId,
+        jobId,
+        partnerId,
+        pollingFunctionName,
+        null,
+        3000,
+        5
+      );
+      setResult(response);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {title === 'SmartSelfie Enrollment' && (
@@ -50,7 +130,13 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               setResult(event.nativeEvent.error);
               return;
             }
-            setResult(event.nativeEvent.result);
+            handleResponse(
+              JobType.SmartSelfieEnrollment,
+              'pollSmartSelfieJobStatus',
+              event.nativeEvent.result,
+              product.userId,
+              product.jobId
+            );
           }}
         />
       )}
@@ -64,7 +150,13 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               setResult(event.nativeEvent.error);
               return;
             }
-            setResult(event.nativeEvent.result);
+            handleResponse(
+              JobType.SmartSelfieAuthentication,
+              'pollSmartSelfieJobStatus',
+              event.nativeEvent.result,
+              product.userId,
+              product.jobId
+            );
           }}
         />
       )}
@@ -78,7 +170,13 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               setResult(event.nativeEvent.error);
               return;
             }
-            setResult(event.nativeEvent.result);
+            handleResponse(
+              JobType.DocumentVerification,
+              'pollDocumentVerificationJobStatus',
+              event.nativeEvent.result,
+              product.userId,
+              product.jobId
+            );
           }}
         />
       )}
@@ -92,7 +190,13 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               setResult(event.nativeEvent.error);
               return;
             }
-            setResult(event.nativeEvent.result);
+            handleResponse(
+              JobType.EnhancedDocumentVerification,
+              'pollEnhancedDocumentVerificationJobStatus',
+              event.nativeEvent.result,
+              product.userId,
+              product.jobId
+            );
           }}
         />
       )}
@@ -106,7 +210,13 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               setResult(event.nativeEvent.error);
               return;
             }
-            setResult(event.nativeEvent.result);
+            handleResponse(
+              JobType.BiometricKyc,
+              'pollBiometricKycJobStatus',
+              event.nativeEvent.result,
+              product.userId,
+              product.jobId
+            );
           }}
         />
       )}

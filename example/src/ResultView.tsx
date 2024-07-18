@@ -1,5 +1,12 @@
 import React from 'react';
-import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+} from 'react-native';
 interface ResultViewProps {
   result: string | undefined;
   setResult: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -24,17 +31,19 @@ export const ResultView: React.FC<ResultViewProps> = ({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.title}>Smile we got your results</Text>
-            <Text style={styles.modalText}>{result}</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                setResult(undefined);
-                navigation.popToTop();
-              }}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+              <Text style={styles.title}>Smile we got your results</Text>
+              <Text style={styles.modalText}>{result}</Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setResult(undefined);
+                  navigation.popToTop();
+                }}
+              >
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </Pressable>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -64,6 +73,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     marginTop: 20,
