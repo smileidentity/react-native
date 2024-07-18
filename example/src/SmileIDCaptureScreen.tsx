@@ -8,16 +8,19 @@ import {
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
   AuthenticationRequest,
-  SmartSelfieEnrollmentRequest,
-  SmartSelfieAuthenticationRequest,
-  DocumentVerificationRequest,
-  ConsentRequest,
-  BiometricKYCRequest,
   JobType,
   SmileIDConsentView,
   SmileID,
   IdInfo,
   JobStatusRequest,
+} from '@smile_identity/react-native';
+
+import type {
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  DocumentVerificationRequest,
+  ConsentRequest,
+  BiometricKYCRequest,
 } from '@smile_identity/react-native';
 import { useState } from 'react';
 import { ResultView } from './ResultView';
@@ -58,6 +61,8 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
       request.idType = idInfo.idType;
     }
     const response = await SmileID.authenticate(request);
+    // TODO: Fix and test all native method calls to make sure they return objects
+    // @ts-ignore - this is a known issue with the type definitions
     const parsedResponse = JSON.parse(response);
     if (parsedResponse) {
       try {

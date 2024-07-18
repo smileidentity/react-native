@@ -6,12 +6,6 @@ import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
 import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
 import SmileIDConsentView from './SmileIDConsentView';
 import {
-  DocumentVerificationRequest,
-  SmartSelfieEnrollmentRequest,
-  SmartSelfieAuthenticationRequest,
-  BiometricKYCRequest,
-  SmileIDViewProps,
-  ConsentRequest,
   AuthenticationRequest,
   AuthenticationResponse,
   BiometricKycJobStatusResponse,
@@ -31,6 +25,14 @@ import {
   ValidDocumentsResponse,
   JobType,
   IdInfo,
+} from './types';
+import type {
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  SmileIDViewProps,
+  ConsentRequest,
 } from './types';
 import type { Spec } from './NativeSmileId';
 
@@ -256,12 +258,7 @@ export {
   SmileIDEnhancedDocumentVerificationView,
   SmileIDConsentView,
   EnhancedKycRequest,
-  DocumentVerificationRequest,
-  SmartSelfieEnrollmentRequest,
-  SmartSelfieAuthenticationRequest,
   JobType,
-  BiometricKYCRequest,
-  ConsentRequest,
   AuthenticationRequest,
   JobStatusRequest,
   PrepUploadRequest,
@@ -284,4 +281,9 @@ export type {
   ServicesResponse,
   SmartSelfieJobStatusResponse,
   ValidDocumentsResponse,
+  DocumentVerificationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  BiometricKYCRequest,
+  ConsentRequest,
 };
