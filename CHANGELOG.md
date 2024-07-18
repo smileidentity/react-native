@@ -1,6 +1,6 @@
 # Release Notes
 
-## 10.1.3.1
+## 10.1.3-rc.1
 ## SHOULD NOT BE MERGED OR RELEASED ON VERSION 10.1.4 TO 10.1.6 BUT WITHOUT REACT NATIVE UPGRADES ONLY EXISTS TO UNBLOCK A PARTNER
 * Bump iOS to 10.2.2 (https://github.com/smileidentity/ios/releases/tag/v10.2.2) which fixes retry crash
 * Bump android to 10.2.2 (https://github.com/smileidentity/android/releases/tag/v10.2.2)
