@@ -114,6 +114,14 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         3000,
         5
       );
+      console.log('Got response', response);
+      setResult(response);
+    }
+  };
+
+  const handleErrorResponse = (response?: string) => {
+    console.log('Got error response', response);
+    if (response) {
       setResult(response);
     }
   };
@@ -127,7 +135,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -147,7 +155,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -167,7 +175,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -187,7 +195,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -207,7 +215,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -227,7 +235,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             setResult(event.nativeEvent.result);

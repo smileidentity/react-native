@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F194FF',
   },
   buttonClose: {
+    marginTop: 15,
     backgroundColor: '#2196F3',
   },
   textStyle: {
@@ -117,6 +118,8 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    marginTop: 15,
+    color: 'black',
     textAlign: 'center',
   },
 });
