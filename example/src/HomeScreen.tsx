@@ -12,7 +12,7 @@ import type {
 import { SmileID } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const generateUuid = (prefix: 'job_' | 'user_'): string => {
@@ -26,16 +26,54 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     );
   };
 
+  const defaultProductRef = useRef({
+    userId: '',
+    jobId: '',
+    allowAgentMode: true,
+    showInstructions: true,
+  });
   const [userId, setUserId] = useState(generateUuid('user_'));
   const [jobId, setJobId] = useState(generateUuid('job_'));
   const [smartSelfieEnrollment, setSmartSelfieEnrollment] =
-    useState<SmartSelfieEnrollmentRequest>({});
+    useState<SmartSelfieEnrollmentRequest>({
+      ...defaultProductRef.current,
+      extraPartnerParams: {
+        optionalThingKey: 'optionalThingValue',
+      },
+    });
   const [smartSelfieAuthentication, setSmartSelfieAuthentication] =
-    useState<SmartSelfieAuthenticationRequest>({});
+    useState<SmartSelfieAuthenticationRequest>({
+      ...defaultProductRef.current,
+      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+    });
   const [documentVerification, setDocumentVerification] =
-    useState<DocumentVerificationRequest>({});
-  const [biometricKYC, setBiometricKYC] = useState<BiometricKYCRequest>({});
-  const [consentScreen, setConsentScreen] = useState<ConsentRequest>({});
+    useState<DocumentVerificationRequest>({
+      ...defaultProductRef.current,
+      countryCode: 'ZW',
+      documentType: 'PASSPORT',
+      captureBothSides: true,
+      allowGalleryUpload: false,
+    });
+  const [biometricKYC, setBiometricKYC] = useState<BiometricKYCRequest>({
+    ...defaultProductRef.current,
+    idInfo: {
+      country: 'NG',
+      idType: 'NIN_V2',
+      idNumber: '00000000000',
+      entered: true,
+    },
+    partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
+    partnerName: 'Smile React',
+    productName: 'NIN_SLIP',
+    partnerPrivacyPolicy: 'https://docs.usesmileid.com',
+  });
+  const [consentScreen, setConsentScreen] = useState<ConsentRequest>({
+    partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
+    partnerName: 'Smile React',
+    productName: 'BVN',
+    partnerPrivacyPolicy: 'https://docs.usesmileid.com',
+    showAttribution: true,
+  });
   const [smileProducts, setSmileProducts] = useState<Array<Product>>([]);
 
   useEffect(() => {
@@ -54,27 +92,26 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   }, [navigation]);
 
   useEffect(() => {
-    const defaultProduct = {
-      userId: userId,
-      jobId: jobId,
-      allowAgentMode: true,
-      showInstructions: true,
+    defaultProductRef.current = {
+      ...defaultProductRef.current,
+      userId,
+      jobId,
     };
 
     setSmartSelfieEnrollment({
-      ...defaultProduct,
+      ...defaultProductRef.current,
       extraPartnerParams: {
         optionalThingKey: 'optionalThingValue',
       },
     });
 
     setSmartSelfieAuthentication({
-      ...defaultProduct,
+      ...defaultProductRef.current,
       userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
     });
 
     setDocumentVerification({
-      ...defaultProduct,
+      ...defaultProductRef.current,
       countryCode: 'ZW',
       documentType: 'PASSPORT',
       captureBothSides: true,
@@ -82,7 +119,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     });
 
     setBiometricKYC({
-      ...defaultProduct,
+      ...defaultProductRef.current,
       idInfo: {
         country: 'NG',
         idType: 'NIN_V2',
