@@ -1,5 +1,9 @@
 # Release Notes
 
+
+## 10.1.8
+* Bump ios to 10.2.4 (https://github.com/smileidentity/android/releases/tag/v10.2.2) which fixes partner params on v2 endpoints
+
 ## 10.1.7
 
 * Return the correct type exports and class exports
