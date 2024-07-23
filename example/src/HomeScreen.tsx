@@ -12,12 +12,9 @@ import type {
 import { SmileID } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
-export const HomeScreen = ({ navigation }: { navigation: any }) => {
-  React.useEffect(() => {
-    SmileID.initialize(false);
-    SmileID.disableCrashReporting();
-  }, []);
+import { useEffect, useState } from 'react';
 
+export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const generateUuid = (prefix: 'job_' | 'user_'): string => {
     return (
       prefix +
@@ -29,77 +26,120 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     );
   };
 
-  const defaultProduct = {
-    allowAgentMode: true,
-    showInstructions: true,
-    userId: generateUuid('user_'),
-    jobId: generateUuid('job_'),
-  };
+  const [userId, setUserId] = useState(generateUuid('user_'));
+  const [jobId, setJobId] = useState(generateUuid('job_'));
+  const [smartSelfieEnrollment, setSmartSelfieEnrollment] =
+    useState<SmartSelfieEnrollmentRequest>({});
+  const [smartSelfieAuthentication, setSmartSelfieAuthentication] =
+    useState<SmartSelfieAuthenticationRequest>({});
+  const [documentVerification, setDocumentVerification] =
+    useState<DocumentVerificationRequest>({});
+  const [biometricKYC, setBiometricKYC] = useState<BiometricKYCRequest>({});
+  const [consentScreen, setConsentScreen] = useState<ConsentRequest>({});
+  const [smileProducts, setSmileProducts] = useState<Array<Product>>([]);
 
-  const smartSelfieEnrollment: SmartSelfieEnrollmentRequest = {
-    ...defaultProduct,
-  };
+  useEffect(() => {
+    SmileID.initialize(false);
+    SmileID.disableCrashReporting();
+    setUserId(generateUuid('user_'));
+    setJobId(generateUuid('job_'));
+  }, []);
 
-  const smartSelfieAuthentication: SmartSelfieAuthenticationRequest = {
-    ...defaultProduct,
-    userId: 'user-e88a4d68-0c86-4a2a-a9ab-aed5fac8dsds7',
-  };
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setUserId(generateUuid('user_'));
+      setJobId(generateUuid('job_'));
+    });
+    return unsubscribe;
+  }, [navigation]);
 
-  const documentVerification: DocumentVerificationRequest = {
-    ...defaultProduct,
-    countryCode: 'ZW',
-    documentType: 'PASSPORT',
-    captureBothSides: true,
-    allowGalleryUpload: false,
-  };
-  const biometricKYC: BiometricKYCRequest = {
-    ...defaultProduct,
-    idInfo: {
-      country: 'NG',
-      idType: 'NIN_V2',
-      idNumber: '00000000000',
-      entered: true,
-    },
-    partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
-    partnerName: 'Smile React',
-    productName: 'NIN_SLIP',
-    partnerPrivacyPolicy: 'https://docs.usesmileid.com',
-  };
+  useEffect(() => {
+    const defaultProduct = {
+      userId: userId,
+      jobId: jobId,
+      allowAgentMode: true,
+      showInstructions: true,
+    };
 
-  const consentScreen: ConsentRequest = {
-    partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
-    partnerName: 'Smile React',
-    productName: 'BVN',
-    partnerPrivacyPolicy: 'https://docs.usesmileid.com',
-    showAttribution: true,
-  };
+    setSmartSelfieEnrollment({
+      ...defaultProduct,
+      extraPartnerParams: {
+        optionalThingKey: 'optionalThingValue',
+      },
+    });
 
-  const smileProducts: Array<Product> = [
-    {
-      title: 'SmartSelfie Enrollment',
-      product: smartSelfieEnrollment,
-    },
-    {
-      title: 'SmartSelfie Authentication',
-      product: smartSelfieAuthentication,
-    },
-    {
-      title: 'Document Verification',
-      product: documentVerification,
-    },
-    {
-      title: 'Enhanced Document Verification',
-      product: documentVerification,
-    },
-    {
-      title: 'Biometric KYC',
-      product: biometricKYC,
-    },
-    {
-      title: 'Consent Screen',
-      product: consentScreen,
-    },
-  ];
+    setSmartSelfieAuthentication({
+      ...defaultProduct,
+      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+    });
+
+    setDocumentVerification({
+      ...defaultProduct,
+      countryCode: 'ZW',
+      documentType: 'PASSPORT',
+      captureBothSides: true,
+      allowGalleryUpload: false,
+    });
+
+    setBiometricKYC({
+      ...defaultProduct,
+      idInfo: {
+        country: 'NG',
+        idType: 'NIN_V2',
+        idNumber: '00000000000',
+        entered: true,
+      },
+      partnerIcon:
+        Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
+      partnerName: 'Smile React',
+      productName: 'NIN_SLIP',
+      partnerPrivacyPolicy: 'https://docs.usesmileid.com',
+    });
+
+    setConsentScreen({
+      partnerIcon:
+        Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
+      partnerName: 'Smile React',
+      productName: 'BVN',
+      partnerPrivacyPolicy: 'https://docs.usesmileid.com',
+      showAttribution: true,
+    });
+  }, [userId, jobId]);
+
+  useEffect(() => {
+    setSmileProducts([
+      {
+        title: 'SmartSelfie Enrollment',
+        product: smartSelfieEnrollment,
+      },
+      {
+        title: 'SmartSelfie Authentication',
+        product: smartSelfieAuthentication,
+      },
+      {
+        title: 'Document Verification',
+        product: documentVerification,
+      },
+      {
+        title: 'Enhanced Document Verification',
+        product: documentVerification,
+      },
+      {
+        title: 'Biometric KYC',
+        product: biometricKYC,
+      },
+      {
+        title: 'Consent Screen',
+        product: consentScreen,
+      },
+    ]);
+  }, [
+    smartSelfieEnrollment,
+    smartSelfieAuthentication,
+    documentVerification,
+    biometricKYC,
+    consentScreen,
+  ]);
 
   return (
     <View style={styles.container}>
