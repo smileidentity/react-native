@@ -58,7 +58,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
 
   @ReactMethod
   override fun setEnvironment(useSandBox: Boolean, promise: Promise) {
-    SmileID.setEnvironment(useSandbox = useSandBox)
+//    SmileID.setEnvironment(useSandbox = useSandBox)
     promise.resolve(null)
   }
 
