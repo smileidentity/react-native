@@ -2,7 +2,6 @@
 
 @interface RCT_EXTERN_MODULE(RNSmileID, NSObject)
 RCT_EXTERN_METHOD(initialize:(BOOL)useSandBox withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
-RCT_EXTERN_METHOD(setEnvironment:(BOOL)useSandBox withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setCallbackUrl:(NSString)callbackUrl withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setAllowOfflineMode:(BOOL)allowOfflineMode withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(submitJob:(NSString *)jobId withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)

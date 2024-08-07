@@ -16,7 +16,8 @@ import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieEnrollmentViewMana
 class SmileIdPackage : TurboReactPackage() {
 
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> =
-    listOf(SmileIDSmartSelfieEnrollmentViewManager(reactContext),
+    listOf(
+      SmileIDSmartSelfieEnrollmentViewManager(reactContext),
       SmileIDSmartSelfieAuthenticationViewManager(reactContext),
       SmileIDDocumentVerificationViewManager(reactContext),
       SmileIDEnhancedDocumentVerificationViewManager(reactContext),
