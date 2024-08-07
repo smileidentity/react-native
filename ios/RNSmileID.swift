@@ -8,12 +8,6 @@ class RNSmileID: NSObject {
         resolve(nil)
     }
 
-    @objc(setEnvironment:withResolver:withRejecter:)
-    func setEnvironment(useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
-        //        SmileID.setEnvironment(useSandbox: useSandBox)
-        resolve(nil)
-    }
-
     @objc(setCallbackUrl:withResolver:withRejecter:)
     func setCallbackUrl(callbackUrl: String, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
         SmileID.setCallbackUrl(url: URL(string: callbackUrl))

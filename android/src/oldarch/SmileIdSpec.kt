@@ -10,8 +10,6 @@ abstract class SmileIdSpec internal constructor(context: ReactApplicationContext
 
   abstract fun initialize(useSandBox: Boolean ,promise: Promise)
 
-  abstract fun setEnvironment(useSandbox: Boolean, promise: Promise)
-
   abstract fun setCallbackUrl(callbackUrl: String, promise: Promise)
 
   abstract fun setAllowOfflineMode(allowOfflineMode: Boolean ,promise: Promise)
