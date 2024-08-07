@@ -8,16 +8,19 @@ import {
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
   AuthenticationRequest,
-  SmartSelfieEnrollmentRequest,
-  SmartSelfieAuthenticationRequest,
-  DocumentVerificationRequest,
-  ConsentRequest,
-  BiometricKYCRequest,
   JobType,
   SmileIDConsentView,
   SmileID,
   IdInfo,
   JobStatusRequest,
+} from '@smile_identity/react-native';
+
+import type {
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequest,
+  DocumentVerificationRequest,
+  ConsentRequest,
+  BiometricKYCRequest,
 } from '@smile_identity/react-native';
 import { useState } from 'react';
 import { ResultView } from './ResultView';
@@ -58,6 +61,8 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
       request.idType = idInfo.idType;
     }
     const response = await SmileID.authenticate(request);
+    // TODO: Fix and test all native method calls to make sure they return objects
+    // @ts-ignore - this is a known issue with the type definitions
     const parsedResponse = JSON.parse(response);
     if (parsedResponse) {
       try {
@@ -109,6 +114,14 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         3000,
         5
       );
+      console.log('Got response', response);
+      setResult(response);
+    }
+  };
+
+  const handleErrorResponse = (response?: string) => {
+    console.log('Got error response', response);
+    if (response) {
       setResult(response);
     }
   };
@@ -122,7 +135,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -142,7 +155,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -162,7 +175,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -182,7 +195,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -202,7 +215,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             handleResponse(
@@ -222,7 +235,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           style={styles.smileView}
           onResult={(event) => {
             if (event.nativeEvent.error) {
-              setResult(event.nativeEvent.error);
+              handleErrorResponse(event.nativeEvent.error);
               return;
             }
             setResult(event.nativeEvent.result);
