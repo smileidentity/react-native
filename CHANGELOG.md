@@ -1,8 +1,8 @@
 # Release Notes
 
-
-## 10.1.8
-* Bump ios to 10.2.4 (https://github.com/smileidentity/android/releases/tag/v10.2.2) which fixes partner params on v2 endpoints
+## 10.1.9
+* Bump ios to 10.2.6 (https://github.com/smileidentity/ios/releases/tag/v10.2.6) All polling methods now return a AsyncThrowingStream<JobStatusResponse<T>, Error> and instead of a timeout, if there is no error it'll return the last valid response and complete the stream.
+* Bump android to 10.2.5 (https://github.com/smileidentity/android/releases/tag/v10.2.5)
 * Removed `SmileID.setEnvironment()` since the API Keys are no longer shared between environments
 
 ## 10.1.7

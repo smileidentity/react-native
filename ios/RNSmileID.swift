@@ -233,17 +233,17 @@ class RNSmileID: NSObject {
         )
 
         Task {
-          do {
-              let response = try await SmileID.api.doEnhancedKycAsync(request: request)
-              let encoder = JSONEncoder()
-              guard let jsonData = try? encoder.encode(response) else {
-                  throw SmileIDError.unknown("doEnhancedKyc encoding error")
-              }
-              // Assuming you have a method to convert response to a dictionary
-              resolve(["result": String(data: jsonData, encoding: .utf8)!])
-          } catch {
-              reject("Error", error.localizedDescription, error)
-          }
+            do {
+                let response = try await SmileID.api.doEnhancedKycAsync(request: request)
+                let encoder = JSONEncoder()
+                guard let jsonData = try? encoder.encode(response) else {
+                    throw SmileIDError.unknown("doEnhancedKyc encoding error")
+                }
+                // Assuming you have a method to convert response to a dictionary
+                resolve(["result": String(data: jsonData, encoding: .utf8)!])
+            } catch {
+                reject("Error", error.localizedDescription, error)
+            }
         }
     }
 
@@ -438,8 +438,8 @@ class RNSmileID: NSObject {
         )
     }
 
-    func pollJobStatus<RequestType, ResponseType: Encodable>(
-        apiCall: @escaping (RequestType, TimeInterval, Int) async throws -> ResponseType,
+    func pollJobStatus<RequestType, T: JobResult>(
+        apiCall: @escaping (RequestType, TimeInterval, Int) async throws -> AsyncThrowingStream<JobStatusResponse<T>, Error>,
         request: RequestType,
         interval: Int64,
         numAttempts: Int64,
@@ -454,8 +454,17 @@ class RNSmileID: NSObject {
 
         Task {
             do {
-                let response = try await apiCall(request, timeInterval, numAttemptsInt)
-                self.resolveResponse(response, resolve: resolve, reject: reject)
+                let pollStream = try await apiCall(request, timeInterval, numAttemptsInt)
+                var result: JobStatusResponse<T>? = nil
+
+                for try await res in pollStream {
+                    result = res
+                }
+                if let finalResult = result {
+                    self.resolveResponse(finalResult, resolve: resolve, reject: reject)
+                } else {
+                    reject("NoResult", "Polling completed without a result", NSError(domain: "No result obtained", code: -1, userInfo: nil))
+                }
             } catch {
                 reject("ApiCallFailure", "API call failed with error: \(error.localizedDescription)", error)
             }
