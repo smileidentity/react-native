@@ -245,6 +245,13 @@ const SmileID = {
     request.numAttempts = numAttempts;
     return _SmileID.pollEnhancedDocumentVerificationJobStatus(request);
   },
+
+  /**
+   * The callback mechanism allows for asynchronous job requests and responses.
+   * While the job_status API can be polled to get a result, a better method is to set up a
+   * callback url and let the system POST a JSON response.
+   */
+  setCallbackUrl: (callbackUrl: string) => _SmileID.setCallbackUrl(callbackUrl),
 };
 
 export {
