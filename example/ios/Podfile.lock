@@ -958,7 +958,7 @@ PODS:
     - React-utils
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - SmileID (= 10.2.6)
+    - SmileID (= 10.2.7)
     - Yoga
   - React-nativeconfig (0.74.2)
   - React-NativeModulesApple (0.74.2):
@@ -1211,12 +1211,12 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - SmileID (10.2.6):
+  - SmileID (10.2.7):
     - lottie-ios (~> 4.4.2)
-    - Zip (~> 2.1.0)
+    - ZIPFoundation (~> 0.9)
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
-  - Zip (2.1.2)
+  - ZIPFoundation (0.9.19)
 
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
@@ -1284,7 +1284,7 @@ SPEC REPOS:
     - lottie-ios
     - SmileID
     - SocketRocket
-    - Zip
+    - ZIPFoundation
 
 EXTERNAL SOURCES:
   boost:
@@ -1436,7 +1436,7 @@ SPEC CHECKSUMS:
   React-logger: 29fa3e048f5f67fe396bc08af7606426d9bd7b5d
   React-Mapbuffer: bf56147c9775491e53122a94c423ac201417e326
   react-native-safe-area-context: a240ad4b683349e48b1d51fed1611138d1bdad97
-  react-native-smile-id: fda581c73bd142d9a1cb49cb3f122afacd046723
+  react-native-smile-id: 374b0b13de964723835d40b5ae26ca5ff8f012db
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: ff7efaff7098639db5631236cfd91d60abff04c0
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
@@ -1461,10 +1461,10 @@ SPEC CHECKSUMS:
   React-utils: 4476b7fcbbd95cfd002f3e778616155241d86e31
   ReactCommon: ecad995f26e0d1e24061f60f4e5d74782f003f12
   RNScreens: 5aeecbb09aa7285379b6e9f3c8a3c859bb16401c
-  SmileID: 4d7ceb56eeac0a5255c03039fa6d694dd5e8ff56
+  SmileID: 500429946fbb916221450c9f792fa94ee1060955
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
-  Zip: b3fef584b147b6e582b2256a9815c897d60ddc67
+  ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
 PODFILE CHECKSUM: e527f17ab57a2f8d8779ef014b3b6bc1aac3e8d6
 
