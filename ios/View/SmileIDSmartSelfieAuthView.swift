@@ -1,5 +1,4 @@
 import Foundation
-
 import SmileID
 import SwiftUI
 
@@ -37,7 +36,6 @@ extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
         }
         product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
     }
-
 
     func didError(error: Error) {
         product.onResult?(["error": error.localizedDescription])
