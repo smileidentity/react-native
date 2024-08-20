@@ -42,7 +42,6 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-
 class SmileIdModule internal constructor(context: ReactApplicationContext) :
   SmileIdSpec(context) {
 

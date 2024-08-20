@@ -11,7 +11,6 @@ import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDConsentView
 
-
 @ReactModule(name = SmileIDConsentViewManager.NAME)
 class SmileIDConsentViewManager(private val reactApplicationContext: ReactApplicationContext) :
   SimpleViewManager<SmileIDConsentView>() {
@@ -79,5 +78,4 @@ class SmileIDConsentViewManager(private val reactApplicationContext: ReactApplic
     const val NAME = "SmileIDConsentView"
     const val COMMAND_SET_PARAMS = 5
   }
-
 }

@@ -58,5 +58,4 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
       }
     }
   }
-
 }

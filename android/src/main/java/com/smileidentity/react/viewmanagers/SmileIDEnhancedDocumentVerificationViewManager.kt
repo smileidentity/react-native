@@ -12,7 +12,6 @@ import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDEnhancedDocumentVerificationView
 
-
 @ReactModule(name = SmileIDEnhancedDocumentVerificationViewManager.NAME)
 class SmileIDEnhancedDocumentVerificationViewManager(private val reactApplicationContext: ReactApplicationContext) :
   SimpleViewManager<SmileIDEnhancedDocumentVerificationView>() {
@@ -73,5 +72,4 @@ class SmileIDEnhancedDocumentVerificationViewManager(private val reactApplicatio
     const val NAME = "SmileIDEnhancedDocumentVerificationView"
     const val COMMAND_SET_PARAMS = 3
   }
-
 }

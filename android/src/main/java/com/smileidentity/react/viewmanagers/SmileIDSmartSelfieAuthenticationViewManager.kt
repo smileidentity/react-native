@@ -11,7 +11,6 @@ import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDSmartSelfieAuthenticationView
 
-
 @ReactModule(name = SmileIDSmartSelfieAuthenticationViewManager.NAME)
 class SmileIDSmartSelfieAuthenticationViewManager(private val reactApplicationContext: ReactApplicationContext) :
   SimpleViewManager<SmileIDSmartSelfieAuthenticationView>() {
@@ -65,5 +64,4 @@ class SmileIDSmartSelfieAuthenticationViewManager(private val reactApplicationCo
     const val NAME = "SmileIDSmartSelfieAuthenticationView"
     const val COMMAND_SET_PARAMS = 2
   }
-
 }

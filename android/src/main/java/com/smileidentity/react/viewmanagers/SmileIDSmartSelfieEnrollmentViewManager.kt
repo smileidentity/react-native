@@ -11,7 +11,6 @@ import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDSmartSelfieEnrollmentView
 
-
 @ReactModule(name = SmileIDSmartSelfieEnrollmentViewManager.NAME)
 class SmileIDSmartSelfieEnrollmentViewManager(private val reactApplicationContext: ReactApplicationContext) :
   SimpleViewManager<SmileIDSmartSelfieEnrollmentView>() {
@@ -65,5 +64,4 @@ class SmileIDSmartSelfieEnrollmentViewManager(private val reactApplicationContex
     const val NAME = "SmileIDSmartSelfieEnrollmentView"
     const val COMMAND_SET_PARAMS = 1
   }
-
 }
