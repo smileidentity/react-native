@@ -87,7 +87,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion '1.5.11'
+    kotlinCompilerExtensionVersion rootProject.ext.has("kotlinCompilerExtensionVersion") ? rootProject.ext.get("kotlinCompilerExtensionVersion") : '1.5.11'
   }
 
   compileOptions {
