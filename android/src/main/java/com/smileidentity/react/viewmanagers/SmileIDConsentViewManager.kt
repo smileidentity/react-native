@@ -12,11 +12,11 @@ import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDConsentView
 
 @ReactModule(name = SmileIDConsentViewManager.NAME)
-class SmileIDConsentViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDConsentView>() {
-  override fun getName(): String {
-    return NAME
-  }
+class SmileIDConsentViewManager(
+  private val reactApplicationContext: ReactApplicationContext
+) : SimpleViewManager<SmileIDConsentView>() {
+
+  override fun getName(): String = NAME
 
   override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
     return mapOf(

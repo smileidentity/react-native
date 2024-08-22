@@ -25,7 +25,6 @@ class SmileIdPackage : TurboReactPackage() {
       SmileIDBiometricKYCViewManager(reactContext),
     )
 
-
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return if (name == SmileIdModule.NAME) {
       SmileIdModule(reactContext)

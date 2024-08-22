@@ -14,6 +14,7 @@ class SmileIDConsentView(context: ReactApplicationContext) : SmileIDView(context
   var partnerPrivacyPolicy : String? = null
   var logoResName : String? = null
   var productName : String? = null
+
   override fun renderContent() {
     partnerName ?: run {
       emitFailure(IllegalArgumentException("partnerName is required for BiometricKYC"))

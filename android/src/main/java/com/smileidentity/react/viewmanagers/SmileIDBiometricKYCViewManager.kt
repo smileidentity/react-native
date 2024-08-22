@@ -12,11 +12,11 @@ import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDBiometricKYCView
 
 @ReactModule(name = SmileIDBiometricKYCViewManager.NAME)
-class SmileIDBiometricKYCViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDBiometricKYCView>() {
-  override fun getName(): String {
-    return NAME
-  }
+class SmileIDBiometricKYCViewManager(
+  private val reactApplicationContext: ReactApplicationContext
+) : SimpleViewManager<SmileIDBiometricKYCView>() {
+
+  override fun getName(): String = NAME
 
   override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
     return mapOf(

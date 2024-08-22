@@ -12,11 +12,11 @@ import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDSmartSelfieEnrollmentView
 
 @ReactModule(name = SmileIDSmartSelfieEnrollmentViewManager.NAME)
-class SmileIDSmartSelfieEnrollmentViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDSmartSelfieEnrollmentView>() {
-  override fun getName(): String {
-    return NAME
-  }
+class SmileIDSmartSelfieEnrollmentViewManager(
+  private val reactApplicationContext: ReactApplicationContext
+) : SimpleViewManager<SmileIDSmartSelfieEnrollmentView>() {
+
+  override fun getName(): String = NAME
 
   override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
     return mapOf(

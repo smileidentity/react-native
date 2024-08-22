@@ -13,11 +13,11 @@ import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDDocumentVerificationView
 
 @ReactModule(name = SmileIDDocumentVerificationViewManager.NAME)
-class SmileIDDocumentVerificationViewManager(private val reactApplicationContext: ReactApplicationContext) :
-  SimpleViewManager<SmileIDDocumentVerificationView>() {
-  override fun getName(): String {
-    return NAME
-  }
+class SmileIDDocumentVerificationViewManager(
+  private val reactApplicationContext: ReactApplicationContext
+) : SimpleViewManager<SmileIDDocumentVerificationView>() {
+
+  override fun getName(): String = NAME
 
   override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
     return mapOf(

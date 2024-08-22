@@ -2,6 +2,7 @@ package com.smileidentity.react
 
 import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.models.AuthenticationRequest
+import com.smileidentity.models.Config
 import com.smileidentity.models.ConsentInfo
 import com.smileidentity.models.EnhancedKycRequest
 import com.smileidentity.models.IdInfo
@@ -21,6 +22,15 @@ import com.smileidentity.react.utils.toMap
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import java.io.File
+
+fun ReadableMap.toConfig(): Config {
+  return  Config(
+    partnerId = getStringOrDefault("partnerId"),
+    authToken = getStringOrDefault("authToken"),
+    prodBaseUrl = getStringOrDefault("prodBaseUrl"),
+    sandboxBaseUrl = getStringOrDefault("sandboxBaseUrl"),
+  )
+}
 
 fun ReadableMap.toAuthenticationRequest(): AuthenticationRequest {
   return AuthenticationRequest(
