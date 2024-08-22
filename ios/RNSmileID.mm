@@ -1,6 +1,8 @@
 #import <React/RCTBridgeModule.h>
 
 @interface RCT_EXTERN_MODULE(RNSmileID, NSObject)
+RCT_EXTERN_METHOD(initializeWithApiKey:(NSString)apiKey, (NSDictionary *)config, (BOOL)useSandBox, (BOOL)enableCrashReporting withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(initializeWithConfig:(NSDictionary *)config, (BOOL)useSandBox, (BOOL)enableCrashReporting withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(initialize:(BOOL)useSandBox withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setCallbackUrl:(NSString)callbackUrl withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setAllowOfflineMode:(BOOL)allowOfflineMode withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)

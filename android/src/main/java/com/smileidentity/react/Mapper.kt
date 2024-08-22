@@ -25,10 +25,18 @@ import java.io.File
 
 fun ReadableMap.toConfig(): Config {
   return  Config(
-    partnerId = getStringOrDefault("partnerId"),
-    authToken = getStringOrDefault("authToken"),
-    prodBaseUrl = getStringOrDefault("prodBaseUrl"),
-    sandboxBaseUrl = getStringOrDefault("sandboxBaseUrl"),
+    partnerId = getStringOrDefault("partnerId") ?: run {
+      throw IllegalArgumentException("partnerId is required")
+    },
+    authToken = getStringOrDefault("authToken")  ?: run {
+      throw IllegalArgumentException("authToken is required")
+    },
+    prodBaseUrl = getStringOrDefault("prodBaseUrl") ?: run {
+      throw IllegalArgumentException("prodBaseUrl is required")
+    },
+    sandboxBaseUrl = getStringOrDefault("sandboxBaseUrl") ?: run {
+      throw IllegalArgumentException("sandboxBaseUrl is required")
+    },
   )
 }
 

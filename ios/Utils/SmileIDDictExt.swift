@@ -2,6 +2,16 @@ import Foundation
 import SmileID
 
 extension NSDictionary {
+
+    func toConfig() -> Config {
+        return Config (
+            partnerId: (self["partnerId"] as? String)!,
+            authToken: (self["authToken"] as? String)!,
+            prodLambdaUrl: (self["prodLambdaUrl"] as? String)!,
+            testLambdaUrl: (self["testLambdaUrl"] as? String)!
+        )
+    }
+    
     func toAuthenticationRequest() -> AuthenticationRequest? {
         guard let jobTypeValue = self["jobType"] as? Int,
               let jobType = JobType(rawValue: jobTypeValue),

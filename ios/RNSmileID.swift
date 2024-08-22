@@ -2,6 +2,38 @@ import SmileID
 
 @objc(RNSmileID)
 class RNSmileID: NSObject {
+    @objc(initializeWithApiKey:withResolver:withRejecter:)
+    func initializeWithApiKey(
+        apiKey: String,
+        config: NSDictionary,
+        useSandBox: Bool, 
+        enableCrashReporting: Bool,
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject _: @escaping RCTPromiseRejectBlock
+    ) {
+        SmileID.initialize(
+            apiKey: apiKey,
+            config: config.toConfig(),
+            useSandbox: useSandBox
+        )
+        resolve(nil)
+    }
+    
+    @objc(initializeWithConfig:withResolver:withRejecter:)
+    func initializeWithConfig(
+        config: NSDictionary,
+        useSandBox: Bool,
+        enableCrashReporting: Bool,
+        resolve: @escaping RCTPromiseResolveBlock,
+        reject _: @escaping RCTPromiseRejectBlock
+    ) {
+        SmileID.initialize(
+            config: config.toConfig(),
+            useSandbox: useSandBox
+        )
+        resolve(nil)
+    }
+    
     @objc(initialize:withResolver:withRejecter:)
     func initialize(useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
         SmileID.initialize(useSandbox: useSandBox)

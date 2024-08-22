@@ -56,7 +56,13 @@ class SmileIdModule internal constructor(
     enableCrashReporting: Boolean,
     promise: Promise
   ) {
-    SmileID.initialize(reactApplicationContext, useSandbox = useSandBox)
+    SmileID.initialize(
+      context = reactApplicationContext,
+      apiKey = apiKey,
+      config = config.toConfig(),
+      useSandbox = useSandBox,
+      enableCrashReporting = enableCrashReporting
+    )
     promise.resolve(null)
   }
 
@@ -67,13 +73,18 @@ class SmileIdModule internal constructor(
     enableCrashReporting: Boolean,
     promise: Promise
   ) {
-    SmileID.initialize(reactApplicationContext, useSandbox = useSandBox)
+    SmileID.initialize(
+      context = reactApplicationContext,
+      config = config.toConfig(),
+      useSandbox = useSandBox,
+      enableCrashReporting = enableCrashReporting
+    )
     promise.resolve(null)
   }
 
   @ReactMethod
    override fun initialize(useSandBox: Boolean, promise: Promise) {
-     SmileID.initialize(reactApplicationContext, useSandbox = useSandBox)
+     SmileID.initialize(context = reactApplicationContext, useSandbox = useSandBox)
      promise.resolve(null)
    }
 
