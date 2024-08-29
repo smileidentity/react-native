@@ -1,5 +1,9 @@
 # Release Notes
 
+
+## 10.1.10
+* Bump ios to 10.2.8 (https://github.com/smileidentity/ios/releases/tag/v10.2.8) In memory zip file handling
+
 ## 10.1.9
 * Bump ios to 10.2.6 (https://github.com/smileidentity/ios/releases/tag/v10.2.6) All polling methods now return a AsyncThrowingStream<JobStatusResponse<T>, Error> and instead of a timeout, if there is no error it'll return the last valid response and complete the stream.
 * Bump android to 10.2.5 (https://github.com/smileidentity/android/releases/tag/v10.2.5)

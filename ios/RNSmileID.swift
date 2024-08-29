@@ -101,16 +101,10 @@ class RNSmileID: NSObject {
             return
         }
 
-        guard let zipUrl = try? LocalStorage.toZip(uploadRequest: uploadRequest) else {
+        guard let zipData = try? LocalStorage.toZip(uploadRequest: uploadRequest) else {
             reject("Error", "Unable to zip file", nil)
             return
         }
-
-        guard let zipData = try? Data(contentsOf: zipUrl) else {
-            reject("Error", "Unable to read zip file", nil)
-            return
-        }
-
         Task {
             do {
                 try await SmileID.api.upload(zip: zipData, to: url)
