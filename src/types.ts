@@ -13,7 +13,7 @@ export class Config {
     partnerId: string,
     authToken: string,
     prodLambdaUrl: string,
-    testLambdaUrl: string,
+    testLambdaUrl: string
   ) {
     this.partnerId = partnerId;
     this.authToken = authToken;
