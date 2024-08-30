@@ -19,11 +19,25 @@ import type {
   UploadRequest,
   ValidDocumentsResponse,
 } from './index';
+import { Config } from './types';
 
 export interface Spec extends TurboModule {
   /**
    * Initialise the Smile ID SDK
    */
+  initializeWithApiKey: (
+    apiKey: string,
+    config: Config,
+    useSandBox: boolean,
+    enableCrashReporting: boolean
+  ) => Promise<void>;
+
+  initializeWithConfig: (
+    config: Config,
+    useSandBox: boolean,
+    enableCrashReporting: boolean
+  ) => Promise<void>;
+
   initialize: (useSandBox: boolean) => Promise<void>;
 
   /**

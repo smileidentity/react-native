@@ -16,6 +16,7 @@ import timber.log.Timber
 
 class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(context) {
   var idInfo: IdInfo? = null
+
   override fun renderContent() {
     idInfo ?: run {
       emitFailure(IllegalArgumentException("idInfo is required for BiometricKYC"))
@@ -58,5 +59,4 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
       }
     }
   }
-
 }

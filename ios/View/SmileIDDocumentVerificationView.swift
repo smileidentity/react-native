@@ -1,5 +1,4 @@
 import Foundation
-
 import SmileID
 import SwiftUI
 

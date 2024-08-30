@@ -8,7 +8,22 @@ import com.facebook.react.bridge.ReadableMap
 abstract class SmileIdSpec internal constructor(context: ReactApplicationContext) :
   ReactContextBaseJavaModule(context) {
 
-  abstract fun initialize(useSandBox: Boolean ,promise: Promise)
+  abstract fun initializeWithApiKey(
+    apiKey: String,
+    config: ReadableMap,
+    useSandBox: Boolean,
+    enableCrashReporting: Boolean,
+    promise: Promise
+  )
+
+  abstract fun initializeWithConfig(
+    config: ReadableMap,
+    useSandBox: Boolean,
+    enableCrashReporting: Boolean,
+    promise: Promise
+  )
+
+  abstract fun initialize(useSandBox: Boolean, promise: Promise)
 
   abstract fun setCallbackUrl(callbackUrl: String, promise: Promise)
 

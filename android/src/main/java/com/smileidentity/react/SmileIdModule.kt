@@ -42,19 +42,51 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
+class SmileIdModule internal constructor(
+  context: ReactApplicationContext
+) : SmileIdSpec(context) {
 
-class SmileIdModule internal constructor(context: ReactApplicationContext) :
-  SmileIdSpec(context) {
+  override fun getName(): String =  NAME
 
-  override fun getName(): String {
-    return NAME
+  @ReactMethod
+  override fun initializeWithApiKey(
+    apiKey: String,
+    config: ReadableMap,
+    useSandBox: Boolean,
+    enableCrashReporting: Boolean,
+    promise: Promise
+  ) {
+    SmileID.initialize(
+      context = reactApplicationContext,
+      apiKey = apiKey,
+      config = config.toConfig(),
+      useSandbox = useSandBox,
+      enableCrashReporting = enableCrashReporting
+    )
+    promise.resolve(null)
   }
 
   @ReactMethod
-  override fun initialize(useSandBox: Boolean, promise: Promise) {
-    SmileID.initialize(reactApplicationContext, useSandbox = useSandBox)
+  override fun initializeWithConfig(
+    config: ReadableMap,
+    useSandBox: Boolean,
+    enableCrashReporting: Boolean,
+    promise: Promise
+  ) {
+    SmileID.initialize(
+      context = reactApplicationContext,
+      config = config.toConfig(),
+      useSandbox = useSandBox,
+      enableCrashReporting = enableCrashReporting
+    )
     promise.resolve(null)
   }
+
+  @ReactMethod
+   override fun initialize(useSandBox: Boolean, promise: Promise) {
+     SmileID.initialize(context = reactApplicationContext, useSandbox = useSandBox)
+     promise.resolve(null)
+   }
 
   @ReactMethod
   override fun setCallbackUrl(callbackUrl: String, promise: Promise) {
@@ -67,20 +99,20 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     SmileIDCrashReporting.disable()
   }
 
-@ReactMethod
+  @ReactMethod
   override fun setAllowOfflineMode(allowOfflineMode: Boolean, promise: Promise) {
     SmileID.setAllowOfflineMode(allowOfflineMode)
     promise.resolve(null)
   }
 
-@ReactMethod
+  @ReactMethod
   override fun submitJob(jobId: String, promise: Promise) = launch(
     work = { SmileID.submitJob(jobId) },
     clazz = Unit::class.java,
     promise = promise
   )
 
-@ReactMethod
+  @ReactMethod
   override fun getUnsubmittedJobs(promise: Promise) {
     try {
       val writableArray: WritableArray = Arguments.createArray()
@@ -93,7 +125,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     }
   }
 
-@ReactMethod
+  @ReactMethod
   override fun getSubmittedJobs(promise: Promise) {
     try {
       val writableArray: WritableArray = Arguments.createArray()
@@ -106,7 +138,7 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     }
   }
 
-@ReactMethod
+  @ReactMethod
   override fun cleanup(jobId: String, promise: Promise) {
     try {
       SmileID.cleanup(jobId)
@@ -313,7 +345,6 @@ class SmileIdModule internal constructor(context: ReactApplicationContext) :
     val adapter = SmileID.moshi.adapter(clazz)
     return adapter.toJson(result)
   }
-
 
   private fun <T> launch(
     work: suspend () -> T,
