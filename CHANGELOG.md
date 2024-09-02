@@ -1,5 +1,7 @@
 # Release Notes
 
+## 10.1.11
+* Fix config issues on iOS
 
 ## 10.1.10
 * Bump ios to 10.2.8 (https://github.com/smileidentity/ios/releases/tag/v10.2.8) In memory zip file handling
