@@ -64,6 +64,11 @@ type SmartSelfieRequest = SmileIDViewProps & {
    * Whether to allow the user to reentoll
    */
   allowNewEnroll?: boolean;
+
+  /**
+   * Used for selfie capture screens to show the confirmation dialog
+   */
+  showConfirmation?: boolean;
 };
 
 export type SmartSelfieEnrollmentRequest = SmartSelfieRequest;

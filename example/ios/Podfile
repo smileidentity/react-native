@@ -15,8 +15,8 @@ if linkage != nil
 end
 
 target 'SmileIdExample' do
+  pod 'SmileID', :path => '../../../ios/'
   config = use_native_modules!
-
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.

@@ -1,5 +1,8 @@
 # Release Notes
 
+## (Unreleased)
+* Individual Selfie capture
+
 ## 10.1.11
 * Fix config issues on iOS
 

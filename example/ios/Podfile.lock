@@ -958,7 +958,7 @@ PODS:
     - React-utils
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - SmileID (= 10.2.8)
+    - SmileID (= 10.2.9)
     - Yoga
   - React-nativeconfig (0.74.2)
   - React-NativeModulesApple (0.74.2):
@@ -1211,7 +1211,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - SmileID (10.2.8):
+  - SmileID (10.2.9):
     - lottie-ios (~> 4.4.2)
     - ZIPFoundation (~> 0.9)
   - SocketRocket (0.7.0)
@@ -1277,12 +1277,12 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - SmileID (from `../../../ios/`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - lottie-ios
-    - SmileID
     - SocketRocket
     - ZIPFoundation
 
@@ -1400,6 +1400,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  SmileID:
+    :path: "../../../ios/"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1436,7 +1438,7 @@ SPEC CHECKSUMS:
   React-logger: 29fa3e048f5f67fe396bc08af7606426d9bd7b5d
   React-Mapbuffer: bf56147c9775491e53122a94c423ac201417e326
   react-native-safe-area-context: a240ad4b683349e48b1d51fed1611138d1bdad97
-  react-native-smile-id: f75eaf18d9f18fd71d24d4f19a83e29c505a14d7
+  react-native-smile-id: e71daa02db70651a59179981f8aeb2d6f5f8347a
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: ff7efaff7098639db5631236cfd91d60abff04c0
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
@@ -1461,11 +1463,11 @@ SPEC CHECKSUMS:
   React-utils: 4476b7fcbbd95cfd002f3e778616155241d86e31
   ReactCommon: ecad995f26e0d1e24061f60f4e5d74782f003f12
   RNScreens: 5aeecbb09aa7285379b6e9f3c8a3c859bb16401c
-  SmileID: 757fe12fe0101a707563abf51c4aa27fe5598994
+  SmileID: cbeaf5142f11cea7a4778d7c000fa9b766c4afa2
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
-PODFILE CHECKSUM: e527f17ab57a2f8d8779ef014b3b6bc1aac3e8d6
+PODFILE CHECKSUM: ca4c8e26c68f5315dd9f43a653fdb57381edab20
 
 COCOAPODS: 1.15.2
