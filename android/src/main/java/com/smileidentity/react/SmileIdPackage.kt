@@ -8,17 +8,20 @@ import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.uimanager.ViewManager
 import com.smileidentity.react.viewmanagers.SmileIDBiometricKYCViewManager
 import com.smileidentity.react.viewmanagers.SmileIDConsentViewManager
+import com.smileidentity.react.viewmanagers.SmileIDDocumentCaptureViewManager
 import com.smileidentity.react.viewmanagers.SmileIDDocumentVerificationViewManager
 import com.smileidentity.react.viewmanagers.SmileIDEnhancedDocumentVerificationViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieAuthenticationViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieCaptureViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieEnrollmentViewManager
+import com.smileidentity.react.views.SmileIDDocumentCaptureView
 
 class SmileIdPackage : TurboReactPackage() {
 
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> =
     listOf(
       SmileIDSmartSelfieCaptureViewManager(reactContext),
+      SmileIDDocumentCaptureViewManager(reactContext),
       SmileIDSmartSelfieEnrollmentViewManager(reactContext),
       SmileIDSmartSelfieAuthenticationViewManager(reactContext),
       SmileIDDocumentVerificationViewManager(reactContext),

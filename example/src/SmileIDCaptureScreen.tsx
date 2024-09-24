@@ -6,6 +6,7 @@ import {
   SmileIDSmartSelfieAuthenticationView,
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
+  SmileIDDocumentCaptureView,
   SmileIDEnhancedDocumentVerificationView,
   AuthenticationRequest,
   JobType,
@@ -133,7 +134,27 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         // @ts-ignore - this is a known issue with the type definitions
         <SmileIDSmartSelfieCaptureView
           {...product}
-          style={[styles.smileView, { backgroundColor: '#fff' }]}
+          style={[styles.smileView]}
+          onResult={(event) => {
+            if (event.nativeEvent.error) {
+              handleErrorResponse(event.nativeEvent.error);
+              return;
+            }
+            handleResponse(
+              JobType.SmartSelfieEnrollment,
+              'pollSmartSelfieJobStatus',
+              event.nativeEvent.result,
+              product.userId,
+              product.jobId
+            );
+          }}
+        />
+      )}
+      {title === 'Document Capture' && (
+        // @ts-ignore - this is a known issue with the type definitions
+        <SmileIDDocumentCaptureView
+          {...product}
+          style={[styles.smileView]}
           onResult={(event) => {
             if (event.nativeEvent.error) {
               handleErrorResponse(event.nativeEvent.error);

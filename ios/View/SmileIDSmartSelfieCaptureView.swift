@@ -2,6 +2,7 @@ import Foundation
 import SmileID
 import SwiftUI
 
+
 struct SmileIDSmartSelfieCaptureView: View {
     var allowAgentMode = true
     @ObservedObject var viewModel: SelfieViewModel

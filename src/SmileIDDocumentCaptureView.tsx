@@ -4,12 +4,12 @@ import { UIManager, findNodeHandle, Platform } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { SmartSelfieEnrollmentRequest } from './index';
 
-const SmileIDSmartSelfieEnrollmentComponent =
+const SmileIDDocumentCaptureComponent =
   codegenNativeComponent<SmartSelfieEnrollmentRequest>(
-    'SmileIDSmartSelfieEnrollmentView'
+    'SmileIDDocumentCaptureView'
   ) as HostComponent<SmartSelfieEnrollmentRequest>;
 
-export default class SmileIDSmartSelfieEnrollmentView extends Component<SmartSelfieEnrollmentRequest> {
+export default class SmileIDDocumentCaptureView extends Component<SmartSelfieEnrollmentRequest> {
   private viewRef = React.createRef<any>(); //
 
   componentDidMount() {
@@ -19,7 +19,7 @@ export default class SmileIDSmartSelfieEnrollmentView extends Component<SmartSel
 
     // Obtain the command identifier
     const commandId = UIManager.getViewManagerConfig(
-      'SmileIDSmartSelfieEnrollmentView'
+      'SmileIDDocumentCaptureView'
     ).Commands.setParams;
 
     // Ensure the commandId is defined and is a number
@@ -38,10 +38,7 @@ export default class SmileIDSmartSelfieEnrollmentView extends Component<SmartSel
 
   render() {
     return (
-      <SmileIDSmartSelfieEnrollmentComponent
-        ref={this.viewRef}
-        {...this.props}
-      />
+      <SmileIDDocumentCaptureComponent ref={this.viewRef} {...this.props} />
     );
   }
 }

@@ -5,6 +5,7 @@ import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
 import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
 import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
 import SmileIDSmartSelfieCaptureView from './SmileIDSmartSelfieCaptureView';
+import SmileIDDocumentCaptureView from './SmileIDDocumentCaptureView';
 import SmileIDConsentView from './SmileIDConsentView';
 import {
   AuthenticationRequest,
@@ -265,6 +266,7 @@ export {
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
   SmileIDSmartSelfieCaptureView,
+  SmileIDDocumentCaptureView,
   SmileIDConsentView,
   EnhancedKycRequest,
   JobType,

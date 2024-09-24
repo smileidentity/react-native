@@ -45,6 +45,10 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     useState<SmartSelfieEnrollmentRequest>({
       ...defaultProductRef.current,
     });
+  const [documentCapture, setDocumentCapture] =
+    useState<SmartSelfieEnrollmentRequest>({
+      ...defaultProductRef.current,
+    });
   const [smartSelfieAuthentication, setSmartSelfieAuthentication] =
     useState<SmartSelfieAuthenticationRequest>({
       ...defaultProductRef.current,
@@ -106,6 +110,10 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       ...defaultProductRef.current,
     });
 
+    setDocumentCapture({
+      ...defaultProductRef.current,
+    });
+
     setSmartSelfieEnrollment({
       ...defaultProductRef.current,
       extraPartnerParams: {
@@ -158,6 +166,10 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
         product: smartselfieCapture,
       },
       {
+        title: 'Document Capture',
+        product: documentCapture,
+      },
+      {
         title: 'SmartSelfie Enrollment',
         product: smartSelfieEnrollment,
       },
@@ -184,6 +196,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     ]);
   }, [
     smartselfieCapture,
+    documentCapture,
     smartSelfieEnrollment,
     smartSelfieAuthentication,
     documentVerification,
