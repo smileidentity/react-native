@@ -1,6 +1,7 @@
 package com.smileidentity.react.views
 
 import android.graphics.BitmapFactory
+import android.os.Parcelable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -27,6 +28,8 @@ import com.smileidentity.compose.components.ImageCaptureConfirmationDialog
 import com.smileidentity.compose.components.LocalMetadata
 import com.smileidentity.compose.selfie.SelfieCaptureScreen
 import com.smileidentity.compose.theme.colorScheme
+import com.smileidentity.react.utils.DocumentCaptureResultAdapter
+import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
@@ -34,12 +37,13 @@ import com.smileidentity.util.randomUserId
 import com.smileidentity.viewmodel.SelfieUiState
 import com.smileidentity.viewmodel.SelfieViewModel
 import com.smileidentity.viewmodel.viewModelFactory
+import com.squareup.moshi.JsonClass
 import timber.log.Timber
 import java.io.File
 
 data class SmartSelfieCaptureResult(
-  val selfieFile: File,
-  val livenessFiles: List<File>
+  val selfieFile: File? = null,
+  val livenessFiles: List<File >? = null
 )
 
 @OptIn(SmileIDOptIn::class)
@@ -106,8 +110,17 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDV
   }
 
   private fun emitSuccessResult(data: SmartSelfieResult) {
+    val newMoshi = SmileID.moshi.newBuilder()
+      .add(SelfieCaptureResultAdapter.FACTORY)
+      .build()
+    val result = SmartSelfieCaptureResult(
+      selfieFile = data.selfieFile,
+      livenessFiles =  data.livenessFiles,
+    )
     val json = try {
-      SmileID.moshi.adapter(SmartSelfieResult::class.java).toJson(data)
+      newMoshi
+        .adapter(SmartSelfieCaptureResult::class.java)
+        .toJson(result)
     } catch (e: Exception) {
       Timber.w(e)
       "null"

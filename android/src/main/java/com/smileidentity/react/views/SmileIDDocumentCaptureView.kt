@@ -27,7 +27,6 @@ import com.squareup.moshi.JsonClass
 import timber.log.Timber
 import java.io.File
 
-@JsonClass(generateAdapter = true)
 data class DocumentCaptureResult(
   val documentFrontFile: File? = null,
   val documentBackFile: File? = null
