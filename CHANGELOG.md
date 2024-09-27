@@ -1,7 +1,9 @@
 # Release Notes
 
-## (Unreleased)
-* Individual Selfie capture
+## 10.1.12
+* Added selfie capture screens
+* Added document capture screens
+* Bump android to 10.3.1 (https://github.com/smileidentity/android/releases/tag/v10.3.1)
 
 ## 10.1.11
 * Fix config issues on iOS
