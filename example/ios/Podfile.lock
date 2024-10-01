@@ -1283,13 +1283,13 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - SmileID (from `../../../ios/`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - FingerprintJS
     - lottie-ios
-    - SmileID
     - SocketRocket
     - ZIPFoundation
 
@@ -1407,6 +1407,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  SmileID:
+    :path: "../../../ios/"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1474,6 +1476,6 @@ SPEC CHECKSUMS:
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
-PODFILE CHECKSUM: 92128f18619da6c6e525b6e782e26be40527bc29
+PODFILE CHECKSUM: 653c6823d1a84bf18f213a87f885674e863c406b
 
 COCOAPODS: 1.15.2

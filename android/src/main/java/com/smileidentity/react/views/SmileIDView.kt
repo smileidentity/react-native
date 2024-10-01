@@ -24,8 +24,8 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   private var jobType: JobType? = null
   var allowAgentMode: Boolean? = false
   var allowNewEnroll: Boolean? = false
-  var showInstructions: Boolean? = true
-  var showAttribution: Boolean? = true
+  var showInstructions: Boolean = true
+  var showAttribution: Boolean = true
   var extraPartnerParams: Map<String, String>? = null
   private var eventEmitter: RCTEventEmitter
   private var productThrowable: Throwable? = null

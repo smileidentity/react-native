@@ -35,9 +35,9 @@ data class DocumentCaptureResult(
 @OptIn(SmileIDOptIn::class)
 class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView(context) {
   var showConfirmation: Boolean = true
-  private var front: Boolean = true
-  private var allowGalleryUpload: Boolean = false
-  private var idAspectRatio: Float? = null
+  var front: Boolean = true
+  var allowGalleryUpload: Boolean = false
+  var idAspectRatio: Float? = null
 
   override fun renderContent() {
     composeView.apply {
@@ -72,9 +72,10 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
     DocumentCaptureScreen(
       jobId = jobId,
       side = if (front) DocumentCaptureSide.Front else DocumentCaptureSide.Back,
-      showInstructions = showInstructions ?: true,
-      showAttribution = showAttribution ?: true,
+      showInstructions = showInstructions,
+      showAttribution = showAttribution,
       allowGallerySelection = allowGalleryUpload,
+      showConfirmation = showConfirmation,
       showSkipButton = false,
       instructionsHeroImage = hero,
       instructionsTitleText = stringResource(instructionTitle),

@@ -31,6 +31,10 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     jobId: '',
     allowAgentMode: true,
     showInstructions: true,
+    showAttribution: true,
+    showConfirmation: true,
+    isDocumentFrontSide: true,
+    allowGalleryUpload: true,
   });
   const [userId, setUserId] = useState(generateUuid('user_'));
   const [jobId, setJobId] = useState(generateUuid('job_'));

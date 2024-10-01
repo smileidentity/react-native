@@ -17,9 +17,11 @@ class SmileIDDocumentCaptureViewManager: SmileIDBaseViewManager {
                 self.product.userId = params["userId"] as? String
                 self.product.jobId = params["jobId"] as? String
                 self.product.allowAgentMode = params["allowAgentMode"] as? Bool ?? false
-                self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
+              self.product.front = params["isDocumentFrontSide"] as? Bool ?? true
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true
                 self.product.showInstructions = params["showInstructions"] as? Bool ?? true
+              self.product.showConfirmation = params["showConfirmation"] as? Bool ?? true
+              self.product.allowGalleryUpload = params["allowGalleryUpload"] as? Bool ?? false
                 self.product.onResult = params["onResult"] as? RCTBubblingEventBlock
             }
         }

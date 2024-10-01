@@ -140,13 +140,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               handleErrorResponse(event.nativeEvent.error);
               return;
             }
-            handleResponse(
-              JobType.SmartSelfieEnrollment,
-              'pollSmartSelfieJobStatus',
-              event.nativeEvent.result,
-              product.userId,
-              product.jobId
-            );
+            setResult(event.nativeEvent.result);
           }}
         />
       )}
@@ -160,13 +154,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               handleErrorResponse(event.nativeEvent.error);
               return;
             }
-            handleResponse(
-              JobType.SmartSelfieEnrollment,
-              'pollSmartSelfieJobStatus',
-              event.nativeEvent.result,
-              product.userId,
-              product.jobId
-            );
+            setResult(event.nativeEvent.result);
           }}
         />
       )}

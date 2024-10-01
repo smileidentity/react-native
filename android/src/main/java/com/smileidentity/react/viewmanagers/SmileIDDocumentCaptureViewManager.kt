@@ -42,10 +42,12 @@ class SmileIDDocumentCaptureViewManager(
         params?.let {
           view.userId = params.getStringOrDefault("userId")
           view.jobId = params.getStringOrDefault("jobId")
-          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
+          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", true)
           view.showAttribution = params.getBoolOrDefault("showAttribution", true)
           view.showInstructions = params.getBoolOrDefault("showInstructions", true)
           view.showConfirmation = params.getBoolOrDefault("showConfirmation", true)
+          view.allowGalleryUpload = params.getBoolOrDefault("allowGalleryUpload", false)
+          view.front = params.getBoolOrDefault("isDocumentFrontSide", true)
           view.renderContent()
         }
       }

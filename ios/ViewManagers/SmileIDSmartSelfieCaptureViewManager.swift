@@ -8,7 +8,6 @@ class SmileIDSmartSelfieCaptureViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
         BaseSmileIDView(frame: .zero, contentView: AnyView(
             SmileIDSmartSelfieCaptureView(
-                allowAgentMode: self.product.allowAgentMode ,
                 viewModel: SelfieViewModel(isEnroll: false,
                                            userId: self.product.userId ?? generateUserId(),
                                            jobId: self.product.jobId ?? generateJobId(),
@@ -28,6 +27,8 @@ class SmileIDSmartSelfieCaptureViewManager: SmileIDBaseViewManager {
                 self.product.userId = params["userId"] as? String
                 self.product.jobId = params["jobId"] as? String
                 self.product.showConfirmation = params["showConfirmation"] as? Bool ?? true
+              self.product.showInstructions = params["showInstructions"] as? Bool ?? true
+              self.product.showAttribution = params["showAttribution"] as? Bool ?? true
                 self.product.onResult = params["onResult"] as? RCTBubblingEventBlock
             }
         }
