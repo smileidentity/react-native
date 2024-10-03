@@ -4,7 +4,7 @@ import SwiftUI
 
 struct DocumentCaptureResult {
   let documentFile: URL? // Using URL to represent file paths in Swift
-  
+
   init(documentFile: URL?) {
     self.documentFile = documentFile
   }
@@ -30,13 +30,14 @@ struct SmileIDDocumentCaptureView: View {
         ),
         captureTitleText: SmileIDResourcesHelper.localizedString(for: "Action.TakePhoto"),
         knownIdAspectRatio: self.product.idAspectRatio,
+        showConfirmation:self.product.showConfirmation,
         onConfirm: onConfirmed,
         onError: onError,
         onSkip: onSkip
       )
     }.navigationViewStyle(StackNavigationViewStyle()).environmentObject(localMetadata)
   }
-  
+
   func onConfirmed(data: Data) {
     do {
       // Attempt to create the document file
@@ -45,14 +46,14 @@ struct SmileIDDocumentCaptureView: View {
         fileType: self.product.front ? FileType.documentFront : FileType.documentBack,
         document: data
       )
-      
-  
+
+
       // Create params dictionary
       var params: [String: Any] = [
         "documentFrontImage": product.front ? url.absoluteString : nil ,
         "documentBackImage": product.front ? nil : url.absoluteString
       ]
-      
+
       // Convert params to JSON-compatible dictionary and serialize to JSON
       guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted),
             let jsonString = String(data: jsonData, encoding: .utf8) else {
@@ -60,20 +61,20 @@ struct SmileIDDocumentCaptureView: View {
         product.onResult?(["error": SmileIDError.unknown("SmileIDDocumentCaptureView encoding error")])
         return
       }
-      
+
       // Send the result as a JSON string
       product.onResult?(["result": jsonString])
-      
+
     } catch {
       // Handle file creation error
       product.onResult?(["error": SmileIDError.unknown("Error creating document file: \(error.localizedDescription)")])
     }
   }
-  
+
   func onError(error: Error) {
     product.onResult?(["error": error.localizedDescription])
   }
-  
+
   func onSkip() {
     product.onResult?(["error": SmileIDError.unknown("SmileIDDocumentCaptureView skipped")])
   }
