@@ -31,6 +31,10 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     jobId: '',
     allowAgentMode: true,
     showInstructions: true,
+    showAttribution: true,
+    showConfirmation: true,
+    isDocumentFrontSide: true,
+    allowGalleryUpload: true,
   });
   const [userId, setUserId] = useState(generateUuid('user_'));
   const [jobId, setJobId] = useState(generateUuid('job_'));
@@ -40,6 +44,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       extraPartnerParams: {
         optionalThingKey: 'optionalThingValue',
       },
+    });
+  const [smartselfieCapture, setSmartselfieCapture] =
+    useState<SmartSelfieEnrollmentRequest>({
+      ...defaultProductRef.current,
+    });
+  const [documentCapture, setDocumentCapture] =
+    useState<SmartSelfieEnrollmentRequest>({
+      ...defaultProductRef.current,
     });
   const [smartSelfieAuthentication, setSmartSelfieAuthentication] =
     useState<SmartSelfieAuthenticationRequest>({
@@ -98,6 +110,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       jobId,
     };
 
+    setSmartselfieCapture({
+      ...defaultProductRef.current,
+    });
+
+    setDocumentCapture({
+      ...defaultProductRef.current,
+    });
+
     setSmartSelfieEnrollment({
       ...defaultProductRef.current,
       extraPartnerParams: {
@@ -146,6 +166,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   useEffect(() => {
     setSmileProducts([
       {
+        title: 'SmartSelfie Capture',
+        product: smartselfieCapture,
+      },
+      {
+        title: 'Document Capture',
+        product: documentCapture,
+      },
+      {
         title: 'SmartSelfie Enrollment',
         product: smartSelfieEnrollment,
       },
@@ -171,6 +199,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       },
     ]);
   }, [
+    smartselfieCapture,
+    documentCapture,
     smartSelfieEnrollment,
     smartSelfieAuthentication,
     documentVerification,

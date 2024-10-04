@@ -16,7 +16,6 @@ end
 
 target 'SmileIdExample' do
   config = use_native_modules!
-
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
