@@ -1,5 +1,6 @@
 package com.smileidentity.react.views
 
+import android.annotation.SuppressLint
 import android.view.Choreographer
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -10,9 +11,12 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
+import com.smileidentity.SmileID
 import com.smileidentity.models.JobType
+import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import timber.log.Timber
 
+@SuppressLint("CheckResult")
 abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
   lateinit var composeView: ComposeView
   var userId: String? = null
@@ -20,8 +24,8 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   private var jobType: JobType? = null
   var allowAgentMode: Boolean? = false
   var allowNewEnroll: Boolean? = false
-  var showInstructions: Boolean? = true
-  var showAttribution: Boolean? = true
+  var showInstructions: Boolean = true
+  var showAttribution: Boolean = true
   var extraPartnerParams: Map<String, String>? = null
   private var eventEmitter: RCTEventEmitter
   private var productThrowable: Throwable? = null
@@ -31,6 +35,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
       ViewGroup.LayoutParams.WRAP_CONTENT,
       ViewGroup.LayoutParams.WRAP_CONTENT
     )
+
     eventEmitter = (context as ReactContext).getJSModule(RCTEventEmitter::class.java);
     setLayoutParams(layoutParams)
     orientation = VERTICAL

@@ -64,6 +64,11 @@ type SmartSelfieRequest = SmileIDViewProps & {
    * Whether to allow the user to reentoll
    */
   allowNewEnroll?: boolean;
+
+  /**
+   * Used for selfie capture screens to show the confirmation dialog
+   */
+  showConfirmation?: boolean;
 };
 
 export type SmartSelfieEnrollmentRequest = SmartSelfieRequest;
@@ -97,6 +102,12 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    * If provided, selfie capture will be bypassed using this image.
    */
   bypassSelfieCaptureWithFile?: string;
+
+  /**
+   * If true, document capture instruction and prompts
+   * will be for front side of the document
+   */
+  isDocumentFrontSide?: boolean;
 };
 
 export type ConsentRequest = Omit<SmartSelfieRequest, 'allowAgentMode'> & {

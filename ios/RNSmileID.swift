@@ -33,7 +33,7 @@ class RNSmileID: NSObject {
         )
         resolve(nil)
     }
-    
+
     @objc(initialize:withResolver:withRejecter:)
     func initialize(useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
         SmileID.initialize(useSandbox: useSandBox)
