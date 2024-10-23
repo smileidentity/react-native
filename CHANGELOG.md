@@ -1,5 +1,8 @@
 # Release Notes
 
+## (Unreleased)
+* Consistent file paths for all products and capture screens
+
 ## 10.1.12
 * Added selfie capture screens
 * Added document capture screens

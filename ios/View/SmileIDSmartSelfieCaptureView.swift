@@ -3,12 +3,11 @@ import SmileID
 import SwiftUI
 
 
-struct SmileIDSmartSelfieCaptureView: View {
+struct SmileIDSmartSelfieCaptureView: View, SmileIDFileUtilsProtocol {
+  var fileManager: FileManager = Foundation.FileManager.default
   @ObservedObject var viewModel: SelfieViewModel
   @ObservedObject var product: SmileIDProductModel
   @State private var acknowledgedInstructions = false
-  static let shared = FileManager()
-  private let fileManager = Foundation.FileManager.default
 
   var body: some View {
     NavigationView {
@@ -52,7 +51,7 @@ struct SmileIDSmartSelfieCaptureView: View {
 
 extension SmileIDSmartSelfieCaptureView: SmartSelfieResultDelegate {
   func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse: SmartSelfieResponse?) {
-    var params: [String: Any] = [
+    let params: [String: Any] = [
       "selfieFile": getFilePath(fileName: selfieImage.absoluteString),
       "livenessFiles": livenessImages.map {
         getFilePath(fileName: $0.absoluteString)
@@ -60,7 +59,7 @@ extension SmileIDSmartSelfieCaptureView: SmartSelfieResultDelegate {
     ]
 
     guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
-      product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieEnrollmentView encoding error")])
+      product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieCaptureView encoding error")])
       return
     }
     product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
@@ -68,41 +67,5 @@ extension SmileIDSmartSelfieCaptureView: SmartSelfieResultDelegate {
 
   func didError(error: Error) {
     product.onResult?(["error": error.localizedDescription])
-  }
-
-  func getSmileIDDirectory() -> String? {
-    guard let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-      print("Unable to access documents directory")
-      return nil
-    }
-
-    let smileIDDirectory = documentsDirectory.appendingPathComponent("SmileID")
-    return smileIDDirectory.absoluteURL.absoluteString
-  }
-
-  func createSmileIDDirectoryIfNeeded() -> Bool {
-    guard let smileIDDirectory = getSmileIDDirectory() else {
-      return false
-    }
-
-    if !fileManager.fileExists(atPath: smileIDDirectory) {
-      do {
-        try fileManager.createDirectory(atPath: smileIDDirectory, withIntermediateDirectories: true, attributes: nil)
-        return true
-      } catch {
-        print("Error creating SmileID directory: \(error)")
-        return false
-      }
-    }
-
-    return true
-  }
-
-  func getFilePath(fileName: String) -> String? {
-    guard let smileIDDirectory = getSmileIDDirectory() else {
-      return nil
-    }
-
-    return (smileIDDirectory as NSString).appendingPathComponent(fileName)
   }
 }

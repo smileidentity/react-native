@@ -6,12 +6,12 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.EnhancedDocumentVerificationScreen
-import com.smileidentity.results.EnhancedDocumentVerificationResult
+import com.smileidentity.react.results.DocumentCaptureResult
+import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import kotlinx.collections.immutable.toImmutableMap
-import timber.log.Timber
 
 class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) :
   SmileIDView(context) {
@@ -44,24 +44,37 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
             extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
-          ) { result ->
-            when (result) {
+          ) { res ->
+            when (res) {
               is SmileIDResult.Success -> {
-                val json = try {
+                val result =
+                  DocumentCaptureResult(
+                    selfieFile = res.data.selfieFile,
+                    documentFrontFile = res.data.documentFrontFile,
+                    livenessFiles = res.data.livenessFiles,
+                    documentBackFile = res.data.documentBackFile,
+                    didSubmitEnhancedDocVJob = res.data.didSubmitEnhancedDocVJob,
+                  )
+                val newMoshi =
                   SmileID.moshi
-                    .adapter(EnhancedDocumentVerificationResult::class.java)
-                    .toJson(result.data)
-                } catch (e: Exception) {
-                  Timber.w(e)
-                  "null"
+                    .newBuilder()
+                    .add(DocumentCaptureResultAdapter.FACTORY)
+                    .build()
+                val json =
+                  try {
+                    newMoshi
+                      .adapter(DocumentCaptureResult::class.java)
+                      .toJson(result)
+                  } catch (e: Exception) {
+                    emitFailure(e)
+                    return@EnhancedDocumentVerificationScreen
+                  }
+                json?.let { js ->
+                  emitSuccess(js)
                 }
-                emitSuccess(json)
               }
 
-              is SmileIDResult.Error -> {
-                result.throwable.printStackTrace()
-                emitFailure(result.throwable)
-              }
+              is SmileIDResult.Error -> emitFailure(res.throwable)
             }
           }
         }
