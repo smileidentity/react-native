@@ -2,42 +2,45 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDSmartSelfieAuthView: View {
-    @ObservedObject var product : SmileIDProductModel
-    var body: some View {
-        NavigationView {
-            SmileID.smartSelfieAuthenticationScreen(
-                userId: product.userId ?? generateUserId(),
-                jobId: product.jobId ?? generateJobId(),
-                allowNewEnroll: product.allowNewEnroll,
-                allowAgentMode: product.allowAgentMode,
-                showAttribution: product.showAttribution,
-                showInstructions: product.showInstructions,
-                extraPartnerParams: product.extraPartnerParams as [String: String],
-                delegate: self
-            )
-        }.navigationViewStyle(StackNavigationViewStyle())
-    }
+struct SmileIDSmartSelfieAuthView: View,SmileIDFileUtilsProtocol {
+  var fileManager: FileManager = Foundation.FileManager.default
+  @ObservedObject var product : SmileIDProductModel
+  var body: some View {
+    NavigationView {
+      SmileID.smartSelfieAuthenticationScreen(
+        userId: product.userId ?? generateUserId(),
+        jobId: product.jobId ?? generateJobId(),
+        allowNewEnroll: product.allowNewEnroll,
+        allowAgentMode: product.allowAgentMode,
+        showAttribution: product.showAttribution,
+        showInstructions: product.showInstructions,
+        extraPartnerParams: product.extraPartnerParams as [String: String],
+        delegate: self
+      )
+    }.navigationViewStyle(StackNavigationViewStyle())
+  }
 }
 
 extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
-    func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse: SmartSelfieResponse?) {
-        var params: [String: Any] = [
-            "selfieFile": selfieImage.absoluteString,
-            "livenessFiles": livenessImages,
-        ]
-        if let apiResponse = apiResponse {
-            params["apiResponse"] = apiResponse
-        }
-
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
-            product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error")])
-            return
-        }
-        product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
+  func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse: SmartSelfieResponse?) {
+    var params: [String: Any] = [
+      "selfieFile": getFilePath(fileName: selfieImage.absoluteString),
+      "livenessFiles": livenessImages.map {
+        getFilePath(fileName: $0.absoluteString)
+      }
+    ]
+    if let apiResponse = apiResponse {
+      params["apiResponse"] = apiResponse
     }
-
-    func didError(error: Error) {
-        product.onResult?(["error": error.localizedDescription])
+    
+    guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
+      product.onResult?(["error": SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error")])
+      return
     }
+    product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
+  }
+  
+  func didError(error: Error) {
+    product.onResult?(["error": error.localizedDescription])
+  }
 }

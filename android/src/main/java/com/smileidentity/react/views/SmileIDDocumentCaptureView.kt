@@ -17,22 +17,15 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.R
 import com.smileidentity.SmileID
-import com.smileidentity.SmileIDOptIn
 import com.smileidentity.compose.document.DocumentCaptureScreen
 import com.smileidentity.compose.document.DocumentCaptureSide
 import com.smileidentity.compose.theme.colorScheme
+import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.util.randomJobId
-import com.squareup.moshi.JsonClass
 import timber.log.Timber
 import java.io.File
 
-data class DocumentCaptureResult(
-  val documentFrontFile: File? = null,
-  val documentBackFile: File? = null
-)
-
-@OptIn(SmileIDOptIn::class)
 class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView(context) {
   var showConfirmation: Boolean = true
   var front: Boolean = true

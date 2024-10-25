@@ -37,6 +37,7 @@ import com.smileidentity.compose.selfie.SmartSelfieInstructionsScreen
 import com.smileidentity.compose.theme.colorScheme
 import com.smileidentity.compose.theme.typography
 import com.smileidentity.models.v2.Metadata
+import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
@@ -44,12 +45,7 @@ import com.smileidentity.util.randomUserId
 import com.smileidentity.viewmodel.SelfieUiState
 import com.smileidentity.viewmodel.SelfieViewModel
 import com.smileidentity.viewmodel.viewModelFactory
-import java.io.File
 
-data class SmartSelfieCaptureResult(
-  val selfieFile: File? = null,
-  val livenessFiles: List<File >? = null
-)
 
 @OptIn(SmileIDOptIn::class)
 class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDView(context) {
