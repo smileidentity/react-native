@@ -9,7 +9,6 @@ struct SmileIDSmartSelfieEnrollmentView: View,SmileIDFileUtilsProtocol {
     NavigationView {
       SmileID.smartSelfieEnrollmentScreen(
         userId: product.userId ?? generateUserId(),
-        jobId: product.jobId ?? generateJobId(),
         allowNewEnroll: product.allowNewEnroll,
         allowAgentMode: product.allowAgentMode,
         showAttribution: product.showAttribution,

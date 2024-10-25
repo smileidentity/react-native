@@ -23,7 +23,6 @@ class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
         CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
           SmileID.SmartSelfieAuthentication(
             userId = userId ?: rememberSaveable { randomUserId() },
-            jobId = jobId ?: rememberSaveable { randomJobId() },
             allowAgentMode = allowAgentMode ?: false,
             allowNewEnroll = allowNewEnroll ?: false,
             showAttribution = showAttribution ?: true,

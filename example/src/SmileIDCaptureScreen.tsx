@@ -168,12 +168,16 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               handleErrorResponse(event.nativeEvent.error);
               return;
             }
+            const jobId =
+              'jobId' in product
+                ? product.jobId
+                : product.extraPartnerParams?.job_id;
             handleResponse(
               JobType.SmartSelfieEnrollment,
               'pollSmartSelfieJobStatus',
               event.nativeEvent.result,
               product.userId,
-              product.jobId
+              jobId
             );
           }}
         />
@@ -188,12 +192,16 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               handleErrorResponse(event.nativeEvent.error);
               return;
             }
+            const jobId =
+              'jobId' in product
+                ? product.jobId
+                : product.extraPartnerParams?.job_id;
             handleResponse(
               JobType.SmartSelfieAuthentication,
               'pollSmartSelfieJobStatus',
               event.nativeEvent.result,
               product.userId,
-              product.jobId
+              jobId
             );
           }}
         />
@@ -213,7 +221,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               'pollDocumentVerificationJobStatus',
               event.nativeEvent.result,
               product.userId,
-              product.jobId
+              'jobId' in product ? product.jobId : undefined
             );
           }}
         />
@@ -233,7 +241,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               'pollEnhancedDocumentVerificationJobStatus',
               event.nativeEvent.result,
               product.userId,
-              product.jobId
+              'jobId' in product ? product.jobId : undefined
             );
           }}
         />
@@ -253,7 +261,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               'pollBiometricKycJobStatus',
               event.nativeEvent.result,
               product.userId,
-              product.jobId
+              'jobId' in product ? product.jobId : undefined
             );
           }}
         />
