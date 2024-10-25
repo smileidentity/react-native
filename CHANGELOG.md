@@ -1,7 +1,9 @@
 # Release Notes
 
-## (Unreleased)
+## 10.2.0
 * Consistent file paths for all products and capture screens
+* Smartselfie enroll removed jobId will now be job_id in the extra partner params
+* Smartselfie authentication removed jobId will now be job_id in the extra partner params
 
 ## 10.1.12
 * Added selfie capture screens

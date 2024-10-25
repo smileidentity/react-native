@@ -71,8 +71,11 @@ type SmartSelfieRequest = SmileIDViewProps & {
   showConfirmation?: boolean;
 };
 
-export type SmartSelfieEnrollmentRequest = SmartSelfieRequest;
-export type SmartSelfieAuthenticationRequest = SmartSelfieRequest;
+export type SmartSelfieEnrollmentRequest = Omit<SmartSelfieRequest, 'jobId'>;
+export type SmartSelfieAuthenticationRequest = Omit<
+  SmartSelfieRequest,
+  'jobId'
+>;
 
 export type DocumentVerificationRequest = SmartSelfieRequest & {
   /**
@@ -108,6 +111,10 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    * will be for front side of the document
    */
   isDocumentFrontSide?: boolean;
+
+  /*jobId The job ID to associate with the job. Most often, this will correspond to a unique
+  Job ID within your own system. If not provided, a random job ID will be generated.*/
+  jobId?: string;
 };
 
 export type ConsentRequest = Omit<SmartSelfieRequest, 'allowAgentMode'> & {
@@ -133,6 +140,7 @@ export type ConsentRequest = Omit<SmartSelfieRequest, 'allowAgentMode'> & {
 export type BiometricKYCRequest = ConsentRequest & {
   idInfo: IdInfo;
   productName: string;
+  jobId: string;
 };
 
 // noinspection JSUnusedGlobalSymbols

@@ -122,12 +122,17 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       ...defaultProductRef.current,
       extraPartnerParams: {
         optionalThingKey: 'optionalThingValue',
+        job_id: 'thisismytestjobwithxyzandroid',
       },
     });
 
     setSmartSelfieAuthentication({
       ...defaultProductRef.current,
       userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+      extraPartnerParams: {
+        optionalThingKey: 'optionalThingValue',
+        job_id: 'thisismytestjobwithxyzandroid22',
+      },
     });
 
     setDocumentVerification({
