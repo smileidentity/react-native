@@ -58,6 +58,7 @@ class SmileIDEnhancedDocumentVerificationViewManager(
           view.documentType = params.getStringOrDefault("documentType")
           view.idAspectRatio = params.getFloatOrDefault("idAspectRatio")
           view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
+          view.skipApiSubmission = params.getBoolOrDefault("skipApiSubmission", false)
           view.renderContent()
         }
       }

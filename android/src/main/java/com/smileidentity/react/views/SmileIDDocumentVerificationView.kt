@@ -47,6 +47,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
             allowNewEnroll = allowNewEnroll ?: false,
+            skipApiSubmission = skipApiSubmission,
             bypassSelfieCaptureWithFile = bypassSelfieCaptureWithFile,
             extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
           ) { res ->

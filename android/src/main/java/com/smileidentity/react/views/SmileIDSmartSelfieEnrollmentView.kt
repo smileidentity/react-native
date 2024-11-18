@@ -9,7 +9,6 @@ import com.smileidentity.compose.SmartSelfieEnrollment
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
-import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import kotlinx.collections.immutable.toImmutableMap
 
@@ -17,15 +16,16 @@ class SmileIDSmartSelfieEnrollmentView(context: ReactApplicationContext) : Smile
 
   override fun renderContent() {
     composeView.apply {
-      val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
+        val customViewModelStoreOwner = CustomViewModelStoreOwner()
         CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
           SmileID.SmartSelfieEnrollment(
             userId = userId ?: rememberSaveable { randomUserId() },
             allowAgentMode = allowAgentMode ?: false,
             allowNewEnroll = allowNewEnroll ?: false,
-            showAttribution = showAttribution ?: true,
-            showInstructions = showInstructions ?: true,
+            showAttribution = showAttribution,
+            showInstructions = showInstructions,
+            skipApiSubmission = skipApiSubmission,
             extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
           ) { res ->
             when (res) {

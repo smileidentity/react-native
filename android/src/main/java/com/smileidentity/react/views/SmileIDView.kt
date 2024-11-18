@@ -25,6 +25,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   var allowAgentMode: Boolean? = false
   var allowNewEnroll: Boolean? = false
   var showInstructions: Boolean = true
+  var skipApiSubmission: Boolean = false
   var showAttribution: Boolean = true
   var extraPartnerParams: Map<String, String>? = null
   private var eventEmitter: RCTEventEmitter
@@ -112,3 +113,4 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     }
   }
 }
+

@@ -50,6 +50,7 @@ class SmileIDSmartSelfieEnrollmentViewManager(
           view.showAttribution = params.getBoolOrDefault("showAttribution", true)
           view.showInstructions = params.getBoolOrDefault("showInstructions", true)
           view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
+          view.skipApiSubmission = params.getBoolOrDefault("skipApiSubmission", false)
           view.renderContent()
         }
       }

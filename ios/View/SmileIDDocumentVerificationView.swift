@@ -21,6 +21,7 @@ struct SmileIDDocumentVerificationView: View ,SmileIDFileUtilsProtocol {
           allowGalleryUpload: product.allowGalleryUpload,
           showInstructions: product.showInstructions,
           showAttribution: product.showAttribution,
+          skipApiSubmission: product.skipApiSubmission,
           extraPartnerParams: product.extraPartnerParams as [String: String],
           delegate: self
         )

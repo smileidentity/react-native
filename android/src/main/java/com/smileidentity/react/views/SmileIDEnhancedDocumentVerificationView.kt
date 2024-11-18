@@ -43,6 +43,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             allowNewEnroll = allowNewEnroll ?: false,
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
+            skipApiSubmission = skipApiSubmission,
             extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
           ) { res ->
             when (res) {
