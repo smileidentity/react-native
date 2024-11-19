@@ -44,7 +44,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
             skipApiSubmission = skipApiSubmission,
-            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
+            extraPartnerParams = extraPartnerParams,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {

@@ -49,7 +49,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             allowNewEnroll = allowNewEnroll ?: false,
             skipApiSubmission = skipApiSubmission,
             bypassSelfieCaptureWithFile = bypassSelfieCaptureWithFile,
-            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
+            extraPartnerParams = extraPartnerParams,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {

@@ -6,9 +6,8 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.react.utils.getBoolOrDefault
-import com.smileidentity.react.utils.getMapOrDefault
+import com.smileidentity.react.utils.getImmutableMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDConsentView
 
 @ReactModule(name = SmileIDConsentViewManager.NAME)
@@ -54,7 +53,7 @@ class SmileIDConsentViewManager(
           val productName = params.getString("productName")
             ?: return view.emitFailure(IllegalArgumentException("productName is required to show Consent Screen"))
 
-          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams")?.toMap()
+          view.extraPartnerParams = params.getImmutableMapOrDefault("extraPartnerParams")
           view.userId = params.getStringOrDefault("userId")
           view.jobId = params.getStringOrDefault("jobId")
           view.partnerName = partnerName

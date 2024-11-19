@@ -26,7 +26,7 @@ class SmileIDSmartSelfieEnrollmentView(context: ReactApplicationContext) : Smile
             showAttribution = showAttribution,
             showInstructions = showInstructions,
             skipApiSubmission = skipApiSubmission,
-            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
+            extraPartnerParams = extraPartnerParams,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {

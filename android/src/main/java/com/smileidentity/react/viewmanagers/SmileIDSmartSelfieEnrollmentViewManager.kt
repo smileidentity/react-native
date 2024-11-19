@@ -6,9 +6,8 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.react.utils.getBoolOrDefault
-import com.smileidentity.react.utils.getMapOrDefault
+import com.smileidentity.react.utils.getImmutableMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDSmartSelfieEnrollmentView
 
 @ReactModule(name = SmileIDSmartSelfieEnrollmentViewManager.NAME)
@@ -43,7 +42,7 @@ class SmileIDSmartSelfieEnrollmentViewManager(
         // Extract params from args and apply to view
         val params = args?.getMap(0)
         params?.let {
-          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams")?.toMap()
+          view.extraPartnerParams = params.getImmutableMapOrDefault("extraPartnerParams")
           view.userId = params.getStringOrDefault("userId")
           view.jobId = params.getStringOrDefault("jobId")
           view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)

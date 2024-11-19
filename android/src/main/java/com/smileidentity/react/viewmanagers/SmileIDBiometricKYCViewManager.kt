@@ -7,8 +7,8 @@ import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getImmutableMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDBiometricKYCView
 
 @ReactModule(name = SmileIDBiometricKYCViewManager.NAME)
@@ -47,7 +47,7 @@ class SmileIDBiometricKYCViewManager(
             ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
           val idInfo = idInfoMap.toIdInfo()
             ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
-          view.extraPartnerParams = params.getMap("extraPartnerParams")?.toMap()
+          view.extraPartnerParams = params.getImmutableMapOrDefault("extraPartnerParams")
           view.userId = params.getStringOrDefault("userId")
           view.jobId = params.getStringOrDefault("jobId")
           view.idInfo = idInfo
