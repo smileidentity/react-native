@@ -6,6 +6,11 @@ import com.smileidentity.models.IdInfo
 import com.smileidentity.models.JobType
 import com.smileidentity.models.PartnerParams
 import com.smileidentity.util.randomUserId
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.PersistentMap
+import kotlinx.collections.immutable.persistentMapOf
+import kotlinx.collections.immutable.toImmutableMap
+import kotlinx.collections.immutable.toPersistentMap
 import timber.log.Timber
 
 fun ReadableMap.toMap(): Map<String, String> {
@@ -59,4 +64,18 @@ fun ReadableMap.getMapOrDefault(key: String, defaultValue: ReadableMap? = null):
     return getMap(key)
   }
   return defaultValue
+}
+
+fun ReadableMap.getImmutableMapOrDefault(
+  key: String,
+  defaultValue: ImmutableMap<String, String> = persistentMapOf()
+): ImmutableMap<String, String> {
+  return if (hasKey(key)) {
+    getMap(key)?.toHashMap()
+      ?.mapValues { it.value?.toString() ?: "" }
+      ?.toPersistentMap()
+      ?: defaultValue
+  } else {
+    defaultValue
+  }
 }

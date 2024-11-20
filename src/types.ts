@@ -69,6 +69,12 @@ type SmartSelfieRequest = SmileIDViewProps & {
    * Used for selfie capture screens to show the confirmation dialog
    */
   showConfirmation?: boolean;
+
+  /**
+   * Used to capture selfie and or documents and will not submit to SmileID
+   * but return the file paths to the captured jobs
+   */
+  skipApiSubmission?: boolean;
 };
 
 export type SmartSelfieEnrollmentRequest = Omit<SmartSelfieRequest, 'jobId'>;

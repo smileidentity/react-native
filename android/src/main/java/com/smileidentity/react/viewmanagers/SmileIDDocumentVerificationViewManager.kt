@@ -7,9 +7,8 @@ import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getFloatOrDefault
-import com.smileidentity.react.utils.getMapOrDefault
+import com.smileidentity.react.utils.getImmutableMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.react.utils.toMap
 import com.smileidentity.react.views.SmileIDDocumentVerificationView
 
 @ReactModule(name = SmileIDDocumentVerificationViewManager.NAME)
@@ -46,7 +45,7 @@ class SmileIDDocumentVerificationViewManager(
         params?.let {
           val countryCode = params.getString("countryCode")
             ?: return view.emitFailure(IllegalArgumentException("countryCode is required to run Document Verification"))
-          view.extraPartnerParams = params.getMapOrDefault("extraPartnerParams")?.toMap()
+          view.extraPartnerParams = params.getImmutableMapOrDefault("extraPartnerParams")
           view.userId = params.getStringOrDefault("userId")
           view.jobId = params.getStringOrDefault("jobId")
           view.countryCode = countryCode
@@ -59,6 +58,7 @@ class SmileIDDocumentVerificationViewManager(
           view.documentType = params.getStringOrDefault("documentType", null)
           view.idAspectRatio = params.getFloatOrDefault("idAspectRatio")
           view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
+          view.skipApiSubmission = params.getBoolOrDefault("skipApiSubmission", false)
           view.renderContent()
         }
       }

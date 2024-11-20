@@ -20,6 +20,7 @@ struct SmileIDEnhancedDocumentVerificationView: View,SmileIDFileUtilsProtocol {
           allowAgentMode: product.allowAgentMode,
           allowGalleryUpload: product.allowGalleryUpload,
           showInstructions: product.showInstructions,
+          skipApiSubmission: product.skipApiSubmission,
           showAttribution: product.showAttribution,
           extraPartnerParams: product.extraPartnerParams as [String: String],
           delegate: self

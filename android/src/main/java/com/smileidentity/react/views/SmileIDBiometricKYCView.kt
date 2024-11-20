@@ -12,7 +12,6 @@ import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
-import kotlinx.collections.immutable.toImmutableMap
 
 class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(context) {
   var idInfo: IdInfo? = null
@@ -34,7 +33,7 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             allowNewEnroll = allowNewEnroll ?: false,
             showAttribution = showAttribution ?: true,
             showInstructions = showInstructions ?: true,
-            extraPartnerParams = (extraPartnerParams ?: mapOf()).toImmutableMap(),
+            extraPartnerParams = extraPartnerParams,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {

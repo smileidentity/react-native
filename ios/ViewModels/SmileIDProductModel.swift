@@ -20,6 +20,7 @@ class SmileIDProductModel: ObservableObject {
     @Published var showConfirmation: Bool = true
     @Published var showAttribution: Bool = true
     @Published var showInstructions: Bool = true
+    @Published var skipApiSubmission: Bool = false
     @Published var extraPartnerParams: [String: String] = [:]
     @Published var idAspectRatio: Double?
     @Published var countryCode: String?
