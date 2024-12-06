@@ -3,7 +3,6 @@ import com.android.Version
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
-  def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : project.properties["SmileId_androidVersion"]
 
   repositories {
     google()
@@ -113,7 +112,7 @@ repositories {
 }
 
 def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : getExtOrDefault("kotlinVersion")
-def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : getExtOrDefault("androidVersion")
+def smile_id_sdk_version = project.properties["SmileId_androidVersion"]
 
 dependencies {
   implementation "com.facebook.react:react-native:0.72"
