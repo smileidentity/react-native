@@ -11,15 +11,18 @@ buildscript {
     // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
     ndkVersion = "26.1.10909125"
   }
+
   repositories {
     google()
     mavenCentral()
     gradlePluginPortal()
   }
+
   dependencies {
     classpath "com.facebook.react:react-native-gradle-plugin"
     classpath 'com.android.tools.build:gradle:8.6.1'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    // only needed if we are using kotlin 2.0.0 or later
     classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlinVersion"
     classpath "org.jlleitschuh.gradle:ktlint-gradle:12.1.1"
   }
