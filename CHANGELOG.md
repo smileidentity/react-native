@@ -1,5 +1,8 @@
 # Release Notes
 
+## 10.2.2
+* Fixed setting `kotlinVersion` and `kotlinCompilerExtensionVersion`
+
 ## 10.2.1
 * Allow skipApiSubmission which will capture Enrollment, Authentication, Doc V and Enhanced DocV without submitting to SmileID and will return captured images file paths
 * Bump android to 10.3.7 (https://github.com/smileidentity/android/releases/tag/v10.3.7)

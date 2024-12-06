@@ -3,7 +3,6 @@ import com.android.Version
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
-  def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : project.properties["SmileId_androidVersion"]
 
   repositories {
     google()
@@ -14,7 +13,9 @@ buildscript {
   dependencies {
     classpath "com.android.tools.build:gradle:8.3.2"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlin_version"
+    if (kotlinVersion?.startsWith("2")) {
+      classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlin_version"
+    }
     classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     classpath "org.jlleitschuh.gradle:ktlint-gradle:12.1.1"
   }
@@ -25,12 +26,16 @@ def reactNativeArchitectures() {
   return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+def kotlinVersion = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
+
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-kapt'
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: "org.jetbrains.kotlin.plugin.serialization"
-apply plugin: "org.jetbrains.kotlin.plugin.compose"
+if (kotlinVersion?.startsWith("2")) {
+  apply plugin: "org.jetbrains.kotlin.plugin.compose"
+}
 
 def getExtOrDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["SmileId_" + name]
@@ -71,6 +76,7 @@ android {
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
 
   }
+
   buildTypes {
     release {
       minifyEnabled false
@@ -91,7 +97,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion rootProject.ext.has("kotlinCompilerExtensionVersion") ? rootProject.ext.get("kotlinCompilerExtensionVersion") : '1.5.11'
+    kotlinCompilerExtensionVersion rootProject.ext.has("kotlinCompilerExtensionVersion") ? rootProject.ext.get("kotlinCompilerExtensionVersion") : project.properties["SmileId_kotlinCompilerExtensionVersion"]
   }
 
   compileOptions {
@@ -112,8 +118,8 @@ repositories {
   gradlePluginPortal()
 }
 
-def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : getExtOrDefault("kotlinVersion")
-def smile_id_sdk_version = rootProject.ext.has("androidVersion") ? rootProject.ext.get("androidVersion") : getExtOrDefault("androidVersion")
+def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
+def smile_id_sdk_version = project.properties["SmileId_androidVersion"]
 
 dependencies {
   implementation "com.facebook.react:react-native:0.72"
