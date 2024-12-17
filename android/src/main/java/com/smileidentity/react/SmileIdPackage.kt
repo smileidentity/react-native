@@ -12,8 +12,10 @@ import com.smileidentity.react.viewmanagers.SmileIDDocumentCaptureViewManager
 import com.smileidentity.react.viewmanagers.SmileIDDocumentVerificationViewManager
 import com.smileidentity.react.viewmanagers.SmileIDEnhancedDocumentVerificationViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieAuthenticationViewManager
+import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieAuthenticationEnhancedViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieCaptureViewManager
 import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieEnrollmentViewManager
+import com.smileidentity.react.viewmanagers.SmileIDSmartSelfieEnrollmentEnhancedViewManager
 import com.smileidentity.react.views.SmileIDDocumentCaptureView
 
 class SmileIdPackage : TurboReactPackage() {
@@ -24,6 +26,8 @@ class SmileIdPackage : TurboReactPackage() {
       SmileIDDocumentCaptureViewManager(reactContext),
       SmileIDSmartSelfieEnrollmentViewManager(reactContext),
       SmileIDSmartSelfieAuthenticationViewManager(reactContext),
+      SmileIDSmartSelfieEnrollmentEnhancedViewManager(reactContext),
+      SmileIDSmartSelfieAuthenticationEnhancedViewManager(reactContext),
       SmileIDDocumentVerificationViewManager(reactContext),
       SmileIDEnhancedDocumentVerificationViewManager(reactContext),
       SmileIDConsentViewManager(reactContext),

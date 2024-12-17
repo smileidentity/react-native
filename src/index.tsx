@@ -1,6 +1,8 @@
 import { NativeModules, Platform } from 'react-native';
 import SmileIDSmartSelfieEnrollmentView from './SmileIDSmartSelfieEnrollmentView';
 import SmileIDSmartSelfieAuthenticationView from './SmileIDSmartSelfieAuthenticationView';
+import SmileIDSmartSelfieEnrollmentEnhancedView from './SmileIDSmartSelfieEnrollmentEnhancedView';
+import SmileIDSmartSelfieAuthenticationEnhancedView from './SmileIDSmartSelfieAuthenticationEnhancedView';
 import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
 import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
 import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
@@ -262,6 +264,8 @@ export {
   //views
   SmileIDSmartSelfieEnrollmentView,
   SmileIDSmartSelfieAuthenticationView,
+  SmileIDSmartSelfieEnrollmentEnhancedView,
+  SmileIDSmartSelfieAuthenticationEnhancedView,
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
