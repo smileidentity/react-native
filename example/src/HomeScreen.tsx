@@ -7,6 +7,8 @@ import type {
   DocumentVerificationRequest,
   SmartSelfieAuthenticationRequest,
   SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationRequestEnhanced,
+  SmartSelfieEnrollmentRequestEnhanced
 } from '@smile_identity/react-native';
 
 import { SmileID } from '@smile_identity/react-native';
@@ -58,6 +60,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       ...defaultProductRef.current,
       userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
     });
+  const [smartSelfieEnrollmentEnhanced, setSmartSelfieEnrollmentEnhanced] =
+    useState<SmartSelfieEnrollmentRequestEnhanced>({
+      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+    })
+  const [smartSelfieAuthenticationEnhanced, setSmartSelfieAuthenticationEnhanced] =
+      useState<SmartSelfieAuthenticationRequestEnhanced>({
+        userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+      })
   const [documentVerification, setDocumentVerification] =
     useState<DocumentVerificationRequest>({
       ...defaultProductRef.current,
@@ -135,6 +145,20 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       },
     });
 
+    setSmartSelfieEnrollmentEnhanced({
+      userId: generateUuid('user_'),
+      allowNewEnroll: false,
+      showInstructions: true,
+      showAttribution: true,
+    })
+
+    setSmartSelfieAuthenticationEnhanced({
+      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+      allowNewEnroll: false,
+      showInstructions: true,
+      showAttribution: true,
+    })
+
     setDocumentVerification({
       ...defaultProductRef.current,
       countryCode: 'ZW',
@@ -187,6 +211,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
         product: smartSelfieAuthentication,
       },
       {
+        title: 'SmartSelfie Enrollment (Enhanced)',
+        product: smartSelfieEnrollmentEnhanced,
+      },
+      {
+        title: 'SmartSelfie Authentication (Enhanced)',
+        product: smartSelfieAuthenticationEnhanced,
+      },
+      {
         title: 'Document Verification',
         product: documentVerification,
       },
@@ -208,6 +240,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     documentCapture,
     smartSelfieEnrollment,
     smartSelfieAuthentication,
+    smartSelfieEnrollmentEnhanced,
+    smartSelfieAuthenticationEnhanced,
     documentVerification,
     biometricKYC,
     consentScreen,

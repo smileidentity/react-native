@@ -4,6 +4,8 @@ import type {
   SmileIDViewProps,
   SmartSelfieEnrollmentRequest,
   SmartSelfieAuthenticationRequest,
+  SmartSelfieEnrollmentRequestEnhanced,
+  SmartSelfieAuthenticationRequestEnhanced,
   BiometricKYCRequest,
   ConsentRequest,
 } from '@smile_identity/react-native';
@@ -15,6 +17,8 @@ export type Product = {
     | DocumentVerificationRequest
     | SmartSelfieEnrollmentRequest
     | SmartSelfieAuthenticationRequest
+    | SmartSelfieEnrollmentRequestEnhanced
+    | SmartSelfieAuthenticationRequestEnhanced
     | BiometricKYCRequest
     | SmileIDViewProps
     | ConsentRequest;
