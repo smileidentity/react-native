@@ -2,15 +2,14 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDSmartSelfieAuthView: View,SmileIDFileUtilsProtocol {
+struct SmileIDSmartSelfieAuthEnhancedView: View,SmileIDFileUtilsProtocol {
   var fileManager: FileManager = Foundation.FileManager.default
   @ObservedObject var product : SmileIDProductModel
   var body: some View {
     NavigationView {
-      SmileID.smartSelfieAuthenticationScreen(
+      SmileID.smartSelfieAuthenticationScreenEnhanced(
         userId: product.userId ?? generateUserId(),
         allowNewEnroll: product.allowNewEnroll,
-        allowAgentMode: product.allowAgentMode,
         showAttribution: product.showAttribution,
         showInstructions: product.showInstructions,
         extraPartnerParams: product.extraPartnerParams as [String: String],
@@ -20,7 +19,7 @@ struct SmileIDSmartSelfieAuthView: View,SmileIDFileUtilsProtocol {
   }
 }
 
-extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
+extension SmileIDSmartSelfieAuthEnhancedView: SmartSelfieResultDelegate {
   func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse: SmartSelfieResponse?) {
     var params: [String: Any] = [
       "selfieFile": getFilePath(fileName: selfieImage.absoluteString),
