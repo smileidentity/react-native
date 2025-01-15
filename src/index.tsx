@@ -27,6 +27,7 @@ import {
   ValidDocumentsResponse,
   JobType,
   IdInfo,
+  Config,
 } from './types';
 import type {
   DocumentVerificationRequest,
@@ -67,6 +68,25 @@ const SmileID = {
    * Initialise the Smile ID SDK
    */
   initialize: (useSandBox: boolean = false) => _SmileID.initialize(useSandBox),
+
+  initializeWithApiKey: (
+    apiKey: string,
+    config: Config,
+    useSandBox: boolean,
+    enableCrashReporting: boolean
+  ) =>
+    _SmileID.initializeWithApiKey(
+      apiKey,
+      config,
+      useSandBox,
+      enableCrashReporting
+    ),
+
+  initializeWithConfig: (
+    config: Config,
+    useSandBox: boolean,
+    enableCrashReporting: boolean
+  ) => _SmileID.initializeWithConfig(config, useSandBox, enableCrashReporting),
 
   /**
    * Sets allow offline mode which enables
