@@ -1,5 +1,9 @@
 # Release Notes
 
+## 10.2.3
+* Exposed `initializeWithApiKey` missing for initializing using the api key
+* Exposed `initializeWithConfig` missing for initializing using the config json
+
 ## 10.2.2
 * Fixed setting `kotlinVersion` and `kotlinCompilerExtensionVersion`
 
