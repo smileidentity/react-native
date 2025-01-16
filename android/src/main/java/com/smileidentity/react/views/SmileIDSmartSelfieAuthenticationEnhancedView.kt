@@ -10,7 +10,6 @@ import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomUserId
-import kotlinx.collections.immutable.toImmutableMap
 
 class SmileIDSmartSelfieAuthenticationEnhancedView(context: ReactApplicationContext) :
   SmileIDView(context) {
@@ -29,19 +28,18 @@ class SmileIDSmartSelfieAuthenticationEnhancedView(context: ReactApplicationCont
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {
-                val moshi =
-                  Moshi.Builder()
-                    .add(FileAdapter)
-                    .build()
                 val result =
                   SmartSelfieCaptureResult(
-                    selfieFile = it.data.selfieFile,
-                    livenessFiles = it.data.livenessFiles,
-                    apiResponse = it.data.apiResponse,
+                    selfieFile = res.data.selfieFile,
+                    livenessFiles = res.data.livenessFiles,
+                    apiResponse = res.data.apiResponse,
                   )
                 val json =
                   try {
-                    moshi
+                    SmileID.moshi
+                      .newBuilder()
+                      .add(SelfieCaptureResultAdapter.FACTORY)
+                      .build()
                       .adapter(SmartSelfieCaptureResult::class.java)
                       .toJson(result)
                   } catch (e: Exception) {

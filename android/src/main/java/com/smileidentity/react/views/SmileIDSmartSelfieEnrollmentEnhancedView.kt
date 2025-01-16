@@ -5,14 +5,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
-import com.smileidentity.networking.FileAdapter
 import com.smileidentity.compose.SmartSelfieEnrollmentEnhanced
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomUserId
-import com.squareup.moshi.Moshi
-import kotlinx.collections.immutable.toImmutableMap
 
 class SmileIDSmartSelfieEnrollmentEnhancedView(context: ReactApplicationContext) : SmileIDView(context) {
 
@@ -30,10 +27,6 @@ class SmileIDSmartSelfieEnrollmentEnhancedView(context: ReactApplicationContext)
           ) {
             when (it) {
               is SmileIDResult.Success -> {
-                val moshi =
-                  Moshi.Builder()
-                    .add(FileAdapter)
-                    .build()
                 val result =
                   SmartSelfieCaptureResult(
                     selfieFile = it.data.selfieFile,
@@ -42,7 +35,10 @@ class SmileIDSmartSelfieEnrollmentEnhancedView(context: ReactApplicationContext)
                   )
                 val json =
                   try {
-                    moshi
+                    SmileID.moshi
+                      .newBuilder()
+                      .add(SelfieCaptureResultAdapter.FACTORY)
+                      .build()
                       .adapter(SmartSelfieCaptureResult::class.java)
                       .toJson(result)
                   } catch (e: Exception) {
