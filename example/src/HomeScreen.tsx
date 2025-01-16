@@ -58,7 +58,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [smartSelfieAuthentication, setSmartSelfieAuthentication] =
     useState<SmartSelfieAuthenticationRequest>({
       ...defaultProductRef.current,
-      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+      userId: 'user_random_user_id',
     });
   const [smartSelfieEnrollmentEnhanced, setSmartSelfieEnrollmentEnhanced] =
     useState<SmartSelfieEnrollmentEnhancedRequest>({
@@ -70,7 +70,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [smartSelfieAuthenticationEnhanced, setSmartSelfieAuthenticationEnhanced] =
       useState<SmartSelfieAuthenticationEnhancedRequest>({
         ...defaultProductRef.current,
-              userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+              userId: 'user_random_user_id',
       })
   const [documentVerification, setDocumentVerification] =
     useState<DocumentVerificationRequest>({
@@ -151,16 +151,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setSmartSelfieEnrollmentEnhanced({
       ...defaultProductRef.current,
-//       allowNewEnroll: false,
-//       showInstructions: true,
-//       showAttribution: true,
+      showInstructions: true,
+      showAttribution: true,
     })
 
     setSmartSelfieAuthenticationEnhanced({
       ...defaultProductRef.current,
-//       allowNewEnroll: false,
-//       showInstructions: true,
-//       showAttribution: true,
+      showInstructions: true,
+      showAttribution: true,
     })
 
     setDocumentVerification({

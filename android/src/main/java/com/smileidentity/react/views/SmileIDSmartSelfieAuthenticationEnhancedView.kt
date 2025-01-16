@@ -29,29 +29,28 @@ class SmileIDSmartSelfieAuthenticationEnhancedView(context: ReactApplicationCont
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {
-//                val result =
-//                  SmartSelfieCaptureResult(
-//                    selfieFile = res.data.selfieFile,
-//                    livenessFiles = res.data.livenessFiles,
-//                    apiResponse = res.data.apiResponse,
-//                  )
-//                val newMoshi =
-//                  SmileID.moshi
-//                    .newBuilder()
-//                    .add(SelfieCaptureResultAdapter.FACTORY)
-//                    .build()
-//                val json =
-//                  try {
-//                    newMoshi
-//                      .adapter(SmartSelfieCaptureResult::class.java)
-//                      .toJson(result)
-//                  } catch (e: Exception) {
-//                    emitFailure(e)
-//                    return@SmartSelfieAuthentication
-//                  }
-//                json?.let { js ->
-//                  emitSuccess(js)
-//                }
+                val moshi =
+                  Moshi.Builder()
+                    .add(FileAdapter)
+                    .build()
+                val result =
+                  SmartSelfieCaptureResult(
+                    selfieFile = it.data.selfieFile,
+                    livenessFiles = it.data.livenessFiles,
+                    apiResponse = it.data.apiResponse,
+                  )
+                val json =
+                  try {
+                    moshi
+                      .adapter(SmartSelfieCaptureResult::class.java)
+                      .toJson(result)
+                  } catch (e: Exception) {
+                    emitFailure(e)
+                    return@SmartSelfieAuthenticationEnhanced
+                  }
+                json?.let { response ->
+                  emitSuccess(response)
+                }
               }
 
               is SmileIDResult.Error -> emitFailure(res.throwable)
