@@ -8,7 +8,7 @@ import type {
   SmartSelfieAuthenticationRequest,
   SmartSelfieEnrollmentRequest,
   SmartSelfieAuthenticationEnhancedRequest,
-  SmartSelfieEnrollmentEnhancedRequest
+  SmartSelfieEnrollmentEnhancedRequest,
 } from '@smile_identity/react-native';
 
 import { SmileID } from '@smile_identity/react-native';
@@ -63,15 +63,17 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [smartSelfieEnrollmentEnhanced, setSmartSelfieEnrollmentEnhanced] =
     useState<SmartSelfieEnrollmentEnhancedRequest>({
       ...defaultProductRef.current,
-     extraPartnerParams: {
-       optionalThingKey: 'optionalThingValue',
-     },
-    })
-  const [smartSelfieAuthenticationEnhanced, setSmartSelfieAuthenticationEnhanced] =
-      useState<SmartSelfieAuthenticationEnhancedRequest>({
-        ...defaultProductRef.current,
-              userId: 'user_random_user_id',
-      })
+      extraPartnerParams: {
+        optionalThingKey: 'optionalThingValue',
+      },
+    });
+  const [
+    smartSelfieAuthenticationEnhanced,
+    setSmartSelfieAuthenticationEnhanced,
+  ] = useState<SmartSelfieAuthenticationEnhancedRequest>({
+    ...defaultProductRef.current,
+    userId: 'user_random_user_id',
+  });
   const [documentVerification, setDocumentVerification] =
     useState<DocumentVerificationRequest>({
       ...defaultProductRef.current,
@@ -153,13 +155,13 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       ...defaultProductRef.current,
       showInstructions: true,
       showAttribution: true,
-    })
+    });
 
     setSmartSelfieAuthenticationEnhanced({
       ...defaultProductRef.current,
       showInstructions: true,
       showAttribution: true,
-    })
+    });
 
     setDocumentVerification({
       ...defaultProductRef.current,

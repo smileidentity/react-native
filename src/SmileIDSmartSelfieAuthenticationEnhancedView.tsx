@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import type { HostComponent } from 'react-native';
 import { UIManager, findNodeHandle, Platform } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
-import type { SmartSelfieAuthenticationRequest } from './index';
+import type { SmartSelfieAuthenticationEnhancedRequest } from './index';
 
 const SmileIDSmartSelfieAuthenticationEnhancedComponent =
   codegenNativeComponent<SmartSelfieAuthenticationEnhancedRequest>(
