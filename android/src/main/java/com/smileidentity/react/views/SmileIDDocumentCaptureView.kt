@@ -65,10 +65,19 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
     DocumentCaptureScreen(
       jobId = jobId,
       side = if (front) DocumentCaptureSide.Front else DocumentCaptureSide.Back,
+      showInstructions = showInstructions,
+      showAttribution = showAttribution,
+      allowGallerySelection = allowGalleryUpload,
+      showConfirmation = showConfirmation,
+      showSkipButton = false,
+      instructionsHeroImage = hero,
+      instructionsTitleText = stringResource(instructionTitle),
+      instructionsSubtitleText = stringResource(instructionSubTitle),
       captureTitleText = stringResource(captureTitleText),
       knownIdAspectRatio = idAspectRatio,
       onConfirm = { file -> handleConfirmation(file) },
       onError = { throwable -> emitFailure(throwable) },
+      onSkip = { }
     )
   }
 
