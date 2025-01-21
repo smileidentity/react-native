@@ -11,7 +11,6 @@ import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
-import kotlinx.collections.immutable.toImmutableMap
 
 class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) :
   SmileIDView(context) {
@@ -24,7 +23,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
   override fun renderContent() {
     countryCode ?: run {
       emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
-      return;
+      return
     }
 
     composeView.apply {
@@ -37,13 +36,12 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             countryCode = countryCode!!,
             documentType = documentType,
             idAspectRatio = idAspectRatio,
-            showAttribution = showAttribution ?: true,
+            showAttribution = showAttribution,
             allowAgentMode = allowAgentMode ?: false,
-            showInstructions = showInstructions ?: true,
+            showInstructions = showInstructions,
             allowNewEnroll = allowNewEnroll ?: false,
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
-            skipApiSubmission = skipApiSubmission,
             extraPartnerParams = extraPartnerParams,
           ) { res ->
             when (res) {

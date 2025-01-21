@@ -1,12 +1,13 @@
 import * as React from 'react';
 
 import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
-import type {
-  BiometricKYCRequest,
-  ConsentRequest,
-  DocumentVerificationRequest,
-  SmartSelfieAuthenticationRequest,
-  SmartSelfieEnrollmentRequest,
+import {
+  // Config, import for config
+  type BiometricKYCRequest,
+  type ConsentRequest,
+  type DocumentVerificationRequest,
+  type SmartSelfieAuthenticationRequest,
+  type SmartSelfieEnrollmentRequest,
 } from '@smile_identity/react-native';
 
 import { SmileID } from '@smile_identity/react-native';
@@ -90,6 +91,16 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
   useEffect(() => {
     SmileID.initialize(false);
+    // const config = new Config(
+    //   'PARTNER ID',
+    //   'AUTH KEY',
+    //   'https://api.smileidentity.com/v1/',
+    //   'https://api.smileidentity.com/v1/'
+    // );
+    //with api key
+    // SmileID.initializeWithApiKey('YOUR API KEY', config, false, false);
+    //with the config
+    // SmileID.initializeWithConfig(config, false, false);
     SmileID.disableCrashReporting();
     setUserId(generateUuid('user_'));
     setJobId(generateUuid('job_'));

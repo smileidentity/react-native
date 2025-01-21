@@ -280,6 +280,7 @@ export {
   //module
   SmileID,
   //views
+  Config,
   SmileIDSmartSelfieEnrollmentView,
   SmileIDSmartSelfieAuthenticationView,
   SmileIDDocumentVerificationView,
