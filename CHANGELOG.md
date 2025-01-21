@@ -4,6 +4,8 @@
 * Exposed `initializeWithApiKey` missing for initializing using the api key
 * Exposed `initializeWithConfig` missing for initializing using the config json
 * Fix document capture restore optional parameters and showing or hiding instruction and confirmation screen
+* Bump android to 10.4.2 (https://github.com/smileidentity/android/releases/tag/v10.4.2)
+* Bump iOS to 10.3.4 (https://github.com/smileidentity/ios/releases/tag/v10.3.4)
 
 ## 10.2.2
 * Fixed setting `kotlinVersion` and `kotlinCompilerExtensionVersion`
