@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import type { HostComponent } from 'react-native';
 import { UIManager, findNodeHandle, Platform } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
-import type { SmartSelfieEnrollmentRequest } from './index';
+import type { DocumentVerificationRequest } from './index';
 
 const SmileIDDocumentCaptureComponent =
-  codegenNativeComponent<SmartSelfieEnrollmentRequest>(
+  codegenNativeComponent<DocumentVerificationRequest>(
     'SmileIDDocumentCaptureView'
-  ) as HostComponent<SmartSelfieEnrollmentRequest>;
+  ) as HostComponent<DocumentVerificationRequest>;
 
-export default class SmileIDDocumentCaptureView extends Component<SmartSelfieEnrollmentRequest> {
+export default class SmileIDDocumentCaptureView extends Component<DocumentVerificationRequest> {
   private viewRef = React.createRef<any>(); //
 
   componentDidMount() {
