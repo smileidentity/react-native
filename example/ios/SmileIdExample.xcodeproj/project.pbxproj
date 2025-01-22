@@ -12,7 +12,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		371CBE536CF70244D17790C9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D5BECA4792A1363C2C870CDF /* PrivacyInfo.xcprivacy */; };
-		6295CB672D2FA9E500A6E913 /* smile_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 6295CB662D2FA9E500A6E913 /* smile_config.json */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8D695A51722CFFD5B6350E64 /* libPods-SmileIdExample-SmileIdExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B453BDA43708C7296D2BFF2E /* libPods-SmileIdExample-SmileIdExampleTests.a */; };
 		F8E9A21B15094705E0CFF968 /* libPods-SmileIdExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39447084B6122EF1D3C27E8B /* libPods-SmileIdExample.a */; };
@@ -251,7 +250,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6295CB672D2FA9E500A6E913 /* smile_config.json in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				371CBE536CF70244D17790C9 /* PrivacyInfo.xcprivacy in Resources */,
@@ -601,10 +599,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -675,10 +670,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
