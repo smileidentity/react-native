@@ -3,6 +3,8 @@
 ## 10.2.3
 * Exposed `initializeWithApiKey` missing for initializing using the api key see (https://docs.usesmileid.com/integration-options/mobile/getting-started)
 * Exposed `initializeWithConfig` missing for initializing using the config json see (https://docs.usesmileid.com/integration-options/mobile/getting-started)
+* Added  `SmartSelfieEnrollmentEnhanced` for both android and ios see (https://docs.usesmileid.com/integration-options/mobile/products/smartselfie-tm-enhanced)
+* Added  `Enhanced SmartSelfie™` for both android and ios see (https://docs.usesmileid.com/integration-options/mobile/products/smartselfie-tm-enhanced)
 * Fix document capture restore optional parameters and showing or hiding instruction and confirmation screen
 * Bump android to 10.4.2 (https://github.com/smileidentity/android/releases/tag/v10.4.2)
 * Bump iOS to 10.3.4 (https://github.com/smileidentity/ios/releases/tag/v10.3.4)
