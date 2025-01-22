@@ -8,6 +8,8 @@ import {
   type DocumentVerificationRequest,
   type SmartSelfieAuthenticationRequest,
   type SmartSelfieEnrollmentRequest,
+  type SmartSelfieAuthenticationEnhancedRequest,
+  type SmartSelfieEnrollmentEnhancedRequest,
 } from '@smile_identity/react-native';
 
 import { SmileID } from '@smile_identity/react-native';
@@ -177,7 +179,6 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setSmartSelfieEnrollmentEnhanced({
       ...defaultProductRef.current,
-      showInstructions: true,
       showAttribution: true,
     });
 

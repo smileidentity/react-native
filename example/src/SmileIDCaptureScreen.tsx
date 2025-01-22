@@ -20,6 +20,8 @@ import {
 } from '@smile_identity/react-native';
 
 import type {
+  SmartSelfieEnrollmentEnhancedRequest,
+  SmartSelfieAuthenticationEnhancedRequest,
   SmartSelfieEnrollmentRequest,
   SmartSelfieAuthenticationRequest,
   DocumentVerificationRequest,
@@ -44,6 +46,8 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
     | SmartSelfieAuthenticationRequest
     | ConsentRequest
     | BiometricKYCRequest
+    | SmartSelfieEnrollmentEnhancedRequest
+    | SmartSelfieAuthenticationEnhancedRequest
     | DocumentVerificationRequest = route.params.product;
   const [result, setResult] = useState<string | undefined>();
   const partnerId = '<YOUR PARTNER ID>';
@@ -194,6 +198,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               handleErrorResponse(event.nativeEvent.error);
               return;
             }
+            setResult(event.nativeEvent.result);
           }}
         />
       )}
@@ -231,6 +236,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               handleErrorResponse(event.nativeEvent.error);
               return;
             }
+            setResult(event.nativeEvent.result);
           }}
         />
       )}

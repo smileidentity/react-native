@@ -38,6 +38,8 @@ import type {
   BiometricKYCRequest,
   SmileIDViewProps,
   ConsentRequest,
+  SmartSelfieEnrollmentEnhancedRequest,
+  SmartSelfieAuthenticationEnhancedRequest,
 } from './types';
 import type { Spec } from './NativeSmileId';
 
@@ -322,4 +324,6 @@ export type {
   SmartSelfieAuthenticationRequest,
   BiometricKYCRequest,
   ConsentRequest,
+  SmartSelfieEnrollmentEnhancedRequest,
+  SmartSelfieAuthenticationEnhancedRequest,
 };
