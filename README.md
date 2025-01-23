@@ -20,7 +20,7 @@ Please see [CHANGELOG.md](CHANGELOG.md) or [Releases](https://github.com/smileid
 
 ## Getting Started
 
-Full documentation is available at [Smile ID Documentation](https://docs.usesmileid.com/integration-options/mobile)
+Full documentation is available at [Smile ID Documentation]((https://docs.usesmileid.com/integration-options/mobile/getting-started))
 
 ### 0. Requirements
 
@@ -44,36 +44,12 @@ Add the dependency to your `package.json`:
 }
 ```
 
-### 2. Smile Config
 
-#### Android
+### 2. Initialization
 
-Place the `smile_config.json` file under your application's assets, located at `src/main/assets` (This should be at the same level as your `java` and `res` directories). You may need to create the directory if it does not already exist.
+There are  multiple ways to initialize the SDK. See [Initialization](https://docs.usesmileid.com/integration-options/mobile/getting-started) and choose the best option
+for your integration
 
-#### iOS
-
-Drag the `smile_config.json` into your project's file inspector and ensure that the file is added to your app's target. Confirm that it is by checking the Copy Bundle Resources drop down in the Build Phases tab as shown below.
-
-### 3. Initialization
-
-Initialize the Smile ID SDK in your app's entry file (normally `index.tsx`) by calling `initialize`:
-
-```typescript
-import { initialize } from 'rn-smile-id';
-import React, { useEffect } from 'react';
-
-const App = () => {
-  useEffect(() => {
-    initialize().then(() => console.log('Smile ID Initialized'));
-  }, []);
-
-  return (
-    // ...rest of your component
-  );
-};
-
-export default App;
-```
 
 ## Getting Help
 
