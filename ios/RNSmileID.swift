@@ -2,43 +2,36 @@ import SmileID
 
 @objc(RNSmileID)
 class RNSmileID: NSObject {
-    @objc(initializeWithApiKey:config:useSandBox:enableCrashReporting:withResolver:withRejecter:)
-    func initializeWithApiKey(
-        apiKey: String,
-        config: NSDictionary,
-        useSandBox: Bool,
-        enableCrashReporting: Bool,
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        SmileID.initialize(
-            apiKey: apiKey,
-            config: config.toConfig(),
-            useSandbox: useSandBox
-        )
-        resolve(nil)
-    }
-
-    @objc(initializeWithConfig:useSandBox:enableCrashReporting:withResolver:withRejecter:)
-    func initializeWithConfig(
-        config: NSDictionary,
-        useSandBox: Bool,
-        enableCrashReporting: Bool,
-        resolve: @escaping RCTPromiseResolveBlock,
-        reject: @escaping RCTPromiseRejectBlock
-    ) {
-        SmileID.initialize(
-            config: config.toConfig(),
-            useSandbox: useSandBox
-        )
-        resolve(nil)
-    }
-
-    @objc(initialize:withResolver:withRejecter:)
-    func initialize(useSandBox: Bool, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
-        SmileID.initialize(useSandbox: useSandBox)
-        resolve(nil)
-    }
+  @objc(initialize:apiKey:config:enableCrashReporting:withResolver:withRejecter:)
+  func initialize(
+      useSandBox: Bool,
+      apiKey: String?,
+      config: NSDictionary?,
+      enableCrashReporting: Bool,
+      resolve: @escaping RCTPromiseResolveBlock,
+      reject: @escaping RCTPromiseRejectBlock
+  ) {
+      // Handle different initialization scenarios based on provided parameters
+      if let apiKey = apiKey, let config = config {
+          // Initialize with API key and config
+          SmileID.initialize(
+              apiKey: apiKey,
+              config: config.toConfig(),
+              useSandbox: useSandBox
+          )
+      } else if let config = config {
+          // Initialize with just config
+          SmileID.initialize(
+              config: config.toConfig(),
+              useSandbox: useSandBox
+          )
+      } else {
+          // Basic initialization with just sandbox flag
+          SmileID.initialize(useSandbox: useSandBox)
+      }
+      
+      resolve(nil)
+  }
 
     @objc(setCallbackUrl:withResolver:withRejecter:)
     func setCallbackUrl(callbackUrl: String, resolve: @escaping RCTPromiseResolveBlock, reject _: @escaping RCTPromiseRejectBlock) {
