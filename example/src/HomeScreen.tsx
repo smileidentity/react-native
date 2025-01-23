@@ -3,7 +3,6 @@ import * as React from 'react';
 import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
 import {
   type BiometricKYCRequest,
-  Config,
   type ConsentRequest,
   type DocumentVerificationRequest,
   type SmartSelfieAuthenticationRequest,
@@ -111,22 +110,11 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [smileProducts, setSmileProducts] = useState<Array<Product>>([]);
 
   useEffect(() => {
-    const config = new Config(
-      'PARTNER ID',
-      'AUTH KEY',
-      'https://api.smileidentity.com/v1/',
-      'https://api.smileidentity.com/v1/'
-    );
     /*
-    SmileID initialisation can be done in three ways
+    SmileID initialisation can be done in multiple ways
     see https://docs.usesmileid.com/integration-options/mobile/getting-started for more details
-     */
-    //with the config
-    // 1.  SmileID.initializeWithConfig(config, false, false);
-    //with smile_onfig.json
-    // 2. SmileID.initialize(false);
-    //with api key
-    SmileID.initializeWithApiKey('YOUR API KEY', config, false, false);
+    */
+    SmileID.initialize(false);
     SmileID.disableCrashReporting();
     setUserId(generateUuid('user_'));
     setJobId(generateUuid('job_'));

@@ -1,6 +1,5 @@
 package com.smileidentity.react
 
-import android.util.Log
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -15,7 +14,6 @@ import com.smileidentity.models.BiometricKycJobStatusResponse
 import com.smileidentity.models.DocumentVerificationJobStatusResponse
 import com.smileidentity.models.EnhancedDocumentVerificationJobStatusResponse
 import com.smileidentity.models.EnhancedKycAsyncResponse
-import com.smileidentity.models.EnhancedKycRequest
 import com.smileidentity.models.EnhancedKycResponse
 import com.smileidentity.models.PrepUploadResponse
 import com.smileidentity.models.ProductsConfigResponse
@@ -27,18 +25,15 @@ import com.smileidentity.networking.pollDocumentVerificationJobStatus
 import com.smileidentity.networking.pollEnhancedDocumentVerificationJobStatus
 import com.smileidentity.networking.pollSmartSelfieJobStatus
 import com.smileidentity.react.utils.getIntOrDefault
-import com.smileidentity.react.utils.getStringOrDefault
-import com.smileidentity.results.SmartSelfieResult
-import java.net.URL
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URL
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -49,44 +44,47 @@ class SmileIdModule internal constructor(
   override fun getName(): String =  NAME
 
   @ReactMethod
-  override fun initializeWithApiKey(
-    apiKey: String,
-    config: ReadableMap,
+  override fun initialize(
     useSandBox: Boolean,
+    apiKey: String?,
+    config: ReadableMap?,
     enableCrashReporting: Boolean,
     promise: Promise
   ) {
-    SmileID.initialize(
-      context = reactApplicationContext,
-      apiKey = apiKey,
-      config = config.toConfig(),
-      useSandbox = useSandBox,
-      enableCrashReporting = enableCrashReporting
-    )
-    promise.resolve(null)
+    try {
+      when {
+        // Case 1: Initialize with API key and config
+        apiKey != null && config != null -> {
+          SmileID.initialize(
+            context = reactApplicationContext,
+            apiKey = apiKey,
+            config = config.toConfig(),
+            useSandbox = useSandBox,
+            enableCrashReporting = enableCrashReporting
+          )
+        }
+        // Case 2: Initialize with just config
+        config != null -> {
+          SmileID.initialize(
+            context = reactApplicationContext,
+            config = config.toConfig(),
+            useSandbox = useSandBox,
+            enableCrashReporting = enableCrashReporting
+          )
+        }
+        // Case 3: Basic initialization
+        else -> {
+          SmileID.initialize(
+            context = reactApplicationContext,
+            useSandbox = useSandBox
+          )
+        }
+      }
+      promise.resolve(null)
+    } catch (e: Exception) {
+      promise.reject("INITIALIZE_ERROR", e.message, e)
+    }
   }
-
-  @ReactMethod
-  override fun initializeWithConfig(
-    config: ReadableMap,
-    useSandBox: Boolean,
-    enableCrashReporting: Boolean,
-    promise: Promise
-  ) {
-    SmileID.initialize(
-      context = reactApplicationContext,
-      config = config.toConfig(),
-      useSandbox = useSandBox,
-      enableCrashReporting = enableCrashReporting
-    )
-    promise.resolve(null)
-  }
-
-  @ReactMethod
-   override fun initialize(useSandBox: Boolean, promise: Promise) {
-     SmileID.initialize(context = reactApplicationContext, useSandbox = useSandBox)
-     promise.resolve(null)
-   }
 
   @ReactMethod
   override fun setCallbackUrl(callbackUrl: String, promise: Promise) {

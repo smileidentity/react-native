@@ -23,22 +23,18 @@ import { Config } from './types';
 
 export interface Spec extends TurboModule {
   /**
-   * Initialise the Smile ID SDK
+   * Initialize SmileID SDK with configuration
+   * @param useSandBox - Configuration object for the SDK
+   * @param apiKey - api key specific to the partner and also environment
+   * @param config - Configuration object for the SDK
+   * @param enableCrashReporting - Whether to enable crash reporting
    */
-  initializeWithApiKey: (
-    apiKey: string,
-    config: Config,
+  initialize(
     useSandBox: boolean,
-    enableCrashReporting: boolean
-  ) => Promise<void>;
-
-  initializeWithConfig: (
-    config: Config,
-    useSandBox: boolean,
-    enableCrashReporting: boolean
-  ) => Promise<void>;
-
-  initialize: (useSandBox: boolean) => Promise<void>;
+    apiKey?: string,
+    config?: Config,
+    enableCrashReporting?: boolean
+  ): Promise<void>;
 
   /**
    * The callback mechanism allows for asynchronous job requests and responses.

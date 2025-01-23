@@ -69,28 +69,18 @@ const _SmileID: Spec = SmileIdModule
 
 const SmileID = {
   /**
-   * Initialise the Smile ID SDK
+   * Initialize SmileID SDK with configuration
+   * @param useSandBox - Configuration object for the SDK
+   * @param apiKey - api key specific to the partner and also environment
+   * @param config - Configuration object for the SDK
+   * @param enableCrashReporting - Whether to enable crash reporting
    */
-  initialize: (useSandBox: boolean = false) => _SmileID.initialize(useSandBox),
-
-  initializeWithApiKey: (
-    apiKey: string,
-    config: Config,
-    useSandBox: boolean,
-    enableCrashReporting: boolean
-  ) =>
-    _SmileID.initializeWithApiKey(
-      apiKey,
-      config,
-      useSandBox,
-      enableCrashReporting
-    ),
-
-  initializeWithConfig: (
-    config: Config,
-    useSandBox: boolean,
-    enableCrashReporting: boolean
-  ) => _SmileID.initializeWithConfig(config, useSandBox, enableCrashReporting),
+  initialize: (
+    useSandBox: boolean = false,
+    apiKey?: string,
+    config?: Config,
+    enableCrashReporting?: boolean
+  ) => _SmileID.initialize(useSandBox, apiKey, config, enableCrashReporting),
 
   /**
    * Sets allow offline mode which enables
