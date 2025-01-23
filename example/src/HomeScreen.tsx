@@ -158,7 +158,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setSmartSelfieAuthentication({
       ...defaultProductRef.current,
-      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+      userId: 'YOUR ENROLLED USER ID',
       extraPartnerParams: {
         optionalThingKey: 'optionalThingValue',
         job_id: 'thisismytestjobwithxyzandroid22',
