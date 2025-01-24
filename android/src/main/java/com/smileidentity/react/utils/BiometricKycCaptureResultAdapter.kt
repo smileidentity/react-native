@@ -1,8 +1,7 @@
 package com.smileidentity.react.utils
 
 import com.smileidentity.SmileID
-import com.smileidentity.models.v2.SmartSelfieResponse
-import com.smileidentity.react.results.SmartSelfieCaptureResult
+import com.smileidentity.react.results.BiometricKycCaptureResult
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonAdapter.Factory
@@ -11,14 +10,14 @@ import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.ToJson
 import java.io.File
 
-class SelfieCaptureResultAdapter : JsonAdapter<SmartSelfieCaptureResult>() {
+class BiometricKycCaptureResultAdapter : JsonAdapter<BiometricKycCaptureResult>() {
 
   @FromJson
-  override fun fromJson(reader: JsonReader): SmartSelfieCaptureResult {
+  override fun fromJson(reader: JsonReader): BiometricKycCaptureResult {
     reader.beginObject()
     var selfieFile: File? = null
     var livenessFiles: List<File>? = null
-    var apiResponse: SmartSelfieResponse? = null
+    var didSubmitBiometricKycJob: Boolean? = null
 
     while (reader.hasNext()) {
       when (reader.nextName()) {
@@ -33,22 +32,21 @@ class SelfieCaptureResultAdapter : JsonAdapter<SmartSelfieCaptureResult>() {
           reader.endArray()
           livenessFiles = files
         }
-        "apiResponse" -> apiResponse =
-          SmileID.moshi.adapter(SmartSelfieResponse::class.java).fromJson(reader)
+        "didSubmitBiometricKycJob" -> didSubmitBiometricKycJob = reader.nextBoolean()
         else -> reader.skipValue()
       }
     }
 
     reader.endObject()
-    return SmartSelfieCaptureResult(
+    return BiometricKycCaptureResult(
       selfieFile = selfieFile,
       livenessFiles = livenessFiles,
-      apiResponse = apiResponse
+      didSubmitBiometricKycJob = didSubmitBiometricKycJob
     )
   }
 
   @ToJson
-  override fun toJson(writer: JsonWriter, value: SmartSelfieCaptureResult?) {
+  override fun toJson(writer: JsonWriter, value: BiometricKycCaptureResult?) {
     if (value == null) {
       writer.nullValue()
       return
@@ -61,16 +59,11 @@ class SelfieCaptureResultAdapter : JsonAdapter<SmartSelfieCaptureResult>() {
     value.livenessFiles?.forEach { writer.value(it.absolutePath) }
     writer.endArray()
 
-    writer.name("apiResponse")
-    if (value.apiResponse != null) {
-      SmileID.moshi.adapter(SmartSelfieResponse::class.java).toJson(writer, value.apiResponse)
-    } else {
-      writer.nullValue()
-    }
+    writer.name("didSubmitBiometricKycJob").value(value.didSubmitBiometricKycJob)
     writer.endObject()
   }
 
   companion object {
-    val FACTORY = Factory { type, annotations, moshi -> if (type == SmartSelfieCaptureResult::class.java) SelfieCaptureResultAdapter() else null }
+    val FACTORY = Factory { type, annotations, moshi -> if (type == BiometricKycCaptureResult::class.java) BiometricKycCaptureResultAdapter() else null }
   }
 }

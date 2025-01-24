@@ -1,5 +1,8 @@
 # Release Notes
 
+## 10.2.3
+* Fixed missing `didSubmitBiometricKycJob` flag in BiometricKyc response on android
+
 ## 10.2.2
 * Fixed setting `kotlinVersion` and `kotlinCompilerExtensionVersion`
 
