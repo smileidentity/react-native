@@ -2,9 +2,9 @@
 
 @interface RCT_EXTERN_MODULE(RNSmileID, NSObject)
 RCT_EXTERN_METHOD(initialize:(BOOL)useSandBox
-                  apiKey:(nullable NSString *)apiKey
-                  config:(nullable NSDictionary *)config
                   enableCrashReporting:(BOOL)enableCrashReporting
+                  config:(nullable NSDictionary *)config
+                  apiKey:(nullable NSString *)apiKey
                   withResolver:(RCTPromiseResolveBlock)resolve
                   withRejecter:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(setCallbackUrl:(NSString)callbackUrl withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)

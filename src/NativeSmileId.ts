@@ -31,9 +31,9 @@ export interface Spec extends TurboModule {
    */
   initialize(
     useSandBox: boolean,
-    apiKey?: string,
+    enableCrashReporting: boolean,
     config?: Config,
-    enableCrashReporting?: boolean
+    apiKey?: string
   ): Promise<void>;
 
   /**
