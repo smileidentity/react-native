@@ -46,9 +46,9 @@ class SmileIdModule internal constructor(
   @ReactMethod
   override fun initialize(
     useSandBox: Boolean,
-    apiKey: String?,
-    config: ReadableMap?,
     enableCrashReporting: Boolean,
+    config: ReadableMap?,
+    apiKey: String?,
     promise: Promise
   ) {
     try {

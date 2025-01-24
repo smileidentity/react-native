@@ -10,9 +10,9 @@ abstract class SmileIdSpec internal constructor(context: ReactApplicationContext
 
   abstract fun initialize(
     useSandBox: Boolean,
-    apiKey: String?,
-    config: ReadableMap?,
     enableCrashReporting: Boolean,
+    config: ReadableMap?,
+    apiKey: String?,
     promise: Promise
   )
 

@@ -73,10 +73,10 @@ const SmileID = {
    */
   initialize: (
     useSandBox: boolean = false,
+    enableCrashReporting: boolean = false,
     config?: Config,
-    apiKey?: string,
-    enableCrashReporting?: boolean
-  ) => _SmileID.initialize(useSandBox, apiKey, config, enableCrashReporting),
+    apiKey?: string
+  ) => _SmileID.initialize(useSandBox, enableCrashReporting, config, apiKey),
 
   /**
    * Sets allow offline mode which enables
