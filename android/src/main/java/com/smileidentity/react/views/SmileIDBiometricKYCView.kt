@@ -7,8 +7,8 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.BiometricKYC
 import com.smileidentity.models.IdInfo
-import com.smileidentity.react.results.SmartSelfieCaptureResult
-import com.smileidentity.react.utils.SelfieCaptureResultAdapter
+import com.smileidentity.react.results.BiometricKycCaptureResult
+import com.smileidentity.react.utils.BiometricKycCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
@@ -38,7 +38,7 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             when (res) {
               is SmileIDResult.Success -> {
                 val result =
-                  SmartSelfieCaptureResult(
+                  BiometricKycCaptureResult(
                     selfieFile = res.data.selfieFile,
                     livenessFiles = res.data.livenessFiles,
                     didSubmitBiometricKycJob = res.data.didSubmitBiometricKycJob,
@@ -46,12 +46,12 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
                 val newMoshi =
                   SmileID.moshi
                     .newBuilder()
-                    .add(SelfieCaptureResultAdapter.FACTORY)
+                    .add(BiometricKycCaptureResultAdapter.FACTORY)
                     .build()
                 val json =
                   try {
                     newMoshi
-                      .adapter(SmartSelfieCaptureResult::class.java)
+                      .adapter(BiometricKycCaptureResult::class.java)
                       .toJson(result)
                   } catch (e: Exception) {
                     emitFailure(e)
