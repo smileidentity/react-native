@@ -1,6 +1,8 @@
 import { NativeModules, Platform } from 'react-native';
 import SmileIDSmartSelfieEnrollmentView from './SmileIDSmartSelfieEnrollmentView';
 import SmileIDSmartSelfieAuthenticationView from './SmileIDSmartSelfieAuthenticationView';
+import SmileIDSmartSelfieEnrollmentEnhancedView from './SmileIDSmartSelfieEnrollmentEnhancedView';
+import SmileIDSmartSelfieAuthenticationEnhancedView from './SmileIDSmartSelfieAuthenticationEnhancedView';
 import SmileIDDocumentVerificationView from './SmileIDDocumentVerificationView';
 import SmileIDBiometricKYCView from './SmileIDBiometricKYCView';
 import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVerificationView';
@@ -36,6 +38,8 @@ import type {
   BiometricKYCRequest,
   SmileIDViewProps,
   ConsentRequest,
+  SmartSelfieEnrollmentEnhancedRequest,
+  SmartSelfieAuthenticationEnhancedRequest,
 } from './types';
 import type { Spec } from './NativeSmileId';
 
@@ -273,6 +277,8 @@ export {
   Config,
   SmileIDSmartSelfieEnrollmentView,
   SmileIDSmartSelfieAuthenticationView,
+  SmileIDSmartSelfieEnrollmentEnhancedView,
+  SmileIDSmartSelfieAuthenticationEnhancedView,
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
   SmileIDEnhancedDocumentVerificationView,
@@ -308,4 +314,6 @@ export type {
   SmartSelfieAuthenticationRequest,
   BiometricKYCRequest,
   ConsentRequest,
+  SmartSelfieEnrollmentEnhancedRequest,
+  SmartSelfieAuthenticationEnhancedRequest,
 };

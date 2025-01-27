@@ -7,6 +7,8 @@ import {
   type DocumentVerificationRequest,
   type SmartSelfieAuthenticationRequest,
   type SmartSelfieEnrollmentRequest,
+  type SmartSelfieAuthenticationEnhancedRequest,
+  type SmartSelfieEnrollmentEnhancedRequest,
 } from '@smile_identity/react-native';
 
 import { SmileID } from '@smile_identity/react-native';
@@ -45,7 +47,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
         optionalThingKey: 'optionalThingValue',
       },
     });
-  const [smartselfieCapture, setSmartselfieCapture] =
+  const [smartSelfieCapture, setSmartSelfieCapture] =
     useState<SmartSelfieEnrollmentRequest>({
       ...defaultProductRef.current,
     });
@@ -61,8 +63,22 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [smartSelfieAuthentication, setSmartSelfieAuthentication] =
     useState<SmartSelfieAuthenticationRequest>({
       ...defaultProductRef.current,
-      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+      userId: 'user_random_user_id',
     });
+  const [smartSelfieEnrollmentEnhanced, setSmartSelfieEnrollmentEnhanced] =
+    useState<SmartSelfieEnrollmentEnhancedRequest>({
+      ...defaultProductRef.current,
+      extraPartnerParams: {
+        optionalThingKey: 'optionalThingValue',
+      },
+    });
+  const [
+    smartSelfieAuthenticationEnhanced,
+    setSmartSelfieAuthenticationEnhanced,
+  ] = useState<SmartSelfieAuthenticationEnhancedRequest>({
+    ...defaultProductRef.current,
+    userId: 'user_random_user_id',
+  });
   const [documentVerification, setDocumentVerification] =
     useState<DocumentVerificationRequest>({
       ...defaultProductRef.current,
@@ -119,7 +135,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       jobId,
     };
 
-    setSmartselfieCapture({
+    setSmartSelfieCapture({
       ...defaultProductRef.current,
     });
 
@@ -142,11 +158,22 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setSmartSelfieAuthentication({
       ...defaultProductRef.current,
-      userId: 'user_0ffc7e8b-9b31-41bc-8131-03103a45d944',
+      userId: 'YOUR ENROLLED USER ID',
       extraPartnerParams: {
         optionalThingKey: 'optionalThingValue',
         job_id: 'thisismytestjobwithxyzandroid22',
       },
+    });
+
+    setSmartSelfieEnrollmentEnhanced({
+      ...defaultProductRef.current,
+      showAttribution: true,
+    });
+
+    setSmartSelfieAuthenticationEnhanced({
+      ...defaultProductRef.current,
+      showInstructions: true,
+      showAttribution: true,
     });
 
     setDocumentVerification({
@@ -186,7 +213,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     setSmileProducts([
       {
         title: 'SmartSelfie Capture',
-        product: smartselfieCapture,
+        product: smartSelfieCapture,
       },
       {
         title: 'Document Capture',
@@ -199,6 +226,14 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       {
         title: 'SmartSelfie Authentication',
         product: smartSelfieAuthentication,
+      },
+      {
+        title: 'SmartSelfie Enrollment (Enhanced)',
+        product: smartSelfieEnrollment,
+      },
+      {
+        title: 'SmartSelfie Authentication (Enhanced)',
+        product: smartSelfieAuthenticationEnhanced,
       },
       {
         title: 'Document Verification',
@@ -218,10 +253,12 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       },
     ]);
   }, [
-    smartselfieCapture,
+    smartSelfieCapture,
     documentCapture,
     smartSelfieEnrollment,
     smartSelfieAuthentication,
+    smartSelfieEnrollmentEnhanced,
+    smartSelfieAuthenticationEnhanced,
     documentVerification,
     biometricKYC,
     consentScreen,

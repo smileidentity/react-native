@@ -78,6 +78,14 @@ type SmartSelfieRequest = SmileIDViewProps & {
 };
 
 export type SmartSelfieEnrollmentRequest = Omit<SmartSelfieRequest, 'jobId'>;
+export type SmartSelfieEnrollmentEnhancedRequest = Omit<
+  SmartSelfieRequest,
+  'jobId'
+>;
+export type SmartSelfieAuthenticationEnhancedRequest = Omit<
+  SmartSelfieRequest,
+  'jobId'
+>;
 export type SmartSelfieAuthenticationRequest = Omit<
   SmartSelfieRequest,
   'jobId'

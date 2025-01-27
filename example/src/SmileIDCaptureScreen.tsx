@@ -3,7 +3,9 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   SmileIDSmartSelfieEnrollmentView,
+  SmileIDSmartSelfieEnrollmentEnhancedView,
   SmileIDSmartSelfieAuthenticationView,
+  SmileIDSmartSelfieAuthenticationEnhancedView,
   SmileIDDocumentVerificationView,
   SmileIDBiometricKYCView,
   SmileIDDocumentCaptureView,
@@ -18,6 +20,8 @@ import {
 } from '@smile_identity/react-native';
 
 import type {
+  SmartSelfieEnrollmentEnhancedRequest,
+  SmartSelfieAuthenticationEnhancedRequest,
   SmartSelfieEnrollmentRequest,
   SmartSelfieAuthenticationRequest,
   DocumentVerificationRequest,
@@ -42,6 +46,8 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
     | SmartSelfieAuthenticationRequest
     | ConsentRequest
     | BiometricKYCRequest
+    | SmartSelfieEnrollmentEnhancedRequest
+    | SmartSelfieAuthenticationEnhancedRequest
     | DocumentVerificationRequest = route.params.product;
   const [result, setResult] = useState<string | undefined>();
   const partnerId = '<YOUR PARTNER ID>';
@@ -182,6 +188,20 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           }}
         />
       )}
+      {title === 'SmartSelfie Enrollment (Enhanced)' && (
+        // @ts-ignore - this is a known issue with the type definitions
+        <SmileIDSmartSelfieEnrollmentEnhancedView
+          {...product}
+          style={styles.smileView}
+          onResult={(event) => {
+            if (event.nativeEvent.error) {
+              handleErrorResponse(event.nativeEvent.error);
+              return;
+            }
+            setResult(event.nativeEvent.result);
+          }}
+        />
+      )}
       {title === 'SmartSelfie Authentication' && (
         // @ts-ignore - this is a known issue with the type definitions
         <SmileIDSmartSelfieAuthenticationView
@@ -203,6 +223,20 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               product.userId,
               jobId
             );
+          }}
+        />
+      )}
+      {title === 'SmartSelfie Authentication (Enhanced)' && (
+        // @ts-ignore - this is a known issue with the type definitions
+        <SmileIDSmartSelfieAuthenticationEnhancedView
+          {...product}
+          style={styles.smileView}
+          onResult={(event) => {
+            if (event.nativeEvent.error) {
+              handleErrorResponse(event.nativeEvent.error);
+              return;
+            }
+            setResult(event.nativeEvent.result);
           }}
         />
       )}
