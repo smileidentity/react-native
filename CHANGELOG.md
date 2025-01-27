@@ -1,6 +1,7 @@
 # Release Notes
 
 ## 10.2.3
+* Fixed missing `didSubmitBiometricKycJob` flag in BiometricKyc response on android
 * Added `apiKey` and `config` missing to allow multiple initialization options see (https://docs.usesmileid.com/integration-options/mobile/getting-started)
 * Fix document capture restore optional parameters and showing or hiding instruction and confirmation screen
 * Bump android to 10.4.2 (https://github.com/smileidentity/android/releases/tag/v10.4.2)
