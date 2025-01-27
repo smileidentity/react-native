@@ -11,7 +11,6 @@ import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
-import kotlinx.collections.immutable.toImmutableMap
 import java.io.File
 
 class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileIDView(context) {
@@ -41,13 +40,12 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             countryCode = countryCode!!,
             documentType = documentType,
             idAspectRatio = idAspectRatio,
-            showAttribution = showAttribution ?: true,
+            showAttribution = showAttribution,
             allowAgentMode = allowAgentMode ?: false,
-            showInstructions = showInstructions ?: true,
+            showInstructions = showInstructions,
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
             allowNewEnroll = allowNewEnroll ?: false,
-            skipApiSubmission = skipApiSubmission,
             bypassSelfieCaptureWithFile = bypassSelfieCaptureWithFile,
             extraPartnerParams = extraPartnerParams,
           ) { res ->

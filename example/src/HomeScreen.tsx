@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
-import type {
-  BiometricKYCRequest,
-  ConsentRequest,
-  DocumentVerificationRequest,
-  SmartSelfieAuthenticationRequest,
-  SmartSelfieEnrollmentRequest,
+import {
+  type BiometricKYCRequest,
+  type ConsentRequest,
+  type DocumentVerificationRequest,
+  type SmartSelfieAuthenticationRequest,
+  type SmartSelfieEnrollmentRequest,
 } from '@smile_identity/react-native';
 
 import { SmileID } from '@smile_identity/react-native';
@@ -50,8 +50,13 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       ...defaultProductRef.current,
     });
   const [documentCapture, setDocumentCapture] =
-    useState<SmartSelfieEnrollmentRequest>({
+    useState<DocumentVerificationRequest>({
       ...defaultProductRef.current,
+      countryCode: 'ZW',
+      documentType: 'PASSPORT',
+      isDocumentFrontSide: false,
+      captureBothSides: false,
+      allowGalleryUpload: false,
     });
   const [smartSelfieAuthentication, setSmartSelfieAuthentication] =
     useState<SmartSelfieAuthenticationRequest>({
@@ -89,6 +94,10 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [smileProducts, setSmileProducts] = useState<Array<Product>>([]);
 
   useEffect(() => {
+    /*
+    SmileID initialisation can be done in multiple ways
+    see https://docs.usesmileid.com/integration-options/mobile/getting-started for more details
+    */
     SmileID.initialize(false);
     SmileID.disableCrashReporting();
     setUserId(generateUuid('user_'));
@@ -116,6 +125,11 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setDocumentCapture({
       ...defaultProductRef.current,
+      countryCode: 'ZW',
+      documentType: 'PASSPORT',
+      isDocumentFrontSide: false,
+      captureBothSides: false,
+      allowGalleryUpload: false,
     });
 
     setSmartSelfieEnrollment({

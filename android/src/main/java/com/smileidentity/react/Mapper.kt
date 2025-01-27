@@ -3,7 +3,6 @@ package com.smileidentity.react
 import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.models.AuthenticationRequest
 import com.smileidentity.models.Config
-import com.smileidentity.models.ConsentInfo
 import com.smileidentity.models.EnhancedKycRequest
 import com.smileidentity.models.IdInfo
 import com.smileidentity.models.ImageType
@@ -31,10 +30,10 @@ fun ReadableMap.toConfig(): Config {
     authToken = getStringOrDefault("authToken")  ?: run {
       throw IllegalArgumentException("authToken is required")
     },
-    prodBaseUrl = getStringOrDefault("prodBaseUrl") ?: run {
+    prodLambdaUrl = getStringOrDefault("prodLambdaUrl") ?: run {
       throw IllegalArgumentException("prodBaseUrl is required")
     },
-    sandboxBaseUrl = getStringOrDefault("sandboxBaseUrl") ?: run {
+    testLambdaUrl = getStringOrDefault("testLambdaUrl") ?: run {
       throw IllegalArgumentException("sandboxBaseUrl is required")
     },
   )

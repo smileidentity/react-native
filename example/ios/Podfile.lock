@@ -943,7 +943,7 @@ PODS:
     - React-debug
   - react-native-safe-area-context (4.14.0):
     - React-Core
-  - react-native-smile-id (10.2.2):
+  - react-native-smile-id (10.2.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -963,7 +963,7 @@ PODS:
     - React-utils
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - SmileID (= 10.2.17)
+    - SmileID (= 10.3.4)
     - Yoga
   - React-nativeconfig (0.74.2)
   - React-NativeModulesApple (0.74.2):
@@ -1216,7 +1216,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - SmileID (10.2.17):
+  - SmileID (10.3.4):
     - FingerprintJS
     - lottie-ios (~> 4.4.2)
     - ZIPFoundation (~> 0.9)
@@ -1444,7 +1444,7 @@ SPEC CHECKSUMS:
   React-logger: 29fa3e048f5f67fe396bc08af7606426d9bd7b5d
   React-Mapbuffer: bf56147c9775491e53122a94c423ac201417e326
   react-native-safe-area-context: 4532f1a0c5d34a46b9324ccaaedcb5582a302b7d
-  react-native-smile-id: 51ea0d04401552e49a59558ca6eb1b199cc3f16d
+  react-native-smile-id: 4af654d275ef792fea957ed0d0bfbbbf1b014728
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: ff7efaff7098639db5631236cfd91d60abff04c0
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
@@ -1469,11 +1469,11 @@ SPEC CHECKSUMS:
   React-utils: 4476b7fcbbd95cfd002f3e778616155241d86e31
   ReactCommon: ecad995f26e0d1e24061f60f4e5d74782f003f12
   RNScreens: 48bc9eba07f93971071a5268b4fe5fcb784a5ef8
-  SmileID: 44fef36001a02aa7362368e8a3f1127c03751166
+  SmileID: 5a7c0437b9861b76d37a18e2f3d2f5a7b3056310
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
 PODFILE CHECKSUM: 92128f18619da6c6e525b6e782e26be40527bc29
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

@@ -10,7 +10,6 @@ import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomUserId
-import kotlinx.collections.immutable.toImmutableMap
 
 class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
   SmileIDView(context) {
@@ -26,7 +25,6 @@ class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
             allowNewEnroll = allowNewEnroll ?: false,
             showAttribution = showAttribution,
             showInstructions = showInstructions,
-            skipApiSubmission = skipApiSubmission,
             extraPartnerParams = extraPartnerParams,
           ) { res ->
             when (res) {

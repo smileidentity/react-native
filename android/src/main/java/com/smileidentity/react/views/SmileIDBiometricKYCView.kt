@@ -31,8 +31,8 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             jobId = jobId ?: rememberSaveable { randomJobId() },
             allowAgentMode = allowAgentMode ?: false,
             allowNewEnroll = allowNewEnroll ?: false,
-            showAttribution = showAttribution ?: true,
-            showInstructions = showInstructions ?: true,
+            showAttribution = showAttribution,
+            showInstructions = showInstructions,
             extraPartnerParams = extraPartnerParams,
           ) { res ->
             when (res) {

@@ -13,7 +13,6 @@ struct SmileIDSmartSelfieAuthView: View,SmileIDFileUtilsProtocol {
         allowAgentMode: product.allowAgentMode,
         showAttribution: product.showAttribution,
         showInstructions: product.showInstructions,
-        skipApiSubmission: product.skipApiSubmission,
         extraPartnerParams: product.extraPartnerParams as [String: String],
         delegate: self
       )
