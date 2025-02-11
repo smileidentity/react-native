@@ -17,7 +17,7 @@ import kotlinx.collections.immutable.persistentMapOf
 import timber.log.Timber
 
 @SuppressLint("CheckResult")
-abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
+abstract class SmileIDView(private val currentContext: ReactApplicationContext) : LinearLayout(currentContext) {
   lateinit var composeView: ComposeView
   var userId: String? = null
   var jobId: String? = null
@@ -37,7 +37,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
       ViewGroup.LayoutParams.WRAP_CONTENT
     )
 
-    eventEmitter = (context as ReactContext).getJSModule(RCTEventEmitter::class.java);
+    eventEmitter = (currentContext as ReactContext).getJSModule(RCTEventEmitter::class.java);
     setLayoutParams(layoutParams)
     orientation = VERTICAL
     render()
@@ -50,7 +50,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     if (::composeView.isInitialized && contains(composeView)) {
       removeView(composeView)
     }
-    (context as ReactContext).currentActivity?.let {
+    (currentContext as ReactContext).currentActivity?.let {
       it.runOnUiThread {
         composeView = ComposeView(it)
         composeView.layoutParams = ViewGroup.LayoutParams(
@@ -77,7 +77,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   }
 
   open fun sendEvent(map: WritableMap) {
-    val reactContext = context as ReactContext
+    val reactContext = currentContext as ReactContext
     reactContext.getJSModule(RCTEventEmitter::class.java)
       .receiveEvent(id, "onSmileResult", map)
   }

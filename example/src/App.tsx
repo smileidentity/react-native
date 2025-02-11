@@ -16,7 +16,14 @@ export default function App() {
           component={HomeScreen}
           options={{ title: 'Welcome' }}
         />
-        <Stack.Screen name="Capture" component={SmileIDCaptureScreen} />
+        <Stack.Screen
+          name="Capture"
+          component={SmileIDCaptureScreen}
+          options={{
+            presentation: 'modal',
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
