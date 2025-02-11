@@ -1,4 +1,6 @@
 # Release Notes
+## 10.2.4
+* Fixed dialog presentation issues for capture screens by making context a variable instead of accessing it everytime when needed using getContext
 
 ## 10.2.3
 * Fixed missing `didSubmitBiometricKycJob` flag in BiometricKyc response on android
