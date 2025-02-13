@@ -9,16 +9,26 @@ const SmileIDEnhancedDocumentVerificationComponent =
     'SmileIDEnhancedDocumentVerificationView'
   ) as HostComponent<DocumentVerificationRequest>;
 
+const defaultConsentInfo = {
+  consentInformation: {
+    timestamp: new Date().toISOString(),
+  },
+};
+
 const SmileIDEnhancedDocumentVerificationView: React.FC<
   DocumentVerificationRequest
 > = (props) => {
+  const mergedProps = { ...defaultConsentInfo, ...props };
   const viewRef = useSmileIDView(
     'SmileIDEnhancedDocumentVerificationView',
-    props
+    mergedProps
   );
 
   return (
-    <SmileIDEnhancedDocumentVerificationComponent ref={viewRef} {...props} />
+    <SmileIDEnhancedDocumentVerificationComponent
+      ref={viewRef}
+      {...mergedProps}
+    />
   );
 };
 

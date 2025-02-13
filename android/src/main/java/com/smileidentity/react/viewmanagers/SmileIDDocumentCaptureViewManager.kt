@@ -34,7 +34,6 @@ class SmileIDDocumentCaptureViewManager(
       view.showConfirmation = it.getBoolOrDefault("showConfirmation", true)
       view.allowGalleryUpload = it.getBoolOrDefault("allowGalleryUpload", false)
       view.front = it.getBoolOrDefault("isDocumentFrontSide", true)
-      view.renderContent()
     }
   }
 

@@ -49,7 +49,6 @@ class SmileIDConsentViewManager(
       view.allowAgentMode = it.getBoolOrDefault("allowAgentMode", false)
       view.showAttribution = it.getBoolOrDefault("showAttribution", true)
       view.showInstructions = it.getBoolOrDefault("showInstructions", true)
-      view.renderContent()
     }
   }
 

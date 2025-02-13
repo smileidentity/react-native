@@ -3,9 +3,11 @@ package com.smileidentity.react.viewmanagers
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
+import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
+import com.smileidentity.react.utils.getMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.views.SmileIDBiometricKYCView
 
@@ -27,8 +29,10 @@ class SmileIDBiometricKYCViewManager(
     args?.let {
       val idInfoMap = it.getMap("idInfo")
         ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
+      val consentInformationMap = it.getMap("consentInformation")
+        ?: return view.emitFailure(IllegalArgumentException("consentInformation is required to run Biometric KYC"))
       val idInfo = idInfoMap.toIdInfo()
-        ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
+      view.consentInformation = consentInformationMap.toConsentInfo()
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")

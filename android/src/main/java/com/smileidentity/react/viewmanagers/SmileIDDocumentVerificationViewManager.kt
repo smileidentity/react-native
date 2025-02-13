@@ -44,7 +44,6 @@ class SmileIDDocumentVerificationViewManager(
       view.idAspectRatio = it.getFloatOrDefault("idAspectRatio")
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
       view.skipApiSubmission = it.getBoolOrDefault("skipApiSubmission", false)
-      view.renderContent()
     }
   }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.BiometricKYC
+import com.smileidentity.models.ConsentInformation
 import com.smileidentity.models.IdInfo
 import com.smileidentity.react.results.BiometricKycCaptureResult
 import com.smileidentity.react.utils.BiometricKycCaptureResultAdapter
@@ -15,10 +16,15 @@ import com.smileidentity.util.randomUserId
 
 class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(context) {
   var idInfo: IdInfo? = null
+  var consentInformation: ConsentInformation? = null
 
   override fun renderContent() {
     idInfo ?: run {
       emitFailure(IllegalArgumentException("idInfo is required for BiometricKYC"))
+      return
+    }
+    consentInformation ?: run {
+      emitFailure(IllegalArgumentException("consentInformation is required for BiometricKYC"))
       return
     }
     composeView.apply {
@@ -34,6 +40,7 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             showAttribution = showAttribution,
             showInstructions = showInstructions,
             extraPartnerParams = extraPartnerParams,
+            consentInformation = consentInformation!!,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {
