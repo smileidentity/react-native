@@ -1,7 +1,6 @@
 package com.smileidentity.react.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import com.smileidentity.react.views.SmileIDView
 import com.smileidentity.react.views.SmileViewListener
 
 
-class SmileCaptureFragment : Fragment() , SmileViewListener {
+class SmileCaptureFragment : Fragment(), SmileViewListener {
   lateinit var smileIdView: SmileIDView
   private var args: ReadableMap? = null
   private var reactContext: ReactContext? = null
@@ -24,21 +23,28 @@ class SmileCaptureFragment : Fragment() , SmileViewListener {
     return smileIdView
   }
 
-  fun setSmileIDView(smileIDView: SmileIDView){
+  fun setSmileIDView(smileIDView: SmileIDView) {
     smileIdView = smileIDView
     smileIdView.smileViewListener = this
   }
 
-  fun setReactContext(reactContext: ReactContext){
+  fun setReactContext(reactContext: ReactContext) {
     this.reactContext = reactContext
+  }
 
+  fun updateViewWithParams(params: ReadableMap?) {
+    args = params
+    // Only update if view is created
+    if (view != null) {
+      params?.let {
+        smileIdView.renderContent()
+      }
+    }
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    Log.v("SmileCaptureFragment", "onViewCreated 1")
     args?.let {
-      Log.v("SmileCaptureFragment", "onViewCreated 2")
       smileIdView.renderContent()
     }
   }
@@ -46,6 +52,5 @@ class SmileCaptureFragment : Fragment() , SmileViewListener {
   override fun emitSuccess(map: WritableMap) {
     reactContext?.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
       ?.emit("onSmileResult", map)
-//    activity?.onBackPressed()
   }
 }

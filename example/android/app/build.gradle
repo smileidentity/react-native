@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: "kotlin-android"
-apply plugin: "org.jlleitschuh.gradle.ktlint"
+//apply plugin: "org.jlleitschuh.gradle.ktlint"
 // only needed if we are using kotlin 2.0.0 or later
 //apply plugin: "org.jetbrains.kotlin.plugin.compose"
 /**
@@ -123,6 +123,15 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+}
+
+configurations.all {
+  resolutionStrategy {
+    force("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    force("org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion")
+    force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
+  }
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

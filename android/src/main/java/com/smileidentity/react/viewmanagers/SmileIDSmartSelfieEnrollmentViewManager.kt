@@ -16,10 +16,10 @@ class SmileIDSmartSelfieEnrollmentViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDSmartSelfieEnrollmentView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDSmartSelfieEnrollmentView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDSmartSelfieEnrollmentView
+//    if (smileIDView == null) {
+//      smileIDView = SmileIDSmartSelfieEnrollmentView(reactApplicationContext)
+//    }
+    return SmileIDSmartSelfieEnrollmentView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDSmartSelfieEnrollmentView, args: ReadableMap?) {
@@ -32,7 +32,7 @@ class SmileIDSmartSelfieEnrollmentViewManager(
       view.showInstructions = it.getBoolOrDefault("showInstructions", true)
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
       view.skipApiSubmission = it.getBoolOrDefault("skipApiSubmission", false)
-      view.render()
+//      view.renderContent()
     }
   }
 

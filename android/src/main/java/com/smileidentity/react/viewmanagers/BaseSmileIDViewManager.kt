@@ -20,6 +20,7 @@ abstract class BaseSmileIDViewManager<T : SmileIDView>(
 ) : SimpleViewManager<FrameLayout>() {
   private var smileCaptureFragment: SmileCaptureFragment? = null
   protected var smileIDView: T? = null
+
   override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
     return mapOf(
       "onSmileResult" to mapOf(
@@ -37,20 +38,34 @@ abstract class BaseSmileIDViewManager<T : SmileIDView>(
     val parentView = root.findViewById<ViewGroup>(reactNativeViewId)
     setupLayout(parentView)
 
-    if (smileCaptureFragment == null) {
-      smileCaptureFragment = SmileCaptureFragment()
-      smileCaptureFragment?.setReactContext(reactApplicationContext)
-      smileCaptureFragment?.setSmileIDView(createSmileView())
-      smileCaptureFragment?.let {
-        val activity = reactApplicationContext.currentActivity as ReactActivity
-        val manager = activity.supportFragmentManager
-        manager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        manager.beginTransaction().remove(it).commit()
-        manager.executePendingTransactions()
-        manager.beginTransaction()
-          .replace(reactNativeViewId, it, reactNativeViewId.toString())
-          .commit();
-      }
+    // Clean up existing view and fragment
+    smileIDView?.let { existingView ->
+      (existingView.parent as? ViewGroup)?.removeView(existingView)
+    }
+    smileCaptureFragment?.let { existingFragment ->
+      val activity = reactApplicationContext.currentActivity as ReactActivity
+      val manager = activity.supportFragmentManager
+      manager.beginTransaction().remove(existingFragment).commit()
+      manager.executePendingTransactions()
+    }
+
+    // Create new instances
+    smileIDView = createSmileView()
+    smileCaptureFragment = SmileCaptureFragment()
+    smileCaptureFragment?.setReactContext(reactApplicationContext)
+    smileIDView?.let { view ->
+      (view.parent as? ViewGroup)?.removeView(view)  // Ensure view is detached
+      smileCaptureFragment?.setSmileIDView(view)
+    }
+
+    // Add new fragment
+    smileCaptureFragment?.let {
+      val activity = reactApplicationContext.currentActivity as ReactActivity
+      val manager = activity.supportFragmentManager
+      manager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+      manager.beginTransaction()
+        .replace(reactNativeViewId, it, reactNativeViewId.toString())
+        .commit()
     }
   }
 
@@ -67,18 +82,13 @@ abstract class BaseSmileIDViewManager<T : SmileIDView>(
     })
   }
 
-  /**
-   * Layout all children properly
-   */
   private fun manuallyLayoutChildren(view: View) {
-    // propWidth and propHeight coming from react-native props
     val width = view.measuredWidth
     val height = view.measuredHeight
     view.measure(
       MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
       MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
     )
-
     view.layout(0, 0, width, height)
   }
 
@@ -104,8 +114,10 @@ abstract class BaseSmileIDViewManager<T : SmileIDView>(
 
       COMMAND_SET_PARAMS -> {
         val params = args?.getMap(1)
-        smileIDView?.let {
-          applyArgs(it, params)
+        smileIDView?.let { view ->
+          applyArgs(view, params)
+          // Update the fragment with new params
+          smileCaptureFragment?.updateViewWithParams(params)
         }
       }
     }

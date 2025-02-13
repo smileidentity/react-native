@@ -17,7 +17,7 @@ buildscript {
       classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlin_version"
     }
     classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
-    classpath "org.jlleitschuh.gradle:ktlint-gradle:12.1.1"
+//    classpath "org.jlleitschuh.gradle:ktlint-gradle:12.1.1"
   }
 }
 
@@ -31,7 +31,7 @@ def kotlinVersion = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-kapt'
-apply plugin: "org.jlleitschuh.gradle.ktlint"
+//apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: "org.jetbrains.kotlin.plugin.serialization"
 if (kotlinVersion?.startsWith("2")) {
   apply plugin: "org.jetbrains.kotlin.plugin.compose"
@@ -90,6 +90,10 @@ android {
 
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_17.toString()
+    freeCompilerArgs += [
+      "-P",
+      "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+    ]
   }
 
   lintOptions {
@@ -143,4 +147,14 @@ dependencies {
 
   debugImplementation 'androidx.compose.ui:ui-tooling'
   debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}
+
+configurations.all {
+  resolutionStrategy {
+    force "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    force "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion"
+    force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    force "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+  }
 }
