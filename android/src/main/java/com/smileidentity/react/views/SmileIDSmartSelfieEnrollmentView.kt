@@ -1,6 +1,7 @@
 package com.smileidentity.react.views
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -18,10 +19,14 @@ import kotlinx.coroutines.launch
 class SmileIDSmartSelfieEnrollmentView(context: Context) : SmileIDView(context) {
   private val viewScope = CoroutineScope(Dispatchers.Main + Job())
   override fun renderContent() {
+    Log.v("SmileIDSmartSelfieEnrollmentView", "renderContent")
     composeView.apply {
+      Log.v("SmileIDSmartSelfieEnrollmentView", "renderContent 2")
       setContent {
+        Log.v("SmileIDSmartSelfieEnrollmentView", "renderContent 3")
         val customViewModelStoreOwner = CustomViewModelStoreOwner()
         CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
+          Log.v("SmileIDSmartSelfieEnrollmentView", "renderContent 4")
           SmileID.SmartSelfieEnrollment(
             userId = userId ?: rememberSaveable { randomUserId() },
             allowAgentMode = allowAgentMode ?: false,

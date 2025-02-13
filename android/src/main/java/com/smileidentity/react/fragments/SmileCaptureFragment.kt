@@ -1,6 +1,7 @@
 package com.smileidentity.react.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +36,9 @@ class SmileCaptureFragment : Fragment() , SmileViewListener {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    Log.v("SmileCaptureFragment", "onViewCreated 1")
     args?.let {
+      Log.v("SmileCaptureFragment", "onViewCreated 2")
       smileIdView.renderContent()
     }
   }

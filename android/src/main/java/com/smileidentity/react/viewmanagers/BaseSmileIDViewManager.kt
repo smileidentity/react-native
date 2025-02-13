@@ -5,6 +5,7 @@ import android.view.View
 import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.fragment.app.FragmentManager
 import com.facebook.react.ReactActivity
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
@@ -40,13 +41,16 @@ abstract class BaseSmileIDViewManager<T : SmileIDView>(
       smileCaptureFragment = SmileCaptureFragment()
       smileCaptureFragment?.setReactContext(reactApplicationContext)
       smileCaptureFragment?.setSmileIDView(createSmileView())
-    }
-    smileCaptureFragment?.let {
-      val activity = reactApplicationContext.currentActivity as ReactActivity
-      activity.supportFragmentManager
-        .beginTransaction()
-        .replace(reactNativeViewId, it, reactNativeViewId.toString())
-        .commit()
+      smileCaptureFragment?.let {
+        val activity = reactApplicationContext.currentActivity as ReactActivity
+        val manager = activity.supportFragmentManager
+        manager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        manager.beginTransaction().remove(it).commit()
+        manager.executePendingTransactions()
+        manager.beginTransaction()
+          .replace(reactNativeViewId, it, reactNativeViewId.toString())
+          .commit();
+      }
     }
   }
 

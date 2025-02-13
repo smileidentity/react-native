@@ -3,7 +3,7 @@ apply plugin: "com.facebook.react"
 apply plugin: "kotlin-android"
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 // only needed if we are using kotlin 2.0.0 or later
-apply plugin: "org.jetbrains.kotlin.plugin.compose"
+//apply plugin: "org.jetbrains.kotlin.plugin.compose"
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.

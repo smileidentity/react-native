@@ -119,7 +119,7 @@ repositories {
 }
 
 def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
-def smile_id_sdk_version = project.properties["SmileId_androidVersion"]
+def smile_id_sdk_version = rootProject.ext.has("smileIdAndroidSdkVersion") ? rootProject.ext.get("smileIdAndroidSdkVersion") : project.properties["SmileId_androidVersion"]
 
 dependencies {
   implementation "com.facebook.react:react-native:0.72"
