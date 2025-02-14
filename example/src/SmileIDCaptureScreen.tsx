@@ -194,10 +194,6 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           {...product}
           style={styles.smileView}
           onResult={(event) => {
-            console.log(
-              'Japhet Ndhlovu SmileIDCaptureScreen.tsx SmileIDSmartSelfieEnrollmentEnhancedView onResult event',
-              event
-            );
             if (event.nativeEvent.error) {
               handleErrorResponse(event.nativeEvent.error);
               return;
