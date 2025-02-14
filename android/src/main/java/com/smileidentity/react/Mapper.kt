@@ -1,8 +1,10 @@
 package com.smileidentity.react
 
+import androidx.compose.animation.core.rememberTransition
 import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.models.AuthenticationRequest
 import com.smileidentity.models.Config
+import com.smileidentity.models.ConsentInformation
 import com.smileidentity.models.EnhancedKycRequest
 import com.smileidentity.models.IdInfo
 import com.smileidentity.models.ImageType
@@ -14,6 +16,7 @@ import com.smileidentity.models.ProductsConfigRequest
 import com.smileidentity.models.UploadImageInfo
 import com.smileidentity.models.UploadRequest
 import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getCurrentIsoTimestamp
 import com.smileidentity.react.utils.getIntOrDefault
 import com.smileidentity.react.utils.getMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
@@ -23,11 +26,11 @@ import com.smileidentity.util.randomUserId
 import java.io.File
 
 fun ReadableMap.toConfig(): Config {
-  return  Config(
+  return Config(
     partnerId = getStringOrDefault("partnerId") ?: run {
       throw IllegalArgumentException("partnerId is required")
     },
-    authToken = getStringOrDefault("authToken")  ?: run {
+    authToken = getStringOrDefault("authToken") ?: run {
       throw IllegalArgumentException("authToken is required")
     },
     prodLambdaUrl = getStringOrDefault("prodLambdaUrl") ?: run {
@@ -149,6 +152,20 @@ fun ReadableMap.toEnhancedKycRequest(): EnhancedKycRequest {
     signature = getStringOrDefault("signature") ?: run {
       throw IllegalArgumentException("signature is required")
     },
+    consentInformation = getMapOrDefault("consentInformation", null)?.toConsentInfo() ?: run {
+      throw IllegalArgumentException("consentInformation is required")
+    },
+  )
+}
+
+fun ReadableMap.toConsentInfo(): ConsentInformation {
+  return ConsentInformation(
+    consentGrantedDate = getStringOrDefault("consentGrantedDate", null) ?: run {
+      getCurrentIsoTimestamp()
+    },
+    personalDetailsConsentGranted = getBoolOrDefault("personalDetailsConsentGranted", false),
+    contactInfoConsentGranted = getBoolOrDefault("contactInfoConsentGranted", false),
+    documentInfoConsentGranted = getBoolOrDefault("contactInfoConsentGranted", false)
   )
 }
 

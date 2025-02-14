@@ -9,7 +9,7 @@ class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
     BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDDocumentVerificationView(product: self.product)),product:self.product)
   }
   
-  @objc func setParams(_ node: NSNumber, params: NSDictionary) {
+  @objc func setParams(_ node: NSNumber, commandId: NSNumber, params: NSDictionary) {
     /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle of the run loop, preventing any potential blocking of the UI if the update were to take a noticeable amount of time
      */
     DispatchQueue.main.async {

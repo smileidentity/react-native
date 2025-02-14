@@ -1,6 +1,7 @@
 package com.smileidentity.react.views
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.Choreographer
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -8,27 +9,31 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.contains
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
-import com.facebook.react.uimanager.events.RCTEventEmitter
 import com.smileidentity.models.JobType
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 import timber.log.Timber
 
+
+interface SmileViewListener {
+  fun emitSuccess(map: WritableMap)
+}
+
 @SuppressLint("CheckResult")
-abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(context) {
+abstract class SmileIDView(private val currentContext: Context) : LinearLayout(currentContext) {
+
   lateinit var composeView: ComposeView
   var userId: String? = null
   var jobId: String? = null
   private var jobType: JobType? = null
   var allowAgentMode: Boolean? = false
+  var smileViewListener: SmileViewListener? = null
   var allowNewEnroll: Boolean? = false
   var showInstructions: Boolean = true
   var skipApiSubmission: Boolean = false
   var showAttribution: Boolean = true
   var extraPartnerParams: ImmutableMap<String, String> = persistentMapOf()
-  private var eventEmitter: RCTEventEmitter
   private var productThrowable: Throwable? = null
 
   init {
@@ -36,8 +41,6 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
       ViewGroup.LayoutParams.WRAP_CONTENT,
       ViewGroup.LayoutParams.WRAP_CONTENT
     )
-
-    eventEmitter = (context as ReactContext).getJSModule(RCTEventEmitter::class.java);
     setLayoutParams(layoutParams)
     orientation = VERTICAL
     render()
@@ -50,7 +53,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
     if (::composeView.isInitialized && contains(composeView)) {
       removeView(composeView)
     }
-    (context as ReactContext).currentActivity?.let {
+    (context as ReactApplicationContext).currentActivity?.let {
       it.runOnUiThread {
         composeView = ComposeView(it)
         composeView.layoutParams = ViewGroup.LayoutParams(
@@ -77,9 +80,7 @@ abstract class SmileIDView(context: ReactApplicationContext) : LinearLayout(cont
   }
 
   open fun sendEvent(map: WritableMap) {
-    val reactContext = context as ReactContext
-    reactContext.getJSModule(RCTEventEmitter::class.java)
-      .receiveEvent(id, "onSmileResult", map)
+    smileViewListener?.emitSuccess(map)
   }
 
   open fun emitFailure(error: Throwable?) {

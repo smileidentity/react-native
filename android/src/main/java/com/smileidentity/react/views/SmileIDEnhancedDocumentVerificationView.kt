@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.EnhancedDocumentVerificationScreen
+import com.smileidentity.models.ConsentInformation
 import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
@@ -19,10 +20,16 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
   var captureBothSides: Boolean = true
   var documentType: String? = null
   var idAspectRatio: Float? = null
+  var consentInformation: ConsentInformation? = null
 
   override fun renderContent() {
     countryCode ?: run {
       emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
+      return
+    }
+
+    consentInformation ?: run {
+      emitFailure(IllegalArgumentException("consentInformation is required for DocumentVerification"))
       return
     }
 
@@ -43,6 +50,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
             extraPartnerParams = extraPartnerParams,
+            consentInformation = consentInformation!!,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {

@@ -1,68 +1,44 @@
 package com.smileidentity.react.viewmanagers
 
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
-import com.facebook.react.uimanager.SimpleViewManager
-import com.facebook.react.uimanager.ThemedReactContext
+import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
+import com.smileidentity.react.utils.getMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.views.SmileIDBiometricKYCView
 
 @ReactModule(name = SmileIDBiometricKYCViewManager.NAME)
 class SmileIDBiometricKYCViewManager(
   private val reactApplicationContext: ReactApplicationContext
-) : SimpleViewManager<SmileIDBiometricKYCView>() {
+) : BaseSmileIDViewManager<SmileIDBiometricKYCView>(reactApplicationContext) {
 
   override fun getName(): String = NAME
 
-  override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
-    return mapOf(
-      "onSmileResult" to mapOf(
-        "phasedRegistrationNames" to mapOf(
-          "bubbled" to "onResult"
-        )
-      )
-    )
-  }
-
-  override fun getCommandsMap(): Map<String, Int> {
-    return mapOf("setParams" to COMMAND_SET_PARAMS)
-  }
-
-  override fun receiveCommand(
-    view: SmileIDBiometricKYCView,
-    commandId: String?,
-    args: ReadableArray?
-  ) {
-    super.receiveCommand(view, commandId, args)
-    when (commandId?.toInt()) {
-      COMMAND_SET_PARAMS -> {
-        // Extract params from args and apply to view
-        val params = args?.getMap(0)
-        params?.let {
-          val idInfoMap = params.getMap("idInfo")
-            ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
-          val idInfo = idInfoMap.toIdInfo()
-            ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
-          view.extraPartnerParams = params.getImmutableMapOrDefault("extraPartnerParams")
-          view.userId = params.getStringOrDefault("userId")
-          view.jobId = params.getStringOrDefault("jobId")
-          view.idInfo = idInfo
-          view.allowAgentMode = params.getBoolOrDefault("allowAgentMode", false)
-          view.showAttribution = params.getBoolOrDefault("showAttribution", true)
-          view.showInstructions = params.getBoolOrDefault("showInstructions", true)
-          view.allowNewEnroll = params.getBoolOrDefault("allowNewEnroll", false)
-          view.renderContent()
-        }
-      }
-    }
-  }
-
-  override fun createViewInstance(p0: ThemedReactContext): SmileIDBiometricKYCView {
+  override fun createSmileView(): SmileIDBiometricKYCView {
     return SmileIDBiometricKYCView(reactApplicationContext)
+  }
+
+  override fun applyArgs(view: SmileIDBiometricKYCView, args: ReadableMap?) {
+    args?.let {
+      val idInfoMap = it.getMap("idInfo")
+        ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
+      val consentInformationMap = it.getMap("consentInformation")
+        ?: return view.emitFailure(IllegalArgumentException("consentInformation is required to run Biometric KYC"))
+      val idInfo = idInfoMap.toIdInfo()
+      view.consentInformation = consentInformationMap.toConsentInfo()
+      view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
+      view.userId = it.getStringOrDefault("userId")
+      view.jobId = it.getStringOrDefault("jobId")
+      view.idInfo = idInfo
+      view.allowAgentMode = it.getBoolOrDefault("allowAgentMode", false)
+      view.showAttribution = it.getBoolOrDefault("showAttribution", true)
+      view.showInstructions = it.getBoolOrDefault("showInstructions", true)
+      view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
+    }
   }
 
   companion object {

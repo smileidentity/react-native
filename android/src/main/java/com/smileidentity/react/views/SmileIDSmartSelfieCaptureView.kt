@@ -175,35 +175,48 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDV
 
   @Composable
   private fun HandleProcessingState(viewModel: SelfieViewModel) {
-    viewModel.onFinished { res ->
-      when (res) {
-        is SmileIDResult.Success -> {
-          val result =
-            SmartSelfieCaptureResult(
-              selfieFile = res.data.selfieFile,
-              livenessFiles = res.data.livenessFiles,
-            )
-          val newMoshi =
-            SmileID.moshi
-              .newBuilder()
-              .add(SelfieCaptureResultAdapter.FACTORY)
-              .build()
-          val json =
-            try {
-              newMoshi
-                .adapter(SmartSelfieCaptureResult::class.java)
-                .toJson(result)
-            } catch (e: Exception) {
-              emitFailure(e)
-              return@onFinished
+    try {
+      viewModel.onFinished { res ->
+        when (res) {
+          is SmileIDResult.Success -> {
+            res.data?.let { data ->
+              val result = SmartSelfieCaptureResult(
+                selfieFile = data.selfieFile,
+                livenessFiles = data.livenessFiles ?: emptyList()
+              )
+
+              try {
+                val newMoshi = SmileID.moshi
+                  .newBuilder()
+                  .add(SelfieCaptureResultAdapter.FACTORY)
+                  .build()
+
+                newMoshi.adapter(SmartSelfieCaptureResult::class.java)
+                  ?.toJson(result)
+                  ?.let { js ->
+                    emitSuccess(js)
+                  } ?: run {
+                  emitFailure(Exception("Failed to serialize result"))
+                }
+              } catch (e: Exception) {
+                emitFailure(e)
+              }
+            } ?: run {
+              emitFailure(Exception("No data available in success result"))
             }
-          json?.let { js ->
-            emitSuccess(js)
+          }
+
+          is SmileIDResult.Error -> {
+            emitFailure(res.throwable ?: Exception("Unknown error occurred"))
+          }
+
+          else -> {
+            emitFailure(Exception("Unexpected result type"))
           }
         }
-
-        is SmileIDResult.Error -> emitFailure(res.throwable)
       }
+    } catch (e: Exception) {
+//      emitFailure(e)
     }
   }
 }

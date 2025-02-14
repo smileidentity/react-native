@@ -1,47 +1,20 @@
-import React, { Component } from 'react';
-import type { HostComponent } from 'react-native';
-import { UIManager, findNodeHandle, Platform } from 'react-native';
+import React from 'react';
+import { type HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { SmartSelfieAuthenticationRequest } from './index';
+import { useSmileIDView } from './useSmileIDView';
 
 const SmileIDSmartSelfieAuthenticationComponent =
   codegenNativeComponent<SmartSelfieAuthenticationRequest>(
     'SmileIDSmartSelfieAuthenticationView'
   ) as HostComponent<SmartSelfieAuthenticationRequest>;
 
-export default class SmileIDSmartSelfieAuthenticationView extends Component<SmartSelfieAuthenticationRequest> {
-  private viewRef = React.createRef<any>(); //
+const SmileIDSmartSelfieAuthenticationView: React.FC<
+  SmartSelfieAuthenticationRequest
+> = (props) => {
+  const viewRef = useSmileIDView('SmileIDSmartSelfieAuthenticationView', props);
 
-  componentDidMount() {
-    const parameters = {
-      ...this.props,
-    };
+  return <SmileIDSmartSelfieAuthenticationComponent ref={viewRef} {...props} />;
+};
 
-    // Obtain the command identifier
-    const commandId = UIManager.getViewManagerConfig(
-      'SmileIDSmartSelfieAuthenticationView'
-    ).Commands.setParams;
-
-    // Ensure the commandId is defined and is a number
-    if (typeof commandId !== 'undefined') {
-      UIManager.dispatchViewManagerCommand(
-        findNodeHandle(this.viewRef.current),
-        Platform.OS === 'android' ? commandId.toString() : commandId,
-        [parameters]
-      );
-    } else {
-      throw new Error(
-        'Command "setParams" is not defined for MyNativeComponent'
-      );
-    }
-  }
-
-  render() {
-    return (
-      <SmileIDSmartSelfieAuthenticationComponent
-        ref={this.viewRef}
-        {...this.props}
-      />
-    );
-  }
-}
+export default SmileIDSmartSelfieAuthenticationView;

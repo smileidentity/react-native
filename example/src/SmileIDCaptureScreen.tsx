@@ -288,6 +288,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
           onResult={(event) => {
             if (event.nativeEvent.error) {
               handleErrorResponse(event.nativeEvent.error);
+              navigation.popToTop();
               return;
             }
             handleResponse(
@@ -297,6 +298,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
               product.userId,
               'jobId' in product ? product.jobId : undefined
             );
+            navigation.popToTop();
           }}
         />
       )}

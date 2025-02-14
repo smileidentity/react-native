@@ -1,4 +1,8 @@
 # Release Notes
+## 10.2.4-beta.1
+* Fixed dialog presentation issues for capture screens by making context a variable instead of accessing it everytime when needed using getContext
+* Bump android to 10.4.4-SNAPSHOT to cater for kotling 1.9.x (https://github.com/smileidentity/android/releases/tag/v10.4.4-SNAPSHOT)
+* Known bug with Smartselfie Enhanced Enrollment and Authentication not working correctly
 
 ## 10.2.3
 * Fixed missing `didSubmitBiometricKycJob` flag in BiometricKyc response on android
