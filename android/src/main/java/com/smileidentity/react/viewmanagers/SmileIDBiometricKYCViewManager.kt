@@ -19,10 +19,7 @@ class SmileIDBiometricKYCViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDBiometricKYCView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDBiometricKYCView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDBiometricKYCView
+    return SmileIDBiometricKYCView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDBiometricKYCView, args: ReadableMap?) {
@@ -41,7 +38,6 @@ class SmileIDBiometricKYCViewManager(
       view.showAttribution = it.getBoolOrDefault("showAttribution", true)
       view.showInstructions = it.getBoolOrDefault("showInstructions", true)
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
-      view.renderContent()
     }
   }
 

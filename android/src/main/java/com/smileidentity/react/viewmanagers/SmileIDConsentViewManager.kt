@@ -20,10 +20,7 @@ class SmileIDConsentViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDConsentView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDConsentView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDConsentView
+    return SmileIDConsentView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDConsentView, args: ReadableMap?) {

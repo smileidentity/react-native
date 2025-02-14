@@ -24,10 +24,7 @@ class SmileIDEnhancedDocumentVerificationViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDEnhancedDocumentVerificationView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDEnhancedDocumentVerificationView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDEnhancedDocumentVerificationView
+    return SmileIDEnhancedDocumentVerificationView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDEnhancedDocumentVerificationView, args: ReadableMap?) {
@@ -50,7 +47,6 @@ class SmileIDEnhancedDocumentVerificationViewManager(
       view.idAspectRatio = it.getFloatOrDefault("idAspectRatio")
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
       view.skipApiSubmission = it.getBoolOrDefault("skipApiSubmission", false)
-      view.renderContent()
     }
   }
 

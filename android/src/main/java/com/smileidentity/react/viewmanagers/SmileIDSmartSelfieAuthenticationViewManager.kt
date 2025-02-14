@@ -21,10 +21,7 @@ class SmileIDSmartSelfieAuthenticationViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDSmartSelfieAuthenticationView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDSmartSelfieAuthenticationView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDSmartSelfieAuthenticationView
+    return SmileIDSmartSelfieAuthenticationView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDSmartSelfieAuthenticationView, args: ReadableMap?) {

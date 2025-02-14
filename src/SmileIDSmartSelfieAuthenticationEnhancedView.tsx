@@ -6,14 +6,14 @@ import { useSmileIDView } from './useSmileIDView';
 
 const SmileIDSmartSelfieAuthenticationEnhancedComponent =
   codegenNativeComponent<SmartSelfieAuthenticationEnhancedRequest>(
-    'SmileIDSmartSelfieAuthenticationEnhancedComponent'
+    'SmileIDSmartSelfieAuthenticationEnhancedView'
   ) as HostComponent<SmartSelfieAuthenticationEnhancedRequest>;
 
 const SmileIDSmartSelfieAuthenticationEnhancedView: React.FC<
   SmartSelfieAuthenticationEnhancedRequest
 > = (props) => {
   const viewRef = useSmileIDView(
-    'SmileIDSmartSelfieAuthenticationEnhancedComponent',
+    'SmileIDSmartSelfieAuthenticationEnhancedView',
     props
   );
 

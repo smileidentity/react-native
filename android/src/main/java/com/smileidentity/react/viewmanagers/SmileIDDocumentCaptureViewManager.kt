@@ -18,10 +18,7 @@ class SmileIDDocumentCaptureViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDDocumentCaptureView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDDocumentCaptureView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDDocumentCaptureView
+    return SmileIDDocumentCaptureView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDDocumentCaptureView, args: ReadableMap?) {

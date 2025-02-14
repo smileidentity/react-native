@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.contains
-import com.facebook.react.ReactActivity
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableMap
-import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.smileidentity.models.JobType
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf

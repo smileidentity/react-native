@@ -16,9 +16,6 @@ class SmileIDSmartSelfieEnrollmentViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDSmartSelfieEnrollmentView {
-//    if (smileIDView == null) {
-//      smileIDView = SmileIDSmartSelfieEnrollmentView(reactApplicationContext)
-//    }
     return SmileIDSmartSelfieEnrollmentView(reactApplicationContext)
   }
 

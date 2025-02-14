@@ -20,10 +20,7 @@ class SmileIDSmartSelfieEnrollmentEnhancedViewManager(
 
   override fun getName(): String = NAME
   override fun createSmileView(): SmileIDSmartSelfieEnrollmentEnhancedView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDSmartSelfieEnrollmentEnhancedView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDSmartSelfieEnrollmentEnhancedView
+    return SmileIDSmartSelfieEnrollmentEnhancedView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDSmartSelfieEnrollmentEnhancedView, args: ReadableMap?) {

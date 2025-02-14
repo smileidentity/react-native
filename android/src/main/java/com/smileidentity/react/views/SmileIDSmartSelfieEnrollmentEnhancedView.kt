@@ -10,9 +10,13 @@ import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomUserId
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class SmileIDSmartSelfieEnrollmentEnhancedView(context: ReactApplicationContext) : SmileIDView(context) {
-
+  private val viewScope = CoroutineScope(Dispatchers.Main + Job())
   override fun renderContent() {
     composeView.apply {
       setContent {
@@ -24,33 +28,37 @@ class SmileIDSmartSelfieEnrollmentEnhancedView(context: ReactApplicationContext)
             showAttribution = showAttribution,
             showInstructions = showInstructions,
             extraPartnerParams = extraPartnerParams,
-          ) {
-            when (it) {
-              is SmileIDResult.Success -> {
-                val result =
-                  SmartSelfieCaptureResult(
-                    selfieFile = it.data.selfieFile,
-                    livenessFiles = it.data.livenessFiles,
-                    apiResponse = it.data.apiResponse,
-                  )
-                val json =
-                  try {
+          ) {res ->
+            viewScope.launch {
+              when (res) {
+                is SmileIDResult.Success -> {
+                  val result =
+                    SmartSelfieCaptureResult(
+                      selfieFile = res.data.selfieFile,
+                      livenessFiles = res.data.livenessFiles,
+                      apiResponse = res.data.apiResponse,
+                    )
+                  val newMoshi =
                     SmileID.moshi
                       .newBuilder()
                       .add(SelfieCaptureResultAdapter.FACTORY)
                       .build()
-                      .adapter(SmartSelfieCaptureResult::class.java)
-                      .toJson(result)
-                  } catch (e: Exception) {
-                    emitFailure(e)
-                    return@SmartSelfieEnrollmentEnhanced
+                  val json =
+                    try {
+                      newMoshi
+                        .adapter(SmartSelfieCaptureResult::class.java)
+                        .toJson(result)
+                    } catch (e: Exception) {
+                      emitFailure(e)
+                      return@launch
+                    }
+                  json?.let { js ->
+                    emitSuccess(js)
                   }
-                json?.let { response ->
-                  emitSuccess(response)
                 }
-              }
 
-              is SmileIDResult.Error -> emitFailure(it.throwable)
+                is SmileIDResult.Error -> emitFailure(res.throwable)
+              }
             }
           }
         }

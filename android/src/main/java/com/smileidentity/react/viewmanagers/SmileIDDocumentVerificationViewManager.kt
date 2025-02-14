@@ -20,10 +20,7 @@ class SmileIDDocumentVerificationViewManager(
 
   override fun getName(): String = NAME
   override fun createSmileView(): SmileIDDocumentVerificationView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDDocumentVerificationView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDDocumentVerificationView
+    return SmileIDDocumentVerificationView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDDocumentVerificationView, args: ReadableMap?) {

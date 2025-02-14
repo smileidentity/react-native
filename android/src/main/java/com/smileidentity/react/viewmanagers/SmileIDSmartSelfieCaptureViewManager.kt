@@ -19,10 +19,7 @@ class SmileIDSmartSelfieCaptureViewManager(
   override fun getName(): String = NAME
 
   override fun createSmileView(): SmileIDSmartSelfieCaptureView {
-    if (smileIDView == null) {
-      smileIDView = SmileIDSmartSelfieCaptureView(reactApplicationContext)
-    }
-    return smileIDView as SmileIDSmartSelfieCaptureView
+    return SmileIDSmartSelfieCaptureView(reactApplicationContext)
   }
 
   override fun applyArgs(view: SmileIDSmartSelfieCaptureView, args: ReadableMap?) {
