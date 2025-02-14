@@ -61,7 +61,6 @@ export const useSmileIDView = (viewName: string, props: SmileIDProps) => {
     const viewId = findNodeHandle(viewRef.current);
     const commandId =
       UIManager.getViewManagerConfig(viewName).Commands.setParams;
-    console.log('Japhet Ndhlovu commandId = ', props);
 
     // Ensure the commandId is defined and is a number
     if (typeof commandId !== 'undefined') {
