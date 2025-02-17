@@ -2,60 +2,60 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDDocumentVerificationView: View ,SmileIDFileUtilsProtocol {
-  var fileManager: FileManager = Foundation.FileManager.default
-  @ObservedObject var product : SmileIDProductModel
-  var body : some View {
-    AnyView(NavigationView {
-      if let countryCode = product.countryCode {
-        SmileID.documentVerificationScreen(
-          userId: product.userId ?? generateUserId(),
-          jobId: product.jobId ?? generateJobId(),
-          allowNewEnroll: product.allowNewEnroll,
-          countryCode: countryCode, // already validated in SmileIDDocumentVerificationViewManager
-          documentType: product.documentType,
-          idAspectRatio: product.idAspectRatio,
-          bypassSelfieCaptureWithFile: product.bypassSelfieCaptureWithFilePath,
-          captureBothSides: product.captureBothSides,
-          allowAgentMode: product.allowAgentMode,
-          allowGalleryUpload: product.allowGalleryUpload,
-          showInstructions: product.showInstructions,
-          showAttribution: product.showAttribution,
-          skipApiSubmission: product.skipApiSubmission,
-          extraPartnerParams: product.extraPartnerParams as [String: String],
-          delegate: self
-        )
-      } else {
-        // This exists for debugging purposes and will show in extreme cases
-        // when the params were not set NB: setParams in the viewmanager will always
-        // return an error if the required data is missing
-        Text("An error has occured")
-      }
-    }.navigationViewStyle(StackNavigationViewStyle()))
-  }
+struct SmileIDDocumentVerificationView: View, SmileIDFileUtilsProtocol {
+    var fileManager: FileManager = Foundation.FileManager.default
+    @ObservedObject var product: SmileIDProductModel
+    var smileIDUIViewDelegate: SmileIDUIViewDelegate
+    var body: some View {
+        AnyView(NavigationView {
+            if let countryCode = product.countryCode {
+                SmileID.documentVerificationScreen(
+                    userId: product.userId ?? generateUserId(),
+                    jobId: product.jobId ?? generateJobId(),
+                    allowNewEnroll: product.allowNewEnroll,
+                    countryCode: countryCode, // already validated in SmileIDDocumentVerificationViewManager
+                    documentType: product.documentType,
+                    idAspectRatio: product.idAspectRatio,
+                    bypassSelfieCaptureWithFile: product.bypassSelfieCaptureWithFilePath,
+                    captureBothSides: product.captureBothSides,
+                    allowAgentMode: product.allowAgentMode,
+                    allowGalleryUpload: product.allowGalleryUpload,
+                    showInstructions: product.showInstructions,
+                    showAttribution: product.showAttribution,
+                    skipApiSubmission: product.skipApiSubmission,
+                    extraPartnerParams: product.extraPartnerParams as [String: String],
+                    delegate: self
+                )
+            } else {
+                // This exists for debugging purposes and will show in extreme cases
+                // when the params were not set NB: setParams in the viewmanager will always
+                // return an error if the required data is missing
+                Text("An error has occured")
+            }
+        }.navigationViewStyle(StackNavigationViewStyle()))
+    }
 }
 
 extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
-  func didSucceed(selfie: URL, documentFrontImage: URL, documentBackImage: URL?, didSubmitDocumentVerificationJob: Bool) {
-    
-    var params: [String: Any] = [
-      "selfieFile": getFilePath(fileName: selfie.absoluteString),
-      "documentFrontFile": getFilePath(fileName: documentFrontImage.absoluteString),
-      "didSubmitDocumentVerificationJob": didSubmitDocumentVerificationJob
-    ]
-    
-    if let documentBackImage = documentBackImage {
-      params["documentBackFile"] = getFilePath(fileName: documentBackImage.absoluteString)
+    func didSucceed(selfie: URL, documentFrontImage: URL, documentBackImage: URL?, didSubmitDocumentVerificationJob: Bool) {
+        var params: [String: Any] = [
+            "selfieFile": getFilePath(fileName: selfie.absoluteString),
+            "documentFrontFile": getFilePath(fileName: documentFrontImage.absoluteString),
+            "didSubmitDocumentVerificationJob": didSubmitDocumentVerificationJob,
+        ]
+
+        if let documentBackImage = documentBackImage {
+            params["documentBackFile"] = getFilePath(fileName: documentBackImage.absoluteString)
+        }
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
+            smileIDUIViewDelegate.onError(error: SmileIDError.unknown("SmileIDDocumentVerificationView encoding error"))
+            return
+        }
+        smileIDUIViewDelegate.onResult(smileResult: String(data: jsonData, encoding: .utf8)!)
     }
-    
-    guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
-      product.onResult?(["error": SmileIDError.unknown("SmileIDDocumentVerificationView encoding error")])
-      return
+
+    func didError(error: Error) {
+        smileIDUIViewDelegate.onError(error: error.localizedDescription)
     }
-    product.onResult?(["result": String(data: jsonData, encoding: .utf8)!])
-  }
-  
-  func didError(error: Error) {
-    product.onResult?(["error": error.localizedDescription])
-  }
 }

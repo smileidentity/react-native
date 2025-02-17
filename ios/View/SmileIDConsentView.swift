@@ -3,8 +3,9 @@ import SmileID
 import SwiftUI
 
 struct SmileIDConsentView: View {
-    @ObservedObject var product : SmileIDProductModel
+    @ObservedObject var product: SmileIDProductModel
     var onResult: RCTBubblingEventBlock?
+    var smileIDUIViewDelegate: SmileIDUIViewDelegate
     var body: some View {
         NavigationView {
             if let partnerIcon = product.partnerIcon,

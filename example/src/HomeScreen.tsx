@@ -28,7 +28,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       })
     );
   };
-  const USE_CURRENT_COMPONENT = false;
+  const USE_CURRENT_COMPONENT = true;
   const [isCapturing, setIsCapturing] = useState<boolean>(false);
   const defaultProductRef = useRef({
     userId: '',
@@ -116,7 +116,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     SmileID initialisation can be done in multiple ways
     see https://docs.usesmileid.com/integration-options/mobile/getting-started for more details
     */
-    SmileID.initialize(false);
+    // SmileID.initialize(false);
     SmileID.disableCrashReporting();
     setUserId(generateUuid('user_'));
     setJobId(generateUuid('job_'));
@@ -279,7 +279,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
           onResult={(_event) => {
             setIsCapturing(false);
             //if you want to run another job after the first one is done
-            //else it will fail with the error "Zim already exists"
+            //else it will fail with the error "Zip already exists"
             // setBiometricKYC((prev) => ({
             //   ...prev,
             //   userId: generateUuid('user_'),
