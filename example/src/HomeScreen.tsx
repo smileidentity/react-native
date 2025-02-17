@@ -9,6 +9,7 @@ import {
   type SmartSelfieEnrollmentRequest,
   type SmartSelfieAuthenticationEnhancedRequest,
   type SmartSelfieEnrollmentEnhancedRequest,
+  SmileIDBiometricKYCView,
 } from '@smile_identity/react-native';
 
 import { SmileID } from '@smile_identity/react-native';
@@ -27,7 +28,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       })
     );
   };
-
+  const USE_CURRENT_COMPONENT = false;
+  const [isCapturing, setIsCapturing] = useState<boolean>(false);
   const defaultProductRef = useRef({
     userId: '',
     jobId: '',
@@ -264,14 +266,37 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     consentScreen,
   ]);
 
+  useEffect(() => {
+    setIsCapturing(false);
+  }, [biometricKYC]);
+
   return (
     <View style={styles.container}>
+      {USE_CURRENT_COMPONENT && isCapturing && (
+        <SmileIDBiometricKYCView
+          {...biometricKYC}
+          style={styles.smileView}
+          onResult={(_event) => {
+            setIsCapturing(false);
+            //if you want to run another job after the first one is done
+            //else it will fail with the error "Zim already exists"
+            // setBiometricKYC((prev) => ({
+            //   ...prev,
+            //   userId: generateUuid('user_'),
+            // }));
+          }}
+        />
+      )}
       <Text style={styles.title}>Test Our Products</Text>
       <FlatList
         numColumns={2}
         data={smileProducts}
         renderItem={({ item }) => (
-          <SmileButton navigation={navigation} smileProduct={item} />
+          <SmileButton
+            onPress={USE_CURRENT_COMPONENT ? () => setIsCapturing(true) : null}
+            navigation={navigation}
+            smileProduct={item}
+          />
         )}
         keyExtractor={(item) => item.title}
       />
