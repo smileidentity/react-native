@@ -42,6 +42,7 @@ class BaseSmileIDView: UIView {
         hostingView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         hostingView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         hostingView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        hostingView.overrideUserInterfaceStyle = .light
     }
 
     func getView(product _: SmileIDProductModel) -> AnyView {
