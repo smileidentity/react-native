@@ -3,20 +3,27 @@ import * as React from 'react';
 import type { Product } from './types/Product';
 
 interface SmileButtonProps {
+  onPress?: (() => void) | null;
+  onResult?: (() => void) | null;
   smileProduct: Product;
   navigation: any; // Replace with the actual type of your navigation prop
 }
 
 export const SmileButton: React.FC<SmileButtonProps> = ({
   navigation,
+  onPress,
   smileProduct,
 }) => {
-  const { product, title } = smileProduct;
+  const { title } = smileProduct;
   return (
     <Pressable
       style={styles.productButton}
       onPress={async () => {
-        navigation.navigate('Capture', { product, title });
+        onPress
+          ? onPress()
+          : navigation.navigate('Capture', {
+              componentProduct: smileProduct,
+            });
       }}
     >
       <Text style={styles.productButtonText}>{title}</Text>

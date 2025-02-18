@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   DeviceEventEmitter,
   Platform,
@@ -13,19 +13,29 @@ interface SmileIDProps {
 
 export const useSmileIDView = (viewName: string, props: SmileIDProps) => {
   const viewRef = useRef<any>(null);
+  const [viewProps, setViewProps] = useState<SmileIDProps>(props);
+  const onResultRef = useRef(viewProps.onResult);
+  useEffect(() => {
+    onResultRef.current = viewProps.onResult;
+  }, [viewProps.onResult]);
 
   useEffect(() => {
     const eventListener = DeviceEventEmitter.addListener(
       'onSmileResult',
       (event) => {
-        if (props.onResult) {
+        // Use the ref to access the latest callback
+        setViewProps((prev) => ({
+          ...prev,
+          userId: 'invalidator',
+        }));
+        if (onResultRef.current) {
           const nativeEvent = {
             nativeEvent: {
               error: event.error,
               result: event.result,
             },
           };
-          props.onResult(nativeEvent);
+          onResultRef.current(nativeEvent);
         }
       }
     );
@@ -33,7 +43,7 @@ export const useSmileIDView = (viewName: string, props: SmileIDProps) => {
     return () => {
       eventListener.remove();
     };
-  }, [props]);
+  }, []);
 
   useEffect(() => {
     const viewId = findNodeHandle(viewRef.current);
@@ -47,15 +57,13 @@ export const useSmileIDView = (viewName: string, props: SmileIDProps) => {
         [viewId]
       );
     } else {
-      throw new Error(
-        'Command "setParams" is not defined for MyNativeComponent'
-      );
+      throw new Error('Command "create" is not defined for MyNativeComponent');
     }
   }, [viewName]);
 
   useEffect(() => {
     const parameters = {
-      ...props,
+      ...viewProps,
     };
 
     const viewId = findNodeHandle(viewRef.current);
@@ -74,7 +82,7 @@ export const useSmileIDView = (viewName: string, props: SmileIDProps) => {
         'Command "setParams" is not defined for MyNativeComponent'
       );
     }
-  }, [props, viewName]);
+  }, [viewProps, viewName]);
 
   return viewRef;
 };

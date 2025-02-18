@@ -3,9 +3,9 @@ import SwiftUI
 
 class BaseSmileIDView: UIView {
     typealias ContentView = AnyView
-    var contentView : AnyView?
+    var contentView: AnyView?
     private var _onResult: RCTBubblingEventBlock?
-    var product : SmileIDProductModel?
+    var product: SmileIDProductModel?
 
     @objc var onResult: RCTBubblingEventBlock? {
         get {
@@ -19,7 +19,7 @@ class BaseSmileIDView: UIView {
         }
     }
 
-    init(frame: CGRect,contentView:AnyView,product:SmileIDProductModel) {
+    init(frame: CGRect, contentView: AnyView, product: SmileIDProductModel) {
         self.contentView = contentView
         self.product = product
         super.init(frame: frame)
@@ -34,7 +34,7 @@ class BaseSmileIDView: UIView {
     private func commonInit() {
         // Perform initialization tasks here
         // For example, setup subviews, add constraints, configure appearance
-        let hostingController = UIHostingController(rootView:contentView)
+        let hostingController = UIHostingController(rootView: contentView)
         let hostingView = hostingController.view!
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hostingView)
@@ -42,9 +42,10 @@ class BaseSmileIDView: UIView {
         hostingView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         hostingView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         hostingView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        hostingView.overrideUserInterfaceStyle = .light
     }
 
-    func getView(product:SmileIDProductModel) -> AnyView {
+    func getView(product _: SmileIDProductModel) -> AnyView {
         fatalError("Must be implemented by subclass")
     }
 }

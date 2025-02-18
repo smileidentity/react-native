@@ -6,10 +6,10 @@ import SwiftUI
 @objc(SmileIDConsentViewManager)
 class SmileIDConsentViewManager: SmileIDBaseViewManager {
     override func getView() -> UIView {
-         BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDConsentView(product: self.product)),product:self.product)
+        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDConsentView(product: product, smileIDUIViewDelegate: self)), product: product)
     }
 
-  @objc func setParams(_ node: NSNumber, commandId: NSNumber, params: NSDictionary) {
+    @objc func setParams(_ node: NSNumber, commandId _: NSNumber, params: NSDictionary) {
         /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle of the run loop, preventing any potential blocking of the UI if the update were to take a noticeable amount of time
          */
         DispatchQueue.main.async {

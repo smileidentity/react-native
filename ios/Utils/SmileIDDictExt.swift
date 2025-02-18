@@ -2,21 +2,21 @@ import Foundation
 import SmileID
 
 extension NSDictionary {
-
     func toConfig() -> Config {
-        return Config (
+        return Config(
             partnerId: (self["partnerId"] as? String)!,
             authToken: (self["authToken"] as? String)!,
             prodLambdaUrl: (self["prodLambdaUrl"] as? String)!,
             testLambdaUrl: (self["testLambdaUrl"] as? String)!
         )
     }
-    
+
     func toAuthenticationRequest() -> AuthenticationRequest? {
         guard let jobTypeValue = self["jobType"] as? Int,
               let jobType = JobType(rawValue: jobTypeValue),
               let jobId = self["jobId"] as? String,
-              let userId = self["userId"] as? String else {
+              let userId = self["userId"] as? String
+        else {
             return nil
         }
 
@@ -40,7 +40,8 @@ extension NSDictionary {
               let callbackUrl = self["callbackUrl"] as? String,
               let partnerId = self["partnerId"] as? String,
               let timestamp = self["timestamp"] as? String,
-              let signature = self["signature"] as? String else {
+              let signature = self["signature"] as? String
+        else {
             return nil
         }
 
@@ -70,7 +71,8 @@ extension NSDictionary {
     func toUploadImageInfo() -> UploadImageInfo? {
         guard let imageTypeIdValue = self["imageTypeId"] as? String,
               let imageTypeId = ImageType(rawValue: imageTypeIdValue),
-              let imageName = self["imageName"] as? String else {
+              let imageName = self["imageName"] as? String
+        else {
             return nil
         }
 
@@ -121,7 +123,8 @@ extension NSDictionary {
               let partnerParamsDict = self["partnerParams"] as? NSDictionary,
               let partnerParams = partnerParamsDict.toPartnerParams(),
               let timestamp = self["timestamp"] as? String,
-              let signature = self["signature"] as? String else {
+              let signature = self["signature"] as? String
+        else {
             return nil
         }
 
@@ -150,7 +153,8 @@ extension NSDictionary {
               let includeHistory = self["includeHistory"] as? Bool,
               let partnerId = self["partnerId"] as? String,
               let timestamp = self["timestamp"] as? String,
-              let signature = self["signature"] as? String else {
+              let signature = self["signature"] as? String
+        else {
             return nil
         }
 
@@ -168,7 +172,8 @@ extension NSDictionary {
     func toProductsConfigRequest() -> ProductsConfigRequest? {
         guard let partnerId = self["partnerId"] as? String,
               let timestamp = self["timestamp"] as? String,
-              let signature = self["signature"] as? String else {
+              let signature = self["signature"] as? String
+        else {
             return nil
         }
 
