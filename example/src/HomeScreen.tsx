@@ -28,7 +28,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       })
     );
   };
-  const USE_CURRENT_COMPONENT = false;
+  const USE_CURRENT_COMPONENT = true;
   const [isCapturing, setIsCapturing] = useState<boolean>(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const defaultProductRef = useRef({
@@ -117,7 +117,30 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     SmileID initialisation can be done in multiple ways
     see https://docs.usesmileid.com/integration-options/mobile/getting-started for more details
     */
-    SmileID.initialize(false);
+    //SmileID.initialize(false);
+    let partnerId = '';
+    let authTokenProd = '';
+
+    let prodBaseUrl = 'https://api.smileidentity.com/v1/';
+    let sandboxBaseUrl = 'https://testapi.smileidentity.com/v1/';
+
+    SmileID.initialize(false, false, {
+      partnerId: partnerId,
+      authToken: authTokenProd,
+      prodLambdaUrl: prodBaseUrl,
+      testLambdaUrl: sandboxBaseUrl,
+    }).catch((e) => {
+      console.log('Error initialize', e);
+    });
+
+    SmileID.setAllowOfflineMode(false).catch((e) => {
+      console.log('Error setting offline mode', e);
+    });
+    SmileID.setCallbackUrl(
+      'https://webhook.site/efee740f-9953-4e06-92ef-4a89b53de6d0'
+    ).catch((e) => {
+      console.log('Error setting setCallbackUrl', e);
+    });
     SmileID.disableCrashReporting();
     setUserId(generateUuid('user_'));
     setJobId(generateUuid('job_'));
