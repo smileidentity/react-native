@@ -68,7 +68,7 @@ struct SmileIDDocumentCaptureView: View {
 
         } catch {
             // Handle file creation error
-            product.onResult?(["error": SmileIDError.unknown("Error creating document file: \(error.localizedDescription)")])
+          smileIDUIViewDelegate.onError(error: SmileIDError.unknown("Error creating document file: \(error.localizedDescription)"))
         }
     }
 

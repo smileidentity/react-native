@@ -1,21 +1,21 @@
 import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
 import {
   type BiometricKYCRequest,
   type ConsentRequest,
   type DocumentVerificationRequest,
-  type SmartSelfieAuthenticationRequest,
-  type SmartSelfieEnrollmentRequest,
+  JobType,
   type SmartSelfieAuthenticationEnhancedRequest,
+  type SmartSelfieAuthenticationRequest,
   type SmartSelfieEnrollmentEnhancedRequest,
-  SmileIDBiometricKYCView,
+  type SmartSelfieEnrollmentRequest,
+  SmileID,
 } from '@smile_identity/react-native';
-
-import { SmileID } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
-import { useEffect, useRef, useState } from 'react';
+import { SmileIDComponent } from './SmileIDComponent';
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const generateUuid = (prefix: 'job_' | 'user_'): string => {
@@ -28,8 +28,9 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       })
     );
   };
-  const USE_CURRENT_COMPONENT = true;
+  const USE_CURRENT_COMPONENT = false;
   const [isCapturing, setIsCapturing] = useState<boolean>(false);
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const defaultProductRef = useRef({
     userId: '',
     jobId: '',
@@ -116,18 +117,19 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     SmileID initialisation can be done in multiple ways
     see https://docs.usesmileid.com/integration-options/mobile/getting-started for more details
     */
-    // SmileID.initialize(false);
+    SmileID.initialize(false);
     SmileID.disableCrashReporting();
     setUserId(generateUuid('user_'));
     setJobId(generateUuid('job_'));
+    setCurrentProduct(null);
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    navigation.addListener('focus', () => {
       setUserId(generateUuid('user_'));
       setJobId(generateUuid('job_'));
+      setCurrentProduct(null);
     });
-    return unsubscribe;
   }, [navigation]);
 
   useEffect(() => {
@@ -216,42 +218,62 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       {
         title: 'SmartSelfie Capture',
         product: smartSelfieCapture,
+        isAsync: false,
       },
       {
         title: 'Document Capture',
         product: documentCapture,
+        isAsync: false,
       },
       {
         title: 'SmartSelfie Enrollment',
         product: smartSelfieEnrollment,
+        isAsync: false,
+        jobType: JobType.SmartSelfieEnrollment,
       },
       {
         title: 'SmartSelfie Authentication',
         product: smartSelfieAuthentication,
+        isAsync: false,
+        jobType: JobType.SmartSelfieAuthentication,
       },
       {
         title: 'SmartSelfie Enrollment (Enhanced)',
         product: smartSelfieEnrollment,
+        isAsync: false,
+        jobType: JobType.SmartSelfieAuthentication,
       },
       {
         title: 'SmartSelfie Authentication (Enhanced)',
         product: smartSelfieAuthenticationEnhanced,
+        isAsync: false,
+        jobType: JobType.SmartSelfieEnrollment,
       },
       {
         title: 'Document Verification',
         product: documentVerification,
+        isAsync: true,
+        jobType: JobType.DocumentVerification,
+        pollMethod: 'pollDocumentVerificationJobStatus',
       },
       {
         title: 'Enhanced Document Verification',
         product: documentVerification,
+        isAsync: true,
+        jobType: JobType.EnhancedDocumentVerification,
+        pollMethod: 'pollEnhancedDocumentVerificationJobStatus',
       },
       {
         title: 'Biometric KYC',
         product: biometricKYC,
+        isAsync: true,
+        jobType: JobType.BiometricKyc,
+        pollMethod: 'pollBiometricKycJobStatus',
       },
       {
         title: 'Consent Screen',
         product: consentScreen,
+        isAsync: false,
       },
     ]);
   }, [
@@ -267,39 +289,56 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   ]);
 
   useEffect(() => {
-    setIsCapturing(false);
-  }, [biometricKYC]);
+    setIsCapturing(!!currentProduct);
+  }, [currentProduct]);
 
   return (
     <View style={styles.container}>
-      {USE_CURRENT_COMPONENT && isCapturing && (
-        <SmileIDBiometricKYCView
-          {...biometricKYC}
+      {!isCapturing && (
+        <>
+          <Text style={styles.title}>Test Our Products</Text>
+          <FlatList
+            numColumns={2}
+            data={smileProducts}
+            renderItem={({ item }) => (
+              <SmileButton
+                onPress={
+                  USE_CURRENT_COMPONENT
+                    ? () => {
+                        setCurrentProduct(item);
+                      }
+                    : null
+                }
+                navigation={navigation}
+                smileProduct={item}
+              />
+            )}
+            keyExtractor={(item) => item.title}
+          />
+        </>
+      )}
+      {USE_CURRENT_COMPONENT && isCapturing && currentProduct && (
+        <SmileIDComponent
+          componentProduct={currentProduct}
           style={styles.smileView}
-          onResult={(_event) => {
-            setIsCapturing(false);
-            //if you want to run another job after the first one is done
-            //else it will fail with the error "Zip already exists"
-            // setBiometricKYC((prev) => ({
+          onResult={(event) => {
+            setUserId(generateUuid('user_'));
+            setJobId(generateUuid('job_'));
+            setCurrentProduct(null);
+            console.log('Got response from SmileIDComponent', event);
+            // If you want to run another job after this one
+            // update the current product's job/user IDs
+            // setCurrentProduct((prev) => ({
             //   ...prev,
-            //   userId: generateUuid('user_'),
+            //   product: {
+            //     ...prev.product,
+            //     userId: generateUuid('user_'),
+            //     jobId: generateUuid('job_')
+            //   }
             // }));
           }}
         />
       )}
-      <Text style={styles.title}>Test Our Products</Text>
-      <FlatList
-        numColumns={2}
-        data={smileProducts}
-        renderItem={({ item }) => (
-          <SmileButton
-            onPress={USE_CURRENT_COMPONENT ? () => setIsCapturing(true) : null}
-            navigation={navigation}
-            smileProduct={item}
-          />
-        )}
-        keyExtractor={(item) => item.title}
-      />
     </View>
   );
 };
@@ -307,39 +346,20 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFDBDBC4',
+    backgroundColor: 'white',
     alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
   title: {
     marginTop: 20,
     fontSize: 20,
     color: 'black',
   },
-  productButton: {
-    margin: 20,
-    width: '40%',
-    height: 150,
-    backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1000,
-    padding: 10,
-    borderRadius: 20,
-  },
-  productButtonText: {
-    color: 'white',
-    backgroundColor: 'blue',
-  },
   smileView: {
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    backgroundColor: 'red',
     justifyContent: 'center',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
   },
 });
