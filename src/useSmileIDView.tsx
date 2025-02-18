@@ -28,7 +28,6 @@ export const useSmileIDView = (viewName: string, props: SmileIDProps) => {
           ...prev,
           userId: 'invalidator',
         }));
-        console.log('Japhet Ndhlovu event = ', JSON.stringify(event));
         if (onResultRef.current) {
           const nativeEvent = {
             nativeEvent: {
