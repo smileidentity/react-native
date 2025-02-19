@@ -8,6 +8,7 @@ import {
   type SmartSelfieAuthenticationEnhancedRequest,
   type BiometricKYCRequest,
   type ConsentRequest,
+  type EnhancedDocumentVerificationRequest,
   JobType,
 } from '@smile_identity/react-native';
 import type { SmileIDPollingFunction } from '../utils';
@@ -20,6 +21,7 @@ export type Product = {
   product:
     | EnhancedKycRequest
     | DocumentVerificationRequest
+    | EnhancedDocumentVerificationRequest
     | SmartSelfieEnrollmentRequest
     | SmartSelfieAuthenticationRequest
     | SmartSelfieEnrollmentEnhancedRequest

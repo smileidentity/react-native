@@ -68,12 +68,12 @@ struct SmileIDDocumentCaptureView: View {
 
         } catch {
             // Handle file creation error
-          smileIDUIViewDelegate.onError(error: SmileIDError.unknown("Error creating document file: \(error.localizedDescription)"))
+            smileIDUIViewDelegate.onError(error: SmileIDError.unknown("Error creating document file: \(error.localizedDescription)"))
         }
     }
 
     func onError(error: Error) {
-        smileIDUIViewDelegate.onError(error: error.localizedDescription)
+        smileIDUIViewDelegate.onError(error: error)
     }
 
     func onSkip() {

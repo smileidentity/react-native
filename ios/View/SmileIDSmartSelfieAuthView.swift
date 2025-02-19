@@ -41,6 +41,6 @@ extension SmileIDSmartSelfieAuthView: SmartSelfieResultDelegate {
     }
 
     func didError(error: Error) {
-        smileIDUIViewDelegate.onError(error: error.localizedDescription)
+        smileIDUIViewDelegate.onError(error: error)
     }
 }

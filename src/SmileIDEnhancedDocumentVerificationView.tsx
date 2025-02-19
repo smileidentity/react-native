@@ -1,34 +1,24 @@
 import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
-import type { DocumentVerificationRequest } from './index';
 import { useSmileIDView } from './useSmileIDView';
+import type { EnhancedDocumentVerificationRequest } from './types';
 
 const SmileIDEnhancedDocumentVerificationComponent =
-  codegenNativeComponent<DocumentVerificationRequest>(
+  codegenNativeComponent<EnhancedDocumentVerificationRequest>(
     'SmileIDEnhancedDocumentVerificationView'
-  ) as HostComponent<DocumentVerificationRequest>;
-
-const defaultConsentInfo = {
-  consentInformation: {
-    timestamp: new Date().toISOString(),
-  },
-};
+  ) as HostComponent<EnhancedDocumentVerificationRequest>;
 
 const SmileIDEnhancedDocumentVerificationView: React.FC<
-  DocumentVerificationRequest
+  EnhancedDocumentVerificationRequest
 > = (props) => {
-  const mergedProps = { ...defaultConsentInfo, ...props };
   const viewRef = useSmileIDView(
     'SmileIDEnhancedDocumentVerificationView',
-    mergedProps
+    props
   );
 
   return (
-    <SmileIDEnhancedDocumentVerificationComponent
-      ref={viewRef}
-      {...mergedProps}
-    />
+    <SmileIDEnhancedDocumentVerificationComponent ref={viewRef} {...props} />
   );
 };
 

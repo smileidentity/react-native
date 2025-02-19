@@ -17,6 +17,7 @@ import com.smileidentity.util.randomUserId
 class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(context) {
   var idInfo: IdInfo? = null
   var consentInformation: ConsentInformation? = null
+  var useStrictMode: Boolean? = false
 
   override fun renderContent() {
     idInfo ?: run {
@@ -41,6 +42,7 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             showInstructions = showInstructions,
             extraPartnerParams = extraPartnerParams,
             consentInformation = consentInformation!!,
+            useStrictMode = useStrictMode ?: false,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {

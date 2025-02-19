@@ -129,7 +129,17 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
   /*jobId The job ID to associate with the job. Most often, this will correspond to a unique
   Job ID within your own system. If not provided, a random job ID will be generated.*/
   jobId?: string;
+
+  useStrictMode?: boolean;
 };
+
+export type EnhancedDocumentVerificationRequest =
+  DocumentVerificationRequest & {
+    /**
+     * The country of issuance of the ID type to be captured.
+     */
+    consentInformation: ConsentInformation;
+  };
 
 export type ConsentRequest = Omit<SmartSelfieRequest, 'allowAgentMode'> & {
   /**
@@ -151,8 +161,10 @@ export type ConsentRequest = Omit<SmartSelfieRequest, 'allowAgentMode'> & {
   productName: string;
 };
 
-export type BiometricKYCRequest = ConsentRequest & {
+export type BiometricKYCRequest = SmartSelfieRequest & {
   idInfo: IdInfo;
+  consentInformation: ConsentInformation;
+  useStrictMode?: boolean;
   productName: string;
   jobId: string;
 };
@@ -311,6 +323,25 @@ export class PrepUploadResponse {
     this.refId = refId;
     this.uploadUrl = uploadUrl;
     this.smileJobId = smileJobId;
+  }
+}
+
+export class ConsentInformation {
+  consentGrantedDate: string;
+  personalDetailsConsentGranted: boolean;
+  contactInfoConsentGranted: boolean;
+  documentInfoConsentGranted: boolean;
+
+  constructor(
+    consentGrantedDate: string,
+    personalDetailsConsentGranted: boolean,
+    contactInfoConsentGranted: boolean,
+    documentInfoConsentGranted: boolean
+  ) {
+    this.consentGrantedDate = consentGrantedDate;
+    this.personalDetailsConsentGranted = personalDetailsConsentGranted;
+    this.contactInfoConsentGranted = contactInfoConsentGranted;
+    this.documentInfoConsentGranted = documentInfoConsentGranted;
   }
 }
 

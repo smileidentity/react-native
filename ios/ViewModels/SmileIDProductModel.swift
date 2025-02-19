@@ -27,7 +27,9 @@ class SmileIDProductModel: ObservableObject {
     @Published var documentType: String?
     @Published var captureBothSides: Bool = false
     @Published var allowGalleryUpload: Bool = false
+    @Published var useStrictMode: Bool = false
     @Published var idInfo: IdInfo?
+    @Published var consentInformation: ConsentInformation?
     @Published var bypassSelfieCaptureWithFilePath: URL?
     @Published var onResult: RCTBubblingEventBlock?
 }

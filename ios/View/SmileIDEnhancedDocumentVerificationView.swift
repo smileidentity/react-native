@@ -8,10 +8,11 @@ struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
     var body: some View {
         NavigationView {
-            if let countryCode = product.countryCode {
+            if let countryCode = product.countryCode, let consentInformation = product.consentInformation {
                 SmileID.enhancedDocumentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
+                    consentInformation: consentInformation,
                     allowNewEnroll: product.allowNewEnroll,
                     countryCode: countryCode, // already validated in the view manager
                     documentType: product.documentType,
@@ -23,6 +24,7 @@ struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
                     showInstructions: product.showInstructions,
                     skipApiSubmission: product.skipApiSubmission,
                     showAttribution: product.showAttribution,
+                    useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
                     delegate: self
                 )
@@ -56,6 +58,6 @@ extension SmileIDEnhancedDocumentVerificationView: EnhancedDocumentVerificationR
     }
 
     func didError(error: Error) {
-        smileIDUIViewDelegate.onError(error: error.localizedDescription)
+        smileIDUIViewDelegate.onError(error: error)
     }
 }

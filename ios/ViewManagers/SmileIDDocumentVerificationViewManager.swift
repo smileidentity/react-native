@@ -43,6 +43,7 @@ class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
                 self.product.captureBothSides = params["captureBothSides"] as? Bool ?? true
                 self.product.allowGalleryUpload = params["allowGalleryUpload"] as? Bool ?? false
                 self.product.skipApiSubmission = params["skipApiSubmission"] as? Bool ?? false
+                self.product.useStrictMode = params["useStrictMode"] as? Bool ?? false
                 self.product.onResult = params["onResult"] as? RCTDirectEventBlock
             }
         }

@@ -40,6 +40,7 @@ import type {
   ConsentRequest,
   SmartSelfieEnrollmentEnhancedRequest,
   SmartSelfieAuthenticationEnhancedRequest,
+  EnhancedDocumentVerificationRequest,
 } from './types';
 import type { Spec } from './NativeSmileId';
 
@@ -310,6 +311,7 @@ export type {
   SmartSelfieJobStatusResponse,
   ValidDocumentsResponse,
   DocumentVerificationRequest,
+  EnhancedDocumentVerificationRequest,
   SmartSelfieEnrollmentRequest,
   SmartSelfieAuthenticationRequest,
   BiometricKYCRequest,

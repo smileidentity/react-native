@@ -21,6 +21,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
   var documentType: String? = null
   var idAspectRatio: Float? = null
   var consentInformation: ConsentInformation? = null
+  var useStrictMode: Boolean? = false
 
   override fun renderContent() {
     countryCode ?: run {
@@ -51,6 +52,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             captureBothSides = captureBothSides,
             extraPartnerParams = extraPartnerParams,
             consentInformation = consentInformation!!,
+            useStrictMode = useStrictMode ?: false,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {

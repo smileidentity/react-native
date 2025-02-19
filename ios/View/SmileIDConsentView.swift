@@ -20,7 +20,7 @@ struct SmileIDConsentView: View {
                     productName: productName,
                     partnerPrivacyPolicy: URL(string: partnerPrivacyPolicy)!,
                     showAttribution: true,
-                    onConsentGranted: {
+                    onConsentGranted: { _ in
                         DispatchQueue.main.async {
                             self.product.onResult?(["result": true])
                         }

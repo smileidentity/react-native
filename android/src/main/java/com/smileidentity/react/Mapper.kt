@@ -165,7 +165,7 @@ fun ReadableMap.toConsentInfo(): ConsentInformation {
     },
     personalDetailsConsentGranted = getBoolOrDefault("personalDetailsConsentGranted", false),
     contactInfoConsentGranted = getBoolOrDefault("contactInfoConsentGranted", false),
-    documentInfoConsentGranted = getBoolOrDefault("contactInfoConsentGranted", false)
+    documentInfoConsentGranted = getBoolOrDefault("documentInfoConsentGranted", false)
   )
 }
 
