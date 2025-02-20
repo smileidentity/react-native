@@ -41,7 +41,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     showConfirmation: true,
     isDocumentFrontSide: true,
     allowGalleryUpload: true,
-    // useStrictMode: true, set to true for biometric KYC,doc V and enhanced doc V to use enhanced SmartSelfie™ capture
+    useStrictMode: true, // set to false for biometric KYC,doc V and enhanced doc V to use old SmartSelfie™ capture
   });
 
   const defaultConsentInfo = useRef({
@@ -122,7 +122,6 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       idNumber: '00000000000',
       entered: true,
     },
-    productName: 'NIN_SLIP',
   });
 
   const [consentScreen, setConsentScreen] = useState<ConsentRequest>({
@@ -251,7 +250,6 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
         idNumber: '00000000000',
         entered: true,
       },
-      productName: 'NIN_SLIP',
     });
 
     setConsentScreen({

@@ -1,7 +1,8 @@
 # Release Notes
 ## 10.2.5
 * Added enhanced SmartSelfie™ capture to docV, enhanced docV, and biometric kyc
-*
+* Added consent information to BioMetric KYC and Enhanced Document Verification
+
 ## 10.2.4
 * Fixed issues with rendering capture components and native modals staying after onResult has been called
 

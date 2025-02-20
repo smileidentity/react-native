@@ -130,6 +130,10 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
   Job ID within your own system. If not provided, a random job ID will be generated.*/
   jobId?: string;
 
+  /*
+   * Will use Enhanced SmartSelfie™ capture for the selfie capture
+   * if set to true, if false will use the default SmartSelfie™ capture
+   */
   useStrictMode?: boolean;
 };
 
@@ -162,11 +166,19 @@ export type ConsentRequest = Omit<SmartSelfieRequest, 'allowAgentMode'> & {
 };
 
 export type BiometricKYCRequest = SmartSelfieRequest & {
+  /*
+   * The user id information for KYC
+   */
   idInfo: IdInfo;
+  /*
+   * The consent information for the partner
+   */
   consentInformation: ConsentInformation;
+  /*
+   * Will use Enhanced SmartSelfie™ capture for the selfie capture
+   * if set to true, if false will use the default SmartSelfie™ capture
+   */
   useStrictMode?: boolean;
-  productName: string;
-  jobId: string;
 };
 
 // noinspection JSUnusedGlobalSymbols
@@ -326,10 +338,26 @@ export class PrepUploadResponse {
   }
 }
 
+/*
+ * The consent information for the user
+ * required for Biometric KYC and Enhanced Document Verification
+ */
 export class ConsentInformation {
+  /*
+   * The date the user granted consent
+   */
   consentGrantedDate: string;
+  /*
+   * Whether the user has granted consent for personal details
+   */
   personalDetailsConsentGranted: boolean;
+  /*
+   * Whether the user has granted consent for contact information
+   */
   contactInfoConsentGranted: boolean;
+  /*
+   * Whether the user has granted consent for document information
+   */
   documentInfoConsentGranted: boolean;
 
   constructor(
