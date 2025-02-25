@@ -104,6 +104,7 @@ android {
   }
   kotlinOptions {
     jvmTarget = JavaVersion.VERSION_17.toString()
+    freeCompilerArgs += ['-Xskip-metadata-version-check']
   }
   packagingOptions {
     resources {
