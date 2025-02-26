@@ -109,6 +109,19 @@ extension NSDictionary {
         )
     }
 
+    func toConsentInfo() -> ConsentInformation {
+        let consentGrantedDate = self["consentGrantedDate"] as? String ?? getCurrentIsoTimestamp()
+        let personalDetailsConsentGranted = self["personalDetailsConsentGranted"] as? Bool ?? false
+        let contactInfoConsentGranted = self["contactInfoConsentGranted"] as? Bool ?? false
+        let documentInfoConsentGranted = self["documentInfoConsentGranted"] as? Bool ?? false
+        return ConsentInformation(
+            consentGrantedDate: consentGrantedDate,
+            personalDetailsConsentGranted: personalDetailsConsentGranted,
+            contactInformationConsentGranted: contactInfoConsentGranted,
+            documentInformationConsentGranted: documentInfoConsentGranted
+        )
+    }
+
     func toEnhancedKycRequest() -> EnhancedKycRequest? {
         guard let country = self["country"] as? String,
               let idType = self["idType"] as? String,
@@ -121,6 +134,7 @@ extension NSDictionary {
               let bankCode = self["bankCode"] as? String,
               let callbackUrl = self["callbackUrl"] as? String,
               let partnerParamsDict = self["partnerParams"] as? NSDictionary,
+              let consentInformation = self["consentInformation"] as? NSDictionary,
               let partnerParams = partnerParamsDict.toPartnerParams(),
               let timestamp = self["timestamp"] as? String,
               let signature = self["signature"] as? String
@@ -132,6 +146,7 @@ extension NSDictionary {
             country: country,
             idType: idType,
             idNumber: idNumber,
+            consentInformation: consentInformation.toConsentInfo(),
             firstName: firstName,
             middleName: middleName,
             lastName: lastName,

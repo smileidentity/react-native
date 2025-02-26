@@ -38,6 +38,7 @@ class SmileIDBiometricKYCViewManager(
       view.showAttribution = it.getBoolOrDefault("showAttribution", true)
       view.showInstructions = it.getBoolOrDefault("showInstructions", true)
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
+      view.useStrictMode = it.getBoolOrDefault("useStrictMode", false)
     }
   }
 

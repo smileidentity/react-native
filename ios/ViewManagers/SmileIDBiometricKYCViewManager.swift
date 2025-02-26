@@ -19,6 +19,10 @@ class SmileIDBiometricKYCViewManager: SmileIDBaseViewManager {
                     onResult?(["error": SmileIDError.unknown("idInfo is required to run Biometric KYC")])
                     return
                 }
+                guard let consentInformation = params["consentInformation"] as? NSDictionary else {
+                    onResult?(["error": SmileIDError.unknown("consentInformation is required to run Biometric KYC")])
+                    return
+                }
                 self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
                 self.product.userId = params["userId"] as? String
                 self.product.jobId = params["jobId"] as? String
@@ -26,7 +30,9 @@ class SmileIDBiometricKYCViewManager: SmileIDBaseViewManager {
                 self.product.allowAgentMode = params["allowAgentMode"] as? Bool ?? false
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true
                 self.product.showInstructions = params["showInstructions"] as? Bool ?? true
+                self.product.useStrictMode = params["useStrictMode"] as? Bool ?? false
                 self.product.idInfo = idInfo.toIdInfo()
+                self.product.consentInformation = consentInformation.toConsentInfo()
                 self.product.onResult = onResult
             }
         }

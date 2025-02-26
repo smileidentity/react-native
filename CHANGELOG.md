@@ -1,4 +1,10 @@
 # Release Notes
+## 10.2.5
+* Added enhanced SmartSelfie™ capture to docV, enhanced docV, and biometric kyc
+* Added consent information to BioMetric KYC and Enhanced Document Verification
+* Bump android to 10.5.0 (https://github.com/smileidentity/android/releases/tag/v10.5.0)
+* Bump iOS to 10.4.0 (https://github.com/smileidentity/ios/releases/tag/v10.4.0)
+
 ## 10.2.4
 * Fixed issues with rendering capture components and native modals staying after onResult has been called
 

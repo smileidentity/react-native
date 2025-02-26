@@ -171,10 +171,16 @@ class RNSmileID: NSObject {
             return
         }
 
+        guard let consentInformation = request["consentInformation"] as? NSDictionary else {
+            reject("doEnhancedKyc", "consentInformation is required", nil)
+            return
+        }
+
         let request = EnhancedKycRequest(
             country: country,
             idType: idType,
             idNumber: idNumber,
+            consentInformation: consentInformation.toConsentInfo(),
             firstName: request["firstName"] as? String,
             middleName: request["middleName"] as? String,
             lastName: request["lastName"] as? String,
@@ -234,10 +240,16 @@ class RNSmileID: NSObject {
             return
         }
 
+        guard let consentInformation = request["consentInformation"] as? NSDictionary else {
+            reject("doEnhancedKyc", "consentInformation is required", nil)
+            return
+        }
+
         let request = EnhancedKycRequest(
             country: country,
             idType: idType,
             idNumber: idNumber,
+            consentInformation: consentInformation.toConsentInfo(),
             firstName: request["firstName"] as? String,
             middleName: request["middleName"] as? String,
             lastName: request["lastName"] as? String,

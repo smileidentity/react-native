@@ -8,15 +8,17 @@ struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
     var body: some View {
         NavigationView {
-            if let idInfo = product.idInfo {
+            if let idInfo = product.idInfo, let consentInformation = product.consentInformation {
                 SmileID.biometricKycScreen(
-                    idInfo: idInfo, // already validated in the SmileIDBiometricKYCViewManager
+                    idInfo: idInfo,
+                    consentInformation: consentInformation, // already validated in the SmileIDBiometricKYCViewManager
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
                     allowNewEnroll: product.allowNewEnroll,
                     allowAgentMode: product.allowAgentMode,
                     showAttribution: product.showAttribution,
                     showInstructions: product.showInstructions,
+                    useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
                     delegate: self
                 )
@@ -58,6 +60,6 @@ extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     }
 
     func didError(error: Error) {
-        smileIDUIViewDelegate.onError(error: error.localizedDescription)
+        smileIDUIViewDelegate.onError(error: error)
     }
 }

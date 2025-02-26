@@ -22,7 +22,7 @@ class SmileIDBaseViewManager: RCTViewManager, SmileIDUIViewDelegate {
     func onError(error: any Error) {
         bridge.eventDispatcher().sendDeviceEvent(
             withName: "onSmileResult",
-            body: ["error": error]
+            body: ["error": error.localizedDescription]
         )
     }
 

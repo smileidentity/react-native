@@ -23,6 +23,7 @@ struct SmileIDDocumentVerificationView: View, SmileIDFileUtilsProtocol {
                     showInstructions: product.showInstructions,
                     showAttribution: product.showAttribution,
                     skipApiSubmission: product.skipApiSubmission,
+                    useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
                     delegate: self
                 )
@@ -56,6 +57,6 @@ extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
     }
 
     func didError(error: Error) {
-        smileIDUIViewDelegate.onError(error: error.localizedDescription)
+        smileIDUIViewDelegate.onError(error: error)
     }
 }

@@ -6,6 +6,7 @@ import {
   type BiometricKYCRequest,
   type ConsentRequest,
   type DocumentVerificationRequest,
+  type EnhancedDocumentVerificationRequest,
   JobType,
   type SmartSelfieAuthenticationEnhancedRequest,
   type SmartSelfieAuthenticationRequest,
@@ -40,7 +41,18 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     showConfirmation: true,
     isDocumentFrontSide: true,
     allowGalleryUpload: true,
+    useStrictMode: true, // set to false for biometric KYC,doc V and enhanced doc V to use old SmartSelfie™ capture
   });
+
+  const defaultConsentInfo = useRef({
+    consentInformation: {
+      consentGrantedDate: new Date().toISOString(),
+      personalDetailsConsentGranted: true,
+      contactInfoConsentGranted: true,
+      documentInfoConsentGranted: true,
+    },
+  });
+
   const [userId, setUserId] = useState(generateUuid('user_'));
   const [jobId, setJobId] = useState(generateUuid('job_'));
   const [smartSelfieEnrollment, setSmartSelfieEnrollment] =
@@ -90,19 +102,28 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       captureBothSides: true,
       allowGalleryUpload: false,
     });
+
+  const [enhancedDocV, setEnhancedDocV] =
+    useState<EnhancedDocumentVerificationRequest>({
+      ...defaultProductRef.current,
+      ...defaultConsentInfo.current,
+      countryCode: 'ZW',
+      documentType: 'PASSPORT',
+      captureBothSides: true,
+      allowGalleryUpload: false,
+    });
+
   const [biometricKYC, setBiometricKYC] = useState<BiometricKYCRequest>({
     ...defaultProductRef.current,
+    ...defaultConsentInfo.current,
     idInfo: {
       country: 'NG',
       idType: 'NIN_V2',
       idNumber: '00000000000',
       entered: true,
     },
-    partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
-    partnerName: 'Smile React',
-    productName: 'NIN_SLIP',
-    partnerPrivacyPolicy: 'https://docs.usesmileid.com',
   });
+
   const [consentScreen, setConsentScreen] = useState<ConsentRequest>({
     partnerIcon: Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
     partnerName: 'Smile React',
@@ -118,8 +139,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     see https://docs.usesmileid.com/integration-options/mobile/getting-started for more details
     */
     //SmileID.initialize(false);
-    let partnerId = '';
-    let authTokenProd = '';
+    let partnerId = 'YOUR_PARTNER_ID';
+    let authTokenProd = 'YOUR_AUTH';
 
     let prodBaseUrl = 'https://api.smileidentity.com/v1/';
     let sandboxBaseUrl = 'https://testapi.smileidentity.com/v1/';
@@ -211,19 +232,24 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       allowGalleryUpload: false,
     });
 
+    setEnhancedDocV({
+      ...defaultProductRef.current,
+      ...defaultConsentInfo.current,
+      countryCode: 'ZW',
+      documentType: 'PASSPORT',
+      captureBothSides: true,
+      allowGalleryUpload: false,
+    });
+
     setBiometricKYC({
       ...defaultProductRef.current,
+      ...defaultConsentInfo.current,
       idInfo: {
         country: 'NG',
         idType: 'NIN_V2',
         idNumber: '00000000000',
         entered: true,
       },
-      partnerIcon:
-        Platform.OS === 'android' ? 'si_logo_with_text' : 'smile_logo',
-      partnerName: 'Smile React',
-      productName: 'NIN_SLIP',
-      partnerPrivacyPolicy: 'https://docs.usesmileid.com',
     });
 
     setConsentScreen({
@@ -281,7 +307,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       },
       {
         title: 'Enhanced Document Verification',
-        product: documentVerification,
+        product: enhancedDocV,
         isAsync: true,
         jobType: JobType.EnhancedDocumentVerification,
         pollMethod: 'pollEnhancedDocumentVerificationJobStatus',
@@ -308,6 +334,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     smartSelfieAuthenticationEnhanced,
     documentVerification,
     biometricKYC,
+    enhancedDocV,
     consentScreen,
   ]);
 

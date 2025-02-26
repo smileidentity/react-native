@@ -20,6 +20,11 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
                     return
                 }
 
+                guard let consentInformation = params["consentInformation"] as? NSDictionary else {
+                    onResult?(["error": SmileIDError.unknown("consentInformation is required to run Biometric KYC")])
+                    return
+                }
+
                 var bypassSelfieCaptureWithFilePath: URL?
                 if let filePath = params["bypassSelfieCaptureWithFile"] as? String {
                     if !filePath.isValidUrl() {
@@ -43,6 +48,8 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
                 self.product.captureBothSides = params["captureBothSides"] as? Bool ?? true
                 self.product.allowGalleryUpload = params["allowGalleryUpload"] as? Bool ?? false
                 self.product.skipApiSubmission = params["skipApiSubmission"] as? Bool ?? false
+                self.product.useStrictMode = params["useStrictMode"] as? Bool ?? false
+                self.product.consentInformation = consentInformation.toConsentInfo()
                 self.product.onResult = params["onResult"] as? RCTDirectEventBlock
             }
         }

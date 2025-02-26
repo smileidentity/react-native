@@ -20,6 +20,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
   var bypassSelfieCaptureWithFilePath: String? = null
   var documentType: String? = null
   var idAspectRatio: Float? = null
+  var useStrictMode: Boolean? = false
 
   override fun renderContent() {
     countryCode ?: run {
@@ -48,6 +49,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             allowNewEnroll = allowNewEnroll ?: false,
             bypassSelfieCaptureWithFile = bypassSelfieCaptureWithFile,
             extraPartnerParams = extraPartnerParams,
+            useStrictMode = useStrictMode ?: false,
           ) { res ->
             when (res) {
               is SmileIDResult.Success -> {
