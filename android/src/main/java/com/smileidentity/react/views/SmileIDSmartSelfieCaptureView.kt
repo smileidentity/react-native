@@ -34,11 +34,14 @@ import com.smileidentity.compose.components.ImageCaptureConfirmationDialog
 import com.smileidentity.compose.components.LocalMetadata
 import com.smileidentity.compose.selfie.SelfieCaptureScreen
 import com.smileidentity.compose.selfie.SmartSelfieInstructionsScreen
+import com.smileidentity.compose.selfie.enhanced.OrchestratedSelfieCaptureScreenEnhanced
 import com.smileidentity.compose.theme.colorScheme
 import com.smileidentity.compose.theme.typography
+import com.smileidentity.ml.SelfieQualityModel
 import com.smileidentity.models.v2.Metadata
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
+import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
@@ -50,6 +53,7 @@ import com.smileidentity.viewmodel.viewModelFactory
 @OptIn(SmileIDOptIn::class)
 class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDView(context) {
   var showConfirmation: Boolean = true
+  var useStrictMode: Boolean = false
 
   override fun renderContent() {
     composeView.apply {
@@ -83,30 +87,53 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDV
       )
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     var acknowledgedInstructions by rememberSaveable { mutableStateOf(false) }
+
     CompositionLocalProvider(
       LocalMetadata provides remember { Metadata.default().items.toMutableStateList() },
     ) {
       MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
         Surface(content = {
           when {
+            useStrictMode -> RenderStrictModeCapture(userId)
             showInstructions && !acknowledgedInstructions -> SmartSelfieInstructionsScreen(
               showAttribution = showAttribution,
             ) {
               acknowledgedInstructions = true
             }
+
             uiState.processingState != null -> HandleProcessingState(viewModel)
-            uiState.selfieToConfirm != null ->
-              HandleSelfieConfirmation(
-                showConfirmation,
-                uiState,
-                viewModel,
-              )
+            uiState.selfieToConfirm != null -> HandleSelfieConfirmation(
+              showConfirmation,
+              uiState,
+              viewModel,
+            )
 
             else -> RenderSelfieCaptureScreen(userId, jobId, allowAgentMode ?: true, viewModel)
           }
         })
       }
     }
+  }
+
+  @Composable
+  private fun RenderStrictModeCapture(userId: String) {
+    val selfieQualityModel = remember { SelfieQualityModel.newInstance(context) }
+    OrchestratedSelfieCaptureScreenEnhanced(
+      modifier = Modifier
+        .background(color = Color.White)
+        .windowInsetsPadding(WindowInsets.statusBars)
+        .consumeWindowInsets(WindowInsets.statusBars)
+        .fillMaxSize(),
+      userId = userId,
+      allowNewEnroll = allowNewEnroll,
+      showInstructions = showInstructions,
+      isEnroll = true,
+      showAttribution = showAttribution,
+      selfieQualityModel = selfieQualityModel,
+      extraPartnerParams = extraPartnerParams,
+      skipApiSubmission = true,
+      onResult = { res -> handleResultCallback(res) },
+    )
   }
 
   @Composable
@@ -117,8 +144,7 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDV
     viewModel: SelfieViewModel,
   ) {
     Box(
-      modifier =
-      Modifier
+      modifier = Modifier
         .background(color = Color.White)
         .windowInsetsPadding(WindowInsets.statusBars)
         .consumeWindowInsets(WindowInsets.statusBars)
@@ -144,25 +170,21 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDV
     if (showConfirmation) {
       ImageCaptureConfirmationDialog(
         titleText = stringResource(R.string.si_smart_selfie_confirmation_dialog_title),
-        subtitleText =
-        stringResource(
+        subtitleText = stringResource(
           R.string.si_smart_selfie_confirmation_dialog_subtitle,
         ),
-        painter =
-        BitmapPainter(
+        painter = BitmapPainter(
           BitmapFactory
             .decodeFile(uiState.selfieToConfirm!!.absolutePath)
             .asImageBitmap(),
         ),
-        confirmButtonText =
-        stringResource(
+        confirmButtonText = stringResource(
           R.string.si_smart_selfie_confirmation_dialog_confirm_button,
         ),
         onConfirm = {
           viewModel.submitJob()
         },
-        retakeButtonText =
-        stringResource(
+        retakeButtonText = stringResource(
           R.string.si_smart_selfie_confirmation_dialog_retake_button,
         ),
         onRetake = viewModel::onSelfieRejected,
@@ -176,47 +198,49 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDV
   @Composable
   private fun HandleProcessingState(viewModel: SelfieViewModel) {
     try {
-      viewModel.onFinished { res ->
-        when (res) {
-          is SmileIDResult.Success -> {
-            res.data?.let { data ->
-              val result = SmartSelfieCaptureResult(
-                selfieFile = data.selfieFile,
-                livenessFiles = data.livenessFiles ?: emptyList()
-              )
+      viewModel.onFinished { res -> handleResultCallback(res) }
+    } catch (e: Exception) {
+      // Original comment: emitFailure(e)
+    }
+  }
 
-              try {
-                val newMoshi = SmileID.moshi
-                  .newBuilder()
-                  .add(SelfieCaptureResultAdapter.FACTORY)
-                  .build()
+  private fun handleResultCallback(res: SmileIDResult<*>) {
+    when (res) {
+      is SmileIDResult.Success -> {
+        val data = res.data as? SmartSelfieResult ?: run {
+          emitFailure(Exception("Unexpected result type"))
+          return
+        }
+        val result = SmartSelfieCaptureResult(
+          selfieFile = data.selfieFile,
+          livenessFiles = data.livenessFiles,
+        )
 
-                newMoshi.adapter(SmartSelfieCaptureResult::class.java)
-                  ?.toJson(result)
-                  ?.let { js ->
-                    emitSuccess(js)
-                  } ?: run {
-                  emitFailure(Exception("Failed to serialize result"))
-                }
-              } catch (e: Exception) {
-                emitFailure(e)
-              }
+        try {
+          val newMoshi = SmileID.moshi
+            .newBuilder()
+            .add(SelfieCaptureResultAdapter.FACTORY)
+            .build()
+
+          newMoshi.adapter(SmartSelfieCaptureResult::class.java)
+            ?.toJson(result)
+            ?.let { js ->
+              emitSuccess(js)
             } ?: run {
-              emitFailure(Exception("No data available in success result"))
-            }
+            emitFailure(Exception("Failed to serialize result"))
           }
-
-          is SmileIDResult.Error -> {
-            emitFailure(res.throwable ?: Exception("Unknown error occurred"))
-          }
-
-          else -> {
-            emitFailure(Exception("Unexpected result type"))
-          }
+        } catch (e: Exception) {
+          emitFailure(e)
         }
       }
-    } catch (e: Exception) {
-//      emitFailure(e)
+
+      is SmileIDResult.Error -> {
+        emitFailure(res.throwable)
+      }
+
+      else -> {
+        emitFailure(Exception("Unexpected result type"))
+      }
     }
   }
 }

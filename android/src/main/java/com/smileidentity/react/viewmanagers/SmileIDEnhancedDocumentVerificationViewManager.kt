@@ -6,9 +6,11 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
+import com.smileidentity.models.ConsentInformation
 import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getCurrentIsoTimestamp
 import com.smileidentity.react.utils.getFloatOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
 import com.smileidentity.react.utils.getMapOrDefault
@@ -31,9 +33,13 @@ class SmileIDEnhancedDocumentVerificationViewManager(
     args?.let {
       val countryCode = it.getString("countryCode")
         ?: return view.emitFailure(IllegalArgumentException("countryCode is required to run Enhanced Document Verification"))
-      val consentInformationMap = it.getMap("consentInformation")
-        ?: return view.emitFailure(IllegalArgumentException("consentInformation is required to run Biometric KYC"))
-      view.consentInformation = consentInformationMap.toConsentInfo()
+      val consentInformationMap = it.getMapOrDefault("consentInformation",null)
+      view.consentInformation = consentInformationMap?.toConsentInfo() ?: ConsentInformation(
+        consentGrantedDate = getCurrentIsoTimestamp(),
+        personalDetailsConsentGranted = false,
+        contactInfoConsentGranted = false,
+        documentInfoConsentGranted = false
+      )
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")

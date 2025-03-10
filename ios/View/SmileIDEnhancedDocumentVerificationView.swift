@@ -12,7 +12,6 @@ struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
                 SmileID.enhancedDocumentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
-                    consentInformation: consentInformation,
                     allowNewEnroll: product.allowNewEnroll,
                     countryCode: countryCode, // already validated in the view manager
                     documentType: product.documentType,
@@ -26,6 +25,7 @@ struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
                     showAttribution: product.showAttribution,
                     useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
+                    consentInformation: consentInformation,
                     delegate: self
                 )
             } else {

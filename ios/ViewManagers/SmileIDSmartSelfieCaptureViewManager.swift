@@ -30,6 +30,7 @@ class SmileIDSmartSelfieCaptureViewManager: SmileIDBaseViewManager {
                 self.product.showConfirmation = params["showConfirmation"] as? Bool ?? true
                 self.product.showInstructions = params["showInstructions"] as? Bool ?? true
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true
+                self.product.useStrictMode = params["useStrictMode"] as? Bool ?? false
                 self.product.onResult = params["onResult"] as? RCTBubblingEventBlock
             }
         }

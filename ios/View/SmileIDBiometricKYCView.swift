@@ -11,7 +11,6 @@ struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
             if let idInfo = product.idInfo, let consentInformation = product.consentInformation {
                 SmileID.biometricKycScreen(
                     idInfo: idInfo,
-                    consentInformation: consentInformation, // already validated in the SmileIDBiometricKYCViewManager
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
                     allowNewEnroll: product.allowNewEnroll,
@@ -20,6 +19,7 @@ struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
                     showInstructions: product.showInstructions,
                     useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
+                    consentInformation: consentInformation, // already validated in the SmileIDBiometricKYCViewManager
                     delegate: self
                 )
             } else {

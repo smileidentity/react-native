@@ -1,4 +1,11 @@
 # Release Notes
+
+## 10.2.6
+* Added enhanced SmartSelfie™ capture Selfie capture screen component
+* Make consent information optional on BioMetric KYC and Enhanced Document Verification
+* Bump android to 10.5.0 (https://github.com/smileidentity/android/releases/tag/v10.5.1)
+* Bump iOS to 10.4.0 (https://github.com/smileidentity/ios/releases/tag/v10.4.1)
+
 ## 10.2.5
 * Added enhanced SmartSelfie™ capture to docV, enhanced docV, and biometric kyc
 * Added consent information to BioMetric KYC and Enhanced Document Verification

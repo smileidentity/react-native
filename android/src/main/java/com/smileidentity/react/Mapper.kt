@@ -153,7 +153,12 @@ fun ReadableMap.toEnhancedKycRequest(): EnhancedKycRequest {
       throw IllegalArgumentException("signature is required")
     },
     consentInformation = getMapOrDefault("consentInformation", null)?.toConsentInfo() ?: run {
-      throw IllegalArgumentException("consentInformation is required")
+      ConsentInformation(
+        consentGrantedDate = getCurrentIsoTimestamp(),
+        personalDetailsConsentGranted = false,
+        contactInfoConsentGranted = false,
+        documentInfoConsentGranted = false
+      )
     },
   )
 }

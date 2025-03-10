@@ -142,7 +142,7 @@ export type EnhancedDocumentVerificationRequest =
     /**
      * The country of issuance of the ID type to be captured.
      */
-    consentInformation: ConsentInformation;
+    consentInformation?: ConsentInformation;
   };
 
 export type ConsentRequest = Omit<SmartSelfieRequest, 'allowAgentMode'> & {
@@ -173,7 +173,7 @@ export type BiometricKYCRequest = SmartSelfieRequest & {
   /*
    * The consent information for the partner
    */
-  consentInformation: ConsentInformation;
+  consentInformation?: ConsentInformation;
   /*
    * Will use Enhanced SmartSelfie™ capture for the selfie capture
    * if set to true, if false will use the default SmartSelfie™ capture
@@ -574,6 +574,7 @@ export class EnhancedKycRequest {
   partnerParams: PartnerParams;
   timestamp: string;
   signature: string;
+  consentInformation?: ConsentInformation;
 
   constructor(
     country: string,
@@ -588,7 +589,8 @@ export class EnhancedKycRequest {
     dob?: string,
     phoneNumber?: string,
     bankCode?: string,
-    callbackUrl?: string
+    callbackUrl?: string,
+    consentInformation?: ConsentInformation
   ) {
     this.country = country;
     this.idType = idType;
@@ -603,6 +605,7 @@ export class EnhancedKycRequest {
     this.partnerParams = partnerParams;
     this.timestamp = timestamp;
     this.signature = signature;
+    this.consentInformation = consentInformation;
   }
 }
 

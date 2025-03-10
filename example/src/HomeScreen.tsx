@@ -157,11 +157,13 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     SmileID.setAllowOfflineMode(false).catch((e) => {
       console.log('Error setting offline mode', e);
     });
-    SmileID.setCallbackUrl(
-      'https://webhook.site/efee740f-9953-4e06-92ef-4a89b53de6d0'
-    ).catch((e) => {
-      console.log('Error setting setCallbackUrl', e);
-    });
+
+    //call back url if needed
+    // SmileID.setCallbackUrl(
+    //   'https://your.site/url'
+    // ).catch((e) => {
+    //   console.log('Error setting setCallbackUrl', e);
+    // });
     SmileID.disableCrashReporting();
     setUserId(generateUuid('user_'));
     setJobId(generateUuid('job_'));
