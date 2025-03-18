@@ -8,28 +8,33 @@ import SmileID
 // when views are instantiated we don't have all the props
 // also state could change
 class SmileIDProductModel: ObservableObject {
-    @Published var userId: String?
-    @Published var jobId: String?
-    @Published var partnerIcon: String?
-    @Published var partnerName: String?
-    @Published var productName: String?
-    @Published var partnerPrivacyPolicy: String?
-    @Published var allowAgentMode: Bool = false
-    @Published var allowNewEnroll: Bool = false
-    @Published var front: Bool = true
-    @Published var showConfirmation: Bool = true
-    @Published var showAttribution: Bool = true
-    @Published var showInstructions: Bool = true
-    @Published var skipApiSubmission: Bool = false
-    @Published var extraPartnerParams: [String: String] = [:]
-    @Published var idAspectRatio: Double?
-    @Published var countryCode: String?
-    @Published var documentType: String?
-    @Published var captureBothSides: Bool = false
-    @Published var allowGalleryUpload: Bool = false
-    @Published var useStrictMode: Bool = false
-    @Published var idInfo: IdInfo?
-    @Published var consentInformation: ConsentInformation?
-    @Published var bypassSelfieCaptureWithFilePath: URL?
-    @Published var onResult: RCTBubblingEventBlock?
+  @Published var userId: String?
+  @Published var jobId: String?
+  @Published var partnerIcon: String?
+  @Published var partnerName: String?
+  @Published var productName: String?
+  @Published var partnerPrivacyPolicy: String?
+  @Published var allowAgentMode: Bool = false
+  @Published var allowNewEnroll: Bool = false
+  @Published var front: Bool = true
+  @Published var showConfirmation: Bool = true
+  @Published var showAttribution: Bool = true
+  @Published var showInstructions: Bool = true
+  @Published var skipApiSubmission: Bool = false
+  @Published var extraPartnerParams: [String: String] = [:]
+  @Published var idAspectRatio: Double?
+  @Published var countryCode: String?
+  @Published var documentType: String?
+  @Published var captureBothSides: Bool = false
+  @Published var allowGalleryUpload: Bool = false
+  @Published var useStrictMode: Bool = false
+  @Published var idInfo: IdInfo?
+  @Published var consentInformation: ConsentInformation = ConsentInformation(
+    consentGrantedDate: getCurrentIsoTimestamp(),
+    personalDetailsConsentGranted: false,
+    contactInformationConsentGranted: false,
+    documentInformationConsentGranted: false
+  )
+  @Published var bypassSelfieCaptureWithFilePath: URL?
+  @Published var onResult: RCTBubblingEventBlock?
 }

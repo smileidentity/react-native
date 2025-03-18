@@ -8,11 +8,12 @@ import com.smileidentity.SmileID
 import com.smileidentity.compose.SmartSelfieAuthenticationEnhanced
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
+import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomUserId
 
 class SmileIDSmartSelfieAuthenticationEnhancedView(context: ReactApplicationContext) :
-  SmileIDView(context) {
+  SmileIDSelfieView(context) {
 
   override fun renderContent() {
     composeView.apply {
@@ -24,36 +25,10 @@ class SmileIDSmartSelfieAuthenticationEnhancedView(context: ReactApplicationCont
             allowNewEnroll = allowNewEnroll ?: false,
             showAttribution = showAttribution,
             showInstructions = showInstructions,
+            skipApiSubmission = skipApiSubmission,
             extraPartnerParams = extraPartnerParams,
-          ) { res ->
-            when (res) {
-              is SmileIDResult.Success -> {
-                val result =
-                  SmartSelfieCaptureResult(
-                    selfieFile = res.data.selfieFile,
-                    livenessFiles = res.data.livenessFiles,
-                    apiResponse = res.data.apiResponse,
-                  )
-                val json =
-                  try {
-                    SmileID.moshi
-                      .newBuilder()
-                      .add(SelfieCaptureResultAdapter.FACTORY)
-                      .build()
-                      .adapter(SmartSelfieCaptureResult::class.java)
-                      .toJson(result)
-                  } catch (e: Exception) {
-                    emitFailure(e)
-                    return@SmartSelfieAuthenticationEnhanced
-                  }
-                json?.let { response ->
-                  emitSuccess(response)
-                }
-              }
-
-              is SmileIDResult.Error -> emitFailure(res.throwable)
-            }
-          }
+            onResult = { res -> handleResultCallback(res) },
+          )
         }
       }
     }

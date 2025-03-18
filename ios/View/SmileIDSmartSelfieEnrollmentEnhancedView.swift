@@ -13,6 +13,7 @@ struct SmileIDSmartSelfieEnrollmentEnhancedView: View, SmileIDFileUtilsProtocol 
                 allowNewEnroll: product.allowNewEnroll,
                 showAttribution: product.showAttribution,
                 showInstructions: product.showInstructions,
+                skipApiSubmission: product.skipApiSubmission,
                 extraPartnerParams: product.extraPartnerParams as [String: String],
                 delegate: self
             )

@@ -8,7 +8,7 @@ struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
     var body: some View {
         NavigationView {
-            if let idInfo = product.idInfo, let consentInformation = product.consentInformation {
+            if let idInfo = product.idInfo {
                 SmileID.biometricKycScreen(
                     idInfo: idInfo,
                     userId: product.userId ?? generateUserId(),
@@ -19,7 +19,7 @@ struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
                     showInstructions: product.showInstructions,
                     useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
-                    consentInformation: consentInformation, // already validated in the SmileIDBiometricKYCViewManager
+                    consentInformation: product.consentInformation, // already validated in the SmileIDBiometricKYCViewManager
                     delegate: self
                 )
             } else {
