@@ -140,7 +140,7 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
 export type EnhancedDocumentVerificationRequest =
   DocumentVerificationRequest & {
     /**
-     * The country of issuance of the ID type to be captured.
+     * The consentInformation for the request
      */
     consentInformation?: ConsentInformation;
   };
