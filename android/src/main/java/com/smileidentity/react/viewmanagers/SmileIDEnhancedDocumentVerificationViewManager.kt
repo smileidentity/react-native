@@ -32,14 +32,16 @@ class SmileIDEnhancedDocumentVerificationViewManager(
   override fun applyArgs(view: SmileIDEnhancedDocumentVerificationView, args: ReadableMap?) {
     args?.let {
       val countryCode = it.getString("countryCode")
-        ?: return view.emitFailure(IllegalArgumentException("countryCode is required to run Enhanced Document Verification"))
-      val consentInformationMap = it.getMapOrDefault("consentInformation",null)
-      view.consentInformation = consentInformationMap?.toConsentInfo() ?: ConsentInformation(
-        consentGrantedDate = getCurrentIsoTimestamp(),
-        personalDetailsConsentGranted = false,
-        contactInfoConsentGranted = false,
-        documentInfoConsentGranted = false
-      )
+        ?: return view.emitFailure(
+          IllegalArgumentException("countryCode is required to run Enhanced Document Verification")
+        )
+      view.consentInformation = it.getMapOrDefault("consentInformation")?.toConsentInfo()
+        ?: ConsentInformation(
+          consentGrantedDate = getCurrentIsoTimestamp(),
+          personalDetailsConsentGranted = false,
+          contactInfoConsentGranted = false,
+          documentInfoConsentGranted = false
+        )
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")
