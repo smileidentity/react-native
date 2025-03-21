@@ -36,7 +36,6 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
               if (useStrictMode) {
                 SmileID.SmartSelfieEnrollmentEnhanced(
                   userId = userId,
-                  allowNewEnroll = allowNewEnroll ?: false,
                   showAttribution = showAttribution,
                   showInstructions = showInstructions,
                   skipApiSubmission = true,
@@ -47,7 +46,6 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
                 SmileID.SmartSelfieEnrollment(
                   userId = userId,
                   jobId = jobId,
-                  allowNewEnroll = allowNewEnroll ?: false,
                   allowAgentMode = allowAgentMode ?: false,
                   showAttribution = showAttribution,
                   showInstructions = showInstructions,
