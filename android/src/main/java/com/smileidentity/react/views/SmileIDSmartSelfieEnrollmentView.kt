@@ -1,7 +1,6 @@
 package com.smileidentity.react.views
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -9,15 +8,12 @@ import com.smileidentity.SmileID
 import com.smileidentity.compose.SmartSelfieEnrollment
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
+import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
+import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
-class SmileIDSmartSelfieEnrollmentView(context: Context) : SmileIDView(context) {
-  private val viewScope = CoroutineScope(Dispatchers.Main + Job())
+class SmileIDSmartSelfieEnrollmentView(context: Context) : SmileIDSelfieView(context) {
   override fun renderContent() {
     composeView.apply {
       setContent {
@@ -25,44 +21,15 @@ class SmileIDSmartSelfieEnrollmentView(context: Context) : SmileIDView(context) 
         CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
           SmileID.SmartSelfieEnrollment(
             userId = userId ?: rememberSaveable { randomUserId() },
+            jobId = jobId ?: rememberSaveable { randomJobId() },
             allowAgentMode = allowAgentMode ?: false,
             allowNewEnroll = allowNewEnroll ?: false,
             showAttribution = showAttribution,
             showInstructions = showInstructions,
+            skipApiSubmission = skipApiSubmission,
             extraPartnerParams = extraPartnerParams,
-          ) { res ->
-            viewScope.launch {
-              when (res) {
-                is SmileIDResult.Success -> {
-                  val result =
-                    SmartSelfieCaptureResult(
-                      selfieFile = res.data.selfieFile,
-                      livenessFiles = res.data.livenessFiles,
-                      apiResponse = res.data.apiResponse,
-                    )
-                  val newMoshi =
-                    SmileID.moshi
-                      .newBuilder()
-                      .add(SelfieCaptureResultAdapter.FACTORY)
-                      .build()
-                  val json =
-                    try {
-                      newMoshi
-                        .adapter(SmartSelfieCaptureResult::class.java)
-                        .toJson(result)
-                    } catch (e: Exception) {
-                      emitFailure(e)
-                      return@launch
-                    }
-                  json?.let { js ->
-                    emitSuccess(js)
-                  }
-                }
-
-                is SmileIDResult.Error -> emitFailure(res.throwable)
-              }
-            }
-          }
+            onResult = { res -> handleResultCallback(res)},
+          )
         }
       }
     }

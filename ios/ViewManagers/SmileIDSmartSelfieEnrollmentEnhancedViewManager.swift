@@ -18,6 +18,7 @@ class SmileIDSmartSelfieEnrollmentEnhancedViewManager: SmileIDBaseViewManager {
                 self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true
                 self.product.showInstructions = params["showInstructions"] as? Bool ?? true
+                self.product.skipApiSubmission = params["skipApiSubmission"] as? Bool ?? false
                 self.product.onResult = params["onResult"] as? RCTBubblingEventBlock
             }
         }

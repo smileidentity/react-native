@@ -8,11 +8,13 @@ import com.smileidentity.SmileID
 import com.smileidentity.compose.SmartSelfieAuthentication
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
+import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.results.SmileIDResult
+import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 
 class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
-  SmileIDView(context) {
+  SmileIDSelfieView(context) {
 
   override fun renderContent() {
     composeView.apply {
@@ -21,42 +23,15 @@ class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
         CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
           SmileID.SmartSelfieAuthentication(
             userId = userId ?: rememberSaveable { randomUserId() },
+            jobId = jobId ?: rememberSaveable { randomJobId() },
             allowAgentMode = allowAgentMode ?: false,
             allowNewEnroll = allowNewEnroll ?: false,
             showAttribution = showAttribution,
             showInstructions = showInstructions,
+            skipApiSubmission = skipApiSubmission,
             extraPartnerParams = extraPartnerParams,
-          ) { res ->
-            when (res) {
-              is SmileIDResult.Success -> {
-                val result =
-                  SmartSelfieCaptureResult(
-                    selfieFile = res.data.selfieFile,
-                    livenessFiles = res.data.livenessFiles,
-                    apiResponse = res.data.apiResponse,
-                  )
-                val newMoshi =
-                  SmileID.moshi
-                    .newBuilder()
-                    .add(SelfieCaptureResultAdapter.FACTORY)
-                    .build()
-                val json =
-                  try {
-                    newMoshi
-                      .adapter(SmartSelfieCaptureResult::class.java)
-                      .toJson(result)
-                  } catch (e: Exception) {
-                    emitFailure(e)
-                    return@SmartSelfieAuthentication
-                  }
-                json?.let { js ->
-                  emitSuccess(js)
-                }
-              }
-
-              is SmileIDResult.Error -> emitFailure(res.throwable)
-            }
-          }
+            onResult = { res -> handleResultCallback(res) },
+          )
         }
       }
     }

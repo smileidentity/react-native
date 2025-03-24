@@ -6,9 +6,11 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
+import com.smileidentity.models.ConsentInformation
 import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getCurrentIsoTimestamp
 import com.smileidentity.react.utils.getFloatOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
 import com.smileidentity.react.utils.getMapOrDefault
@@ -30,10 +32,16 @@ class SmileIDEnhancedDocumentVerificationViewManager(
   override fun applyArgs(view: SmileIDEnhancedDocumentVerificationView, args: ReadableMap?) {
     args?.let {
       val countryCode = it.getString("countryCode")
-        ?: return view.emitFailure(IllegalArgumentException("countryCode is required to run Enhanced Document Verification"))
-      val consentInformationMap = it.getMap("consentInformation")
-        ?: return view.emitFailure(IllegalArgumentException("consentInformation is required to run Biometric KYC"))
-      view.consentInformation = consentInformationMap.toConsentInfo()
+        ?: return view.emitFailure(
+          IllegalArgumentException("countryCode is required to run Enhanced Document Verification")
+        )
+      view.consentInformation = it.getMapOrDefault("consentInformation")?.toConsentInfo()
+        ?: ConsentInformation(
+          consentGrantedDate = getCurrentIsoTimestamp(),
+          personalDetailsConsentGranted = false,
+          contactInfoConsentGranted = false,
+          documentInfoConsentGranted = false
+        )
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")
@@ -46,7 +54,6 @@ class SmileIDEnhancedDocumentVerificationViewManager(
       view.documentType = it.getStringOrDefault("documentType")
       view.idAspectRatio = it.getFloatOrDefault("idAspectRatio")
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
-      view.skipApiSubmission = it.getBoolOrDefault("skipApiSubmission", false)
       view.useStrictMode = it.getBoolOrDefault("useStrictMode", false)
     }
   }

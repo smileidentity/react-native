@@ -8,11 +8,10 @@ struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
     var body: some View {
         NavigationView {
-            if let countryCode = product.countryCode, let consentInformation = product.consentInformation {
+            if let countryCode = product.countryCode {
                 SmileID.enhancedDocumentVerificationScreen(
                     userId: product.userId ?? generateUserId(),
                     jobId: product.jobId ?? generateJobId(),
-                    consentInformation: consentInformation,
                     allowNewEnroll: product.allowNewEnroll,
                     countryCode: countryCode, // already validated in the view manager
                     documentType: product.documentType,
@@ -26,6 +25,7 @@ struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
                     showAttribution: product.showAttribution,
                     useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
+                    consentInformation: product.consentInformation,
                     delegate: self
                 )
             } else {
