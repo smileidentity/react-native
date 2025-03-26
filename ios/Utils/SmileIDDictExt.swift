@@ -38,13 +38,13 @@ extension NSDictionary {
     guard let partnerParamsDict = self["partnerParams"] as? NSDictionary,
           let partnerParams = partnerParamsDict.toPartnerParams(),
           let callbackUrl = self["callbackUrl"] as? String,
-          let allowNewEnroll = self["allowNewEnroll"] as? Bool,
           let partnerId = self["partnerId"] as? String,
           let timestamp = self["timestamp"] as? String,
           let signature = self["signature"] as? String
     else {
       return nil
     }
+    let allowNewEnroll = self["allowNewEnroll"] as? Bool ?? false
 
     return PrepUploadRequest(
       partnerParams: partnerParams,
