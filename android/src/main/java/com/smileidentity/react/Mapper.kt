@@ -79,8 +79,7 @@ fun ReadableMap.toPrepUploadRequest(): PrepUploadRequest {
     timestamp = getStringOrDefault("timestamp") ?: run {
       throw IllegalArgumentException("timestamp is required")
     },
-    //TODO: Remove this and use strings once the backend is updated
-    allowNewEnroll = getBoolOrDefault("allowNewEnroll", false).toString(),
+    allowNewEnroll = getBoolOrDefault("allowNewEnroll", false),
     signature = getStringOrDefault("signature") ?: run {
       throw IllegalArgumentException("signature is required")
     },

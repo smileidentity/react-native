@@ -303,19 +303,22 @@ export class PrepUploadRequest {
   partnerId: string;
   timestamp: string;
   signature: string;
+  allowNewEnroll?: boolean;
 
   constructor(
     partnerParams: PartnerParams,
     partnerId: string,
     timestamp: string,
     signature: string,
-    callbackUrl?: string
+    callbackUrl?: string,
+    allowNewEnroll?: boolean
   ) {
     this.partnerParams = partnerParams;
     this.partnerId = partnerId;
     this.timestamp = timestamp;
     this.signature = signature;
     this.callbackUrl = callbackUrl;
+    this.allowNewEnroll = allowNewEnroll;
   }
 }
 
