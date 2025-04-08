@@ -16,6 +16,9 @@ end
 
 target 'SmileIdExample' do
   config = use_native_modules!
+  spm_pkg "SmileID",
+          :git => "https://github.com/smileidentity/ios.git",
+          :up_to_next_major_version => "10.5.1"
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
