@@ -12,7 +12,7 @@ PODS:
   - hermes-engine (0.74.2):
     - hermes-engine/Pre-built (= 0.74.2)
   - hermes-engine/Pre-built (0.74.2)
-  - lottie-ios (4.4.3)
+  - lottie-ios (4.5.1)
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -963,7 +963,7 @@ PODS:
     - React-utils
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - SmileID
+    - SmileID (= 10.5.1)
     - Yoga
   - React-nativeconfig (0.74.2)
   - React-NativeModulesApple (0.74.2):
@@ -1216,9 +1216,9 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - SmileID (10.2.16):
+  - SmileID (10.5.1):
     - FingerprintJS
-    - lottie-ios (~> 4.4.2)
+    - lottie-ios (~> 4.5.0)
     - ZIPFoundation (~> 0.9)
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
@@ -1283,13 +1283,13 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - SmileID (from `https://github.com/smileidentity/ios.git`, branch `selfie-viewmodel-tests`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - FingerprintJS
     - lottie-ios
+    - SmileID
     - SocketRocket
     - ZIPFoundation
 
@@ -1407,16 +1407,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  SmileID:
-    :branch: selfie-viewmodel-tests
-    :git: https://github.com/smileidentity/ios.git
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
-
-CHECKOUT OPTIONS:
-  SmileID:
-    :commit: 58eb79003597066c2b7bad6471d835a50eed8620
-    :git: https://github.com/smileidentity/ios.git
 
 SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
@@ -1426,7 +1418,7 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   hermes-engine: 01d3e052018c2a13937aca1860fbedbccd4a41b7
-  lottie-ios: fcb5e73e17ba4c983140b7d21095c834b3087418
+  lottie-ios: 248b380fa1b97d18e792c37d90da7ab2aa0d6562
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: b03c35057846b685b3ccadc9bfe43e349989cdb2
   RCTRequired: 194626909cfa8d39ca6663138c417bc6c431648c
@@ -1452,7 +1444,7 @@ SPEC CHECKSUMS:
   React-logger: 29fa3e048f5f67fe396bc08af7606426d9bd7b5d
   React-Mapbuffer: bf56147c9775491e53122a94c423ac201417e326
   react-native-safe-area-context: 4532f1a0c5d34a46b9324ccaaedcb5582a302b7d
-  react-native-smile-id: 5db2ac46a66130be9706278f3282b2c373657125
+  react-native-smile-id: cd0b32e051b1d795a8303718c160c255efa3e1a0
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: ff7efaff7098639db5631236cfd91d60abff04c0
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
@@ -1477,11 +1469,11 @@ SPEC CHECKSUMS:
   React-utils: 4476b7fcbbd95cfd002f3e778616155241d86e31
   ReactCommon: ecad995f26e0d1e24061f60f4e5d74782f003f12
   RNScreens: 48bc9eba07f93971071a5268b4fe5fcb784a5ef8
-  SmileID: 93184d185549dec6858a3cc567bd9423de79abbb
+  SmileID: 7f9c9db916d4c3997fcafb8b811afec30e88c751
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
-PODFILE CHECKSUM: 46e231e6eccd2a0a5f24d17d1feaeb05599f8c3a
+PODFILE CHECKSUM: 92128f18619da6c6e525b6e782e26be40527bc29
 
 COCOAPODS: 1.16.2
