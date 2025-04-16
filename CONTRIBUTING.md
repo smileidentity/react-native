@@ -93,9 +93,35 @@ yarn test
 ```
 
 To edit the Objective-C or Swift files, open `example/ios/SmileIdExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-smile-id`.
-
 To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-smile-id` under `Android`.
 
+# Testing unreleased Native SDKs
+
+> ⚠️ **CAUTION:** We should never have unreleased SDKs in the main branch. This is only for testing unreleased SDKs. all PRs to main branch should be released SDKs.
+
+## Android
+* Uncomment  `maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }` in `android/build.gradle`
+* Specify snapshot version in `android/gradle.properties` file: which must have been prebuilt from any of the PRs in the [Android](https://github.com/smileidentity/android) repo
+
+## iOS
+* Comment out the version in the react-native-smile-id.podspec file in `./react-native-smile-id.podspec` file:
+
+```ruby
+#  s.dependency "SmileID" # => Mind the version removal
+```
+* Specify the repo SmileID [iOS](https://github.com/smileidentity/ios) repo and pick a tag or branch podspec file in the Podfile example/ios/Podfile file:
+```ruby
+  pod 'SmileID', :path => '../ios/SmileID.podspec'
+```ruby
+  pod 'SmileID', git: 'https://github.com/smileidentity/ios.git', branch: 'main'
+```
+* Run `pod install` in the `example/ios` folder
+* If you have pod install issues run
+```bash
+  pod deintegrate && pod install
+```
+
+Happy testing!
 
 ### Commit message convention
 

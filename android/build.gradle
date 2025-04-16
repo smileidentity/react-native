@@ -8,6 +8,10 @@ buildscript {
     google()
     mavenCentral()
     gradlePluginPortal()
+//     uncomment for development to test snapshots
+//     maven {
+//        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+//     }
   }
 
   dependencies {
