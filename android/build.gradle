@@ -5,13 +5,12 @@ buildscript {
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
 
   repositories {
+    maven {
+      url  = 'https://central.sonatype.com/repository/maven-snapshots/'
+    }
     google()
     mavenCentral()
     gradlePluginPortal()
-//     uncomment for development to test snapshots
-     maven {
-        url 'https://central.sonatype.com/repository/maven-snapshots/com/smileidentity/android-sdk/'
-     }
   }
 
   dependencies {
@@ -118,31 +117,27 @@ android {
 }
 
 repositories {
+  maven {
+    url  = 'https://central.sonatype.com/repository/maven-snapshots/'
+  }
   mavenCentral()
   google()
   gradlePluginPortal()
-  maven {
-    url 'https://central.sonatype.com/repository/maven-snapshots/com/smileidentity/android-sdk/'
-  }
-}
-
-configurations.all {
-  resolutionStrategy {
-    // Treat SNAPSHOT builds as changing and never cache them locally
-    cacheChangingModulesFor 0, "seconds"
-  }
 }
 
 def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
 def smile_id_sdk_version = rootProject.ext.has("smileIdAndroidSdkVersion") ? rootProject.ext.get("smileIdAndroidSdkVersion") : project.properties["SmileId_androidVersion"]
-
+configurations.all {
+  resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 dependencies {
   implementation "com.facebook.react:react-native:0.72"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core"
-  implementation ("com.smileidentity:android-sdk:$smile_id_sdk_version"){
-    changing = true
-  }
+  implementation "com.smileidentity:android-sdk:$smile_id_sdk_version"
+//  implementation(group: "com.smileidentity", name: "android-sdk", version: "10.6.1-20250512.190207-63") {
+//    changing = true
+//  }
   implementation "com.google.mlkit:object-detection:17.0.2"
   implementation "com.jakewharton.timber:timber"
   implementation 'androidx.appcompat:appcompat:1.7.0'

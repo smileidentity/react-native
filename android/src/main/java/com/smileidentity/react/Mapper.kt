@@ -166,7 +166,8 @@ fun ReadableMap.toEnhancedKycRequest(): EnhancedKycRequest {
 }
 
 fun ReadableMap.toConsentInfo(): ConsentInformation {
-  val consentGrantedDate = getStringOrDefault("consentGrantedDate", null) ?: getCurrentIsoTimestamp()
+  val consentGrantedDate =
+    getStringOrDefault("consentGrantedDate", null) ?: getCurrentIsoTimestamp()
 
   // Try the new property names first, fall back to old property names if new ones aren't present
   val personalDetailsConsentGranted = if (hasKey("personalDetails")) {
@@ -188,10 +189,12 @@ fun ReadableMap.toConsentInfo(): ConsentInformation {
   }
 
   return ConsentInformation(
-    consentGrantedDate = consentGrantedDate,
-    personalDetails = personalDetailsConsentGranted,
-    contactInformation = contactInfoConsentGranted,
-    documentInformation = documentInfoConsentGranted
+    consented = ConsentedInformation(
+      consentGrantedDate = consentGrantedDate,
+      personalDetails = personalDetailsConsentGranted,
+      contactInformation = contactInfoConsentGranted,
+      documentInformation = documentInfoConsentGranted
+    ),
   )
 }
 
