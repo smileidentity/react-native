@@ -113,6 +113,13 @@ android {
   }
 }
 
+configurations.all {
+  resolutionStrategy {
+    // Treat SNAPSHOT builds as changing and never cache them locally
+    cacheChangingModulesFor 0, "seconds"
+  }
+}
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")

@@ -30,10 +30,12 @@ class SmileIDProductModel: ObservableObject {
   @Published var useStrictMode: Bool = false
   @Published var idInfo: IdInfo?
   @Published var consentInformation: ConsentInformation = ConsentInformation(
-    consentGrantedDate: getCurrentIsoTimestamp(),
-    personalDetailsConsentGranted: false,
-    contactInformationConsentGranted: false,
-    documentInformationConsentGranted: false
+    consented: ConsentedInformation(
+      consentGrantedDate: getCurrentIsoTimestamp(),
+      personalDetails: false,
+      contactInformation: false,
+      documentInformation: false
+    )
   )
   @Published var bypassSelfieCaptureWithFilePath: URL?
   @Published var onResult: RCTBubblingEventBlock?

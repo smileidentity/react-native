@@ -33,10 +33,12 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
           self.product.consentInformation = consentInformation.toConsentInfo()
         } else  {
           self.product.consentInformation = ConsentInformation(
-            consentGrantedDate: getCurrentIsoTimestamp(),
-            personalDetailsConsentGranted: false,
-            contactInformationConsentGranted: false,
-            documentInformationConsentGranted: false
+            consented: ConsentedInformation(
+              consentGrantedDate: getCurrentIsoTimestamp(),
+              personalDetails: false,
+              contactInformation: false,
+              documentInformation: false
+            )
           )
         }
         

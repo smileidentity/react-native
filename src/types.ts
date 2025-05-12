@@ -363,6 +363,19 @@ export class ConsentInformation {
    */
   documentInfoConsentGranted: boolean;
 
+  // Alias properties for backward compatibility
+  get personalDetails(): boolean {
+    return this.personalDetailsConsentGranted;
+  }
+
+  get contactInformation(): boolean {
+    return this.contactInfoConsentGranted;
+  }
+
+  get documentInformation(): boolean {
+    return this.documentInfoConsentGranted;
+  }
+
   constructor(
     consentGrantedDate: string,
     personalDetailsConsentGranted: boolean,
