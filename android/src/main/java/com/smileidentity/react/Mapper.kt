@@ -169,22 +169,22 @@ fun ReadableMap.toConsentInfo(): ConsentInformation {
   val consentGrantedDate = getStringOrDefault("consentGrantedDate", null) ?: getCurrentIsoTimestamp()
 
   // Try the new property names first, fall back to old property names if new ones aren't present
-  val personalDetailsConsentGranted = if (hasKey("personalDetailsConsentGranted")) {
-    getBoolOrDefault("personalDetailsConsentGranted", false)
-  } else {
+  val personalDetailsConsentGranted = if (hasKey("personalDetails")) {
     getBoolOrDefault("personalDetails", false)
+  } else {
+    getBoolOrDefault("personalDetailsConsentGranted", false)
   }
 
-  val contactInfoConsentGranted = if (hasKey("contactInfoConsentGranted")) {
-    getBoolOrDefault("contactInfoConsentGranted", false)
-  } else {
+  val contactInfoConsentGranted = if (hasKey("contactInformation")) {
     getBoolOrDefault("contactInformation", false)
+  } else {
+    getBoolOrDefault("contactInfoConsentGranted", false)
   }
 
-  val documentInfoConsentGranted = if (hasKey("documentInfoConsentGranted")) {
-    getBoolOrDefault("documentInfoConsentGranted", false)
-  } else {
+  val documentInfoConsentGranted = if (hasKey("documentInformation")) {
     getBoolOrDefault("documentInformation", false)
+  } else {
+    getBoolOrDefault("documentInfoConsentGranted", false)
   }
 
   return ConsentInformation(
