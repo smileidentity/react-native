@@ -28,19 +28,47 @@ struct SmileIDSmartSelfieCaptureView: View, SmileIDFileUtilsProtocol {
                     delegate: self
                 )
             } else {
-                SmileID.smartSelfieEnrollmentScreen(
-                    userId: product.userId ?? generateUserId(),
-                    jobId: product.jobId ?? generateJobId(),
-                    allowAgentMode: product.allowAgentMode,
-                    showAttribution: product.showAttribution,
-                    showInstructions: product.showInstructions,
-                    skipApiSubmission: true,
-                    extraPartnerParams: product.extraPartnerParams,
-                    delegate: self
-                )
+                legacySelfieCaptureScreen
             }
         }
     }
+
+  private var legacySelfieCaptureScreen: some View {
+    ZStack {
+      if product.showInstructions, !acknowledgedInstructions {
+        SmartSelfieInstructionsScreen(
+          showAttribution: product.showAttribution) {
+            acknowledgedInstructions = true
+          }
+      } else if viewModel.processingState != nil {
+        Color.clear.onAppear {
+          self.viewModel.onFinished(callback: self)
+        }
+      } else if let selfieToConfirm = viewModel.selfieToConfirm {
+        if self.product.showConfirmation {
+          ImageCaptureConfirmationDialog(
+            title: SmileIDResourcesHelper.localizedString(for: "Confirmation.GoodSelfie"),
+            subtitle: SmileIDResourcesHelper.localizedString(for: "Confirmation.FaceClear"),
+            image: UIImage(data: selfieToConfirm)!,
+            confirmationButtonText: SmileIDResourcesHelper.localizedString(for: "Confirmation.YesUse"),
+            onConfirm: viewModel.submitJob,
+            retakeButtonText: SmileIDResourcesHelper.localizedString(for: "Confirmation.Retake"),
+            onRetake: viewModel.onSelfieRejected,
+            scaleFactor: 1.25
+          ).preferredColorScheme(.light)
+        } else {
+          Color.clear.onAppear {
+            self.viewModel.submitJob()
+          }
+        }
+      } else {
+        SelfieCaptureScreen(
+          viewModel: viewModel,
+          allowAgentMode: self.product.allowAgentMode
+        ).preferredColorScheme(.light)
+      }
+    }
+  }
 }
 
 extension SmileIDSmartSelfieCaptureView: SmartSelfieResultDelegate {
