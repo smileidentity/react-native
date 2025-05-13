@@ -15,7 +15,7 @@ if linkage != nil
 end
 # for development alongside ../../react-native-smile-id.podspec uncomment the version and specify
 # tag or branch in here DO NOT MERGE THIS TO main branch
-pod 'SmileID', git: 'https://github.com/smileidentity/ios.git', branch: 'feature/consentmapping'
+pod 'SmileID', git: 'https://github.com/smileidentity/ios.git', branch: 'main'
 target 'SmileIdExample' do
   config = use_native_modules!
   use_react_native!(

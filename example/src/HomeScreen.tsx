@@ -12,6 +12,7 @@ import {
   type SmartSelfieAuthenticationRequest,
   type SmartSelfieEnrollmentEnhancedRequest,
   type SmartSelfieEnrollmentRequest,
+  ConsentInformation,
   SmileID,
 } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
@@ -44,14 +45,9 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     useStrictMode: true, // set to false for biometric KYC,doc V and enhanced doc V to use old SmartSelfie™ capture
   });
 
-  const defaultConsentInfo = useRef({
-    consentInformation: {
-      consentGrantedDate: new Date().toISOString(),
-      personalDetailsConsentGranted: true,
-      contactInfoConsentGranted: true,
-      documentInfoConsentGranted: true,
-    },
-  });
+  const defaultConsentInfo = useRef<ConsentInformation>(
+    new ConsentInformation(new Date().toISOString(), true, true, true)
+  );
 
   const [userId, setUserId] = useState(generateUuid('user_'));
   const [jobId, setJobId] = useState(generateUuid('job_'));

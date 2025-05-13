@@ -1283,7 +1283,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - SmileID (from `https://github.com/smileidentity/ios.git`, branch `feature/consentmapping`)
+  - SmileID (from `https://github.com/smileidentity/ios.git`, branch `main`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1408,14 +1408,14 @@ EXTERNAL SOURCES:
   RNScreens:
     :path: "../node_modules/react-native-screens"
   SmileID:
-    :branch: feature/consentmapping
+    :branch: main
     :git: https://github.com/smileidentity/ios.git
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 CHECKOUT OPTIONS:
   SmileID:
-    :commit: e93a0eb11eb5c96bcce448e1e22f4aff4ed7e781
+    :commit: 0f703955c9f4694f189e5e8c8736e35c8658cddc
     :git: https://github.com/smileidentity/ios.git
 
 SPEC CHECKSUMS:
@@ -1482,6 +1482,6 @@ SPEC CHECKSUMS:
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
-PODFILE CHECKSUM: b9c8744241c0f7b17f196ee0ff4b8fbfcbd37bee
+PODFILE CHECKSUM: 430ff51e9f417d74173a062e9c22c271f66ed509
 
 COCOAPODS: 1.16.2

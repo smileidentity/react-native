@@ -346,46 +346,61 @@ export class PrepUploadResponse {
  * required for Biometric KYC and Enhanced Document Verification
  */
 export class ConsentInformation {
-  /*
+  /**
    * The date the user granted consent
    */
   consentGrantedDate: string;
-  /*
+
+  /**
    * Whether the user has granted consent for personal details
    */
-  personalDetailsConsentGranted: boolean;
-  /*
+  personalDetails: boolean;
+
+  /**
    * Whether the user has granted consent for contact information
    */
-  contactInfoConsentGranted: boolean;
-  /*
+  contactInformation: boolean;
+
+  /**
    * Whether the user has granted consent for document information
    */
-  documentInfoConsentGranted: boolean;
-
-  // Alias properties for backward compatibility
-  get personalDetails(): boolean {
-    return this.personalDetailsConsentGranted;
-  }
-
-  get contactInformation(): boolean {
-    return this.contactInfoConsentGranted;
-  }
-
-  get documentInformation(): boolean {
-    return this.documentInfoConsentGranted;
-  }
+  documentInformation: boolean;
 
   constructor(
     consentGrantedDate: string,
-    personalDetailsConsentGranted: boolean,
-    contactInfoConsentGranted: boolean,
-    documentInfoConsentGranted: boolean
+    personalDetails: boolean,
+    contactInformation: boolean,
+    documentInformation: boolean
   ) {
     this.consentGrantedDate = consentGrantedDate;
-    this.personalDetailsConsentGranted = personalDetailsConsentGranted;
-    this.contactInfoConsentGranted = contactInfoConsentGranted;
-    this.documentInfoConsentGranted = documentInfoConsentGranted;
+    this.personalDetails = personalDetails;
+    this.contactInformation = contactInformation;
+    this.documentInformation = documentInformation;
+  }
+
+  // Alias properties for backward compatibility
+  get personalDetailsConsentGranted(): boolean {
+    return this.personalDetails;
+  }
+
+  set personalDetailsConsentGranted(value: boolean) {
+    this.personalDetails = value;
+  }
+
+  get contactInfoConsentGranted(): boolean {
+    return this.contactInformation;
+  }
+
+  set contactInfoConsentGranted(value: boolean) {
+    this.contactInformation = value;
+  }
+
+  get documentInfoConsentGranted(): boolean {
+    return this.documentInformation;
+  }
+
+  set documentInfoConsentGranted(value: boolean) {
+    this.documentInformation = value;
   }
 }
 
