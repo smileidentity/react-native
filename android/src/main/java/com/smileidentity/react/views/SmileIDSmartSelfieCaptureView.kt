@@ -185,32 +185,7 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
   @Composable
   private fun HandleProcessingState(viewModel: SelfieViewModel) {
     try {
-      viewModel.onFinished { res ->
-        when (res) {
-          is SmileIDResult.Success -> {
-            res.data?.let { data ->
-              val result = SmartSelfieCaptureResult(
-                selfieFile = data.selfieFile,
-                livenessFiles = data.livenessFiles ?: emptyList(),
-                apiResponse = data.apiResponse,
-              )
-              handleResultCallback(SmileIDResult.Success(SmartSelfieResult(
-                selfieFile = data.selfieFile,
-                livenessFiles = data.livenessFiles,
-                apiResponse = data.apiResponse
-              )))
-            } ?: run {
-              emitFailure(Exception("No data available in success result"))
-            }
-          }
-          is SmileIDResult.Error -> {
-            emitFailure(res.throwable ?: Exception("Unknown error occurred"))
-          }
-          else -> {
-            emitFailure(Exception("Unexpected result type"))
-          }
-        }
-      }
+      viewModel.onFinished { res -> handleResultCallback(res)}
     } catch (e: Exception) {
       emitFailure(e)
     }
