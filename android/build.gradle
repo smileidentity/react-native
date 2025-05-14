@@ -8,9 +8,10 @@ buildscript {
     google()
     mavenCentral()
     gradlePluginPortal()
-    maven {
-      url = 'https://central.sonatype.com/repository/maven-snapshots/'
-    }
+//  uncomment for development to test snapshots
+//  maven {
+//    url = 'https://central.sonatype.com/repository/maven-snapshots/'
+//  }
   }
 
   dependencies {
@@ -120,9 +121,10 @@ repositories {
   mavenCentral()
   google()
   gradlePluginPortal()
-  maven {
-    url = 'https://central.sonatype.com/repository/maven-snapshots/'
-  }
+//  uncomment for development to test snapshots
+//  maven {
+//    url = 'https://central.sonatype.com/repository/maven-snapshots/'
+//  }
 }
 
 def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
