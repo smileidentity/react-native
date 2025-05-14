@@ -1,5 +1,10 @@
 # Release Notes
 
+## [Unreleased]
+
+### Fixed
+* Underlying implementation for `showConfirmationDialog` flag for `SmileIDSmartSelfieCaptureView` on iOS and Android
+
 ## 10.3.2
 
 ### Changed
