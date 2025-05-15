@@ -103,7 +103,7 @@ jobs:
 
       - name: Build example for Android
         env:
-          JAVA_OPTS: "-XX:MaxHeapSize=6g"
+          JAVA_OPTS: '-XX:MaxHeapSize=6g'
         run: |
           yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}"
 
@@ -157,6 +157,11 @@ jobs:
           pod install
         env:
           NO_FLIPPER: 1
+
+      - name: Run react-native-codegen
+        run: |
+          cd example/ios
+          yarn react-native-codegen
 
       - name: Build example for iOS
         run: |
