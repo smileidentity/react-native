@@ -37,5 +37,6 @@ target 'SmileIdExample' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    system("yarn react-native-codegen")
   end
 end
