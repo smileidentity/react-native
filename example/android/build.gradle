@@ -1,4 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+allprojects {
+  repositories {
+    google()
+    mavenCentral()
+    mavenCentral { url "https://central.sonatype.com/repository/maven-snapshots" }
+  }
+}
 
 buildscript {
   ext {
@@ -6,7 +13,7 @@ buildscript {
     minSdkVersion = 23
     compileSdkVersion = 35
     targetSdkVersion = 35
-    ndkVersion = "26.1.10909125"
+    ndkVersion = "27.0.12077973"
    kotlinVersion = "1.9.24"
     kotlinCompilerExtensionVersion = "1.5.14"
 //      kotlinVersion = "2.0.0"
@@ -18,6 +25,10 @@ buildscript {
     google()
     mavenCentral()
     gradlePluginPortal()
+//  uncomment for development to test snapshots
+//  maven {
+//    url = 'https://central.sonatype.com/repository/maven-snapshots/'
+//  }
   }
 
   dependencies {

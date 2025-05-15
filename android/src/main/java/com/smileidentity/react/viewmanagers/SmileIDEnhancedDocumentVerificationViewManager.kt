@@ -7,6 +7,7 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.models.ConsentInformation
+import com.smileidentity.models.ConsentedInformation
 import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
@@ -37,10 +38,12 @@ class SmileIDEnhancedDocumentVerificationViewManager(
         )
       view.consentInformation = it.getMapOrDefault("consentInformation")?.toConsentInfo()
         ?: ConsentInformation(
-          consentGrantedDate = getCurrentIsoTimestamp(),
-          personalDetailsConsentGranted = false,
-          contactInfoConsentGranted = false,
-          documentInfoConsentGranted = false
+          consented = ConsentedInformation(
+            consentGrantedDate = getCurrentIsoTimestamp(),
+            personalDetails = false,
+            contactInformation = false,
+            documentInformation = false
+          ),
         )
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
