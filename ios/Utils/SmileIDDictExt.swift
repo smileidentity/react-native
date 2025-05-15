@@ -113,14 +113,36 @@ extension NSDictionary {
 
   func toConsentInfo() -> ConsentInformation {
     let consentGrantedDate = self["consentGrantedDate"] as? String ?? getCurrentIsoTimestamp()
-    let personalDetailsConsentGranted = self["personalDetailsConsentGranted"] as? Bool ?? false
-    let contactInfoConsentGranted = self["contactInfoConsentGranted"] as? Bool ?? false
-    let documentInfoConsentGranted = self["documentInfoConsentGranted"] as? Bool ?? false
+
+    // Try the new property names first, fall back to old property names if new ones aren't present
+    let personalDetailsConsentGranted: Bool
+    if let newValue = self["personalDetails"] as? Bool {
+      personalDetailsConsentGranted = newValue
+    } else {
+      personalDetailsConsentGranted = self["personalDetailsConsentGranted"] as? Bool ?? false
+    }
+
+    let contactInfoConsentGranted: Bool
+    if let newValue = self["contactInformation"] as? Bool {
+      contactInfoConsentGranted = newValue
+    } else {
+      contactInfoConsentGranted = self["contactInfoConsentGranted"] as? Bool ?? false
+    }
+
+    let documentInfoConsentGranted: Bool
+    if let newValue = self["documentInformation"] as? Bool {
+      documentInfoConsentGranted = newValue
+    } else {
+      documentInfoConsentGranted = self["documentInfoConsentGranted"] as? Bool ?? false
+    }
+
     return ConsentInformation(
-      consentGrantedDate: consentGrantedDate,
-      personalDetailsConsentGranted: personalDetailsConsentGranted,
-      contactInformationConsentGranted: contactInfoConsentGranted,
-      documentInformationConsentGranted: documentInfoConsentGranted
+      consented: ConsentedInformation(
+        consentGrantedDate: consentGrantedDate,
+        personalDetails: personalDetailsConsentGranted,
+        contactInformation: contactInfoConsentGranted,
+        documentInformation: documentInfoConsentGranted
+      )
     )
   }
 
@@ -148,10 +170,12 @@ extension NSDictionary {
       consentInfo = consentInformation.toConsentInfo()
     } else  {
       consentInfo = ConsentInformation(
-        consentGrantedDate: getCurrentIsoTimestamp(),
-        personalDetailsConsentGranted: false,
-        contactInformationConsentGranted: false,
-        documentInformationConsentGranted: false
+        consented: ConsentedInformation(
+          consentGrantedDate: getCurrentIsoTimestamp(),
+          personalDetails: false,
+          contactInformation: false,
+          documentInformation: false
+        )
       )
     }
 

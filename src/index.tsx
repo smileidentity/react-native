@@ -13,6 +13,7 @@ import {
   AuthenticationRequest,
   AuthenticationResponse,
   BiometricKycJobStatusResponse,
+  ConsentInformation,
   DocumentVerificationJobStatusResponse,
   EnhancedDocumentVerificationJobStatusResponse,
   EnhancedKycRequest,
@@ -292,6 +293,7 @@ export {
   JobStatusRequest,
   PrepUploadRequest,
   ProductsConfigRequest,
+  ConsentInformation,
   UploadRequest,
   IdInfo,
 };

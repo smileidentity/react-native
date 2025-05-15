@@ -1,5 +1,12 @@
 # Release Notes
 
+## 10.3.3
+
+### Changed
+* Restructured consent object that is being sent to the backend API for biometric kyc, enhanced kyc and enhanced document verification
+* Bump iOS to 10.5.3 (https://github.com/smileidentity/ios/releases/tag/v10.5.3)
+* Bump android to 10.6.2 (https://github.com/smileidentity/android/releases/tag/v10.6.2)
+
 ## 10.3.2
 
 ### Changed

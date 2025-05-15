@@ -4,6 +4,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.smileidentity.models.ConsentInformation
+import com.smileidentity.models.ConsentedInformation
 import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
@@ -31,11 +32,13 @@ class SmileIDBiometricKYCViewManager(
       val idInfo = idInfoMap.toIdInfo()
       view.consentInformation = it.getMapOrDefault("consentInformation")?.toConsentInfo()
         ?: ConsentInformation(
-          consentGrantedDate = getCurrentIsoTimestamp(),
-          personalDetailsConsentGranted = false,
-          contactInfoConsentGranted = false,
-          documentInfoConsentGranted = false
-        )
+          consented = ConsentedInformation(
+            consentGrantedDate = getCurrentIsoTimestamp(),
+            personalDetails = false,
+            contactInformation = false,
+            documentInformation = false
+          ),
+      )
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")

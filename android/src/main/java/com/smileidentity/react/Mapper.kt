@@ -5,6 +5,7 @@ import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.models.AuthenticationRequest
 import com.smileidentity.models.Config
 import com.smileidentity.models.ConsentInformation
+import com.smileidentity.models.ConsentedInformation
 import com.smileidentity.models.EnhancedKycRequest
 import com.smileidentity.models.IdInfo
 import com.smileidentity.models.ImageType
@@ -153,23 +154,47 @@ fun ReadableMap.toEnhancedKycRequest(): EnhancedKycRequest {
     },
     consentInformation = getMapOrDefault("consentInformation", null)?.toConsentInfo() ?: run {
       ConsentInformation(
-        consentGrantedDate = getCurrentIsoTimestamp(),
-        personalDetailsConsentGranted = false,
-        contactInfoConsentGranted = false,
-        documentInfoConsentGranted = false
+        consented = ConsentedInformation(
+          consentGrantedDate = getCurrentIsoTimestamp(),
+          personalDetails = false,
+          contactInformation = false,
+          documentInformation = false
+        )
       )
     },
   )
 }
 
 fun ReadableMap.toConsentInfo(): ConsentInformation {
+  val consentGrantedDate =
+    getStringOrDefault("consentGrantedDate", getCurrentIsoTimestamp()) ?: getCurrentIsoTimestamp()
+
+  // Try the new property names first, fall back to old property names if new ones aren't present
+  val personalDetailsConsentGranted = if (hasKey("personalDetails")) {
+    getBoolOrDefault("personalDetails", false)
+  } else {
+    getBoolOrDefault("personalDetailsConsentGranted", false)
+  }
+
+  val contactInfoConsentGranted = if (hasKey("contactInformation")) {
+    getBoolOrDefault("contactInformation", false)
+  } else {
+    getBoolOrDefault("contactInfoConsentGranted", false)
+  }
+
+  val documentInfoConsentGranted = if (hasKey("documentInformation")) {
+    getBoolOrDefault("documentInformation", false)
+  } else {
+    getBoolOrDefault("documentInfoConsentGranted", false)
+  }
+
   return ConsentInformation(
-    consentGrantedDate = getStringOrDefault("consentGrantedDate", null) ?: run {
-      getCurrentIsoTimestamp()
-    },
-    personalDetailsConsentGranted = getBoolOrDefault("personalDetailsConsentGranted", false),
-    contactInfoConsentGranted = getBoolOrDefault("contactInfoConsentGranted", false),
-    documentInfoConsentGranted = getBoolOrDefault("documentInfoConsentGranted", false)
+    consented = ConsentedInformation(
+      consentGrantedDate = consentGrantedDate,
+      personalDetails = personalDetailsConsentGranted,
+      contactInformation = contactInfoConsentGranted,
+      documentInformation = documentInfoConsentGranted
+    ),
   )
 }
 
