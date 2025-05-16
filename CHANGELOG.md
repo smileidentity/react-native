@@ -2,6 +2,9 @@
 
 ## 10.3.3
 
+### Fixed
+* Underlying implementation for `showConfirmationDialog` flag for `SmileIDSmartSelfieCaptureView` on iOS and Android
+
 ### Changed
 * Restructured consent object that is being sent to the backend API for biometric kyc, enhanced kyc and enhanced document verification
 * Bump iOS to 10.5.3 (https://github.com/smileidentity/ios/releases/tag/v10.5.3)
