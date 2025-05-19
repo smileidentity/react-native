@@ -3,6 +3,7 @@
 ## 10.3.3
 
 ### Fixed
+* Fixed `showAttribution` parameter not being passed to the instruction screen in enhanced selfie capture
 * Underlying implementation for `showConfirmationDialog` flag for `SmileIDSmartSelfieCaptureView` on iOS and Android
 
 ### Changed
