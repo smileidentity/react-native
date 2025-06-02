@@ -78,7 +78,10 @@ android {
   defaultConfig {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
-
+    
+    // Read version from package.json for setWrapperInfo
+    def packageJson = new groovy.json.JsonSlurper().parseText(file("../package.json").text)
+    buildConfigField "String", "SMILE_ID_VERSION", "\"${packageJson.version}\""
   }
 
   buildTypes {
