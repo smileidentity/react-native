@@ -5,7 +5,7 @@
 ### Changed
 * Metadata collection is now handled internally by native SDKs
 * Bump iOS to 11.0.0 (https://github.com/smileidentity/ios/releases/tag/v11.0.0)
-* Bump android to 11.0.0 (https://github.com/smileidentity/android/releases/tag/v11.0.0)
+* Bump android to 11.0.1 (https://github.com/smileidentity/android/releases/tag/v11.0.1)
 
 ## 10.3.3
 
