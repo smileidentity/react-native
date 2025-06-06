@@ -14,10 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -30,28 +28,22 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.R
 import com.smileidentity.SmileID
 import com.smileidentity.SmileIDOptIn
-import com.smileidentity.compose.SmartSelfieEnrollment
 import com.smileidentity.compose.SmartSelfieEnrollmentEnhanced
 import com.smileidentity.compose.components.ImageCaptureConfirmationDialog
-import com.smileidentity.compose.components.LocalMetadata
 import com.smileidentity.compose.selfie.SelfieCaptureScreen
 import com.smileidentity.compose.selfie.SmartSelfieInstructionsScreen
 import com.smileidentity.compose.theme.colorScheme
 import com.smileidentity.compose.theme.typography
-import com.smileidentity.models.v2.Metadata
-import com.smileidentity.react.results.SmartSelfieCaptureResult
-import com.smileidentity.react.utils.SelfieCaptureResultAdapter
-import com.smileidentity.results.SmartSelfieResult
-import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import com.smileidentity.viewmodel.SelfieUiState
 import com.smileidentity.viewmodel.SelfieViewModel
 import com.smileidentity.viewmodel.viewModelFactory
 
-
 @OptIn(SmileIDOptIn::class)
-class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDSelfieView(context) {
+class SmileIDSmartSelfieCaptureView(
+  context: ReactApplicationContext,
+) : SmileIDSelfieView(context) {
   var showConfirmation: Boolean = true
   var useStrictMode: Boolean = false
 
@@ -86,45 +78,44 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
   private fun RenderSmartSelfieCaptureContent() {
     val userId = randomUserId()
     val jobId = randomJobId()
-    val metadata = Metadata.default().items.toMutableStateList()
 
-    val viewModel: SelfieViewModel = viewModel(
-      factory = viewModelFactory {
-        SelfieViewModel(
-          isEnroll = false,
-          userId = userId,
-          jobId = jobId,
-          allowNewEnroll = false,
-          skipApiSubmission = true,
-          metadata = metadata,
-        )
-      },
-    )
+    val viewModel: SelfieViewModel =
+      viewModel(
+        factory =
+          viewModelFactory {
+            SelfieViewModel(
+              isEnroll = false,
+              userId = userId,
+              jobId = jobId,
+              allowNewEnroll = false,
+              skipApiSubmission = true,
+              metadata = mutableListOf(),
+            )
+          },
+      )
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     var acknowledgedInstructions by rememberSaveable { mutableStateOf(false) }
 
-    CompositionLocalProvider(
-      LocalMetadata provides remember { metadata },
-    ) {
-      MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
-        Surface(content = {
-          when {
-            showInstructions && !acknowledgedInstructions -> SmartSelfieInstructionsScreen(
+    MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
+      Surface(content = {
+        when {
+          showInstructions && !acknowledgedInstructions ->
+            SmartSelfieInstructionsScreen(
               showAttribution = showAttribution,
             ) {
               acknowledgedInstructions = true
             }
-            uiState.processingState != null -> HandleProcessingState(viewModel)
-            uiState.selfieToConfirm != null -> HandleSelfieConfirmation(
+          uiState.processingState != null -> HandleProcessingState(viewModel)
+          uiState.selfieToConfirm != null ->
+            HandleSelfieConfirmation(
               showConfirmation,
               uiState,
               viewModel,
             )
-            else -> RenderSelfieCaptureScreen(userId, jobId, allowAgentMode ?: true, viewModel)
-          }
-        })
-      }
+          else -> RenderSelfieCaptureScreen(userId, jobId, allowAgentMode ?: true, viewModel)
+        }
+      })
     }
   }
 
@@ -136,11 +127,12 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
     viewModel: SelfieViewModel,
   ) {
     Box(
-      modifier = Modifier
-        .background(color = Color.White)
-        .windowInsetsPadding(WindowInsets.statusBars)
-        .consumeWindowInsets(WindowInsets.statusBars)
-        .fillMaxSize(),
+      modifier =
+        Modifier
+          .background(color = Color.White)
+          .windowInsetsPadding(WindowInsets.statusBars)
+          .consumeWindowInsets(WindowInsets.statusBars)
+          .fillMaxSize(),
     ) {
       SelfieCaptureScreen(
         userId = userId,
@@ -163,11 +155,12 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
       ImageCaptureConfirmationDialog(
         titleText = stringResource(R.string.si_smart_selfie_confirmation_dialog_title),
         subtitleText = stringResource(R.string.si_smart_selfie_confirmation_dialog_subtitle),
-        painter = BitmapPainter(
-          BitmapFactory
-            .decodeFile(uiState.selfieToConfirm!!.absolutePath)
-            .asImageBitmap()
-        ),
+        painter =
+          BitmapPainter(
+            BitmapFactory
+              .decodeFile(uiState.selfieToConfirm!!.absolutePath)
+              .asImageBitmap(),
+          ),
         confirmButtonText = stringResource(R.string.si_smart_selfie_confirmation_dialog_confirm_button),
         onConfirm = {
           viewModel.submitJob()
@@ -185,7 +178,7 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
   @Composable
   private fun HandleProcessingState(viewModel: SelfieViewModel) {
     try {
-      viewModel.onFinished { res -> handleResultCallback(res)}
+      viewModel.onFinished { res -> handleResultCallback(res) }
     } catch (e: Exception) {
       emitFailure(e)
     }

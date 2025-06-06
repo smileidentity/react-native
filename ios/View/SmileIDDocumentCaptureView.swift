@@ -12,7 +12,6 @@ struct DocumentCaptureResult {
 
 struct SmileIDDocumentCaptureView: View {
     @ObservedObject var product: SmileIDProductModel
-    @State private var localMetadata = LocalMetadata()
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
     var body: some View {
         NavigationView {
@@ -36,7 +35,7 @@ struct SmileIDDocumentCaptureView: View {
                 onError: onError,
                 onSkip: onSkip
             )
-        }.navigationViewStyle(StackNavigationViewStyle()).environmentObject(localMetadata)
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 
     func onConfirmed(data: Data) {

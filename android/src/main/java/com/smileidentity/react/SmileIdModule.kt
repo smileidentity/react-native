@@ -9,6 +9,7 @@ import com.facebook.react.bridge.WritableArray
 import com.smileidentity.SmileID
 import com.smileidentity.SmileIDCrashReporting
 import com.smileidentity.SmileIdSpec
+import com.smileidentity.metadata.models.WrapperSdkName
 import com.smileidentity.models.AuthenticationResponse
 import com.smileidentity.models.BiometricKycJobStatusResponse
 import com.smileidentity.models.DocumentVerificationJobStatusResponse
@@ -38,10 +39,9 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
 class SmileIdModule internal constructor(
-  context: ReactApplicationContext
+  context: ReactApplicationContext,
 ) : SmileIdSpec(context) {
-
-  override fun getName(): String =  NAME
+  override fun getName(): String = NAME
 
   @ReactMethod
   override fun initialize(
@@ -49,9 +49,18 @@ class SmileIdModule internal constructor(
     enableCrashReporting: Boolean,
     config: ReadableMap?,
     apiKey: String?,
-    promise: Promise
+    promise: Promise,
   ) {
     try {
+      // Set wrapper info for React Native SDK
+      try {
+        val version = com.smileidentity.react.BuildConfig.SMILE_ID_VERSION
+        SmileID.setWrapperInfo(WrapperSdkName.ReactNative, version)
+      } catch (e: Exception) {
+        // Fallback to default version if BuildConfig is not available
+        SmileID.setWrapperInfo(WrapperSdkName.ReactNative, "11.0.0")
+      }
+
       when {
         // Case 1: Initialize with API key and config
         apiKey != null && config != null -> {
@@ -60,7 +69,7 @@ class SmileIdModule internal constructor(
             apiKey = apiKey,
             config = config.toConfig(),
             useSandbox = useSandBox,
-            enableCrashReporting = enableCrashReporting
+            enableCrashReporting = enableCrashReporting,
           )
         }
         // Case 2: Initialize with just config
@@ -69,14 +78,14 @@ class SmileIdModule internal constructor(
             context = reactApplicationContext,
             config = config.toConfig(),
             useSandbox = useSandBox,
-            enableCrashReporting = enableCrashReporting
+            enableCrashReporting = enableCrashReporting,
           )
         }
         // Case 3: Basic initialization
         else -> {
           SmileID.initialize(
             context = reactApplicationContext,
-            useSandbox = useSandBox
+            useSandbox = useSandBox,
           )
         }
       }
@@ -87,7 +96,10 @@ class SmileIdModule internal constructor(
   }
 
   @ReactMethod
-  override fun setCallbackUrl(callbackUrl: String, promise: Promise) {
+  override fun setCallbackUrl(
+    callbackUrl: String,
+    promise: Promise,
+  ) {
     SmileID.setCallbackUrl(callbackUrl = URL(callbackUrl))
     promise.resolve(null)
   }
@@ -98,16 +110,22 @@ class SmileIdModule internal constructor(
   }
 
   @ReactMethod
-  override fun setAllowOfflineMode(allowOfflineMode: Boolean, promise: Promise) {
+  override fun setAllowOfflineMode(
+    allowOfflineMode: Boolean,
+    promise: Promise,
+  ) {
     SmileID.setAllowOfflineMode(allowOfflineMode)
     promise.resolve(null)
   }
 
   @ReactMethod
-  override fun submitJob(jobId: String, promise: Promise) = launch(
+  override fun submitJob(
+    jobId: String,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.submitJob(jobId) },
     clazz = Unit::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
@@ -137,7 +155,10 @@ class SmileIdModule internal constructor(
   }
 
   @ReactMethod
-  override fun cleanup(jobId: String, promise: Promise) {
+  override fun cleanup(
+    jobId: String,
+    promise: Promise,
+  ) {
     try {
       SmileID.cleanup(jobId)
       promise.resolve(null)
@@ -147,102 +168,141 @@ class SmileIdModule internal constructor(
   }
 
   @ReactMethod
-  override fun authenticate(request: ReadableMap, promise: Promise) = launch(
+  override fun authenticate(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = {
       SmileID.api.authenticate(request = request.toAuthenticationRequest())
     },
     clazz = AuthenticationResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun prepUpload(request: ReadableMap, promise: Promise) = launch(
+  override fun prepUpload(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.api.prepUpload(request = request.toPrepUploadRequest()) },
     clazz = PrepUploadResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun upload(url: String, request: ReadableMap, promise: Promise) = launch(
+  override fun upload(
+    url: String,
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.api.upload(url, request.toUploadRequest()) },
     clazz = Unit::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun doEnhancedKyc(request: ReadableMap, promise: Promise) = launch(
+  override fun doEnhancedKyc(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.api.doEnhancedKyc(request = request.toEnhancedKycRequest()) },
     clazz = EnhancedKycResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun doEnhancedKycAsync(request: ReadableMap, promise: Promise) = launch(
+  override fun doEnhancedKycAsync(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.api.doEnhancedKycAsync(request = request.toEnhancedKycRequest()) },
     clazz = EnhancedKycAsyncResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun getSmartSelfieJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun getSmartSelfieJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.api.getSmartSelfieJobStatus(request = request.toJobStatusRequest()) },
     clazz = SmartSelfieJobStatusResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun getDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun getDocumentVerificationJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.api.getDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
     clazz = DocumentVerificationJobStatusResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun getBiometricKycJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun getBiometricKycJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = { SmileID.api.getBiometricKycJobStatus(request = request.toJobStatusRequest()) },
     clazz = BiometricKycJobStatusResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun getEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) =
+  override fun getEnhancedDocumentVerificationJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
+    work = { SmileID.api.getEnhancedDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
+    clazz = EnhancedDocumentVerificationJobStatusResponse::class.java,
+    promise = promise,
+  )
+
+  @ReactMethod
+  override fun getProductsConfig(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
+    work = { SmileID.api.getProductsConfig(request = request.toProductsConfigRequest()) },
+    clazz = ProductsConfigResponse::class.java,
+    promise = promise,
+  )
+
+  @ReactMethod
+  override fun getValidDocuments(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
+    work = { SmileID.api.getValidDocuments(request = request.toProductsConfigRequest()) },
+    clazz = ValidDocumentsResponse::class.java,
+    promise = promise,
+  )
+
+  @ReactMethod
+  override fun getServices(promise: Promise) =
     launch(
-      work = { SmileID.api.getEnhancedDocumentVerificationJobStatus(request = request.toJobStatusRequest()) },
-      clazz = EnhancedDocumentVerificationJobStatusResponse::class.java,
-      promise = promise
+      work = { SmileID.api.getServices() },
+      clazz = ServicesResponse::class.java,
+      promise = promise,
     )
 
   @ReactMethod
-  override fun getProductsConfig(request: ReadableMap, promise: Promise) = launch(
-    work = { SmileID.api.getProductsConfig(request = request.toProductsConfigRequest()) },
-    clazz = ProductsConfigResponse::class.java,
-    promise = promise
-  )
-
-  @ReactMethod
-  override fun getValidDocuments(request: ReadableMap, promise: Promise) = launch(
-    work = { SmileID.api.getValidDocuments(request = request.toProductsConfigRequest()) },
-    clazz = ValidDocumentsResponse::class.java,
-    promise = promise
-  )
-
-  @ReactMethod
-  override fun getServices(promise: Promise) = launch(
-    work = { SmileID.api.getServices() },
-    clazz = ServicesResponse::class.java,
-    promise = promise
-  )
-
-  @ReactMethod
-  override fun pollSmartSelfieJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun pollSmartSelfieJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = {
       val jobStatusRequest = request.toJobStatusRequest()
-      val interval = request.getIntOrDefault("interval") ?: run {
-        throw IllegalArgumentException("interval is required")
-      }
-      val numAttempts = request.getIntOrDefault("numAttempts") ?: run {
-        throw IllegalArgumentException("numAttempts is required")
-      }
+      val interval =
+        request.getIntOrDefault("interval") ?: run {
+          throw IllegalArgumentException("interval is required")
+        }
+      val numAttempts =
+        request.getIntOrDefault("numAttempts") ?: run {
+          throw IllegalArgumentException("numAttempts is required")
+        }
       pollJobStatus(
         apiCall = SmileID.api::pollSmartSelfieJobStatus,
         request = jobStatusRequest,
@@ -251,19 +311,24 @@ class SmileIdModule internal constructor(
       )
     },
     clazz = SmartSelfieJobStatusResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun pollDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun pollDocumentVerificationJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = {
       val jobStatusRequest = request.toJobStatusRequest()
-      val interval = request.getIntOrDefault("interval") ?: run {
-        throw IllegalArgumentException("interval is required")
-      }
-      val numAttempts = request.getIntOrDefault("numAttempts") ?: run {
-        throw IllegalArgumentException("numAttempts is required")
-      }
+      val interval =
+        request.getIntOrDefault("interval") ?: run {
+          throw IllegalArgumentException("interval is required")
+        }
+      val numAttempts =
+        request.getIntOrDefault("numAttempts") ?: run {
+          throw IllegalArgumentException("numAttempts is required")
+        }
       pollJobStatus(
         apiCall = SmileID.api::pollDocumentVerificationJobStatus,
         request = jobStatusRequest,
@@ -272,19 +337,24 @@ class SmileIdModule internal constructor(
       )
     },
     clazz = DocumentVerificationJobStatusResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun pollBiometricKycJobStatus(request: ReadableMap, promise: Promise) = launch(
+  override fun pollBiometricKycJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
     work = {
       val jobStatusRequest = request.toJobStatusRequest()
-      val interval = request.getIntOrDefault("interval") ?: run {
-        throw IllegalArgumentException("interval is required")
-      }
-      val numAttempts = request.getIntOrDefault("numAttempts") ?: run {
-        throw IllegalArgumentException("numAttempts is required")
-      }
+      val interval =
+        request.getIntOrDefault("interval") ?: run {
+          throw IllegalArgumentException("interval is required")
+        }
+      val numAttempts =
+        request.getIntOrDefault("numAttempts") ?: run {
+          throw IllegalArgumentException("numAttempts is required")
+        }
       pollJobStatus(
         apiCall = SmileID.api::pollBiometricKycJobStatus,
         request = jobStatusRequest,
@@ -293,53 +363,58 @@ class SmileIdModule internal constructor(
       )
     },
     clazz = BiometricKycJobStatusResponse::class.java,
-    promise = promise
+    promise = promise,
   )
 
   @ReactMethod
-  override fun pollEnhancedDocumentVerificationJobStatus(request: ReadableMap, promise: Promise) =
-    launch(
-      work = {
-        val jobStatusRequest = request.toJobStatusRequest()
-        val interval = request.getIntOrDefault("interval") ?: run {
+  override fun pollEnhancedDocumentVerificationJobStatus(
+    request: ReadableMap,
+    promise: Promise,
+  ) = launch(
+    work = {
+      val jobStatusRequest = request.toJobStatusRequest()
+      val interval =
+        request.getIntOrDefault("interval") ?: run {
           throw IllegalArgumentException("interval is required")
         }
-        val numAttempts = request.getIntOrDefault("numAttempts") ?: run {
+      val numAttempts =
+        request.getIntOrDefault("numAttempts") ?: run {
           throw IllegalArgumentException("numAttempts is required")
         }
-        pollJobStatus(
-          apiCall = SmileID.api::pollEnhancedDocumentVerificationJobStatus,
-          request = jobStatusRequest,
-          interval = interval.toLong(),
-          numAttempts = numAttempts.toLong(),
-        )
-      },
-      clazz = EnhancedDocumentVerificationJobStatusResponse::class.java,
-      promise = promise
-    )
+      pollJobStatus(
+        apiCall = SmileID.api::pollEnhancedDocumentVerificationJobStatus,
+        request = jobStatusRequest,
+        interval = interval.toLong(),
+        numAttempts = numAttempts.toLong(),
+      )
+    },
+    clazz = EnhancedDocumentVerificationJobStatusResponse::class.java,
+    promise = promise,
+  )
 
   private suspend fun <RequestType, ResponseType> pollJobStatus(
     apiCall: suspend (RequestType, Duration, Int) -> Flow<ResponseType>,
     request: RequestType,
     interval: Long,
     numAttempts: Long,
-  ): ResponseType {
-    return try {
+  ): ResponseType =
+    try {
       val response =
         withContext(Dispatchers.IO) {
           apiCall(request, interval.milliseconds, numAttempts.toInt())
             .map {
               it
-            }
-            .last()
+            }.last()
         }
       response
     } catch (e: Exception) {
       throw e
     }
-  }
 
-  private fun <T> toJson(result: T, clazz: Class<T>): String {
+  private fun <T> toJson(
+    result: T,
+    clazz: Class<T>,
+  ): String {
     val adapter = SmileID.moshi.adapter(clazz)
     return adapter.toJson(result)
   }
@@ -348,11 +423,12 @@ class SmileIdModule internal constructor(
     work: suspend () -> T,
     clazz: Class<T>,
     promise: Promise,
-    scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
   ) {
-    val handler = CoroutineExceptionHandler { _, throwable ->
-      promise.reject(throwable)
-    }
+    val handler =
+      CoroutineExceptionHandler { _, throwable ->
+        promise.reject(throwable)
+      }
     scope.launch(handler) {
       try {
         val result = work()
