@@ -18,6 +18,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.R
 import com.smileidentity.SmileID
 import com.smileidentity.compose.document.DocumentCaptureScreen
+import com.smileidentity.metadata.LocalMetadataProvider
 import com.smileidentity.compose.document.DocumentCaptureSide
 import com.smileidentity.compose.theme.colorScheme
 import com.smileidentity.react.results.DocumentCaptureResult
@@ -37,15 +38,17 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
       val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
         CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
-          val colorScheme = SmileID.colorScheme.copy(background = Color.White)
-          Box(
-            modifier = Modifier
-              .background(color = colorScheme.background)
-              .windowInsetsPadding(WindowInsets.statusBars)
-              .consumeWindowInsets(WindowInsets.statusBars)
-              .fillMaxSize()
-          ) {
-            RenderDocumentCaptureScreen()
+          LocalMetadataProvider.MetadataProvider {
+            val colorScheme = SmileID.colorScheme.copy(background = Color.White)
+            Box(
+              modifier = Modifier
+                .background(color = colorScheme.background)
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .consumeWindowInsets(WindowInsets.statusBars)
+                .fillMaxSize()
+            ) {
+              RenderDocumentCaptureScreen()
+            }
           }
         }
       }
