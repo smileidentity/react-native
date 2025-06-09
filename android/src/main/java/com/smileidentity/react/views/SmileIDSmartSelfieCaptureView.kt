@@ -2,7 +2,6 @@ package com.smileidentity.react.views
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
@@ -53,7 +52,7 @@ class SmileIDSmartSelfieCaptureView(
                   showInstructions = showInstructions,
                   skipApiSubmission = true,
                   extraPartnerParams = extraPartnerParams,
-                  onResult = { res -> handleResultCallback(res) }
+                  onResult = { res -> handleResultCallback(res) },
                 )
               })
             }
@@ -62,8 +61,4 @@ class SmileIDSmartSelfieCaptureView(
       }
     }
   }
-
-
-
-
 }
