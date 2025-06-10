@@ -7,16 +7,19 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import com.smileidentity.R
 import com.smileidentity.SmileID
+import com.smileidentity.compose.SmartSelfieEnrollmentEnhanced
 import com.smileidentity.compose.document.DocumentCaptureScreen
 import com.smileidentity.compose.document.DocumentCaptureSide
 import com.smileidentity.compose.theme.colorScheme
@@ -39,19 +42,12 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
       val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
         LocalMetadataProvider.MetadataProvider {
-          MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
-            Surface(content = {
-              val colorScheme = SmileID.colorScheme.copy(background = Color.White)
-              Box(
-                modifier = Modifier
-                  .background(color = colorScheme.background)
-                  .windowInsetsPadding(WindowInsets.statusBars)
-                  .consumeWindowInsets(WindowInsets.statusBars)
-                  .fillMaxSize()
-              ) {
+          CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
+            MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
+              Surface(content = {
                 RenderDocumentCaptureScreen()
-              }
-            })
+              })
+            }
           }
         }
       }
