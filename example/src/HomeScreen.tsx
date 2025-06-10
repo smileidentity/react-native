@@ -42,7 +42,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     showConfirmation: true,
     isDocumentFrontSide: true,
     allowGalleryUpload: true,
-    useStrictMode: true, // set to false for biometric KYC,doc V and enhanced doc V to use old SmartSelfie™ capture
+    useStrictMode: false, // set to false for biometric KYC,doc V and enhanced doc V to use old SmartSelfie™ capture
   });
 
   const defaultConsentInfo = useRef<ConsentInformation>(

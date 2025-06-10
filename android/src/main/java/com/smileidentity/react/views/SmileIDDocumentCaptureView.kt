@@ -13,11 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.facebook.react.bridge.ReactApplicationContext
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import com.smileidentity.R
 import com.smileidentity.SmileID
 import com.smileidentity.compose.document.DocumentCaptureScreen
 import com.smileidentity.compose.document.DocumentCaptureSide
 import com.smileidentity.compose.theme.colorScheme
+import com.smileidentity.compose.theme.typography
 import com.smileidentity.metadata.LocalMetadataProvider
 import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
@@ -36,15 +39,19 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
       val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
         LocalMetadataProvider.MetadataProvider {
-          val colorScheme = SmileID.colorScheme.copy(background = Color.White)
-          Box(
-            modifier = Modifier
-              .background(color = colorScheme.background)
-              .windowInsetsPadding(WindowInsets.statusBars)
-              .consumeWindowInsets(WindowInsets.statusBars)
-              .fillMaxSize()
-          ) {
-            RenderDocumentCaptureScreen()
+          MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
+            Surface(content = {
+              val colorScheme = SmileID.colorScheme.copy(background = Color.White)
+              Box(
+                modifier = Modifier
+                  .background(color = colorScheme.background)
+                  .windowInsetsPadding(WindowInsets.statusBars)
+                  .consumeWindowInsets(WindowInsets.statusBars)
+                  .fillMaxSize()
+              ) {
+                RenderDocumentCaptureScreen()
+              }
+            })
           }
         }
       }
@@ -86,7 +93,7 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
       .build()
     val result = DocumentCaptureResult(
       documentFrontFile = if (front) file else null,
-      documentBackFile =  if (!front) file else null,
+      documentBackFile = if (!front) file else null,
     )
     val json = try {
       newMoshi
