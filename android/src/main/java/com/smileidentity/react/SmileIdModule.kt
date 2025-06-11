@@ -58,7 +58,7 @@ class SmileIdModule internal constructor(
         SmileID.setWrapperInfo(WrapperSdkName.ReactNative, version)
       } catch (e: Exception) {
         // Fallback to default version if BuildConfig is not available
-        SmileID.setWrapperInfo(WrapperSdkName.ReactNative, "11.0.0")
+        SmileID.setWrapperInfo(WrapperSdkName.ReactNative, "unknown")
       }
 
       when {

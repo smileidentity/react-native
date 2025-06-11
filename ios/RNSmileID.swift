@@ -15,7 +15,7 @@ class RNSmileID: NSObject {
         #if SMILE_ID_VERSION
             let sdkVersion = SMILE_ID_VERSION
         #else
-            let sdkVersion = "11.0.0" // Fallback version
+            let sdkVersion = "unknown" // Fallback version
         #endif
 
         SmileID.setWrapperInfo(name: .reactNative, version: sdkVersion)
