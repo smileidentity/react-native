@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -17,9 +19,12 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.R
 import com.smileidentity.SmileID
+import com.smileidentity.compose.SmartSelfieEnrollmentEnhanced
 import com.smileidentity.compose.document.DocumentCaptureScreen
 import com.smileidentity.compose.document.DocumentCaptureSide
 import com.smileidentity.compose.theme.colorScheme
+import com.smileidentity.compose.theme.typography
+import com.smileidentity.metadata.LocalMetadataProvider
 import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.util.randomJobId
@@ -36,16 +41,13 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
     composeView.apply {
       val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
-        CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
-          val colorScheme = SmileID.colorScheme.copy(background = Color.White)
-          Box(
-            modifier = Modifier
-              .background(color = colorScheme.background)
-              .windowInsetsPadding(WindowInsets.statusBars)
-              .consumeWindowInsets(WindowInsets.statusBars)
-              .fillMaxSize()
-          ) {
-            RenderDocumentCaptureScreen()
+        LocalMetadataProvider.MetadataProvider {
+          CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
+            MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
+              Surface(content = {
+                RenderDocumentCaptureScreen()
+              })
+            }
           }
         }
       }
@@ -87,7 +89,7 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
       .build()
     val result = DocumentCaptureResult(
       documentFrontFile = if (front) file else null,
-      documentBackFile =  if (!front) file else null,
+      documentBackFile = if (!front) file else null,
     )
     val json = try {
       newMoshi

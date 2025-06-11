@@ -13,8 +13,7 @@ class SmileIDSmartSelfieCaptureViewManager: SmileIDBaseViewManager {
                                            jobId: product.jobId ?? generateJobId(),
                                            allowNewEnroll: false,
                                            skipApiSubmission: true,
-                                           extraPartnerParams: [:],
-                                           localMetadata: LocalMetadata()), product: product, smileIDUIViewDelegate: self
+                                           extraPartnerParams: [:]), product: product, smileIDUIViewDelegate: self
             )),
         product: product)
     }

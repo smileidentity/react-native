@@ -14,10 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
@@ -30,19 +28,13 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.R
 import com.smileidentity.SmileID
 import com.smileidentity.SmileIDOptIn
-import com.smileidentity.compose.SmartSelfieEnrollment
 import com.smileidentity.compose.SmartSelfieEnrollmentEnhanced
 import com.smileidentity.compose.components.ImageCaptureConfirmationDialog
-import com.smileidentity.compose.components.LocalMetadata
 import com.smileidentity.compose.selfie.SelfieCaptureScreen
 import com.smileidentity.compose.selfie.SmartSelfieInstructionsScreen
 import com.smileidentity.compose.theme.colorScheme
 import com.smileidentity.compose.theme.typography
-import com.smileidentity.models.v2.Metadata
-import com.smileidentity.react.results.SmartSelfieCaptureResult
-import com.smileidentity.react.utils.SelfieCaptureResultAdapter
-import com.smileidentity.results.SmartSelfieResult
-import com.smileidentity.results.SmileIDResult
+import com.smileidentity.metadata.LocalMetadataProvider
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import com.smileidentity.viewmodel.SelfieUiState
@@ -59,23 +51,26 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
     composeView.apply {
       val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
-        CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
-          if (useStrictMode) {
+        LocalMetadataProvider.MetadataProvider {
+          CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
             val userId = randomUserId()
             MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
               Surface(content = {
-                SmileID.SmartSelfieEnrollmentEnhanced(
-                  userId = userId,
-                  showAttribution = showAttribution,
-                  showInstructions = showInstructions,
-                  skipApiSubmission = true,
-                  extraPartnerParams = extraPartnerParams,
-                  onResult = { res -> handleResultCallback(res) },
-                )
+                if (useStrictMode) {
+                  SmileID.SmartSelfieEnrollmentEnhanced(
+                    userId = userId,
+                    showAttribution = showAttribution,
+                    showInstructions = showInstructions,
+                    skipApiSubmission = true,
+                    extraPartnerParams = extraPartnerParams,
+                    onResult = { res -> handleResultCallback(res) },
+                  )
+                } else {
+                  RenderSmartSelfieCaptureContent()
+                }
               })
             }
-          } else {
-            RenderSmartSelfieCaptureContent()
+
           }
         }
       }
@@ -86,8 +81,6 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
   private fun RenderSmartSelfieCaptureContent() {
     val userId = randomUserId()
     val jobId = randomJobId()
-    val metadata = Metadata.default().items.toMutableStateList()
-
     val viewModel: SelfieViewModel = viewModel(
       factory = viewModelFactory {
         SelfieViewModel(
@@ -96,7 +89,7 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
           jobId = jobId,
           allowNewEnroll = false,
           skipApiSubmission = true,
-          metadata = metadata,
+          metadata = mutableListOf(),
         )
       },
     )
@@ -104,27 +97,21 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     var acknowledgedInstructions by rememberSaveable { mutableStateOf(false) }
 
-    CompositionLocalProvider(
-      LocalMetadata provides remember { metadata },
-    ) {
-      MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
-        Surface(content = {
-          when {
-            showInstructions && !acknowledgedInstructions -> SmartSelfieInstructionsScreen(
-              showAttribution = showAttribution,
-            ) {
-              acknowledgedInstructions = true
-            }
-            uiState.processingState != null -> HandleProcessingState(viewModel)
-            uiState.selfieToConfirm != null -> HandleSelfieConfirmation(
-              showConfirmation,
-              uiState,
-              viewModel,
-            )
-            else -> RenderSelfieCaptureScreen(userId, jobId, allowAgentMode ?: true, viewModel)
-          }
-        })
+    when {
+      showInstructions && !acknowledgedInstructions -> SmartSelfieInstructionsScreen(
+        showAttribution = showAttribution,
+      ) {
+        acknowledgedInstructions = true
       }
+
+      uiState.processingState != null -> HandleProcessingState(viewModel)
+      uiState.selfieToConfirm != null -> HandleSelfieConfirmation(
+        showConfirmation,
+        uiState,
+        viewModel,
+      )
+
+      else -> RenderSelfieCaptureScreen(userId, jobId, allowAgentMode ?: true, viewModel)
     }
   }
 
@@ -185,7 +172,7 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
   @Composable
   private fun HandleProcessingState(viewModel: SelfieViewModel) {
     try {
-      viewModel.onFinished { res -> handleResultCallback(res)}
+      viewModel.onFinished { res -> handleResultCallback(res) }
     } catch (e: Exception) {
       emitFailure(e)
     }
