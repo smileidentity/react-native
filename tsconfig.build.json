@@ -1,7 +1,24 @@
 {
   "extends": "./tsconfig",
-  "exclude": ["example"],
   "compilerOptions": {
-    "rootDir": "./src"
-  }
+    "rootDir": ".",
+    "outDir": "./lib",
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": [
+    "src/**/*",
+    "core/**/*", 
+    "platforms/**/*",
+    "index.ts"
+  ],
+  "exclude": [
+    "example/**/*",
+    "example-unified/**/*",
+    "exampleexpo/**/*",
+    "platforms/expo/**/*",
+    "**/__tests__/**/*",
+    "**/*.test.ts",
+    "node_modules"
+  ]
 }

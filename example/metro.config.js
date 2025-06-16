@@ -16,20 +16,24 @@ const modules = Object.keys({ ...pak.peerDependencies });
 const config = {
   watchFolders: [root],
 
-  // We need to make sure that only one version is loaded for peerDependencies
-  // So we block them at the root, and alias them to the versions in example's node_modules
   resolver: {
-    blacklistRE: exclusionList(
-      modules.map(
-        (m) =>
-          new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`)
-      )
-    ),
-
-    extraNodeModules: modules.reduce((acc, name) => {
-      acc[name] = path.join(__dirname, 'node_modules', name);
-      return acc;
-    }, {}),
+    blacklistRE: exclusionList([
+      // Exclude parent node_modules
+      new RegExp(`^${escape(path.join(root, 'node_modules'))}\\/.*$`),
+      // But allow modules from example
+      ...modules
+        .filter(m => m !== 'react' && m !== 'react-native')
+        .map(m => new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`))
+    ]),
+    
+    nodeModulesPaths: [
+      path.join(__dirname, 'node_modules'),
+      path.join(root, 'node_modules')
+    ],
+    
+    extraNodeModules: {
+      '@smile_identity/react-native': root,
+    },
   },
 
   transformer: {

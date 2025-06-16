@@ -5,12 +5,19 @@ import android.content.Context
 import android.view.Choreographer
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.contains
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableMap
+import com.smileidentity.SmileID
+import com.smileidentity.compose.theme.colorScheme
+import com.smileidentity.compose.theme.typography
 import com.smileidentity.models.JobType
+import com.smileidentity.shared.SmileIDSharedResult
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 import timber.log.Timber
@@ -67,6 +74,18 @@ abstract class SmileIDView(private val currentContext: Context) : LinearLayout(c
 
   abstract fun renderContent()
 
+  /**
+   * Helper method to set content on the ComposeView with MaterialTheme wrapper
+   * Subclasses should use this method instead of directly calling composeView.setContent
+   */
+  open fun setContentWithTheme(content: @Composable () -> Unit) {
+    composeView.setContent {
+      MaterialTheme(colorScheme = SmileID.colorScheme, typography = SmileID.typography) {
+        Surface(content = content)
+      }
+    }
+  }
+
   open fun render() {
     setUpViews()
     renderContent()
@@ -87,6 +106,23 @@ abstract class SmileIDView(private val currentContext: Context) : LinearLayout(c
     val map = Arguments.createMap()
     map.putString("error", error?.message ?: "Unknown error")
     sendEvent(map)
+  }
+
+  /**
+   * Generic handler for SmileIDSharedResult
+   * Subclasses can override this for specific handling
+   */
+  open fun handleResultCallback(result: SmileIDSharedResult<*>) {
+    when (result) {
+      is SmileIDSharedResult.Success -> {
+        when (val data = result.data) {
+          is String -> emitSuccess(data)
+          else -> emitSuccess(data.toString())
+        }
+      }
+      is SmileIDSharedResult.WithError -> emitFailure(result.cause)
+      is SmileIDSharedResult.Error -> emitFailure(Exception(result.message, result.cause))
+    }
   }
 
   private fun setupLayoutHack() {
@@ -114,4 +150,3 @@ abstract class SmileIDView(private val currentContext: Context) : LinearLayout(c
     }
   }
 }
-

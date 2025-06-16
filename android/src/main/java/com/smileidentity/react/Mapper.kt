@@ -1,8 +1,8 @@
 package com.smileidentity.react
 
-import androidx.compose.animation.core.rememberTransition
 import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.models.AuthenticationRequest
+import com.smileidentity.models.AuthenticationResponse
 import com.smileidentity.models.Config
 import com.smileidentity.models.ConsentInformation
 import com.smileidentity.models.ConsentedInformation
@@ -13,7 +13,9 @@ import com.smileidentity.models.JobStatusRequest
 import com.smileidentity.models.JobType
 import com.smileidentity.models.PartnerParams
 import com.smileidentity.models.PrepUploadRequest
+import com.smileidentity.models.PrepUploadResponse
 import com.smileidentity.models.ProductsConfigRequest
+import com.smileidentity.models.SmartSelfieJobStatusResponse
 import com.smileidentity.models.UploadImageInfo
 import com.smileidentity.models.UploadRequest
 import com.smileidentity.react.utils.getBoolOrDefault

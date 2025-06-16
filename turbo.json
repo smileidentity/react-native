@@ -8,6 +8,10 @@
         "!android/build",
         "src/*.ts",
         "src/*.tsx",
+        "core/**/*.ts",
+        "platforms/**/*.ts",
+        "platforms/**/*.tsx",
+        "index.ts",
         "example/package.json",
         "example/android",
         "!example/android/.gradle",
@@ -23,10 +27,47 @@
         "ios",
         "src/*.ts",
         "src/*.tsx",
+        "core/**/*.ts",
+        "platforms/**/*.ts",
+        "platforms/**/*.tsx",
+        "index.ts",
         "example/package.json",
         "example/ios",
         "!example/ios/build",
         "!example/ios/Pods"
+      ],
+      "outputs": []
+    },
+    "build:android-unified": {
+      "inputs": [
+        "package.json",
+        "android",
+        "!android/build",
+        "core/**/*.ts",
+        "platforms/**/*.ts",
+        "platforms/**/*.tsx",
+        "index.ts",
+        "example-unified/package.json",
+        "example-unified/android",
+        "!example-unified/android/.gradle",
+        "!example-unified/android/build",
+        "!example-unified/android/app/build"
+      ],
+      "outputs": []
+    },
+    "build:ios-unified": {
+      "inputs": [
+        "package.json",
+        "*.podspec",
+        "ios",
+        "core/**/*.ts",
+        "platforms/**/*.ts",
+        "platforms/**/*.tsx",
+        "index.ts",
+        "example-unified/package.json",
+        "example-unified/ios",
+        "!example-unified/ios/build",
+        "!example-unified/ios/Pods"
       ],
       "outputs": []
     }

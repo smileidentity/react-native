@@ -177,3 +177,82 @@ When you're sending a pull request:
 - Review the documentation to make sure it looks good.
 - Follow the pull request template when opening a pull request.
 - For pull requests that change the API or implementation, discuss with maintainers first by opening an issue.
+
+
+### Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/smileidentity/react-native.git
+cd react-native
+
+# Install dependencies (may require --ignore-scripts during development)
+npm install
+
+# Run type checking (expected expo-modules-core import error in development)
+npm run typecheck
+
+# Run linting (should pass with 0 errors)
+npm run lint
+
+# Run tests (basic test suite)
+npm run test
+
+# Run example app (requires CLI dependencies)
+cd example
+npm install @react-native-community/cli --save-dev
+npm run android
+npm run ios
+
+# Test unified example
+cd ../example-unified
+npm install
+npm run android  # React Native mode
+npx expo start --dev-client  # Expo mode (requires development build)
+```
+
+### Known Development Issues
+
+**TypeScript Build Configuration:**
+- The current `tsconfig.build.json` may need updates for the new unified structure
+- Use `npm install --ignore-scripts` if you encounter build issues during development
+
+**iOS Build Dependencies:**
+- CocoaPods must be installed and `pod install` run before building
+- Xcode command line builds require proper simulator destination specification
+- Podspec updated to use ios/legacy/ files to avoid duplicate Swift file conflicts
+
+**Gradle Build Dependencies:**
+- React Native example requires CLI platform tools
+- Expo modules require expo-modules-core for native functionality
+- Android builds need AndroidX configuration in gradle.properties
+
+**Platform Testing:**
+- Test both React Native and Expo modes using the unified example
+- Expo testing requires EAS development build (cannot use Expo Go)
+- Platform detection is automatic but can be debugged using diagnostics utilities
+
+**Key Development Insights:**
+```bash
+# Podspec file conflict resolution:
+# Issue: Duplicate Swift files error when both ios/ and ios/legacy/ directories exist
+# Solution: Updated podspec to use specific path: "ios/legacy/**/*.{h,m,mm,swift}"
+
+# Xcode simulator compatibility:
+# Use 'xcodebuild -showdestinations' to see available simulators
+# iPhone 15 may not be available - use iPhone 16 or other available devices
+
+# CocoaPods integration:
+# Always run 'pod install' after copying iOS project structure
+# SmileID iOS SDK v10.5.3 resolves automatically from public repository
+
+# Unified example app setup:
+# Requires copying iOS/Android structure from main example
+# Uses file:.. dependency for local SmileID package testing
+# npm install may require --ignore-scripts during development phase
+
+# Build system validation:
+# Both Gradle (Android) and Xcode (iOS) builds tested and working
+# Standard React Native script phase warnings are normal and non-blocking
+# Cross-platform compatibility confirmed across both example apps
+```

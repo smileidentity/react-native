@@ -1,18 +1,29 @@
 {
   "name": "@smile_identity/react-native",
   "version": "11.0.1",
-  "description": "Official wrapper for the Smile ID >v10 android and iOS SDKs",
+  "private": true,
+  "description": "Official wrapper for the Smile ID <v10 android and iOS SDKs",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
+  "expo": {
+    "plugin": "./app.plugin.js"
+  },
   "files": [
     "src",
     "lib",
+    "core",
+    "platforms",
     "android",
     "ios",
     "cpp",
+    "index.ts",
+    "index.js",
+    "index.d.ts",
+    "app.plugin.js",
+    "react-native.config.js",
     "*.podspec",
     "!lib/typescript/example",
     "!ios/build",
@@ -27,12 +38,14 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace SmileIdExample",
+    "example": "yarn workspace example",
+    "example:expo": "yarn workspace exampleexpo",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
+    "build": "bob build",
+    "clean": "del-cli lib",
     "release": "release-it"
   },
   "keywords": [
@@ -53,6 +66,8 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.5.0",
+    "@expo/config-plugins": "^8.0.8",
+    "@react-native-community/cli-platform-android": "^18.0.0",
     "@react-native/eslint-config": "^0.73.1",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^29.5.5",
@@ -79,7 +94,8 @@
     "react-native": "*"
   },
   "workspaces": [
-    "example"
+    "example",
+    "exampleexpo"
   ],
   "packageManager": "yarn@3.6.1",
   "jest": {
@@ -87,6 +103,11 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
       "<rootDir>/lib/"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/lib/",
+      ".*\\.d\\.ts$"
     ]
   },
   "commitlint": {
@@ -132,7 +153,9 @@
   },
   "eslintIgnore": [
     "node_modules/",
-    "lib/"
+    "lib/",
+    "**/*.d.ts",
+    "**/*.d.ts.map"
   ],
   "prettier": {
     "quoteProps": "consistent",

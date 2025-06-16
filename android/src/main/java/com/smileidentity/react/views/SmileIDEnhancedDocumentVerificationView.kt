@@ -1,17 +1,10 @@
 package com.smileidentity.react.views
 
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
-import com.smileidentity.compose.EnhancedDocumentVerificationScreen
 import com.smileidentity.models.ConsentInformation
-import com.smileidentity.react.results.DocumentCaptureResult
-import com.smileidentity.react.utils.DocumentCaptureResultAdapter
-import com.smileidentity.results.SmileIDResult
-import com.smileidentity.util.randomJobId
-import com.smileidentity.util.randomUserId
+import com.smileidentity.shared.RNEnhancedDocumentVerification
+import com.smileidentity.shared.SmileIDViewConfig
 
 class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) :
   SmileIDView(context) {
@@ -24,69 +17,31 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
   var useStrictMode: Boolean? = false
 
   override fun renderContent() {
-    countryCode ?: run {
-      emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
-      return
-    }
-
-    consentInformation ?: run {
-      emitFailure(IllegalArgumentException("consentInformation is required for DocumentVerification"))
-      return
-    }
-
     composeView.apply {
-      val customViewModelStoreOwner = CustomViewModelStoreOwner()
-      setContent {
-        CompositionLocalProvider(LocalViewModelStoreOwner provides customViewModelStoreOwner) {
-          SmileID.EnhancedDocumentVerificationScreen(
-            userId = userId ?: rememberSaveable { randomUserId() },
-            jobId = jobId ?: rememberSaveable { randomJobId() },
-            countryCode = countryCode!!,
-            documentType = documentType,
-            idAspectRatio = idAspectRatio,
-            showAttribution = showAttribution,
-            allowAgentMode = allowAgentMode ?: false,
-            showInstructions = showInstructions,
-            allowNewEnroll = allowNewEnroll ?: false,
-            allowGalleryUpload = allowGalleryUpload,
-            captureBothSides = captureBothSides,
-            extraPartnerParams = extraPartnerParams,
-            consentInformation = consentInformation!!,
-            useStrictMode = useStrictMode ?: false,
-          ) { res ->
-            when (res) {
-              is SmileIDResult.Success -> {
-                val result =
-                  DocumentCaptureResult(
-                    selfieFile = res.data.selfieFile,
-                    documentFrontFile = res.data.documentFrontFile,
-                    livenessFiles = res.data.livenessFiles,
-                    documentBackFile = res.data.documentBackFile,
-                    didSubmitEnhancedDocVJob = res.data.didSubmitEnhancedDocVJob,
-                  )
-                val newMoshi =
-                  SmileID.moshi
-                    .newBuilder()
-                    .add(DocumentCaptureResultAdapter.FACTORY)
-                    .build()
-                val json =
-                  try {
-                    newMoshi
-                      .adapter(DocumentCaptureResult::class.java)
-                      .toJson(result)
-                  } catch (e: Exception) {
-                    emitFailure(e)
-                    return@EnhancedDocumentVerificationScreen
-                  }
-                json?.let { js ->
-                  emitSuccess(js)
-                }
-              }
+      setContentWithTheme {
+        val config = SmileIDViewConfig(
+          userId = userId,
+          jobId = jobId,
+          allowAgentMode = allowAgentMode ?: false,
+          allowNewEnroll = allowNewEnroll ?: false,
+          showInstructions = showInstructions,
+          showAttribution = showAttribution,
+          extraPartnerParams = extraPartnerParams,
+          countryCode = countryCode,
+          documentType = documentType,
+          captureBothSides = captureBothSides,
+          allowGalleryUpload = allowGalleryUpload,
+          idAspectRatio = idAspectRatio,
+          consentInformation = consentInformation,
+          useStrictMode = useStrictMode ?: false
+        )
 
-              is SmileIDResult.Error -> emitFailure(res.throwable)
-            }
+        SmileID.RNEnhancedDocumentVerification(
+          config = config,
+          onResult = { result ->
+            handleResultCallback(result)
           }
-        }
+        )
       }
     }
   }
