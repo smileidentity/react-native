@@ -1,5 +1,10 @@
 # Release Notes
 
+## 11.0.1
+
+### Changed
+* Bump android to 11.0.4 (https://github.com/smileidentity/android/releases/tag/v11.0.4)
+
 ## 11.0.0
 
 ### Changed
