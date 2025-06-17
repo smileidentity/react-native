@@ -1,4 +1,4 @@
-package com.smileid.expo
+package com.smileidentity.expo
 
 import com.smileidentity.models.*
 import com.smileidentity.react.utils.getCurrentIsoTimestamp

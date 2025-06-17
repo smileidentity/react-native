@@ -1,17 +1,35 @@
-package com.smileid.expo
+package com.smileidentity.expo
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.Exceptions
 import expo.modules.kotlin.exception.CodedException
-import com.smileid.shared.SmileIDSharedCore
-import com.smileid.shared.SmileIDResult
+import com.smileidentity.shared.SmileIDSharedCore
+import com.smileidentity.shared.SmileIDSharedResult
 import com.smileidentity.SmileID
+import com.smileidentity.expo.views.*
+import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.*
 import kotlin.time.Duration.Companion.milliseconds
 
 class SmileIDExpoModule : Module() {
+  
+  // Helper function to parse common base configuration
+  private fun parseBaseConfig(view: SmileIDExpoView, config: Map<String, Any?>) {
+    config["userId"]?.let { view.userId = it as? String }
+    config["jobId"]?.let { view.jobId = it as? String }
+    config["allowAgentMode"]?.let { view.allowAgentMode = it as? Boolean }
+    config["showInstructions"]?.let { view.showInstructions = it as? Boolean ?: true }
+    config["skipApiSubmission"]?.let { view.skipApiSubmission = it as? Boolean ?: false }
+    config["showAttribution"]?.let { view.showAttribution = it as? Boolean ?: true }
+    
+    // Handle extraPartnerParams if provided
+    (config["extraPartnerParams"] as? Map<String, String>)?.let { params ->
+      view.extraPartnerParams = params.toImmutableMap()
+    }
+  }
+  
   // Each module class must implement the definition function. The definition consists of components
   // that describe the module and its functionality to the React Native bridge.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
@@ -43,11 +61,121 @@ class SmileIDExpoModule : Module() {
       ))
     }
 
-    // Enables the module to be used as a native view. Definition components that are accepted as part of the view definition: Prop, Events.
-    View(SmileIDExpoView::class) {
-      // Defines a setter for the `name` prop.
-      Prop("name") { view: SmileIDExpoView, prop: String ->
-        println(prop)
+    // Register SmileIDExpoSmartSelfieCaptureView
+    View(SmileIDExpoSmartSelfieCaptureView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoSmartSelfieCaptureView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["showConfirmation"]?.let { view.showConfirmation = it as? Boolean ?: true }
+        config["useStrictMode"]?.let { view.useStrictMode = it as? Boolean ?: false }
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoBiometricKYCView
+    View(SmileIDExpoBiometricKYCView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoBiometricKYCView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["idInfo"]?.let { view.idInfo = it as? Map<String, Any?> }
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoConsentView
+    View(SmileIDExpoConsentView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoConsentView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["consentInformation"]?.let { view.consentInformation = it as? Map<String, Any?> }
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoDocumentCaptureView
+    View(SmileIDExpoDocumentCaptureView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoDocumentCaptureView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["countryCode"]?.let { view.countryCode = it as? String }
+        config["documentType"]?.let { view.documentType = it as? String }
+        config["allowGallerySelection"]?.let { view.allowGallerySelection = it as? Boolean ?: false }
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoDocumentVerificationView
+    View(SmileIDExpoDocumentVerificationView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoDocumentVerificationView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["countryCode"]?.let { view.countryCode = it as? String }
+        config["documentType"]?.let { view.documentType = it as? String }
+        config["allowGallerySelection"]?.let { view.allowGallerySelection = it as? Boolean ?: false }
+        config["captureBothSides"]?.let { view.captureBothSides = it as? Boolean ?: true }
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoEnhancedDocumentVerificationView
+    View(SmileIDExpoEnhancedDocumentVerificationView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoEnhancedDocumentVerificationView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["countryCode"]?.let { view.countryCode = it as? String }
+        config["documentType"]?.let { view.documentType = it as? String }
+        config["allowGallerySelection"]?.let { view.allowGallerySelection = it as? Boolean ?: false }
+        config["captureBothSides"]?.let { view.captureBothSides = it as? Boolean ?: true }
+        config["consentInformation"]?.let { view.consentInformation = it as? Map<String, Any?> }
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoSmartSelfieAuthenticationView
+    View(SmileIDExpoSmartSelfieAuthenticationView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoSmartSelfieAuthenticationView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoSmartSelfieAuthenticationEnhancedView
+    View(SmileIDExpoSmartSelfieAuthenticationEnhancedView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoSmartSelfieAuthenticationEnhancedView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoSmartSelfieEnrollmentView
+    View(SmileIDExpoSmartSelfieEnrollmentView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoSmartSelfieEnrollmentView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["allowNewEnroll"]?.let { view.allowNewEnroll = it as? Boolean ?: false }
+        view.renderContent()
+      }
+    }
+    
+    // Register SmileIDExpoSmartSelfieEnrollmentEnhancedView
+    View(SmileIDExpoSmartSelfieEnrollmentEnhancedView::class) {
+      Events("onSmileIDResult", "onSmileIDError")
+      
+      Prop("config") { view: SmileIDExpoSmartSelfieEnrollmentEnhancedView, config: Map<String, Any?> ->
+        parseBaseConfig(view, config)
+        config["allowNewEnroll"]?.let { view.allowNewEnroll = it as? Boolean ?: false }
+        view.renderContent()
       }
     }
 

@@ -3,7 +3,8 @@ package com.smileidentity.expo.views
 import android.content.Context
 import androidx.compose.runtime.Composable
 import com.smileidentity.SmileID
-import com.smileidentity.compose.components.LocalMetadataProvider
+import com.smileidentity.shared.RNSmartSelfieCapture
+import com.smileidentity.shared.SmileIDViewConfig
 import expo.modules.kotlin.AppContext
 
 /**
@@ -19,51 +20,29 @@ class SmileIDExpoSmartSelfieCaptureView(
 
     override fun renderContent() {
         setContentWithTheme {
-            LocalMetadataProvider.MetadataProvider {
-                RenderSmartSelfieCaptureContent()
-            }
+            RenderSmartSelfieCaptureContent()
         }
     }
 
     @Composable
     private fun RenderSmartSelfieCaptureContent() {
-        if (useStrictMode) {
-            SmileID.SmartSelfieEnrollmentEnhanced(
-                userId = userId ?: "",
-                showAttribution = showAttribution,
-                showInstructions = showInstructions,
-                skipApiSubmission = skipApiSubmission,
-                extraPartnerParams = extraPartnerParams,
-                onResult = { result ->
-                    when (result) {
-                        is SmileID.SmartSelfieResult.Success -> {
-                            emitSuccess(result.toJson())
-                        }
-                        is SmileID.SmartSelfieResult.Error -> {
-                            emitFailure(result.throwable)
-                        }
-                    }
-                }
-            )
-        } else {
-            // Regular smart selfie capture implementation
-            SmileID.SmartSelfieEnrollment(
-                userId = userId ?: "",
-                showAttribution = showAttribution,
-                showInstructions = showInstructions,
-                skipApiSubmission = skipApiSubmission,
-                extraPartnerParams = extraPartnerParams,
-                onResult = { result ->
-                    when (result) {
-                        is SmileID.SmartSelfieResult.Success -> {
-                            emitSuccess(result.toJson())
-                        }
-                        is SmileID.SmartSelfieResult.Error -> {
-                            emitFailure(result.throwable)
-                        }
-                    }
-                }
-            )
+      val config = SmileIDViewConfig(
+        userId = userId,
+        jobId = jobId,
+        allowAgentMode = allowAgentMode ?: false,
+        showInstructions = showInstructions,
+        skipApiSubmission = skipApiSubmission,
+        showAttribution = showAttribution,
+        extraPartnerParams = extraPartnerParams,
+        showConfirmation = showConfirmation,
+        useStrictMode = useStrictMode
+      )
+
+      SmileID.RNSmartSelfieCapture(
+        config = config,
+        onResult = { result ->
+          handleResultCallback(result)
         }
+      )
     }
 }
