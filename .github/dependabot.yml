@@ -54,11 +54,4 @@ updates:
       gradle-example-dependencies:
         patterns:
           - '*'
-
-  - package-ecosystem: "cocoapods"
-    directory: /example/ios
-    schedule:
-      interval: weekly
-      day: monday
-    groups:
-      cocoapods-dependencies:
+          
