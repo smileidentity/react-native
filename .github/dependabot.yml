@@ -15,7 +15,8 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    # ignore the react-native dependency in the root directory  
+    ignore:
+    - dependency-name: react-native
     groups:
       npm-dependencies:
         patterns:
@@ -26,7 +27,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    # ignore the react-native dependency in the example directory  
+    # ignore the react-native dependency in the example directory
     ignore:
     - dependency-name: react-native
     groups:
@@ -61,5 +62,3 @@ updates:
       day: monday
     groups:
       cocoapods-dependencies:
-        patterns:
-          - '*'
