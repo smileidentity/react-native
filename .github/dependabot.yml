@@ -1,12 +1,57 @@
 version: 2
 updates:
-- package-ecosystem: github-actions
-  directory: /
-  schedule:
-    interval: monthly
-    day: tuesday
-    time: '15:00'
-  groups:
-    github-actions:
-      patterns:
-      - '*'
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    ignore:
+    - dependency-name: react-native
+    groups:
+      npm-dependencies:
+        patterns:
+          - '*'
+
+  - package-ecosystem: npm
+    directory: /example
+    schedule:
+      interval: weekly
+      day: monday
+    # ignore the react-native dependency in the example directory
+    ignore:
+    - dependency-name: react-native
+    groups:
+      npm-example-dependencies:
+        patterns:
+          - '*'
+
+  - package-ecosystem: gradle
+    directory: /android
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      gradle-dependencies:
+        patterns:
+          - '*'
+
+  - package-ecosystem: gradle
+    directory: /example/android
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      gradle-example-dependencies:
+        patterns:
+          - '*'
+          
