@@ -16,10 +16,28 @@ updates:
       interval: weekly
       day: monday
     ignore:
-      # Ignore updates for react-native in the root directory
+      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
       - dependency-name: react-native
-      # Ignore updates for react in the root directory
       - dependency-name: react
+      - dependency-name: react-native/babel-preset
+      - dependency-name: react-native/metro-config
+      - dependency-name: react-native/typescript-config
+      - dependency-name: react-native/eslint-config
+      - dependency-name: react-navigation/native
+      - dependency-name: react-navigation/native-stack
+      - dependency-name: react-native-safe-area-context
+      - dependency-name: react-native-screens
+      - dependency-name: types/react
+      - dependency-name: types/jest
+      - dependency-name: eslint
+      - dependency-name: prettier
+      - dependency-name: eslint-plugin-prettier
+      - dependency-name: eslint-config-prettier
+      - dependency-name: commitlint
+      - dependency-name: commitlint/config-conventional
+      - dependency-name: release-it
+      - dependency-name: release-it/conventional-changelog
+      - dependency-name: evilmartians/lefthook
     groups:
       npm-dependencies:
         patterns:
@@ -31,10 +49,28 @@ updates:
       interval: weekly
       day: monday
     ignore:
-      # Ignore updates for react-native in the example directory
+      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
       - dependency-name: react-native
-      # Ignore updates for react in the example directory
       - dependency-name: react
+      - dependency-name: react-native/babel-preset
+      - dependency-name: react-native/metro-config
+      - dependency-name: react-native/typescript-config
+      - dependency-name: react-native/eslint-config
+      - dependency-name: react-navigation/native
+      - dependency-name: react-navigation/native-stack
+      - dependency-name: react-native-safe-area-context
+      - dependency-name: react-native-screens
+      - dependency-name: types/react
+      - dependency-name: types/jest
+      - dependency-name: eslint
+      - dependency-name: prettier
+      - dependency-name: eslint-plugin-prettier
+      - dependency-name: eslint-config-prettier
+      - dependency-name: commitlint
+      - dependency-name: commitlint/config-conventional
+      - dependency-name: release-it
+      - dependency-name: release-it/conventional-changelog
+      - dependency-name: evilmartians/lefthook
     groups:
       npm-example-dependencies:
         patterns:
