@@ -2,27 +2,24 @@ import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { SmartSelfieAuthenticationEnhancedRequest } from './index';
-import { useSmileIDView } from './useSmileIDView';
+import type { NativeProps } from './types/NativeProps';
 
 const SmileIDSmartSelfieAuthenticationEnhancedComponent =
-  codegenNativeComponent<SmartSelfieAuthenticationEnhancedRequest>(
+  codegenNativeComponent<NativeProps<SmartSelfieAuthenticationEnhancedRequest>>(
     'SmileIDSmartSelfieAuthenticationEnhancedView'
-  ) as HostComponent<SmartSelfieAuthenticationEnhancedRequest>;
+  ) as HostComponent<NativeProps<SmartSelfieAuthenticationEnhancedRequest>>;
 
 const SmileIDSmartSelfieAuthenticationEnhancedView: React.FC<
   SmartSelfieAuthenticationEnhancedRequest
 > = (props) => {
-  const viewRef = useSmileIDView(
-    'SmileIDSmartSelfieAuthenticationEnhancedView',
-    props
-  );
+  const { onResult, ...configProps } = props;
+  const nativeProps: NativeProps<SmartSelfieAuthenticationEnhancedRequest> = {
+    config: configProps,
+    onSmileIDResult: onResult,
+    onSmileIDError: onResult,
+  };
 
-  return (
-    <SmileIDSmartSelfieAuthenticationEnhancedComponent
-      ref={viewRef}
-      {...props}
-    />
-  );
+  return <SmileIDSmartSelfieAuthenticationEnhancedComponent {...nativeProps} />;
 };
 
 export default SmileIDSmartSelfieAuthenticationEnhancedView;

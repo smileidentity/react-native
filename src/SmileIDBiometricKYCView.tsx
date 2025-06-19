@@ -2,17 +2,21 @@ import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { BiometricKYCRequest } from './index';
-import { useSmileIDView } from './useSmileIDView';
+import type { NativeProps } from './types/NativeProps';
 
-const SmileIDBiometricKYCComponent =
-  codegenNativeComponent<BiometricKYCRequest>(
-    'SmileIDBiometricKYCView'
-  ) as HostComponent<BiometricKYCRequest>;
+const SmileIDBiometricKYCComponent = codegenNativeComponent<
+  NativeProps<BiometricKYCRequest>
+>('SmileIDBiometricKYCView') as HostComponent<NativeProps<BiometricKYCRequest>>;
 
 const SmileIDBiometricKYCView: React.FC<BiometricKYCRequest> = (props) => {
-  const viewRef = useSmileIDView('SmileIDBiometricKYCView', props);
+  const { onResult, ...configProps } = props;
+  const nativeProps: NativeProps<BiometricKYCRequest> = {
+    config: configProps,
+    onSmileIDResult: onResult,
+    onSmileIDError: onResult,
+  };
 
-  return <SmileIDBiometricKYCComponent ref={viewRef} {...props} />;
+  return <SmileIDBiometricKYCComponent {...nativeProps} />;
 };
 
 export default SmileIDBiometricKYCView;

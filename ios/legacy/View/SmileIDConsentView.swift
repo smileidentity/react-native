@@ -2,41 +2,19 @@ import Foundation
 import SmileID
 import SwiftUI
 
+// Legacy wrapper view that uses the new shared architecture
 struct SmileIDConsentView: View {
-    @ObservedObject var product: SmileIDProductModel
-    var onResult: RCTBubblingEventBlock?
-    var smileIDUIViewDelegate: SmileIDUIViewDelegate
+    let config: SmileIDViewConfig
+    let onResult: (SmileIDSharedResult<Any>) -> Void
+    
     var body: some View {
-        NavigationView {
-            if let partnerIcon = product.partnerIcon,
-               let partnerName = product.partnerName,
-               let productName = product.productName,
-               let partnerPrivacyPolicy = product.partnerPrivacyPolicy,
-               let uiImage = UIImage(named: partnerIcon, in: Bundle.main, compatibleWith: nil)
-            {
-                SmileID.consentScreen(
-                    partnerIcon: uiImage,
-                    partnerName: partnerName,
-                    productName: productName,
-                    partnerPrivacyPolicy: URL(string: partnerPrivacyPolicy)!,
-                    showAttribution: true,
-                    onConsentGranted: { _ in
-                        DispatchQueue.main.async {
-                            self.product.onResult?(["result": true])
-                        }
-                    },
-                    onConsentDenied: {
-                        DispatchQueue.main.async {
-                            self.product.onResult?(["error": true])
-                        }
-                    }
-                )
-            } else {
-                // This exists for debugging purposes and will show in extreme cases
-                // when the params were not set NB: setParams in the viewmanager will always
-                // return an error if the required data is missing
-                Text("An error has occured")
-            }
-        }.navigationViewStyle(StackNavigationViewStyle())
+        // Use the new RNConsent method to create the view
+        let uiView = SmileID.RNConsent(
+            config: config,
+            onResult: onResult
+        )
+        
+        // Wrap UIView in SwiftUI
+        UIViewWrapper(uiView: uiView)
     }
 }

@@ -36,6 +36,8 @@ data class SmileIDViewConfig(
   var allowGalleryUpload: Boolean = false,
   var showConfirmation: Boolean = true,
   var idAspectRatio: Float? = null,
+  var isDocumentFrontSide: Boolean = true,
+  var bypassSelfieCaptureWithFilePath: String? = null,
 
   // Capture-specific properties
   var useStrictMode: Boolean = false,
@@ -148,7 +150,8 @@ data class SmileIDViewConfig(
         captureBothSides = map.getBoolOrDefault("captureBothSides", false),
         allowGalleryUpload = map.getBoolOrDefault("allowGalleryUpload", false),
         idAspectRatio = map.getFloatOrDefault("idAspectRatio"),
-        useStrictMode = map.getBoolOrDefault("useStrictMode", false)
+        useStrictMode = map.getBoolOrDefault("useStrictMode", false),
+        bypassSelfieCaptureWithFilePath = map.getStringOrDefault("bypassSelfieCaptureWithFilePath")
       )
     }
 
@@ -254,7 +257,8 @@ data class SmileIDViewConfig(
         captureBothSides = map.getBoolOrDefault("captureBothSides", true),
         allowGalleryUpload = map.getBoolOrDefault("allowGalleryUpload", false),
         showConfirmation = map.getBoolOrDefault("showConfirmation", true),
-        idAspectRatio = map.getFloatOrDefault("idAspectRatio")
+        idAspectRatio = map.getFloatOrDefault("idAspectRatio"),
+        isDocumentFrontSide = map.getBoolOrDefault("isDocumentFrontSide", true)
       )
     }
 

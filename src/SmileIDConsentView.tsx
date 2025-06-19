@@ -2,16 +2,21 @@ import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { ConsentRequest } from './index';
-import { useSmileIDView } from './useSmileIDView';
+import type { NativeProps } from './types/NativeProps';
 
-const SmileIDConsentComponent = codegenNativeComponent<ConsentRequest>(
-  'SmileIDConsentView'
-) as HostComponent<ConsentRequest>;
+const SmileIDConsentComponent = codegenNativeComponent<
+  NativeProps<ConsentRequest>
+>('SmileIDConsentView') as HostComponent<NativeProps<ConsentRequest>>;
 
 const SmileIDConsentView: React.FC<ConsentRequest> = (props) => {
-  const viewRef = useSmileIDView('SmileIDConsentView', props);
+  const { onResult, ...configProps } = props;
+  const nativeProps: NativeProps<ConsentRequest> = {
+    config: configProps,
+    onSmileIDResult: onResult,
+    onSmileIDError: onResult,
+  };
 
-  return <SmileIDConsentComponent ref={viewRef} {...props} />;
+  return <SmileIDConsentComponent {...nativeProps} />;
 };
 
 export default SmileIDConsentView;

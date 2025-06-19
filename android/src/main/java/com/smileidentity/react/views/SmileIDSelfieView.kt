@@ -2,6 +2,7 @@ package com.smileidentity.react.views
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.SmileID
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
@@ -9,9 +10,9 @@ import com.smileidentity.results.SmartSelfieResult
 import com.smileidentity.shared.SmileIDSharedResult
 
 @SuppressLint("CheckResult")
-abstract class SmileIDSelfieView(currentContext: Context) : SmileIDView(currentContext) {
+abstract class SmileIDSelfieView(currentContext: ThemedReactContext) : SmileIDView(currentContext) {
 
-  override fun handleResultCallback(result: SmileIDSharedResult<*>) {
+  override fun handleResult(result: SmileIDSharedResult<*>) {
     when (result) {
       is SmileIDSharedResult.Success -> {
         when (val data = result.data) {
@@ -30,19 +31,19 @@ abstract class SmileIDSelfieView(currentContext: Context) : SmileIDView(currentC
                 .adapter(SmartSelfieCaptureResult::class.java)
                 .toJson(captureResult)
             } catch (e: Exception) {
-              emitFailure(e)
+              emitError("Failed to serialize result", e)
               return
             }
             json?.let { js ->
-              emitSuccess(js)
+              emitResult(js)
             }
           }
-          is String -> emitSuccess(data)
-          else -> emitSuccess(data.toString())
+          is String -> emitResult(data)
+          else -> emitResult(data.toString())
         }
       }
-      is SmileIDSharedResult.WithError -> emitFailure(result.cause)
-      is SmileIDSharedResult.Error -> emitFailure(Exception(result.message, result.cause))
+      is SmileIDSharedResult.WithError -> emitError(result.cause.message ?: "Unknown error", result.cause)
+      is SmileIDSharedResult.Error -> emitError(result.message, result.cause)
     }
   }
 }

@@ -5,42 +5,42 @@ import SwiftUI
 
 @objc(SmileIDConsentViewManager)
 class SmileIDConsentViewManager: SmileIDBaseViewManager {
-    override func getView() -> UIView {
-        BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDConsentView(product: product, smileIDUIViewDelegate: self)), product: product)
+    
+    override static func moduleName() -> String! {
+        return "SmileIDConsentView"
     }
-
-    @objc func setParams(_ node: NSNumber, commandId _: NSNumber, params: NSDictionary) {
-        /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle of the run loop, preventing any potential blocking of the UI if the update were to take a noticeable amount of time
-         */
-        DispatchQueue.main.async {
-            if let component = self.bridge.uiManager.view(forReactTag: node) as? BaseSmileIDView {
-                let onResult = params["onResult"] as? RCTBubblingEventBlock
-                guard let partnerIcon = params["partnerIcon"] as? String else {
-                    onResult?(["error": SmileIDError.unknown("partnerIcon is required to run show consent screen")])
-                    return
-                }
-                guard let partnerName = params["partnerName"] as? String else {
-                    onResult?(["error": SmileIDError.unknown("partnerName is required to run show consent screen")])
-                    return
-                }
-                guard let productName = params["productName"] as? String else {
-                    onResult?(["error": SmileIDError.unknown("productName is required to run show consent screen")])
-                    return
-                }
-                guard let partnerPrivacyPolicyUrl = params["partnerPrivacyPolicy"] as? String else {
-                    onResult?(["error": SmileIDError.unknown("partnerPrivacyPolicy is required to run show consent screen")])
-                    return
-                }
-                if !partnerPrivacyPolicyUrl.isValidUrl() {
-                    onResult?(["error": SmileIDError.unknown("partnerPrivacyPolicy must be a valid url")])
-                    return
-                }
-                self.product.onResult = onResult
-                self.product.partnerIcon = partnerIcon
-                self.product.partnerName = partnerName
-                self.product.productName = productName
-                self.product.partnerPrivacyPolicy = partnerPrivacyPolicyUrl
-                self.product.showAttribution = params["showAttribution"] as? Bool ?? true
+    
+    override func createView(config: SmileIDViewConfig, onResult: @escaping (SmileIDSharedResult<Any>) -> Void) -> AnyView {
+        return AnyView(
+            SmileIDConsentView(
+                config: config,
+                onResult: onResult
+            )
+        )
+    }
+    
+    // Override setConfig to use the fromConsentMap validation
+    @objc override func setConfig(_ view: UIView, config configDict: NSDictionary?) {
+        guard let configDict = configDict else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                // Use the fromConsentMap method to create config with validation
+                self.config = try SmileIDViewConfig.fromConsentMap(configDict as! [String: Any])
+                
+                // Update the view using base class method
+                self.updateView(view)
+            } catch {
+                // Emit error event
+                self.bridge.eventDispatcher().sendEvent(
+                    withName: "topSmileIDError",
+                    body: [
+                        "target": view.reactTag ?? 0,
+                        "error": error.localizedDescription
+                    ]
+                )
             }
         }
     }

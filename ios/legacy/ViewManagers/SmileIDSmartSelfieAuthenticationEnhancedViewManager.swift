@@ -1,29 +1,46 @@
 import Foundation
 import React
 import SwiftUI
+import SmileID
 
 @objc(SmileIDSmartSelfieAuthenticationEnhancedViewManager)
 class SmileIDSmartSelfieAuthenticationEnhancedViewManager: SmileIDBaseViewManager {
-    override func getView() -> UIView {
-        BaseSmileIDView(frame: .zero,
-                        contentView: AnyView(SmileIDSmartSelfieAuthEnhancedView(product:
-                            product, smileIDUIViewDelegate: self)), product: product)
+    
+    override static func moduleName() -> String! {
+        return "SmileIDSmartSelfieAuthenticationEnhancedView"
     }
-
-    @objc func setParams(_ node: NSNumber, commandId _: NSNumber, params: NSDictionary) {
-        /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle
-         of the run loop, preventing any potential blocking of the UI if the update were to take
-          a noticeable amount of time
-         */
-        DispatchQueue.main.async {
-            if let component = self.bridge.uiManager.view(forReactTag: node) as? BaseSmileIDView {
-                self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
-                self.product.userId = params["userId"] as? String
-                self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
-                self.product.showAttribution = params["showAttribution"] as? Bool ?? true
-                self.product.showInstructions = params["showInstructions"] as? Bool ?? true
-                self.product.skipApiSubmission = params["skipApiSubmission"] as? Bool ?? false
-                self.product.onResult = params["onResult"] as? RCTDirectEventBlock
+    
+    override func createView(config: SmileIDViewConfig, onResult: @escaping (SmileIDSharedResult<Any>) -> Void) -> AnyView {
+        return AnyView(
+            SmileIDSmartSelfieAuthEnhancedView(
+                config: config,
+                onResult: onResult
+            )
+        )
+    }
+    
+    // Override setConfig to use the fromSmartSelfieMap validation
+    @objc override func setConfig(_ view: UIView, config configDict: NSDictionary?) {
+        guard let configDict = configDict else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                // Use the fromSmartSelfieMap method to create config
+                self.config = try SmileIDViewConfig.fromSmartSelfieMap(configDict as! [String: Any])
+                
+                // Update the view using base class method
+                self.updateView(view)
+            } catch {
+                // Emit error event
+                self.bridge.eventDispatcher().sendEvent(
+                    withName: "topSmileIDError",
+                    body: [
+                        "target": view.reactTag ?? 0,
+                        "error": error.localizedDescription
+                    ]
+                )
             }
         }
     }

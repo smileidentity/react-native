@@ -2,19 +2,25 @@ import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { SmartSelfieEnrollmentRequest } from './index';
-import { useSmileIDView } from './useSmileIDView';
+import type { NativeProps } from './types/NativeProps';
 
-const SmileIDSmartSelfieCaptureComponent =
-  codegenNativeComponent<SmartSelfieEnrollmentRequest>(
-    'SmileIDSmartSelfieCaptureView'
-  ) as HostComponent<SmartSelfieEnrollmentRequest>;
+const SmileIDSmartSelfieCaptureComponent = codegenNativeComponent<
+  NativeProps<SmartSelfieEnrollmentRequest>
+>('SmileIDSmartSelfieCaptureView') as HostComponent<
+  NativeProps<SmartSelfieEnrollmentRequest>
+>;
 
 const SmileIDSmartSelfieCaptureView: React.FC<SmartSelfieEnrollmentRequest> = (
   props
 ) => {
-  const viewRef = useSmileIDView('SmileIDSmartSelfieCaptureView', props);
+  const { onResult, ...configProps } = props;
+  const nativeProps: NativeProps<SmartSelfieEnrollmentRequest> = {
+    config: configProps,
+    onSmileIDResult: onResult,
+    onSmileIDError: onResult,
+  };
 
-  return <SmileIDSmartSelfieCaptureComponent ref={viewRef} {...props} />;
+  return <SmileIDSmartSelfieCaptureComponent {...nativeProps} />;
 };
 
 export default SmileIDSmartSelfieCaptureView;

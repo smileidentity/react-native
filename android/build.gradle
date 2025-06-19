@@ -1,5 +1,3 @@
-import com.android.Version
-
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
   def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
@@ -25,6 +23,7 @@ buildscript {
   }
 }
 
+
 // Auto-detect Expo projects
 def isExpoProject = false
 try {
@@ -35,158 +34,16 @@ try {
 }
 
 // Allow manual override via rootProject.ext or gradle.properties
-def useExpo = rootProject.ext.has("useSmileIDExpo") ? rootProject.ext.get("useSmileIDExpo") : 
-              (isExpoProject || (project.properties["SmileId_useExpo"] == "true"))
+def useExpo = rootProject.ext.has("useSmileIDExpo") ? rootProject.ext.get("useSmileIDExpo") :
+  (isExpoProject || (project.properties["SmileId_useExpo"] == "true"))
 
-println "[SmileID] Building with Expo support: ${useExpo}"
-
-// Define the method at script level
-def reactNativeArchitectures() {
-  def value = rootProject.getProperties().get("reactNativeArchitectures")
-  return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
-}
-
-def kotlinVersion = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
-
-apply plugin: "com.android.library"
-
-// Common configuration
-group = 'com.smileidentity.react'
-version = '0.1.0'
-
-// Expo-specific configuration
+// Apply the appropriate build configuration based on useExpo flag
 if (useExpo) {
-  def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
-  if (expoModulesCorePlugin.exists()) {
-    apply from: expoModulesCorePlugin
-    
-    // Only call these methods if they exist
-    if (project.hasProperty('applyKotlinExpoModulesCorePlugin')) {
-      applyKotlinExpoModulesCorePlugin()
-    }
-    
-    // These methods might not be available in newer Expo versions
-    // if (project.hasProperty('useCoreDependencies')) {
-    //   useCoreDependencies()
-    // }
-    // if (project.hasProperty('useExpoPublishing')) {
-    //   useExpoPublishing()
-    // }
-  }
-}
-apply plugin: "kotlin-android"
-apply plugin: "org.jlleitschuh.gradle.ktlint"
-apply plugin: "org.jetbrains.kotlin.plugin.serialization"
-if (kotlinVersion?.startsWith("2")) {
-  apply plugin: "org.jetbrains.kotlin.plugin.compose"
-}
-
-def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["SmileId_" + name]
-}
-
-def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["SmileId_" + name]).toInteger()
-}
-
-def supportsNamespace() {
-  def parsed = Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
-  def major = parsed[0].toInteger()
-  def minor = parsed[1].toInteger()
-
-  // Namespace support was added in 7.3.0
-  if (major == 7 && minor >= 3) {
-    return true
-  }
-
-  return major >= 8
-}
-
-// Simple helper that allows the root project to override versions declared by this library.
-def safeExtGet = { prop, fallback ->
-  rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
-}
-
-android {
-  if (supportsNamespace()) {
-    namespace "com.smileidentity.react"
-  }
-
-  // Set compileSdkVersion first - required by Android Gradle Plugin
-  if (useExpo) {
-    compileSdkVersion safeExtGet("compileSdkVersion", 34)
-  } else {
-    compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
-  }
-
-  defaultConfig {
-    if (useExpo) {
-      minSdkVersion safeExtGet("minSdkVersion", 21)
-      targetSdkVersion safeExtGet("targetSdkVersion", 34)
-    } else {
-      minSdkVersion getExtOrIntegerDefault("minSdkVersion")
-      targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
-    }
-
-    versionCode 1
-    versionName "0.1.0"
-
-    // Read version from package.json for setWrapperInfo
-    def packageJson = new groovy.json.JsonSlurper().parseText(file("../package.json").text)
-    buildConfigField "String", "SMILE_ID_VERSION", "\"${packageJson.version}\""
-  }
-
-  buildTypes {
-    release {
-      minifyEnabled false
-    }
-  }
-
-  buildFeatures {
-    buildConfig true
-    compose = true
-  }
-
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_17.toString()
-    freeCompilerArgs += ['-Xskip-metadata-version-check']
-  }
-
-  if (useExpo) {
-    lintOptions {
-      abortOnError false
-    }
-  } else {
-    lintOptions {
-      disable "GradleCompatible"
-    }
-  }
-
-  composeOptions {
-    kotlinCompilerExtensionVersion rootProject.ext.has("kotlinCompilerExtensionVersion") ? rootProject.ext.get("kotlinCompilerExtensionVersion") : project.properties["SmileId_kotlinCompilerExtensionVersion"]
-  }
-
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_17
-    targetCompatibility JavaVersion.VERSION_17
-  }
-
-  sourceSets {
-    main {
-      // Shared source is always included
-      java.srcDirs += 'src/shared'
-
-      if (useExpo) {
-        // Expo builds only include expo sources
-        java.srcDirs += 'src/expo'
-        manifest.srcFile "src/main/AndroidManifestExpo.xml"
-      } else {
-        // Non-Expo builds match the reference exactly
-        java.srcDirs += ["src/oldarch"]
-        manifest.srcFile "src/main/AndroidManifestNew.xml"
-      }
-    }
-  }
+  println "SmileID: Using Expo build configuration"
+  apply from: file("expoBuild.gradle")
+} else {
+  println "SmileID: Using React Native build configuration"
+  apply from: file("reactBuild.gradle")
 }
 
 repositories {
@@ -203,10 +60,10 @@ def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get(
 def smile_id_sdk_version = rootProject.ext.has("smileIdAndroidSdkVersion") ? rootProject.ext.get("smileIdAndroidSdkVersion") : project.properties["SmileId_androidVersion"]
 
 dependencies {
-  if (!useExpo) {
-    implementation "com.facebook.react:react-native:0.72"
+  if(useExpo){
+    implementation project(':expo-modules-core')
   }
-
+  implementation "com.facebook.react:react-native:0.72"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core"
   implementation "com.smileidentity:android-sdk:$smile_id_sdk_version"

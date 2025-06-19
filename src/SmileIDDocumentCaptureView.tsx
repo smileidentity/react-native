@@ -2,19 +2,25 @@ import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { DocumentVerificationRequest } from './index';
-import { useSmileIDView } from './useSmileIDView';
+import type { NativeProps } from './types/NativeProps';
 
-const SmileIDDocumentCaptureComponent =
-  codegenNativeComponent<DocumentVerificationRequest>(
-    'SmileIDDocumentCaptureView'
-  ) as HostComponent<DocumentVerificationRequest>;
+const SmileIDDocumentCaptureComponent = codegenNativeComponent<
+  NativeProps<DocumentVerificationRequest>
+>('SmileIDDocumentCaptureView') as HostComponent<
+  NativeProps<DocumentVerificationRequest>
+>;
 
 const SmileIDDocumentCaptureView: React.FC<DocumentVerificationRequest> = (
   props
 ) => {
-  const viewRef = useSmileIDView('SmileIDDocumentCaptureView', props);
+  const { onResult, ...configProps } = props;
+  const nativeProps: NativeProps<DocumentVerificationRequest> = {
+    config: configProps,
+    onSmileIDResult: onResult,
+    onSmileIDError: onResult,
+  };
 
-  return <SmileIDDocumentCaptureComponent ref={viewRef} {...props} />;
+  return <SmileIDDocumentCaptureComponent {...nativeProps} />;
 };
 
 export default SmileIDDocumentCaptureView;

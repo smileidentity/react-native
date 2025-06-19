@@ -22,15 +22,18 @@ const config = {
       new RegExp(`^${escape(path.join(root, 'node_modules'))}\\/.*$`),
       // But allow modules from example
       ...modules
-        .filter(m => m !== 'react' && m !== 'react-native')
-        .map(m => new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`))
+        .filter((m) => m !== 'react' && m !== 'react-native')
+        .map(
+          (m) =>
+            new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`)
+        ),
     ]),
-    
+
     nodeModulesPaths: [
       path.join(__dirname, 'node_modules'),
-      path.join(root, 'node_modules')
+      path.join(root, 'node_modules'),
     ],
-    
+
     extraNodeModules: {
       '@smile_identity/react-native': root,
     },

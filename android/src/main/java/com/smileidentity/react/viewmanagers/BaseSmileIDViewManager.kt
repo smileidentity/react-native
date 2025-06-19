@@ -1,130 +1,126 @@
 package com.smileidentity.react.viewmanagers
 
-import android.view.Choreographer
-import android.view.View
-import android.view.View.MeasureSpec
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.fragment.app.FragmentManager
-import com.facebook.react.ReactActivity
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
-import com.facebook.react.uimanager.SimpleViewManager
+import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.ThemedReactContext
-import com.smileidentity.react.fragments.SmileCaptureFragment
+import com.facebook.react.uimanager.ViewGroupManager
+import com.facebook.react.uimanager.annotations.ReactProp
+import com.smileidentity.react.toConsentInfo
+import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.views.SmileIDView
+import kotlinx.collections.immutable.toImmutableMap
 
-abstract class BaseSmileIDViewManager<T : SmileIDView>(
-  private val reactApplicationContext: ReactApplicationContext
-) : SimpleViewManager<FrameLayout>() {
-  private var smileCaptureFragment: SmileCaptureFragment? = null
-  protected var smileIDView: T? = null
+abstract class BaseSmileIDViewManager<T : SmileIDView> : ViewGroupManager<T>() {
 
-  override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> {
-    return mapOf(
-      "onSmileResult" to mapOf(
-        "phasedRegistrationNames" to mapOf(
-          "bubbled" to "onResult"
-        )
-      )
-    )
+  abstract override fun createViewInstance(context: ThemedReactContext): T
+
+  override fun getExportedCustomDirectEventTypeConstants(): MutableMap<String, Any>? =
+    MapBuilder.builder<String, Any>()
+      .put("topSmileIDResult", MapBuilder.of("registrationName", "onSmileIDResult"))
+      .put("topSmileIDError", MapBuilder.of("registrationName", "onSmileIDError"))
+      .build()
+
+  override fun onAfterUpdateTransaction(view: T) {
+    super.onAfterUpdateTransaction(view)
+    view.update()
   }
 
-  private fun createFragment(
-    root: FrameLayout,
-    reactNativeViewId: Int,
-  ) {
-    val parentView = root.findViewById<ViewGroup>(reactNativeViewId)
-    setupLayout(parentView)
+  override fun onDropViewInstance(view: T) {
+    view.cleanup()
+    super.onDropViewInstance(view)
+  }
 
-    // Clean up existing view and fragment
-    smileIDView?.let { existingView ->
-      (existingView.parent as? ViewGroup)?.removeView(existingView)
+  @ReactProp(name = "config")
+  fun setConfig(view: T, config: ReadableMap?) {
+    if (config == null) return
+    
+    // Update the configuration from the map
+    config.getString("userId")?.let { view.config.userId = it }
+    config.getString("jobId")?.let { view.config.jobId = it }
+    
+    if (config.hasKey("allowAgentMode")) {
+      view.config.allowAgentMode = config.getBoolean("allowAgentMode")
     }
-    smileCaptureFragment?.let { existingFragment ->
-      val activity = reactApplicationContext.currentActivity as ReactActivity
-      val manager = activity.supportFragmentManager
-      manager.beginTransaction().remove(existingFragment).commit()
-      manager.executePendingTransactions()
+    
+    if (config.hasKey("allowNewEnroll")) {
+      view.config.allowNewEnroll = config.getBoolean("allowNewEnroll")
     }
-
-    // Create new instances
-    smileIDView = createSmileView()
-    smileCaptureFragment = SmileCaptureFragment()
-    smileCaptureFragment?.setReactContext(reactApplicationContext)
-    smileIDView?.let { view ->
-      (view.parent as? ViewGroup)?.removeView(view)  // Ensure view is detached
-      smileCaptureFragment?.setSmileIDView(view)
+    
+    if (config.hasKey("showInstructions")) {
+      view.config.showInstructions = config.getBoolean("showInstructions")
     }
-
-    // Add new fragment
-    smileCaptureFragment?.let {
-      val activity = reactApplicationContext.currentActivity as ReactActivity
-      val manager = activity.supportFragmentManager
-      manager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-      manager.beginTransaction()
-        .replace(reactNativeViewId, it, reactNativeViewId.toString())
-        .commit()
+    
+    if (config.hasKey("skipApiSubmission")) {
+      view.config.skipApiSubmission = config.getBoolean("skipApiSubmission")
     }
-  }
-
-  abstract fun createSmileView(): T
-  abstract fun applyArgs(view: T, args: ReadableMap?)
-
-  private fun setupLayout(view: View) {
-    Choreographer.getInstance().postFrameCallback(object : Choreographer.FrameCallback {
-      override fun doFrame(frameTimeNanos: Long) {
-        manuallyLayoutChildren(view)
-        view.viewTreeObserver.dispatchOnGlobalLayout()
-        Choreographer.getInstance().postFrameCallback(this)
-      }
-    })
-  }
-
-  private fun manuallyLayoutChildren(view: View) {
-    val width = view.measuredWidth
-    val height = view.measuredHeight
-    view.measure(
-      MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
-      MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-    )
-    view.layout(0, 0, width, height)
-  }
-
-  override fun createViewInstance(p0: ThemedReactContext): FrameLayout {
-    return FrameLayout(p0)
-  }
-
-  override fun getCommandsMap(): Map<String, Int> {
-    return mapOf("setParams" to COMMAND_SET_PARAMS, "create" to COMMAND_CREATE)
-  }
-
-  override fun receiveCommand(
-    view: FrameLayout,
-    commandId: String?,
-    args: ReadableArray?
-  ) {
-    super.receiveCommand(view, commandId, args)
-    when (commandId?.toInt()) {
-      COMMAND_CREATE -> {
-        val reactNativeViewId = requireNotNull(args).getInt(0)
-        createFragment(view, reactNativeViewId)
-      }
-
-      COMMAND_SET_PARAMS -> {
-        val params = args?.getMap(1)
-        smileIDView?.let { view ->
-          applyArgs(view, params)
-          // Update the fragment with new params
-          smileCaptureFragment?.updateViewWithParams(params)
+    
+    if (config.hasKey("showAttribution")) {
+      view.config.showAttribution = config.getBoolean("showAttribution")
+    }
+    
+    // Handle extraPartnerParams
+    config.getMap("extraPartnerParams")?.let { paramsMap ->
+      val map = mutableMapOf<String, String>()
+      val iterator = paramsMap.keySetIterator()
+      while (iterator.hasNextKey()) {
+        val key = iterator.nextKey()
+        paramsMap.getString(key)?.let { value ->
+          map[key] = value
         }
       }
+      view.config.extraPartnerParams = map.toImmutableMap()
     }
-  }
-
-  companion object {
-    const val COMMAND_SET_PARAMS = 1
-    const val COMMAND_CREATE = 2
+    
+    // Document-specific props
+    config.getString("countryCode")?.let { view.config.countryCode = it }
+    config.getString("documentType")?.let { view.config.documentType = it }
+    
+    if (config.hasKey("captureBothSides")) {
+      view.config.captureBothSides = config.getBoolean("captureBothSides")
+    }
+    
+    if (config.hasKey("allowGalleryUpload")) {
+      view.config.allowGalleryUpload = config.getBoolean("allowGalleryUpload")
+    }
+    
+    if (config.hasKey("showConfirmation")) {
+      view.config.showConfirmation = config.getBoolean("showConfirmation")
+    }
+    
+    if (config.hasKey("idAspectRatio")) {
+      view.config.idAspectRatio = config.getDouble("idAspectRatio").toFloat()
+    }
+    
+    if (config.hasKey("isDocumentFrontSide")) {
+      view.config.isDocumentFrontSide = config.getBoolean("isDocumentFrontSide")
+    }
+    
+    // Handle both property names for backward compatibility
+    config.getString("bypassSelfieCaptureWithFile")?.let { 
+      view.config.bypassSelfieCaptureWithFilePath = it 
+    }
+    config.getString("bypassSelfieCaptureWithFilePath")?.let { 
+      view.config.bypassSelfieCaptureWithFilePath = it 
+    }
+    
+    // Capture-specific props
+    if (config.hasKey("useStrictMode")) {
+      view.config.useStrictMode = config.getBoolean("useStrictMode")
+    }
+    
+    // Consent-specific props
+    config.getString("partnerName")?.let { view.config.partnerName = it }
+    config.getString("partnerPrivacyPolicy")?.let { view.config.partnerPrivacyPolicy = it }
+    config.getString("partnerIcon")?.let { view.config.logoResName = it }
+    config.getString("productName")?.let { view.config.productName = it }
+    
+    // KYC-specific props
+    config.getMap("idInfo")?.let { idInfoMap ->
+      view.config.idInfo = idInfoMap.toIdInfo()
+    }
+    
+    config.getMap("consentInformation")?.let { consentInfoMap ->
+      view.config.consentInformation = consentInfoMap.toConsentInfo()
+    }
   }
 }

@@ -1,25 +1,26 @@
 import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
-import { useSmileIDView } from './useSmileIDView';
 import type { EnhancedDocumentVerificationRequest } from './types';
+import type { NativeProps } from './types/NativeProps';
 
-const SmileIDEnhancedDocumentVerificationComponent =
-  codegenNativeComponent<EnhancedDocumentVerificationRequest>(
-    'SmileIDEnhancedDocumentVerificationView'
-  ) as HostComponent<EnhancedDocumentVerificationRequest>;
+const SmileIDEnhancedDocumentVerificationComponent = codegenNativeComponent<
+  NativeProps<EnhancedDocumentVerificationRequest>
+>('SmileIDEnhancedDocumentVerificationView') as HostComponent<
+  NativeProps<EnhancedDocumentVerificationRequest>
+>;
 
 const SmileIDEnhancedDocumentVerificationView: React.FC<
   EnhancedDocumentVerificationRequest
 > = (props) => {
-  const viewRef = useSmileIDView(
-    'SmileIDEnhancedDocumentVerificationView',
-    props
-  );
+  const { onResult, ...configProps } = props;
+  const nativeProps: NativeProps<EnhancedDocumentVerificationRequest> = {
+    config: configProps,
+    onSmileIDResult: onResult,
+    onSmileIDError: onResult,
+  };
 
-  return (
-    <SmileIDEnhancedDocumentVerificationComponent ref={viewRef} {...props} />
-  );
+  return <SmileIDEnhancedDocumentVerificationComponent {...nativeProps} />;
 };
 
 export default SmileIDEnhancedDocumentVerificationView;

@@ -77,7 +77,7 @@ try {
     'SmileID: Platform detection failed, falling back to React Native implementation',
     error
   );
-  
+
   try {
     const reactNativeViews = require('./platforms/react-native/SmileIDReactNativeViews');
     viewComponents = {
@@ -100,7 +100,10 @@ try {
       SmileIDConsentView: reactNativeViews.SmileIDConsentView,
     };
   } catch (fallbackError) {
-    console.error('SmileID: Critical error - cannot load any platform implementation', fallbackError);
+    console.error(
+      'SmileID: Critical error - cannot load any platform implementation',
+      fallbackError
+    );
     // Provide minimal fallback components to prevent app crash
     viewComponents = {};
   }

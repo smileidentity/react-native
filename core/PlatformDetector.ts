@@ -100,7 +100,10 @@ export class PlatformDetector {
       };
     } catch (error) {
       // Fallback to React Native if detection fails
-      console.warn('SmileID: Platform detection failed, defaulting to React Native', error);
+      console.warn(
+        'SmileID: Platform detection failed, defaulting to React Native',
+        error
+      );
       return {
         platform: 'react-native',
         hasExpoModulesCore: false,
@@ -150,7 +153,7 @@ export class PlatformDetector {
         if (typeof global !== 'undefined') return global;
         // @ts-ignore - window and self might not exist in React Native
         if (typeof window !== 'undefined') return window;
-        // @ts-ignore - window and self might not exist in React Native  
+        // @ts-ignore - window and self might not exist in React Native
         if (typeof self !== 'undefined') return self;
         return {};
       })();

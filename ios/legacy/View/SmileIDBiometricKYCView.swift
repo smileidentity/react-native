@@ -2,64 +2,32 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
-    var fileManager: FileManager = Foundation.FileManager.default
-    @ObservedObject var product: SmileIDProductModel
-    var smileIDUIViewDelegate: SmileIDUIViewDelegate
+// Legacy wrapper view that uses the new shared architecture
+struct SmileIDBiometricKYCView: View {
+    let config: SmileIDViewConfig
+    let onResult: (SmileIDSharedResult<Any>) -> Void
+    
     var body: some View {
-        NavigationView {
-            if let idInfo = product.idInfo {
-                SmileID.biometricKycScreen(
-                    idInfo: idInfo,
-                    userId: product.userId ?? generateUserId(),
-                    jobId: product.jobId ?? generateJobId(),
-                    allowNewEnroll: product.allowNewEnroll,
-                    allowAgentMode: product.allowAgentMode,
-                    showAttribution: product.showAttribution,
-                    showInstructions: product.showInstructions,
-                    useStrictMode: product.useStrictMode,
-                    extraPartnerParams: product.extraPartnerParams as [String: String],
-                    consentInformation: product.consentInformation, // already validated in the SmileIDBiometricKYCViewManager
-                    delegate: self
-                )
-            } else {
-                // This exists for debugging purposes and will show in extreme cases
-                // when the params were not set NB: setParams in the viewmanager will always
-                // return an error if the required data is missing
-                Text("An error has occured")
-            }
-        }.navigationViewStyle(StackNavigationViewStyle())
+        // Use the new RNBiometricKYC method to create the view
+        let uiView = SmileID.RNBiometricKYC(
+            config: config,
+            onResult: onResult
+        )
+        
+        // Wrap UIView in SwiftUI
+        UIViewWrapper(uiView: uiView)
     }
 }
 
-extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
-    func didSucceed(selfieImage: URL, livenessImages: [URL], didSubmitBiometricJob: Bool) {
-        let params: [String: Any] = [
-            "selfieFile": getFilePath(fileName: selfieImage.absoluteString),
-            "livenessFiles": livenessImages.map {
-                getFilePath(fileName: $0.absoluteString)
-            },
-            "didSubmitBiometricKycJob": didSubmitBiometricJob,
-        ]
-
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
-            smileIDUIViewDelegate.onError(error: SmileIDError.unknown("SmileIDBiometricKYCView encoding error"))
-            return
-        }
-        smileIDUIViewDelegate.onResult(smileResult: String(data: jsonData, encoding: .utf8)!)
+// Helper view to wrap UIView in SwiftUI
+struct UIViewWrapper: UIViewRepresentable {
+    let uiView: UIView
+    
+    func makeUIView(context: Context) -> UIView {
+        return uiView
     }
-
-    func didSucceed(
-        selfieImage _: URL,
-        livenessImages _: [URL],
-        jobStatusResponse: BiometricKycJobStatusResponse
-    ) {
-        let encoder = JSONEncoder()
-        let jsonData = try! encoder.encode(jobStatusResponse)
-        smileIDUIViewDelegate.onResult(smileResult: String(data: jsonData, encoding: .utf8)!)
-    }
-
-    func didError(error: Error) {
-        smileIDUIViewDelegate.onError(error: error)
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        // No updates needed
     }
 }

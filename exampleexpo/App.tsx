@@ -35,10 +35,7 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.title}>SmileID Expo Example</Text>
       <Text style={styles.subtitle}>Test SmileID SDK with Expo</Text>
-      <Button 
-        title="Start Enrollment" 
-        onPress={() => setShowSmileID(true)}
-      />
+      <Button title="Start Enrollment" onPress={() => setShowSmileID(true)} />
       <StatusBar style="auto" />
     </View>
   );

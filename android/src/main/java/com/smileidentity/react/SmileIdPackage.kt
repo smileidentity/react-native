@@ -22,16 +22,16 @@ class SmileIdPackage : TurboReactPackage() {
 
   override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> =
     listOf(
-      SmileIDSmartSelfieCaptureViewManager(reactContext),
-      SmileIDDocumentCaptureViewManager(reactContext),
-      SmileIDSmartSelfieEnrollmentViewManager(reactContext),
-      SmileIDSmartSelfieAuthenticationViewManager(reactContext),
-      SmileIDSmartSelfieEnrollmentEnhancedViewManager(reactContext),
-      SmileIDSmartSelfieAuthenticationEnhancedViewManager(reactContext),
-      SmileIDDocumentVerificationViewManager(reactContext),
-      SmileIDEnhancedDocumentVerificationViewManager(reactContext),
-      SmileIDConsentViewManager(reactContext),
-      SmileIDBiometricKYCViewManager(reactContext),
+      SmileIDSmartSelfieCaptureViewManager(),
+      SmileIDDocumentCaptureViewManager(),
+      SmileIDSmartSelfieEnrollmentViewManager(),
+      SmileIDSmartSelfieAuthenticationViewManager(),
+      SmileIDSmartSelfieEnrollmentEnhancedViewManager(),
+      SmileIDSmartSelfieAuthenticationEnhancedViewManager(),
+      SmileIDDocumentVerificationViewManager(),
+      SmileIDEnhancedDocumentVerificationViewManager(),
+      SmileIDConsentViewManager(),
+      SmileIDBiometricKYCViewManager(),
     )
 
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {

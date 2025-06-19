@@ -1,10 +1,14 @@
-import type { ConfigPlugin } from '@expo/config-plugins'
-import { withPlugins, AndroidConfig, createRunOncePlugin } from '@expo/config-plugins'
-import { withSmileIDAndroidConfig } from "./withSmileIDAndroidConfig";
-// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment
-const pkg = require('../../package.json')
+import type { ConfigPlugin } from '@expo/config-plugins';
+import {
+  withPlugins,
+  AndroidConfig,
+  createRunOncePlugin,
+} from '@expo/config-plugins';
+import { withSmileIDAndroidConfig } from './withSmileIDAndroidConfig';
 
-const CAMERA_USAGE = 'Allow $(PRODUCT_NAME) to access your camera'
+const pkg = require('../../package.json');
+
+const CAMERA_USAGE = 'Allow $(PRODUCT_NAME) to access your camera';
 
 interface ConfigProps {
   cameraPermissionText?: string;
@@ -15,19 +19,26 @@ const withSmileID: ConfigPlugin<ConfigProps> = (config, props = {}) => {
   // iOS permissions
   if (!config.ios) config.ios = {};
   if (!config.ios.infoPlist) config.ios.infoPlist = {};
-  
-  config.ios.infoPlist.NSCameraUsageDescription = 
-    props.cameraPermissionText ?? config.ios.infoPlist.NSCameraUsageDescription ?? CAMERA_USAGE;
-  
+
+  config.ios.infoPlist.NSCameraUsageDescription =
+    props.cameraPermissionText ??
+    config.ios.infoPlist.NSCameraUsageDescription ??
+    CAMERA_USAGE;
+
   // Android permissions
-  const androidPermissions = ['android.permission.CAMERA', 'android.permission.INTERNET']
+  const androidPermissions = [
+    'android.permission.CAMERA',
+    'android.permission.INTERNET',
+  ];
 
   // Set useExpo flag in gradle.properties for Expo builds
   if (props.useExpo) {
-    config = withSmileIDAndroidConfig(config, props)
+    config = withSmileIDAndroidConfig(config, props);
   }
 
-  return withPlugins(config, [[AndroidConfig.Permissions.withPermissions, androidPermissions]])
-}
+  return withPlugins(config, [
+    [AndroidConfig.Permissions.withPermissions, androidPermissions],
+  ]);
+};
 
-export default createRunOncePlugin(withSmileID, pkg.name, pkg.version)
+export default createRunOncePlugin(withSmileID, pkg.name, pkg.version);
