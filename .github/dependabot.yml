@@ -16,7 +16,10 @@ updates:
       interval: weekly
       day: monday
     ignore:
-    - dependency-name: react-native
+      # Ignore updates for react-native in the root directory
+      - dependency-name: react-native
+      # Ignore updates for react in the root directory
+      - dependency-name: react
     groups:
       npm-dependencies:
         patterns:
@@ -27,9 +30,11 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    # ignore the react-native dependency in the example directory
     ignore:
-    - dependency-name: react-native
+      # Ignore updates for react-native in the example directory
+      - dependency-name: react-native
+      # Ignore updates for react in the example directory
+      - dependency-name: react
     groups:
       npm-example-dependencies:
         patterns:
@@ -54,4 +59,3 @@ updates:
       gradle-example-dependencies:
         patterns:
           - '*'
-          
