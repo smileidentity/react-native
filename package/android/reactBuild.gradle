@@ -1,0 +1,87 @@
+import groovy.json.JsonSlurper
+
+def reactNativeArchitectures() {
+  def value = rootProject.getProperties().get("reactNativeArchitectures")
+  return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
+}
+
+def kotlinVersion = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+//apply plugin: 'kotlin-kapt'
+apply plugin: "org.jlleitschuh.gradle.ktlint"
+apply plugin: "org.jetbrains.kotlin.plugin.serialization"
+if (kotlinVersion?.startsWith("2")) {
+  apply plugin: "org.jetbrains.kotlin.plugin.compose"
+}
+
+def getExtOrDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["SmileId_" + name]
+}
+
+def getExtOrIntegerDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["SmileId_" + name]).toInteger()
+}
+
+def supportsNamespace() {
+  // The Android Gradle Plugin version is 8.10.1 as specified in the buildscript
+  // Namespace support was added in 7.3.0, so this version supports it
+  return true
+}
+
+android {
+  if (supportsNamespace()) {
+    namespace "com.smileidentity.react"
+  }
+
+  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
+
+  defaultConfig {
+    minSdkVersion getExtOrIntegerDefault("minSdkVersion")
+    targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
+
+    // Read version from package.json for setWrapperInfo
+    def packageJson = new groovy.json.JsonSlurper().parseText(file("../package.json").text)
+    buildConfigField "String", "SMILE_ID_VERSION", "\"${packageJson.version}\""
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+    }
+  }
+
+  buildFeatures {
+    buildConfig true
+    compose = true
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_17.toString()
+    freeCompilerArgs += ['-Xskip-metadata-version-check']
+  }
+
+  lintOptions {
+    disable "GradleCompatible"
+  }
+
+  composeOptions {
+    kotlinCompilerExtensionVersion rootProject.ext.has("kotlinCompilerExtensionVersion") ? rootProject.ext.get("kotlinCompilerExtensionVersion") : project.properties["SmileId_kotlinCompilerExtensionVersion"]
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  sourceSets {
+    main {
+      if (supportsNamespace()) {
+        manifest.srcFile "src/main/AndroidManifestNew.xml"
+      }
+      java.srcDirs += ["src/main", "src/oldarch", "src/shared"]
+      java.excludes = ["**/expo/**"]
+    }
+  }
+}
