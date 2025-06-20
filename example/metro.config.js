@@ -1,4 +1,3 @@
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const path = require('path');
 const escape = require('escape-string-regexp');
 const exclusionList = require('metro-config/src/defaults/exclusionList');
@@ -7,17 +6,29 @@ const pak = require('../package.json');
 const root = path.resolve(__dirname, '..');
 const modules = Object.keys({ ...pak.peerDependencies });
 
-/**
- * Metro configuration
- * https://facebook.github.io/metro/docs/configuration
- *
- * @type {import('metro-config').MetroConfig}
- */
-const config = {
+// Detect if we're in Expo or React Native
+const isExpo = (() => {
+  try {
+    require.resolve('expo/metro-config');
+    return true;
+  } catch {
+    return false;
+  }
+})();
+
+// Get the appropriate default config
+const getDefaultConfigFunc = isExpo
+  ? require('expo/metro-config').getDefaultConfig
+  : require('@react-native/metro-config').getDefaultConfig;
+
+const defaultConfig = getDefaultConfigFunc(__dirname);
+
+// Common configuration
+const customConfig = {
   watchFolders: [root],
 
   resolver: {
-    blacklistRE: exclusionList([
+    blockList: exclusionList([
       // Exclude parent node_modules
       new RegExp(`^${escape(path.join(root, 'node_modules'))}\\/.*$`),
       // But allow modules from example
@@ -49,4 +60,23 @@ const config = {
   },
 };
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+// Merge configurations
+if (isExpo) {
+  // For Expo, manually merge since it doesn't have mergeConfig
+  module.exports = {
+    ...defaultConfig,
+    ...customConfig,
+    resolver: {
+      ...defaultConfig.resolver,
+      ...customConfig.resolver,
+    },
+    transformer: {
+      ...defaultConfig.transformer,
+      ...customConfig.transformer,
+    },
+  };
+} else {
+  // For React Native, use mergeConfig
+  const { mergeConfig } = require('@react-native/metro-config');
+  module.exports = mergeConfig(defaultConfig, customConfig);
+}

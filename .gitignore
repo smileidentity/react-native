@@ -728,3 +728,6 @@ smile_config.json
 # testing
 /coverage
 
+# TypeScript
+tsconfig.tsbuildinfo
+
