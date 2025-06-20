@@ -1,7 +1,7 @@
 import React from 'react';
 import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
-import type { NativeProps } from './types/NativeProps';
+import type {NativeProps} from "./NativeProps";
 
 /**
  * Factory function to create SmileID view components with consistent event handling
@@ -19,7 +19,7 @@ export function createSmileIDView<T extends { onResult?: (event: any) => void }>
   // Return a component that maps props to native props
   return function SmileIDView(props: T) {
     const { onResult, ...configProps } = props;
-    
+
     const nativeProps: NativeProps<T> = {
       config: configProps as [T],
       onSmileIDResult: onResult,

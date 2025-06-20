@@ -8,15 +8,12 @@
   },
   "include": [
     "src/**/*",
-    "core/**/*", 
+    "core/**/*",
     "platforms/**/*",
-    "index.ts"
+    "src/index.ts"
   ],
   "exclude": [
     "example/**/*",
-    "example-unified/**/*",
-    "exampleexpo/**/*",
-    "platforms/expo/**/*",
     "**/__tests__/**/*",
     "**/*.test.ts",
     "node_modules"

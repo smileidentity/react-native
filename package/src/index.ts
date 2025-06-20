@@ -7,11 +7,11 @@
  */
 
 // Import the smart SDK that handles platform detection automatically
-import { SmileID as SmartSmileID, SmileIDSDK } from './core/SmileIDSDK';
+import { SmileID as SmartSmileID, SmileIDSDK } from '../core/SmileIDSDK';
 
 // Re-export all view components (these will be platform-specific automatically)
 // For maximum code reuse, we import from the smart detection system
-import { PlatformDetector } from './core/PlatformDetector';
+import { PlatformDetector } from '../core/PlatformDetector';
 
 // Dynamically export platform-appropriate view components
 let viewComponents: any = {};
@@ -137,7 +137,7 @@ export {
   UploadRequest,
   IdInfo,
   EnhancedKycRequest,
-} from './core/types';
+} from '../core/types';
 
 // Re-export response types
 export type {
@@ -162,10 +162,10 @@ export type {
   SmartSelfieEnrollmentEnhancedRequest,
   SmartSelfieAuthenticationEnhancedRequest,
   EnhancedDocumentVerificationRequest,
-} from './core/types';
+} from '../core/types';
 
 // Export platform detection utilities for advanced users
-export { PlatformDetector } from './core/PlatformDetector';
+export { PlatformDetector } from '../core/PlatformDetector';
 
 // For debugging and diagnostics
 export const SmileIDDiagnostics = {

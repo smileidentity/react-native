@@ -17,7 +17,7 @@ import type {
   ServicesResponse,
   SmartSelfieJobStatusResponse,
   UploadRequest,
-  Config,
+  Config, ValidDocumentsResponse,
 } from '../../core/types';
 
 export interface Spec extends TurboModule {

@@ -6,8 +6,19 @@
 // Export the React Native SDK implementation
 export { SmileIDReactNativeSDK } from './SmileIDReactNativeSDK';
 
-// Export all view components
-export * from './SmileIDReactNativeViews';
+// Export all view components from core (they work on both platforms)
+export {
+  SmileIDBiometricKYCView,
+  SmileIDConsentView,
+  SmileIDDocumentCaptureView,
+  SmileIDDocumentVerificationView,
+  SmileIDEnhancedDocumentVerificationView,
+  SmileIDSmartSelfieAuthenticationView,
+  SmileIDSmartSelfieAuthenticationEnhancedView,
+  SmileIDSmartSelfieCaptureView,
+  SmileIDSmartSelfieEnrollmentView,
+  SmileIDSmartSelfieEnrollmentEnhancedView,
+} from '../../core/SmileIDViews';
 
 // Re-export core types and classes that users need
 export {
@@ -21,6 +32,14 @@ export {
   UploadRequest,
   IdInfo,
   EnhancedKycRequest,
+  BiometricKYCRequest,
+  ConsentRequest,
+  DocumentVerificationRequest,
+  EnhancedDocumentVerificationRequest,
+  SmartSelfieAuthenticationRequest,
+  SmartSelfieEnrollmentRequest,
+  SmartSelfieAuthenticationEnhancedRequest,
+  SmartSelfieEnrollmentEnhancedRequest,
 } from '../../core/types';
 
 // Re-export response types

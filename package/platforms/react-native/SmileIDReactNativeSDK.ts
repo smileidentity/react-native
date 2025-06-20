@@ -1,30 +1,10 @@
 /**
- * React Native platform implementation for SmileID SDK
- * Wraps existing legacy implementation with shared core logic
+ * Simplified React Native platform implementation for SmileID SDK
+ * This is a thin wrapper that just passes calls to the native module
+ * All error handling and response processing is done by SmileIDSDK in core
  */
 import { NativeModules, Platform } from 'react-native';
 import type { SmileIDSDKInterface } from '../../core/SmileIDSDK';
-import { SmileIDCore } from '../../core/SmileIDCore';
-import type {
-  AuthenticationRequest,
-  AuthenticationResponse,
-  BiometricKycJobStatusResponse,
-  DocumentVerificationJobStatusResponse,
-  EnhancedDocumentVerificationJobStatusResponse,
-  EnhancedKycRequest,
-  EnhancedKycAsyncResponse,
-  EnhancedKycResponse,
-  JobStatusRequest,
-  PrepUploadRequest,
-  PrepUploadResponse,
-  ProductsConfigRequest,
-  ProductsConfigResponse,
-  ServicesResponse,
-  SmartSelfieJobStatusResponse,
-  UploadRequest,
-  Config,
-} from '../../core/types';
-import type { Spec } from '../../src/NativeSmileId';
 
 // Define linking error message
 const LINKING_ERROR =
@@ -40,7 +20,7 @@ const SmileIdModule = isTurboModuleEnabled
   ? require('../../src/NativeSmileId').default
   : NativeModules.RNSmileID;
 
-const _SmileID: Spec = SmileIdModule
+const NativeSmileID = SmileIdModule
   ? SmileIdModule
   : new Proxy(
       {},
@@ -52,378 +32,35 @@ const _SmileID: Spec = SmileIdModule
     );
 
 /**
- * React Native platform implementation
- * Delegates to the existing React Native module while applying shared core logic
+ * React Native platform implementation - thin wrapper
+ * Simply delegates all calls to the native module without any processing
  */
 export class SmileIDReactNativeSDK implements SmileIDSDKInterface {
-  /**
-   * Initialize SmileID SDK with configuration
-   */
-  async initialize(
-    useSandBox: boolean,
-    enableCrashReporting: boolean,
-    config?: Config,
-    apiKey?: string
-  ): Promise<void> {
-    try {
-      // Use the existing legacy module for initialization
-      await _SmileID.initialize(
-        useSandBox,
-        enableCrashReporting,
-        config,
-        apiKey
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Set allow offline mode
-   */
-  async setAllowOfflineMode(allowOfflineMode: boolean): Promise<void> {
-    try {
-      return await _SmileID.setAllowOfflineMode(allowOfflineMode);
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Submit a job
-   */
-  async submitJob(jobId: string): Promise<void> {
-    try {
-      await _SmileID.submitJob(jobId);
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get unsubmitted jobs
-   */
-  async getUnsubmittedJobs(): Promise<[string]> {
-    try {
-      const response = await _SmileID.getUnsubmittedJobs();
-      return SmileIDCore.processResponse<[string]>(
-        response,
-        'getUnsubmittedJobs'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get submitted jobs
-   */
-  async getSubmittedJobs(): Promise<[string]> {
-    try {
-      const response = await _SmileID.getSubmittedJobs();
-      return SmileIDCore.processResponse<[string]>(
-        response,
-        'getSubmittedJobs'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Cleanup a job
-   */
-  async cleanup(jobId: string): Promise<void> {
-    try {
-      return await _SmileID.cleanup(jobId);
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Disable crash reporting
-   */
-  async disableCrashReporting(): Promise<void> {
-    try {
-      if (Platform.OS === 'android') {
-        return await _SmileID.disableCrashReporting();
-      }
-      // No-op for iOS as mentioned in original implementation
-      return Promise.resolve();
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Authenticate request
-   */
-  async authenticate(
-    request: AuthenticationRequest
-  ): Promise<AuthenticationResponse> {
-    try {
-      const response = await _SmileID.authenticate(request);
-      return SmileIDCore.processResponse<AuthenticationResponse>(
-        response,
-        'authenticate'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Prepare upload
-   */
-  async prepUpload(request: PrepUploadRequest): Promise<PrepUploadResponse> {
-    try {
-      const response = await _SmileID.prepUpload(request);
-      return SmileIDCore.processResponse<PrepUploadResponse>(
-        response,
-        'prepUpload'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Upload files
-   */
-  async upload(url: string, request: UploadRequest): Promise<void> {
-    try {
-      await _SmileID.upload(url, request);
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Perform Enhanced KYC
-   */
-  async doEnhancedKyc(
-    request: EnhancedKycRequest
-  ): Promise<EnhancedKycResponse> {
-    try {
-      const response = await _SmileID.doEnhancedKyc(request);
-      return SmileIDCore.processResponse<EnhancedKycResponse>(
-        response,
-        'doEnhancedKyc'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Perform Enhanced KYC asynchronously
-   */
-  async doEnhancedKycAsync(
-    request: EnhancedKycRequest
-  ): Promise<EnhancedKycAsyncResponse> {
-    try {
-      const response = await _SmileID.doEnhancedKycAsync(request);
-      return SmileIDCore.processResponse<EnhancedKycAsyncResponse>(
-        response,
-        'doEnhancedKycAsync'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get Smart Selfie job status
-   */
-  async getSmartSelfieJobStatus(
-    request: JobStatusRequest
-  ): Promise<SmartSelfieJobStatusResponse> {
-    try {
-      const response = await _SmileID.getSmartSelfieJobStatus(request);
-      return SmileIDCore.processResponse<SmartSelfieJobStatusResponse>(
-        response,
-        'getSmartSelfieJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get Document Verification job status
-   */
-  async getDocumentVerificationJobStatus(
-    request: JobStatusRequest
-  ): Promise<DocumentVerificationJobStatusResponse> {
-    try {
-      const response = await _SmileID.getDocumentVerificationJobStatus(request);
-      return SmileIDCore.processResponse<DocumentVerificationJobStatusResponse>(
-        response,
-        'getDocumentVerificationJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get Biometric KYC job status
-   */
-  async getBiometricKycJobStatus(
-    request: JobStatusRequest
-  ): Promise<BiometricKycJobStatusResponse> {
-    try {
-      const response = await _SmileID.getBiometricKycJobStatus(request);
-      return SmileIDCore.processResponse<BiometricKycJobStatusResponse>(
-        response,
-        'getBiometricKycJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get Enhanced Document Verification job status
-   */
-  async getEnhancedDocumentVerificationJobStatus(
-    request: JobStatusRequest
-  ): Promise<EnhancedDocumentVerificationJobStatusResponse> {
-    try {
-      const response =
-        await _SmileID.getEnhancedDocumentVerificationJobStatus(request);
-      return SmileIDCore.processResponse<EnhancedDocumentVerificationJobStatusResponse>(
-        response,
-        'getEnhancedDocumentVerificationJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get products configuration
-   */
-  async getProductsConfig(
-    request: ProductsConfigRequest
-  ): Promise<ProductsConfigResponse> {
-    try {
-      const response = await _SmileID.getProductsConfig(request);
-      return SmileIDCore.processResponse<ProductsConfigResponse>(
-        response,
-        'getProductsConfig'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get valid documents
-   */
-  async getValidDocuments(request: ProductsConfigRequest): Promise<any> {
-    try {
-      const response = await _SmileID.getValidDocuments(request);
-      return SmileIDCore.processResponse(response, 'getValidDocuments');
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Get services
-   */
-  async getServices(): Promise<ServicesResponse> {
-    try {
-      const response = await _SmileID.getServices();
-      return SmileIDCore.processResponse<ServicesResponse>(
-        response,
-        'getServices'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Poll Smart Selfie job status
-   */
-  async pollSmartSelfieJobStatus(
-    request: JobStatusRequest
-  ): Promise<SmartSelfieJobStatusResponse> {
-    try {
-      const response = await _SmileID.pollSmartSelfieJobStatus(request);
-      return SmileIDCore.processResponse<SmartSelfieJobStatusResponse>(
-        response,
-        'pollSmartSelfieJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Poll Document Verification job status
-   */
-  async pollDocumentVerificationJobStatus(
-    request: JobStatusRequest
-  ): Promise<DocumentVerificationJobStatusResponse> {
-    try {
-      const response =
-        await _SmileID.pollDocumentVerificationJobStatus(request);
-      return SmileIDCore.processResponse<DocumentVerificationJobStatusResponse>(
-        response,
-        'pollDocumentVerificationJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Poll Biometric KYC job status
-   */
-  async pollBiometricKycJobStatus(
-    request: JobStatusRequest
-  ): Promise<BiometricKycJobStatusResponse> {
-    try {
-      const response = await _SmileID.pollBiometricKycJobStatus(request);
-      return SmileIDCore.processResponse<BiometricKycJobStatusResponse>(
-        response,
-        'pollBiometricKycJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Poll Enhanced Document Verification job status
-   */
-  async pollEnhancedDocumentVerificationJobStatus(
-    request: JobStatusRequest
-  ): Promise<EnhancedDocumentVerificationJobStatusResponse> {
-    try {
-      const response =
-        await _SmileID.pollEnhancedDocumentVerificationJobStatus(request);
-      return SmileIDCore.processResponse<EnhancedDocumentVerificationJobStatusResponse>(
-        response,
-        'pollEnhancedDocumentVerificationJobStatus'
-      );
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
-
-  /**
-   * Set callback URL
-   */
-  async setCallbackUrl(callbackUrl: string): Promise<void> {
-    try {
-      return await _SmileID.setCallbackUrl(callbackUrl);
-    } catch (error) {
-      throw SmileIDCore.formatError(error);
-    }
-  }
+  // All methods simply delegate to the native module
+  // The SmileIDSDK in core handles all error formatting and response processing
+  
+  initialize = NativeSmileID.initialize.bind(NativeSmileID);
+  setAllowOfflineMode = NativeSmileID.setAllowOfflineMode.bind(NativeSmileID);
+  submitJob = NativeSmileID.submitJob.bind(NativeSmileID);
+  getUnsubmittedJobs = NativeSmileID.getUnsubmittedJobs.bind(NativeSmileID);
+  getSubmittedJobs = NativeSmileID.getSubmittedJobs.bind(NativeSmileID);
+  cleanup = NativeSmileID.cleanup.bind(NativeSmileID);
+  disableCrashReporting = NativeSmileID.disableCrashReporting.bind(NativeSmileID);
+  authenticate = NativeSmileID.authenticate.bind(NativeSmileID);
+  prepUpload = NativeSmileID.prepUpload.bind(NativeSmileID);
+  upload = NativeSmileID.upload.bind(NativeSmileID);
+  doEnhancedKyc = NativeSmileID.doEnhancedKyc.bind(NativeSmileID);
+  doEnhancedKycAsync = NativeSmileID.doEnhancedKycAsync.bind(NativeSmileID);
+  getSmartSelfieJobStatus = NativeSmileID.getSmartSelfieJobStatus.bind(NativeSmileID);
+  getDocumentVerificationJobStatus = NativeSmileID.getDocumentVerificationJobStatus.bind(NativeSmileID);
+  getBiometricKycJobStatus = NativeSmileID.getBiometricKycJobStatus.bind(NativeSmileID);
+  getEnhancedDocumentVerificationJobStatus = NativeSmileID.getEnhancedDocumentVerificationJobStatus.bind(NativeSmileID);
+  getProductsConfig = NativeSmileID.getProductsConfig.bind(NativeSmileID);
+  getValidDocuments = NativeSmileID.getValidDocuments.bind(NativeSmileID);
+  getServices = NativeSmileID.getServices.bind(NativeSmileID);
+  pollSmartSelfieJobStatus = NativeSmileID.pollSmartSelfieJobStatus.bind(NativeSmileID);
+  pollDocumentVerificationJobStatus = NativeSmileID.pollDocumentVerificationJobStatus.bind(NativeSmileID);
+  pollBiometricKycJobStatus = NativeSmileID.pollBiometricKycJobStatus.bind(NativeSmileID);
+  pollEnhancedDocumentVerificationJobStatus = NativeSmileID.pollEnhancedDocumentVerificationJobStatus.bind(NativeSmileID);
+  setCallbackUrl = NativeSmileID.setCallbackUrl.bind(NativeSmileID);
 }
