@@ -117,7 +117,7 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation("androidx.compose.runtime:runtime:1.8.2")
+    implementation("androidx.compose.runtime:runtime:1.8.3")
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
