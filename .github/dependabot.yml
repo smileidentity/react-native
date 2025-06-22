@@ -1,4 +1,5 @@
 version: 2
+
 updates:
   - package-ecosystem: github-actions
     directory: /
@@ -16,7 +17,17 @@ updates:
       interval: weekly
       day: monday
     ignore:
-    - dependency-name: react-native
+      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
+      - dependency-name: react
+      - dependency-name: react-native
+      - dependency-name: react-native/babel-preset
+      - dependency-name: react-native/metro-config
+      - dependency-name: react-native/typescript-config
+      - dependency-name: react-native/eslint-config
+      - dependency-name: react-navigation/native
+      - dependency-name: react-navigation/native-stack
+      - dependency-name: react-native-safe-area-context
+      - dependency-name: react-native-screens
     groups:
       npm-dependencies:
         patterns:
@@ -27,9 +38,18 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    # ignore the react-native dependency in the example directory
     ignore:
-    - dependency-name: react-native
+      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
+      - dependency-name: react
+      - dependency-name: react-native
+      - dependency-name: react-native/babel-preset
+      - dependency-name: react-native/metro-config
+      - dependency-name: react-native/typescript-config
+      - dependency-name: react-native/eslint-config
+      - dependency-name: react-navigation/native
+      - dependency-name: react-navigation/native-stack
+      - dependency-name: react-native-safe-area-context
+      - dependency-name: react-native-screens
     groups:
       npm-example-dependencies:
         patterns:
@@ -54,4 +74,3 @@ updates:
       gradle-example-dependencies:
         patterns:
           - '*'
-          
