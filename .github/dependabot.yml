@@ -1,18 +1,5 @@
 version: 2
 
-# Shared ignore list for preventing automatic updates for core libraries
-x-ignore-common: &ignore-common
-  - dependency-name: react
-  - dependency-name: react-native
-  - dependency-name: react-native/babel-preset
-  - dependency-name: react-native/metro-config
-  - dependency-name: react-native/typescript-config
-  - dependency-name: react-native/eslint-config
-  - dependency-name: react-navigation/native
-  - dependency-name: react-navigation/native-stack
-  - dependency-name: react-native-safe-area-context
-  - dependency-name: react-native-screens
-
 updates:
   - package-ecosystem: github-actions
     directory: /
@@ -29,7 +16,18 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    ignore: *ignore-common
+    ignore:
+      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
+      - dependency-name: react
+      - dependency-name: react-native
+      - dependency-name: react-native/babel-preset
+      - dependency-name: react-native/metro-config
+      - dependency-name: react-native/typescript-config
+      - dependency-name: react-native/eslint-config
+      - dependency-name: react-navigation/native
+      - dependency-name: react-navigation/native-stack
+      - dependency-name: react-native-safe-area-context
+      - dependency-name: react-native-screens
     groups:
       npm-dependencies:
         patterns:
@@ -40,7 +38,18 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    ignore: *ignore-common
+    ignore:
+      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
+      - dependency-name: react
+      - dependency-name: react-native
+      - dependency-name: react-native/babel-preset
+      - dependency-name: react-native/metro-config
+      - dependency-name: react-native/typescript-config
+      - dependency-name: react-native/eslint-config
+      - dependency-name: react-navigation/native
+      - dependency-name: react-navigation/native-stack
+      - dependency-name: react-native-safe-area-context
+      - dependency-name: react-native-screens
     groups:
       npm-example-dependencies:
         patterns:
