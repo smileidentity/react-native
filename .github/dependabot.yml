@@ -1,4 +1,18 @@
 version: 2
+
+# Shared ignore list for preventing automatic updates for core libraries
+x-ignore-common: &ignore-common
+  - dependency-name: react
+  - dependency-name: react-native
+  - dependency-name: react-native/babel-preset
+  - dependency-name: react-native/metro-config
+  - dependency-name: react-native/typescript-config
+  - dependency-name: react-native/eslint-config
+  - dependency-name: react-navigation/native
+  - dependency-name: react-navigation/native-stack
+  - dependency-name: react-native-safe-area-context
+  - dependency-name: react-native-screens
+
 updates:
   - package-ecosystem: github-actions
     directory: /
@@ -15,29 +29,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    ignore:
-      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
-      - dependency-name: react-native
-      - dependency-name: react
-      - dependency-name: react-native/babel-preset
-      - dependency-name: react-native/metro-config
-      - dependency-name: react-native/typescript-config
-      - dependency-name: react-native/eslint-config
-      - dependency-name: react-navigation/native
-      - dependency-name: react-navigation/native-stack
-      - dependency-name: react-native-safe-area-context
-      - dependency-name: react-native-screens
-      - dependency-name: types/react
-      - dependency-name: types/jest
-      - dependency-name: eslint
-      - dependency-name: prettier
-      - dependency-name: eslint-plugin-prettier
-      - dependency-name: eslint-config-prettier
-      - dependency-name: commitlint
-      - dependency-name: commitlint/config-conventional
-      - dependency-name: release-it
-      - dependency-name: release-it/conventional-changelog
-      - dependency-name: evilmartians/lefthook
+    ignore: *ignore-common
     groups:
       npm-dependencies:
         patterns:
@@ -48,29 +40,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    ignore:
-      # Prevent automatic updates for core libraries and tightly coupled ecosystem dependencies to reduce breakage
-      - dependency-name: react-native
-      - dependency-name: react
-      - dependency-name: react-native/babel-preset
-      - dependency-name: react-native/metro-config
-      - dependency-name: react-native/typescript-config
-      - dependency-name: react-native/eslint-config
-      - dependency-name: react-navigation/native
-      - dependency-name: react-navigation/native-stack
-      - dependency-name: react-native-safe-area-context
-      - dependency-name: react-native-screens
-      - dependency-name: types/react
-      - dependency-name: types/jest
-      - dependency-name: eslint
-      - dependency-name: prettier
-      - dependency-name: eslint-plugin-prettier
-      - dependency-name: eslint-config-prettier
-      - dependency-name: commitlint
-      - dependency-name: commitlint/config-conventional
-      - dependency-name: release-it
-      - dependency-name: release-it/conventional-changelog
-      - dependency-name: evilmartians/lefthook
+    ignore: *ignore-common
     groups:
       npm-example-dependencies:
         patterns:
