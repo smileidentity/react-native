@@ -11,8 +11,8 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "@react-navigation/native": "^6.1.17",
-    "@react-navigation/native-stack": "^6.9.26",
+    "@react-navigation/native": "^7.1.14",
+    "@react-navigation/native-stack": "^7.3.20",
     "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-native": "0.74.2",
@@ -23,9 +23,9 @@
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
-    "@react-native/babel-preset": "0.74.84",
-    "@react-native/metro-config": "0.74.84",
-    "@react-native/typescript-config": "0.74.84",
+    "@react-native/babel-preset": "0.80.0",
+    "@react-native/metro-config": "0.80.0",
+    "@react-native/typescript-config": "0.80.0",
     "babel-plugin-module-resolver": "^5.0.0"
   },
   "engines": {
