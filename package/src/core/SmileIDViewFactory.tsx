@@ -26,11 +26,15 @@ export class SmileIDViewFactory {
 
     if (platform === 'expo') {
       // Dynamically import Expo factory
-      const { ExpoViewFactory } = await import('../platforms/expo/ExpoViewFactory');
+      const { ExpoViewFactory } = await import(
+        '../platforms/expo/ExpoViewFactory'
+      );
       this.viewFactory = new ExpoViewFactory();
     } else {
       // Dynamically import React Native factory
-      const { ReactNativeViewFactory } = await import('../platforms/react-native/ReactNativeViewFactory');
+      const { ReactNativeViewFactory } = await import(
+        '../platforms/react-native/ReactNativeViewFactory'
+      );
       this.viewFactory = new ReactNativeViewFactory();
     }
 

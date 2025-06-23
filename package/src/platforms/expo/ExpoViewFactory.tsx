@@ -1,5 +1,5 @@
 import React from 'react';
-import { requireNativeView } from 'expo';
+import { requireNativeViewManager } from 'expo-modules-core';
 import type { ViewFactoryInterface } from '../../core/SmileIDViewFactory';
 
 /**
@@ -7,27 +7,30 @@ import type { ViewFactoryInterface } from '../../core/SmileIDViewFactory';
  */
 interface SmileIDEventHandlers {
   onSmileIDResult?: (event: { nativeEvent: { result: string } }) => void;
-  onSmileIDError?: (event: { nativeEvent: { error: string; code: string } }) => void;
+  onSmileIDError?: (event: {
+    nativeEvent: { error: string; code: string };
+  }) => void;
 }
 
 /**
  * Expo implementation of the view factory
  */
 export class ExpoViewFactory implements ViewFactoryInterface {
-  createView<T extends { onResult?: (event: any) => void }>(
-    viewName: string
-  ): React.ComponentType<T> {
+  createView<T>(viewName: string): React.ComponentType<T> {
     type ViewProps = T & SmileIDEventHandlers;
-    
-    const NativeView: React.ComponentType<ViewProps> = requireNativeView(viewName);
+
+    const NativeView: React.ComponentType<ViewProps> =
+      requireNativeViewManager(viewName);
 
     return function SmileIDView(props: T) {
       const handleResult = (event: { nativeEvent: { result: string } }) => {
-        props.onResult?.(event.nativeEvent);
+        (props as any).onResult?.(event.nativeEvent);
       };
 
-      const handleError = (event: { nativeEvent: { error: string; code: string } }) => {
-        props.onResult?.(event.nativeEvent);
+      const handleError = (event: {
+        nativeEvent: { error: string; code: string };
+      }) => {
+        (props as any).onResult?.(event.nativeEvent);
       };
 
       return (
@@ -37,6 +40,6 @@ export class ExpoViewFactory implements ViewFactoryInterface {
           onSmileIDError={handleError}
         />
       );
-    };
+    } as React.ComponentType<T>;
   }
 }

@@ -1,46 +1,29 @@
 import type { ConfigPlugin } from '@expo/config-plugins';
-import {
-  withPlugins,
-  AndroidConfig,
-  createRunOncePlugin,
-} from '@expo/config-plugins';
+import { withPlugins, createRunOncePlugin } from '@expo/config-plugins';
 import { withSmileIDAndroidBuildGradle } from './withSmileIDAndroidBuildGradle';
 import { withSmileIDiOSPodspec } from './withSmileIDiOSPodspec';
+import { ConfigProps } from './@types';
 
-const pkg = require('../../package.json');
-
-const CAMERA_USAGE = 'Allow $(PRODUCT_NAME) to access your camera';
-
-interface ConfigProps {
-  cameraPermissionText?: string;
-  useExpo?: boolean;
+// Use dynamic resolution to find package.json regardless of build output location
+let pkg;
+try {
+  // Try to resolve from the package root
+  pkg = require('../../../package.json');
+} catch {
+  // Fallback for compiled code
+  pkg = require('../../../../package.json');
 }
 
 const withSmileID: ConfigPlugin<ConfigProps> = (config, props = {}) => {
-  // iOS permissions
-  if (!config.ios) config.ios = {};
-  if (!config.ios.infoPlist) config.ios.infoPlist = {};
+  if (props.useSmileIDExpo != null) {
+    // Apply Android configurations
+    config = withSmileIDAndroidBuildGradle(config, props.useSmileIDExpo);
 
-  config.ios.infoPlist.NSCameraUsageDescription =
-    props.cameraPermissionText ??
-    config.ios.infoPlist.NSCameraUsageDescription ??
-    CAMERA_USAGE;
+    // Apply iOS configurations
+    config = withSmileIDiOSPodspec(config, props.useSmileIDExpo);
+  }
 
-  // Android permissions
-  const androidPermissions = [
-    'android.permission.CAMERA',
-    'android.permission.INTERNET',
-  ];
-
-  // Apply Android configurations
-  config = withSmileIDAndroidBuildGradle(config, props);
-  
-  // Apply iOS configurations
-  config = withSmileIDiOSPodspec(config, props);
-
-  return withPlugins(config, [
-    [AndroidConfig.Permissions.withPermissions, androidPermissions],
-  ]);
+  return withPlugins(config, []);
 };
 
 export default createRunOncePlugin(withSmileID, pkg.name, pkg.version);

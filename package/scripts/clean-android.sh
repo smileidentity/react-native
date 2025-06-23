@@ -11,8 +11,8 @@ echo "./gradlew clean"
 echo "cd ../../"
 echo "rm -rf node_modules"
 rm -rf node_modules
-echo "rm -rf bun.lockb"
-rm -rf bun.lockb
+echo "rm -rf yarn.lock"
+rm -rf yarn.lock
 
 cd example
 
@@ -25,5 +25,5 @@ rm -rf android/build
 
 cd ../
 
-echo "bun in $PWD"
-bun install
+echo "yarn in $PWD"
+yarn install

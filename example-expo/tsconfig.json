@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@smile_identity/react-native": ["../package/src/index"],
+      "@smile_identity/react-native/*": ["../package/src/*"]
+    }
+  }
+}

@@ -17,7 +17,7 @@ const LINKING_ERROR =
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
 const SmileIdModule = isTurboModuleEnabled
-  ? require('../../src/NativeSmileId').default
+  ? require('./NativeSmileId').default
   : NativeModules.RNSmileID;
 
 const NativeSmileID = SmileIdModule
@@ -38,29 +38,38 @@ const NativeSmileID = SmileIdModule
 export class SmileIDReactNativeSDK implements SmileIDSDKInterface {
   // All methods simply delegate to the native module
   // The SmileIDSDK in core handles all error formatting and response processing
-  
+
   initialize = NativeSmileID.initialize.bind(NativeSmileID);
   setAllowOfflineMode = NativeSmileID.setAllowOfflineMode.bind(NativeSmileID);
   submitJob = NativeSmileID.submitJob.bind(NativeSmileID);
   getUnsubmittedJobs = NativeSmileID.getUnsubmittedJobs.bind(NativeSmileID);
   getSubmittedJobs = NativeSmileID.getSubmittedJobs.bind(NativeSmileID);
   cleanup = NativeSmileID.cleanup.bind(NativeSmileID);
-  disableCrashReporting = NativeSmileID.disableCrashReporting.bind(NativeSmileID);
+  disableCrashReporting =
+    NativeSmileID.disableCrashReporting.bind(NativeSmileID);
   authenticate = NativeSmileID.authenticate.bind(NativeSmileID);
   prepUpload = NativeSmileID.prepUpload.bind(NativeSmileID);
   upload = NativeSmileID.upload.bind(NativeSmileID);
   doEnhancedKyc = NativeSmileID.doEnhancedKyc.bind(NativeSmileID);
   doEnhancedKycAsync = NativeSmileID.doEnhancedKycAsync.bind(NativeSmileID);
-  getSmartSelfieJobStatus = NativeSmileID.getSmartSelfieJobStatus.bind(NativeSmileID);
-  getDocumentVerificationJobStatus = NativeSmileID.getDocumentVerificationJobStatus.bind(NativeSmileID);
-  getBiometricKycJobStatus = NativeSmileID.getBiometricKycJobStatus.bind(NativeSmileID);
-  getEnhancedDocumentVerificationJobStatus = NativeSmileID.getEnhancedDocumentVerificationJobStatus.bind(NativeSmileID);
+  getSmartSelfieJobStatus =
+    NativeSmileID.getSmartSelfieJobStatus.bind(NativeSmileID);
+  getDocumentVerificationJobStatus =
+    NativeSmileID.getDocumentVerificationJobStatus.bind(NativeSmileID);
+  getBiometricKycJobStatus =
+    NativeSmileID.getBiometricKycJobStatus.bind(NativeSmileID);
+  getEnhancedDocumentVerificationJobStatus =
+    NativeSmileID.getEnhancedDocumentVerificationJobStatus.bind(NativeSmileID);
   getProductsConfig = NativeSmileID.getProductsConfig.bind(NativeSmileID);
   getValidDocuments = NativeSmileID.getValidDocuments.bind(NativeSmileID);
   getServices = NativeSmileID.getServices.bind(NativeSmileID);
-  pollSmartSelfieJobStatus = NativeSmileID.pollSmartSelfieJobStatus.bind(NativeSmileID);
-  pollDocumentVerificationJobStatus = NativeSmileID.pollDocumentVerificationJobStatus.bind(NativeSmileID);
-  pollBiometricKycJobStatus = NativeSmileID.pollBiometricKycJobStatus.bind(NativeSmileID);
-  pollEnhancedDocumentVerificationJobStatus = NativeSmileID.pollEnhancedDocumentVerificationJobStatus.bind(NativeSmileID);
+  pollSmartSelfieJobStatus =
+    NativeSmileID.pollSmartSelfieJobStatus.bind(NativeSmileID);
+  pollDocumentVerificationJobStatus =
+    NativeSmileID.pollDocumentVerificationJobStatus.bind(NativeSmileID);
+  pollBiometricKycJobStatus =
+    NativeSmileID.pollBiometricKycJobStatus.bind(NativeSmileID);
+  pollEnhancedDocumentVerificationJobStatus =
+    NativeSmileID.pollEnhancedDocumentVerificationJobStatus.bind(NativeSmileID);
   setCallbackUrl = NativeSmileID.setCallbackUrl.bind(NativeSmileID);
 }

@@ -1,24 +1,25 @@
 import type { TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
-import type {
-  AuthenticationRequest,
-  AuthenticationResponse,
-  BiometricKycJobStatusResponse,
-  DocumentVerificationJobStatusResponse,
-  EnhancedDocumentVerificationJobStatusResponse,
-  EnhancedKycRequest,
-  EnhancedKycAsyncResponse,
-  EnhancedKycResponse,
-  JobStatusRequest,
-  PrepUploadRequest,
-  PrepUploadResponse,
-  ProductsConfigRequest,
-  ProductsConfigResponse,
-  ServicesResponse,
-  SmartSelfieJobStatusResponse,
-  UploadRequest,
-  Config, ValidDocumentsResponse,
-} from '../../core/types';
+import {
+  type AuthenticationRequest,
+  type AuthenticationResponse,
+  type BiometricKycJobStatusResponse,
+  type DocumentVerificationJobStatusResponse,
+  type EnhancedDocumentVerificationJobStatusResponse,
+  type EnhancedKycRequest,
+  type EnhancedKycAsyncResponse,
+  type EnhancedKycResponse,
+  type JobStatusRequest,
+  type PrepUploadRequest,
+  type PrepUploadResponse,
+  type ProductsConfigRequest,
+  type ProductsConfigResponse,
+  type ServicesResponse,
+  type SmartSelfieJobStatusResponse,
+  type UploadRequest,
+  type ValidDocumentsResponse,
+  Config,
+} from './index';
 
 export interface Spec extends TurboModule {
   /**

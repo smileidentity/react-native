@@ -2,7 +2,6 @@
  * Platform detection logic for SmileID SDK
  * Automatically detects whether running in Expo or React Native environment
  */
-import { PLATFORM_DETECTION } from './constants';
 
 /**
  * Platform detection result
@@ -98,7 +97,7 @@ export class PlatformDetector {
         isExpoGo,
         sdkVersion: this.getExpoSdkVersion(),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       // Fallback to React Native if detection fails
       console.warn(
         'SmileID: Platform detection failed, defaulting to React Native',
@@ -121,9 +120,9 @@ export class PlatformDetector {
   private static checkExpoModulesCore(): boolean {
     try {
       // Try to require expo-modules-core
-      require(PLATFORM_DETECTION.EXPO_MODULES_CORE);
+      require('expo-modules-core');
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -135,9 +134,9 @@ export class PlatformDetector {
   private static checkReactNative(): boolean {
     try {
       // Try to require react-native
-      require(PLATFORM_DETECTION.REACT_NATIVE);
+      require('react-native');
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -151,20 +150,23 @@ export class PlatformDetector {
       // Handle different JavaScript engines (Hermes, JSC, etc.)
       const globalObject = (() => {
         if (typeof global !== 'undefined') return global;
-        // @ts-ignore - window and self might not exist in React Native
-        if (typeof window !== 'undefined') return window;
-        // @ts-ignore - window and self might not exist in React Native
-        if (typeof self !== 'undefined') return self;
-        return {};
+        // window might not exist in React Native
+        if (typeof window !== 'undefined')
+          return window as unknown as typeof global;
+        // self might not exist in React Native
+        if (typeof self !== 'undefined')
+          return self as unknown as typeof global;
+        return {} as typeof global;
       })();
 
       // Check for Expo Go specific globals
       return (
-        typeof (globalObject as any).expo !== 'undefined' ||
-        typeof (globalObject as any).ExpoModules !== 'undefined' ||
-        typeof (globalObject as any).__expo !== 'undefined'
+        typeof (globalObject as Record<string, unknown>).expo !== 'undefined' ||
+        typeof (globalObject as Record<string, unknown>).ExpoModules !==
+          'undefined' ||
+        typeof (globalObject as Record<string, unknown>).__expo !== 'undefined'
       );
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -178,7 +180,7 @@ export class PlatformDetector {
       // Try to get Expo SDK version
       const Constants = require('expo-constants');
       return Constants?.expoVersion || Constants?.manifest?.sdkVersion;
-    } catch (error) {
+    } catch {
       return undefined;
     }
   }
@@ -207,37 +209,10 @@ export class PlatformDetector {
   }
 
   /**
-   * Get platform-specific module path
-   * @param moduleName Base module name
-   * @returns Platform-specific module path
-   */
-  static getModulePath(moduleName: string): string {
-    const platform = this.getPlatform();
-    return `../platforms/${platform}/${moduleName}`;
-  }
-
-  /**
-   * Load platform-specific module
-   * @param moduleName Module name to load
-   * @returns Loaded module
-   */
-  static loadPlatformModule<T = any>(moduleName: string): T {
-    const modulePath = this.getModulePath(moduleName);
-    try {
-      return require(modulePath);
-    } catch (error) {
-      throw new Error(
-        `Failed to load platform module: ${modulePath}. ` +
-          `Platform: ${this.getPlatform()}. Error: ${error}`
-      );
-    }
-  }
-
-  /**
    * Get diagnostic information for debugging
    * @returns Diagnostic information object
    */
-  static getDiagnostics(): Record<string, any> {
+  static getDiagnostics(): Record<string, unknown> {
     const platformInfo = this.detectPlatform();
 
     return {
@@ -247,9 +222,6 @@ export class PlatformDetector {
       isExpoGo: platformInfo.isExpoGo,
       sdkVersion: platformInfo.sdkVersion,
       nodeVersion: process.version,
-      hermesVersion: (global as any).HermesInternal?.getRuntimeProperties?.()?.[
-        'OSS Release Version'
-      ],
       reactNativeVersion: (() => {
         try {
           return require('react-native/package.json')?.version;

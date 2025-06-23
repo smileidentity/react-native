@@ -4,6 +4,8 @@
  */
 import { PlatformDetector } from './PlatformDetector';
 import { SmileIDCore } from './SmileIDCore';
+import { SmileIDExpoSDK } from '../platforms/expo/SmileIDExpoSDK';
+import { SmileIDReactNativeSDK } from '../platforms/react-native/SmileIDReactNativeSDK';
 import type {
   AuthenticationRequest,
   AuthenticationResponse,
@@ -64,7 +66,9 @@ export interface SmileIDSDKInterface {
   getProductsConfig(
     request: ProductsConfigRequest
   ): Promise<ProductsConfigResponse>;
-  getValidDocuments(request: ProductsConfigRequest): Promise<ValidDocumentsResponse>;
+  getValidDocuments(
+    request: ProductsConfigRequest
+  ): Promise<ValidDocumentsResponse>;
   getServices(): Promise<ServicesResponse>;
   pollSmartSelfieJobStatus(
     request: JobStatusRequest
@@ -121,15 +125,11 @@ export class SmileIDSDK implements SmileIDSDKInterface {
 
     try {
       if (platform === 'expo') {
-        // Load Expo implementation
-        const ExpoSDK = PlatformDetector.loadPlatformModule('SmileIDExpoSDK');
-        this.platformSDK = new ExpoSDK.SmileIDExpoSDK();
+        // Use statically imported Expo implementation
+        this.platformSDK = new SmileIDExpoSDK();
       } else {
-        // Load React Native implementation
-        const ReactNativeSDK = PlatformDetector.loadPlatformModule(
-          'SmileIDReactNativeSDK'
-        );
-        this.platformSDK = new ReactNativeSDK.SmileIDReactNativeSDK();
+        // Use statically imported React Native implementation
+        this.platformSDK = new SmileIDReactNativeSDK();
       }
 
       if (!this.platformSDK) {
@@ -327,7 +327,6 @@ export class SmileIDSDK implements SmileIDSDKInterface {
     request: JobStatusRequest
   ): Promise<SmartSelfieJobStatusResponse> {
     try {
-
       const platformSDK = await this.getPlatformSDK();
       const response = await platformSDK.getSmartSelfieJobStatus(request);
 
@@ -348,7 +347,6 @@ export class SmileIDSDK implements SmileIDSDKInterface {
     request: JobStatusRequest
   ): Promise<DocumentVerificationJobStatusResponse> {
     try {
-
       const platformSDK = await this.getPlatformSDK();
       const response =
         await platformSDK.getDocumentVerificationJobStatus(request);
@@ -370,7 +368,6 @@ export class SmileIDSDK implements SmileIDSDKInterface {
     request: JobStatusRequest
   ): Promise<BiometricKycJobStatusResponse> {
     try {
-
       const platformSDK = await this.getPlatformSDK();
       const response = await platformSDK.getBiometricKycJobStatus(request);
 
@@ -435,7 +432,9 @@ export class SmileIDSDK implements SmileIDSDKInterface {
   /**
    * Get valid documents
    */
-  async getValidDocuments(request: ProductsConfigRequest): Promise<ValidDocumentsResponse> {
+  async getValidDocuments(
+    request: ProductsConfigRequest
+  ): Promise<ValidDocumentsResponse> {
     try {
       // Validate request using shared core logic
       await SmileIDCore.validateRequest(request, [
@@ -448,7 +447,10 @@ export class SmileIDSDK implements SmileIDSDKInterface {
       const response = await platformSDK.getValidDocuments(request);
 
       // Process response using shared core logic
-      return SmileIDCore.processResponse<ValidDocumentsResponse>(response, 'validDocuments');
+      return SmileIDCore.processResponse<ValidDocumentsResponse>(
+        response,
+        'validDocuments'
+      );
     } catch (error) {
       throw SmileIDCore.formatError(error);
     }
@@ -479,11 +481,8 @@ export class SmileIDSDK implements SmileIDSDKInterface {
     request: JobStatusRequest
   ): Promise<SmartSelfieJobStatusResponse> {
     try {
-
       const platformSDK = await this.getPlatformSDK();
-      const response = await platformSDK.pollSmartSelfieJobStatus(
-        request
-      );
+      const response = await platformSDK.pollSmartSelfieJobStatus(request);
 
       // Process response using shared core logic
       return SmileIDCore.processResponse<SmartSelfieJobStatusResponse>(
@@ -503,9 +502,8 @@ export class SmileIDSDK implements SmileIDSDKInterface {
   ): Promise<DocumentVerificationJobStatusResponse> {
     try {
       const platformSDK = await this.getPlatformSDK();
-      const response = await platformSDK.pollDocumentVerificationJobStatus(
-        request
-      );
+      const response =
+        await platformSDK.pollDocumentVerificationJobStatus(request);
 
       // Process response using shared core logic
       return SmileIDCore.processResponse<DocumentVerificationJobStatusResponse>(
@@ -524,11 +522,8 @@ export class SmileIDSDK implements SmileIDSDKInterface {
     request: JobStatusRequest
   ): Promise<BiometricKycJobStatusResponse> {
     try {
-
       const platformSDK = await this.getPlatformSDK();
-      const response = await platformSDK.pollBiometricKycJobStatus(
-        request
-      );
+      const response = await platformSDK.pollBiometricKycJobStatus(request);
 
       // Process response using shared core logic
       return SmileIDCore.processResponse<BiometricKycJobStatusResponse>(
@@ -547,12 +542,9 @@ export class SmileIDSDK implements SmileIDSDKInterface {
     request: JobStatusRequest
   ): Promise<EnhancedDocumentVerificationJobStatusResponse> {
     try {
-
       const platformSDK = await this.getPlatformSDK();
       const response =
-        await platformSDK.pollEnhancedDocumentVerificationJobStatus(
-          request
-        );
+        await platformSDK.pollEnhancedDocumentVerificationJobStatus(request);
 
       // Process response using shared core logic
       return SmileIDCore.processResponse<EnhancedDocumentVerificationJobStatusResponse>(

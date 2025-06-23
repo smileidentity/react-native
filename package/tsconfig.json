@@ -1,28 +1,38 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
-    "paths": {
-      "@smile_identity/react-native": ["./src/index"]
-    },
+    "allowJs": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": ["esnext"],
+    "jsx": "react-native",
+    "lib": [
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
     "noStrictGenericChecks": false,
-    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "verbatimModuleSyntax": true
-  }
+    "outDir": "lib",
+    "declaration": true
+  },
+  "include": [
+    "src",
+    "babel.config.js",
+    "react-native.config.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "example",
+    "example-expo"
+  ]
 }

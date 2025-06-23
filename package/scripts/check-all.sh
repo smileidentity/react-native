@@ -13,7 +13,7 @@ echo "Formatting C++ code.."
 ./scripts/clang-format.sh
 
 echo "Linting JS/TS code.."
-bun lint --fix
-bun typescript
+yarn lint --fix
+yarn typescript
 
 echo "All done!"

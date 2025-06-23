@@ -16,9 +16,7 @@ interface NativeProps<T> {
  * React Native implementation of the view factory
  */
 export class ReactNativeViewFactory implements ViewFactoryInterface {
-  createView<T extends { onResult?: (event: any) => void }>(
-    viewName: string
-  ): React.ComponentType<T> {
+  createView<T>(viewName: string): React.ComponentType<T> {
     // Create the native component using codegen
     const NativeComponent = codegenNativeComponent<NativeProps<T>>(
       viewName
@@ -26,8 +24,8 @@ export class ReactNativeViewFactory implements ViewFactoryInterface {
 
     // Return a component that maps props to native props
     return function SmileIDView(props: T) {
-      const { onResult, ...configProps } = props;
-      
+      const { onResult, ...configProps } = props as any;
+
       const nativeProps: NativeProps<T> = {
         config: configProps as [T],
         onSmileIDResult: onResult,
@@ -35,6 +33,6 @@ export class ReactNativeViewFactory implements ViewFactoryInterface {
       };
 
       return <NativeComponent {...nativeProps} />;
-    };
+    } as React.ComponentType<T>;
   }
 }

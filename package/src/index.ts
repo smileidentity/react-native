@@ -7,11 +7,11 @@
  */
 
 // Import the smart SDK that handles platform detection automatically
-import { SmileID as SmartSmileID, SmileIDSDK } from '../core/SmileIDSDK';
+import { SmileID as SmartSmileID } from './core/SmileIDSDK';
 
 // Re-export all view components (these will be platform-specific automatically)
 // For maximum code reuse, we import from the smart detection system
-import { PlatformDetector } from '../core/PlatformDetector';
+import { PlatformDetector } from './core/PlatformDetector';
 
 // Dynamically export platform-appropriate view components
 let viewComponents: any = {};
@@ -22,7 +22,7 @@ try {
 
   if (platform === 'expo') {
     // Load Expo view components
-    const expoViews = require('./platforms/expo/SmileIDExpoViews');
+    const expoViews = require('./platforms/expo');
     viewComponents = {
       SmileIDSmartSelfieEnrollmentView:
         expoViews.SmileIDSmartSelfieEnrollmentView,
@@ -43,7 +43,7 @@ try {
     };
   } else {
     // Load React Native view components
-    const reactNativeViews = require('./platforms/react-native/SmileIDReactNativeViews');
+    const reactNativeViews = require('./platforms/react-native');
     viewComponents = {
       SmileIDSmartSelfieEnrollmentView:
         reactNativeViews.SmileIDSmartSelfieEnrollmentView,
@@ -72,7 +72,7 @@ try {
   );
 
   try {
-    const reactNativeViews = require('./platforms/react-native/SmileIDReactNativeViews');
+    const reactNativeViews = require('./platforms/react-native');
     viewComponents = {
       SmileIDSmartSelfieEnrollmentView:
         reactNativeViews.SmileIDSmartSelfieEnrollmentView,
@@ -137,7 +137,7 @@ export {
   UploadRequest,
   IdInfo,
   EnhancedKycRequest,
-} from '../core/types';
+} from './core/types';
 
 // Re-export response types
 export type {
@@ -162,22 +162,7 @@ export type {
   SmartSelfieEnrollmentEnhancedRequest,
   SmartSelfieAuthenticationEnhancedRequest,
   EnhancedDocumentVerificationRequest,
-} from '../core/types';
+} from './core/types';
 
 // Export platform detection utilities for advanced users
-export { PlatformDetector } from '../core/PlatformDetector';
-
-// For debugging and diagnostics
-export const SmileIDDiagnostics = {
-  getPlatformInfo: () => PlatformDetector.getDiagnostics(),
-  getSDKInfo: () => {
-    try {
-      return SmileIDSDK.getDiagnostics();
-    } catch (error) {
-      return {
-        error: 'SDK diagnostics not available',
-        platform: PlatformDetector.getPlatform(),
-      };
-    }
-  },
-};
+export { PlatformDetector } from './core/PlatformDetector';

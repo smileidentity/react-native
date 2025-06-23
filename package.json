@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "package",
-    "example"
+    "example",
+    "example-expo"
   ],
   "trustedDependencies": [
     "@smile_identity/react-native"

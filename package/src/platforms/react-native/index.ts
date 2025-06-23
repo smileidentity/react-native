@@ -1,10 +1,8 @@
 /**
- * Expo platform entry point
- * Exports the Expo implementation and view components
+ * React Native platform entry point
+ * Exports the React Native implementation and view components
  */
-
-// Export the Expo SDK implementation
-export { SmileIDExpoSDK } from './SmileIDExpoSDK';
+export { SmileIDReactNativeSDK } from './SmileIDReactNativeSDK';
 
 // Export all view components from core (they work on both platforms)
 export {
@@ -32,6 +30,9 @@ export {
   UploadRequest,
   IdInfo,
   EnhancedKycRequest,
+} from '../../core/types';
+
+export type {
   BiometricKYCRequest,
   ConsentRequest,
   DocumentVerificationRequest,
