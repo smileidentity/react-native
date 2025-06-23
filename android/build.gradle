@@ -1,40 +1,29 @@
-import com.android.Version
-
 buildscript {
-  // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
+  def kotlinVersion = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['SmileId_kotlinVersion']
 
   repositories {
     google()
     mavenCentral()
-    gradlePluginPortal()
-//  uncomment for development to test snapshots
-//  maven {
-//    url = 'https://central.sonatype.com/repository/maven-snapshots/'
-//  }
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:8.10.1"
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    if (kotlin_version?.startsWith("2")) {
-      classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlin_version"
+    classpath("com.android.tools.build:gradle")
+    classpath("com.facebook.react:react-native-gradle-plugin")
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion"
+//    classpath "org.jlleitschuh.gradle:ktlint-gradle:12.3.0"
+    if (kotlinVersion?.startsWith("2")) {
+      classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlinVersion"
     }
-    classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
-    classpath "org.jlleitschuh.gradle:ktlint-gradle:12.3.0"
   }
 }
 
-def reactNativeArchitectures() {
-  def value = rootProject.getProperties().get("reactNativeArchitectures")
-  return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
-}
-
-def kotlinVersion = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
+def kotlinVersion = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['SmileId_kotlinVersion']
+def smileidVersion = rootProject.ext.has("SmileId_androidVersion") ? rootProject.ext.get("SmileId_androidVersion") : project.properties["SmileId_androidVersion"]
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
-//apply plugin: 'kotlin-kapt'
+apply plugin: "com.facebook.react"
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: "org.jetbrains.kotlin.plugin.serialization"
 if (kotlinVersion?.startsWith("2")) {
@@ -42,46 +31,21 @@ if (kotlinVersion?.startsWith("2")) {
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["SmileId_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['SmileId_' + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["SmileId_" + name]).toInteger()
-}
-
-def supportsNamespace() {
-  def parsed = Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
-  def major = parsed[0].toInteger()
-  def minor = parsed[1].toInteger()
-
-  // Namespace support was added in 7.3.0
-  if (major == 7 && minor >= 3) {
-    return true
-  }
-
-  return major >= 8
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['SmileId_' + name]).toInteger()
 }
 
 android {
-  if (supportsNamespace()) {
-    namespace "com.smileidentity.react"
+  namespace "com.smileidentity.react"
 
-    sourceSets {
-      main {
-        manifest.srcFile "src/main/AndroidManifestNew.xml"
-      }
-    }
-  }
-
-  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
+  compileSdkVersion 35
 
   defaultConfig {
-    minSdkVersion getExtOrIntegerDefault("minSdkVersion")
-    targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
-    
-    // Read version from package.json for setWrapperInfo
-    def packageJson = new groovy.json.JsonSlurper().parseText(file("../package.json").text)
-    buildConfigField "String", "SMILE_ID_VERSION", "\"${packageJson.version}\""
+    minSdkVersion 21
+    targetSdkVersion 35
   }
 
   buildTypes {
@@ -112,47 +76,36 @@ android {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
   }
-
-  sourceSets {
-    main {
-      java.srcDirs += ["src/oldarch"]
-    }
-  }
 }
 
 repositories {
   mavenCentral()
   google()
-  gradlePluginPortal()
-//  uncomment for development to test snapshots
-//  maven {
-//    url = 'https://central.sonatype.com/repository/maven-snapshots/'
-//  }
+  maven {
+    url = 'https://central.sonatype.com/repository/maven-snapshots/'
+  }
 }
 
-def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["SmileId_kotlinVersion"]
-def smile_id_sdk_version = rootProject.ext.has("smileIdAndroidSdkVersion") ? rootProject.ext.get("smileIdAndroidSdkVersion") : project.properties["SmileId_androidVersion"]
-
 dependencies {
-  implementation "com.facebook.react:react-native:0.72"
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core"
-  implementation "com.smileidentity:android-sdk:$smile_id_sdk_version"
-  implementation "com.google.mlkit:object-detection:17.0.2"
-  implementation "com.jakewharton.timber:timber"
-  implementation 'androidx.appcompat:appcompat:1.7.1'
-  implementation("androidx.navigation:navigation-compose:2.9.0")
-  implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.1")
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
-  implementation("androidx.compose.runtime:runtime:1.8.3")
+  implementation ("com.facebook.react:react-android")
+  implementation ("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+  implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+  implementation ("com.smileidentity:android-sdk:$smileidVersion")
+  implementation ("com.google.mlkit:object-detection:17.0.2")
+  implementation ("com.jakewharton.timber:timber")
+  implementation ("androidx.appcompat:appcompat:1.7.1")
+  implementation ("androidx.navigation:navigation-compose:2.9.0")
+  implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.9.1")
+  implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+  implementation ("androidx.compose.runtime:runtime:1.8.3")
 
-  testImplementation 'junit:junit:4.13.2'
+  testImplementation ("junit:junit:4.13.2")
 
-  androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
-  androidTestImplementation platform('androidx.compose:compose-bom:2025.06.01')
-  androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+  androidTestImplementation ("androidx.test.ext:junit:1.2.1")
+  androidTestImplementation ("androidx.test.espresso:espresso-core:3.6.1")
+  androidTestImplementation platform("androidx.compose:compose-bom:2025.06.01")
+  androidTestImplementation ("androidx.compose.ui:ui-test-junit4")
 
-  debugImplementation 'androidx.compose.ui:ui-tooling'
-  debugImplementation 'androidx.compose.ui:ui-test-manifest'
+  debugImplementation ("androidx.compose.ui:ui-tooling")
+  debugImplementation ("androidx.compose.ui:ui-test-manifest")
 }

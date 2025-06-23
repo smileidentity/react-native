@@ -1,42 +1,30 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-allprojects {
+buildscript {
+  ext {
+    buildToolsVersion = "35.0.0"
+    minSdkVersion = 24
+    compileSdkVersion = 35
+    targetSdkVersion = 35
+    ndkVersion = "27.1.12297006"
+    kotlinVersion = "2.1.20"
+    kotlinCompilerExtensionVersion = "1.5.14"
+  }
+
   repositories {
     google()
     mavenCentral()
     mavenCentral { url "https://central.sonatype.com/repository/maven-snapshots" }
   }
-}
-
-buildscript {
-  ext {
-    buildToolsVersion = "34.0.0"
-    minSdkVersion = 23
-    compileSdkVersion = 35
-    targetSdkVersion = 35
-    ndkVersion = "27.0.12077973"
-   kotlinVersion = "2.1.21"
-    kotlinCompilerExtensionVersion = "1.5.14"
-//      kotlinVersion = "2.0.0"
-
-    // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
-  }
-
-  repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-//  uncomment for development to test snapshots
-//  maven {
-//    url = 'https://central.sonatype.com/repository/maven-snapshots/'
-//  }
-  }
 
   dependencies {
-    classpath "com.facebook.react:react-native-gradle-plugin"
-    classpath 'com.android.tools.build:gradle:8.10.1'
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath("com.android.tools.build:gradle")
+    classpath("com.facebook.react:react-native-gradle-plugin")
+    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+//    classpath("org.jlleitschuh.gradle:ktlint-gradle:12.3.0")
+
     // only needed if we are using kotlin 2.0.0 or later
-//     classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlinVersion"
-    classpath "org.jlleitschuh.gradle:ktlint-gradle:12.3.0"
+    // classpath("org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlinVersion")
   }
+
 }
+
+apply plugin: "com.facebook.react.rootproject"
