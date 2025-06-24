@@ -1,8 +1,12 @@
 apply plugin: "com.android.application"
-apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+apply plugin: "org.jetbrains.kotlin.android"
 // only needed if we are using kotlin 2.0.0 or later
 //apply plugin: "org.jetbrains.kotlin.plugin.compose"
+
+repositories {
+  mavenCentral()
+}
 
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
@@ -67,14 +71,18 @@ android {
 }
 
 dependencies {
-    // The version of react-native is set by the React Native Gradle Plugin
-    implementation("com.facebook.react:react-android")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation("androidx.compose.runtime:runtime:1.8.3")
+  // The version of react-native is set by the React Native Gradle Plugin
+  implementation("com.facebook.react:react-android")
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  implementation("androidx.compose.runtime:runtime:1.8.3")
 
-    if (hermesEnabled.toBoolean()) {
-        implementation("com.facebook.react:hermes-android")
-    } else {
-        implementation jscFlavor
-    }
+  if (hermesEnabled.toBoolean()) {
+    implementation("com.facebook.react:hermes-android")
+  } else {
+    implementation jscFlavor
+  }
+}
+
+react {
+  autolinkLibrariesWithApp()
 }
