@@ -75,15 +75,13 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
   ndkVersion rootProject.ext.ndkVersion
-
-  compileSdkVersion rootProject.ext.compileSdkVersion
-
   namespace "com.smileidentity.react.sample"
 
   defaultConfig {
     applicationId "com.smileidentity.react.sample"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
     versionCode 1
     versionName "1.0"
   }

@@ -78,7 +78,7 @@ android {
   defaultConfig {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
-    
+
     // Read version from package.json for setWrapperInfo
     def packageJson = new groovy.json.JsonSlurper().parseText(file("../package.json").text)
     buildConfigField "String", "SMILE_ID_VERSION", "\"${packageJson.version}\""
@@ -134,7 +134,7 @@ def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get(
 def smile_id_sdk_version = rootProject.ext.has("smileIdAndroidSdkVersion") ? rootProject.ext.get("smileIdAndroidSdkVersion") : project.properties["SmileId_androidVersion"]
 
 dependencies {
-  implementation "com.facebook.react:react-native:0.72"
+  implementation "com.facebook.react:react-native:0.76"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core"
   implementation "com.smileidentity:android-sdk:$smile_id_sdk_version"
