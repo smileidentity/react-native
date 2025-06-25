@@ -12,14 +12,15 @@ import {
   type SmartSelfieAuthenticationRequest,
   type SmartSelfieEnrollmentEnhancedRequest,
   type SmartSelfieEnrollmentRequest,
-  ConsentInformation,
-  SmileID,
+  type ConsentInformation,
+  SmileID
 } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
 import { SmileIDComponent } from './SmileIDComponent';
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
+  console.log("here====")
   const generateUuid = (prefix: 'job_' | 'user_'): string => {
     return (
       prefix +
@@ -45,9 +46,12 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     useStrictMode: true, // set to false for biometric KYC,doc V and enhanced doc V to use old SmartSelfie™ capture
   });
 
-  const defaultConsentInfo = useRef<ConsentInformation>(
-    new ConsentInformation(new Date().toISOString(), true, true, true)
-  );
+  const defaultConsentInfo = useRef<ConsentInformation>({
+    consentGrantedDate: new Date().toISOString(),
+    personalDetails: true,
+    contactInformation: true,
+    documentInformation: true,
+  });
 
   const [userId, setUserId] = useState(generateUuid('user_'));
   const [jobId, setJobId] = useState(generateUuid('job_'));
@@ -140,6 +144,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     let prodBaseUrl = 'https://api.smileidentity.com/v1/';
     let sandboxBaseUrl = 'https://testapi.smileidentity.com/v1/';
+    console.log("SmileID initialize called with partnerId", SmileID);
 
     SmileID.initialize(false, false, {
       partnerId: partnerId,
@@ -353,8 +358,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
                 onPress={
                   USE_CURRENT_COMPONENT
                     ? () => {
-                        setCurrentProduct(item);
-                      }
+                      setCurrentProduct(item);
+                    }
                     : null
                 }
                 navigation={navigation}

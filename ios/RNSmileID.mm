@@ -1,4 +1,7 @@
 #import <React/RCTBridgeModule.h>
+#import "RNSmileID.h"
+
+
 
 @interface RCT_EXTERN_MODULE(RNSmileID, NSObject)
 RCT_EXTERN_METHOD(initialize:(BOOL)useSandBox

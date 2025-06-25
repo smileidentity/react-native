@@ -4,11 +4,14 @@ require Pod::Executable.execute_command('node', ['-p',
     "react-native/scripts/react_native_pods.rb",
     {paths: [process.argv[1]]},
   )', __dir__]).strip
+ENV['USE_FABRIC'] = '1'
+ENV['RCT_NEW_ARCH_ENABLED'] = '1'
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']
+
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
@@ -18,11 +21,10 @@ end
 # pod 'SmileID', git: 'https://github.com/smileidentity/ios.git', branch: 'main'
 target 'SmileIdExample' do
   config = use_native_modules!
-  use_react_native!(
+ use_react_native!(
     :path => config[:reactNativePath],
+     :fabric_enabled => true,
     # An absolute path to your application root.
-    :fabric_enabled => true,
-     :hermes_enabled => true,
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 

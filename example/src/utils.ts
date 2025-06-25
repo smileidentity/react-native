@@ -1,9 +1,9 @@
 import {
-  AuthenticationRequest,
-  IdInfo,
-  JobStatusRequest,
-  JobType,
+  type AuthenticationRequest,
+  type JobType,
+  type IdInfo,
   SmileID,
+  type JobStatusRequest,
 } from '@smile_identity/react-native';
 
 const currentPartner = '<YOUR PARTNER ID>';
@@ -17,7 +17,9 @@ export const getAuthInfo = async (
   idInfo?: IdInfo | null,
   ...pollingArgs: any[]
 ) => {
-  const request = new AuthenticationRequest(jobType);
+  const request: AuthenticationRequest = {
+    jobType,
+  };
   request.jobId = jobId;
   request.userId = userId;
   if (idInfo) {
@@ -36,15 +38,15 @@ export const getAuthInfo = async (
       if (typeof pollingFunction !== 'function') {
         throw new Error(`${pollingFunctionName} is not a function in SmileID`);
       }
-      const jobStatusRequest = new JobStatusRequest(
+      const jobStatusRequest: JobStatusRequest = {
         userId,
         jobId,
-        false,
-        false,
-        currentPartner,
-        parsedResponse.timestamp,
-        parsedResponse.signature
-      );
+        includeImageLinks: false,
+        includeHistory: false,
+        partnerId: currentPartner,
+        timestamp: parsedResponse.timestamp,
+        signature: parsedResponse.signature,
+      };
       const pollingResult = await pollingFunction(
         jobStatusRequest,
         ...pollingArgs

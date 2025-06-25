@@ -1,13 +1,8 @@
 import React from 'react';
-import type { HostComponent } from 'react-native';
-import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { SmartSelfieEnrollmentEnhancedRequest } from './index';
 import { useSmileIDView } from './useSmileIDView';
+import SmileIDSmartSelfieEnrollmentEnhancedNativeView from './SmileIDSmartSelfieEnrollmentEnhancedNativeView';
 
-const SmileIDSmartSelfieEnrollmentEnhancedComponent =
-  codegenNativeComponent<SmartSelfieEnrollmentEnhancedRequest>(
-    'SmileIDSmartSelfieEnrollmentEnhancedView'
-  ) as HostComponent<SmartSelfieEnrollmentEnhancedRequest>;
 
 const SmileIDSmartSelfieEnrollmentEnhancedView: React.FC<
   SmartSelfieEnrollmentEnhancedRequest
@@ -18,7 +13,7 @@ const SmileIDSmartSelfieEnrollmentEnhancedView: React.FC<
   );
 
   return (
-    <SmileIDSmartSelfieEnrollmentEnhancedComponent ref={viewRef} {...props} />
+    <SmileIDSmartSelfieEnrollmentEnhancedNativeView ref={viewRef} {...props} />
   );
 };
 

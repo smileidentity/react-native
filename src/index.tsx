@@ -9,7 +9,7 @@ import SmileIDEnhancedDocumentVerificationView from './SmileIDEnhancedDocumentVe
 import SmileIDSmartSelfieCaptureView from './SmileIDSmartSelfieCaptureView';
 import SmileIDDocumentCaptureView from './SmileIDDocumentCaptureView';
 import SmileIDConsentView from './SmileIDConsentView';
-import {
+import type {
   AuthenticationRequest,
   AuthenticationResponse,
   BiometricKycJobStatusResponse,
@@ -28,10 +28,10 @@ import {
   SmartSelfieJobStatusResponse,
   UploadRequest,
   ValidDocumentsResponse,
-  JobType,
   IdInfo,
   Config,
-} from './types';
+} from './NativeSmileId';
+import {JobType}  from './NativeSmileId';
 import type {
   DocumentVerificationRequest,
   SmartSelfieEnrollmentRequest,
@@ -61,13 +61,13 @@ const SmileIdModule = isTurboModuleEnabled
 const _SmileID: Spec = SmileIdModule
   ? SmileIdModule
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
 const SmileID = {
   /**
@@ -275,8 +275,9 @@ const SmileID = {
 export {
   //module
   SmileID,
+  JobType,
   //views
-  Config,
+
   SmileIDSmartSelfieEnrollmentView,
   SmileIDSmartSelfieAuthenticationView,
   SmileIDSmartSelfieEnrollmentEnhancedView,
@@ -287,15 +288,7 @@ export {
   SmileIDSmartSelfieCaptureView,
   SmileIDDocumentCaptureView,
   SmileIDConsentView,
-  EnhancedKycRequest,
-  JobType,
-  AuthenticationRequest,
-  JobStatusRequest,
-  PrepUploadRequest,
-  ProductsConfigRequest,
-  ConsentInformation,
-  UploadRequest,
-  IdInfo,
+
 };
 
 export type {
@@ -320,4 +313,13 @@ export type {
   ConsentRequest,
   SmartSelfieEnrollmentEnhancedRequest,
   SmartSelfieAuthenticationEnhancedRequest,
+  EnhancedKycRequest,
+  AuthenticationRequest,
+  JobStatusRequest,
+  PrepUploadRequest,
+  ProductsConfigRequest,
+  ConsentInformation,
+  UploadRequest,
+  IdInfo,
+  Config,
 };
