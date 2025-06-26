@@ -1,5 +1,4 @@
 #import <React/RCTBridgeModule.h>
-#import "RNSmileID.h"
 
 
 

@@ -1,5 +1,14 @@
-import type { TurboModule } from 'react-native';
+import { NativeModules, type TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
+const { SmileIDModule } = NativeModules;
+
+interface SmileIDInterface {
+  initialize(config: any): Promise<void>;
+  getVersion(): Promise<string>;
+}
+
+export const SmileID = SmileIDModule as SmileIDInterface;
+
 // noinspection JSUnusedGlobalSymbols
 export enum JobType {
   BiometricKyc = 1,

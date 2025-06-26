@@ -1,4 +1,4 @@
-import type { ConsentInformation, IdInfo } from './NativeSmileId';
+import type { ConsentInformation, IdInfo } from './NativeSmileID';
 import type { DirectEventHandler } from 'react-native/Libraries/Types/CodegenTypes';
 
 //todo add types for the native events

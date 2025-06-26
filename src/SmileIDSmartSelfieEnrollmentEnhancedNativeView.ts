@@ -2,7 +2,7 @@ import type { HostComponent } from 'react-native';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 import type { DirectEventHandler } from 'react-native/Libraries/Types/CodegenTypes';
 
-type SmartSelfieEnrollmentEnhancedRequest={
+type SmartSelfieEnrollmentEnhancedRequest = {
   userId?: string;
   allowAgentMode: boolean;
   showInstructions?: boolean;
@@ -16,9 +16,10 @@ type SmartSelfieEnrollmentEnhancedRequest={
   }>;
   onResult?: DirectEventHandler<{
     error: string | null;
-    result: string
+    result: string;
   }>;
-}
-export default  codegenNativeComponent<SmartSelfieEnrollmentEnhancedRequest>(
-    'SmileIDSmartSelfieEnrollmentEnhancedView'
-  ) as HostComponent<SmartSelfieEnrollmentEnhancedRequest>;
+};
+
+export default codegenNativeComponent<SmartSelfieEnrollmentEnhancedRequest>(
+  'SmileIDSmartSelfieEnrollmentEnhancedView'
+) as HostComponent<SmartSelfieEnrollmentEnhancedRequest>;

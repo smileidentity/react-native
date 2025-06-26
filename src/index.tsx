@@ -30,8 +30,8 @@ import type {
   ValidDocumentsResponse,
   IdInfo,
   Config,
-} from './NativeSmileId';
-import {JobType}  from './NativeSmileId';
+} from './NativeSmileID';
+import {JobType}  from './NativeSmileID';
 import type {
   DocumentVerificationRequest,
   SmartSelfieEnrollmentRequest,
@@ -43,7 +43,7 @@ import type {
   SmartSelfieAuthenticationEnhancedRequest,
   EnhancedDocumentVerificationRequest,
 } from './types';
-import type { Spec } from './NativeSmileId';
+import type { Spec } from './NativeSmileID';
 
 const LINKING_ERROR =
   `The package 'react-native-smile-id' doesn't seem to be linked. Make sure: \n\n` +
@@ -55,8 +55,9 @@ const LINKING_ERROR =
 const isTurboModuleEnabled = global.__turboModuleProxy != null;
 
 const SmileIdModule = isTurboModuleEnabled
-  ? require('./NativeSmileId').default
+  ? require('./NativeSmileID').default
   : NativeModules.RNSmileID;
+console.log('Available modules:', Object.keys(NativeModules));
 
 const _SmileID: Spec = SmileIdModule
   ? SmileIdModule
