@@ -13,8 +13,9 @@ import {
   type SmartSelfieEnrollmentEnhancedRequest,
   type SmartSelfieEnrollmentRequest,
   type ConsentInformation,
-  SmileID
 } from '@smile_identity/react-native';
+import type { SmileID  } from '../../src/index'
+
 import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
 import { SmileIDComponent } from './SmileIDComponent';
