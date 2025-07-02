@@ -106,10 +106,14 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    */
   idAspectRatio?: number;
   /**
-   * Whether to capture both sides of the ID or not. Otherwise, only the
-   * front side will be captured. If this is true, an option to skip back side will still be
-   * shown.
+   * Enable or disable document auto capture
    */
+  enableAutoCapture?: boolean;
+  /**
+     * Whether to capture both sides of the ID or not. Otherwise, only the
+     * front side will be captured. If this is true, an option to skip back side will still be
+     * shown.
+     */
   captureBothSides?: boolean;
   /**
    * Whether to allow the user to upload images from their gallery or not.
