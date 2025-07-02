@@ -110,10 +110,10 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    */
   enableAutoCapture?: boolean;
   /**
-     * Whether to capture both sides of the ID or not. Otherwise, only the
-     * front side will be captured. If this is true, an option to skip back side will still be
-     * shown.
-     */
+   * Whether to capture both sides of the ID or not. Otherwise, only the
+   * front side will be captured. If this is true, an option to skip back side will still be
+   * shown.
+   */
   captureBothSides?: boolean;
   /**
    * Whether to allow the user to upload images from their gallery or not.

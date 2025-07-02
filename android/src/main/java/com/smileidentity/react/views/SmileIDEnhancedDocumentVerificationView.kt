@@ -16,6 +16,7 @@ import com.smileidentity.util.randomUserId
 class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) :
   SmileIDView(context) {
   var countryCode: String? = null
+  var enableAutoCapture: Boolean = true
   var allowGalleryUpload: Boolean = false
   var captureBothSides: Boolean = true
   var documentType: String? = null
@@ -42,6 +43,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
+            enableAutoCapture = enableAutoCapture ?: true
             documentType = documentType,
             idAspectRatio = idAspectRatio,
             showAttribution = showAttribution,
