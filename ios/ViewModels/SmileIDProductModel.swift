@@ -24,6 +24,7 @@ class SmileIDProductModel: ObservableObject {
   @Published var extraPartnerParams: [String: String] = [:]
   @Published var idAspectRatio: Double?
   @Published var countryCode: String?
+  @Published var enableAutoCapture: Bool = true
   @Published var documentType: String?
   @Published var captureBothSides: Bool = false
   @Published var allowGalleryUpload: Bool = false

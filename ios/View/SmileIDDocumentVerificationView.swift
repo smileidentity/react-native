@@ -17,6 +17,7 @@ struct SmileIDDocumentVerificationView: View, SmileIDFileUtilsProtocol {
                     documentType: product.documentType,
                     idAspectRatio: product.idAspectRatio,
                     bypassSelfieCaptureWithFile: product.bypassSelfieCaptureWithFilePath,
+                    enableAutoCapture: product.enableAutoCapture,
                     captureBothSides: product.captureBothSides,
                     allowAgentMode: product.allowAgentMode,
                     allowGalleryUpload: product.allowGalleryUpload,
