@@ -40,7 +40,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
-            enableAutoCapture = enableAutoCapture ?: true
+            enableAutoCapture = enableAutoCapture ?: true,
             documentType = documentType,
             idAspectRatio = idAspectRatio,
             showAttribution = showAttribution,
