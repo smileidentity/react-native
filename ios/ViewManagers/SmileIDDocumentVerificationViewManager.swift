@@ -33,6 +33,7 @@ class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
                 self.product.userId = params["userId"] as? String
                 self.product.jobId = params["jobId"] as? String
                 self.product.countryCode = countryCode
+                self.product.enableAutoCapture = params["enableAutoCapture"] as? Bool ?? true
                 self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
                 self.product.allowAgentMode = params["allowAgentMode"] as? Bool ?? false
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true

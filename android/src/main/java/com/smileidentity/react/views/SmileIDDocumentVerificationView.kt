@@ -15,6 +15,7 @@ import java.io.File
 
 class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileIDView(context) {
   var countryCode: String? = null
+  var enableAutoCapture: Boolean = true
   var allowGalleryUpload: Boolean = false
   var captureBothSides: Boolean = true
   var bypassSelfieCaptureWithFilePath: String? = null
@@ -39,6 +40,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
+            enableAutoCapture = enableAutoCapture ?: true,
             documentType = documentType,
             idAspectRatio = idAspectRatio,
             showAttribution = showAttribution,

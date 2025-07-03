@@ -49,6 +49,7 @@ class SmileIDEnhancedDocumentVerificationViewManager(
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")
       view.countryCode = countryCode
+      view.enableAutoCapture = it.getBoolOrDefault("enableAutoCapture", true)
       view.allowAgentMode = it.getBoolOrDefault("allowAgentMode", false)
       view.showAttribution = it.getBoolOrDefault("showAttribution", true)
       view.captureBothSides = it.getBoolOrDefault("captureBothSides", false)

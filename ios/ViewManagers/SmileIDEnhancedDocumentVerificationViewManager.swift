@@ -8,7 +8,7 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
   override func getView() -> UIView {
     BaseSmileIDView(frame: .zero, contentView: AnyView(SmileIDEnhancedDocumentVerificationView(product: product, smileIDUIViewDelegate: self)), product: product)
   }
-  
+
   @objc func setParams(_ node: NSNumber, commandId _: NSNumber, params: NSDictionary) {
     /*  UI Updates on the Main Thread:async ensures that the UI update is scheduled to run on the next cycle of the run loop, preventing any potential blocking of the UI if the update were to take a noticeable amount of time
      */
@@ -19,7 +19,7 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
           onResult?(["error": SmileIDError.unknown("countryCode is required to run Enhanced Document Verification")])
           return
         }
-        
+
         var bypassSelfieCaptureWithFilePath: URL?
         if let filePath = params["bypassSelfieCaptureWithFile"] as? String {
           if !filePath.isValidUrl() {
@@ -28,7 +28,7 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
           }
           bypassSelfieCaptureWithFilePath = URL(string: filePath)
         }
-        
+
         if let consentInformation = params["consentInformation"] as? NSDictionary{
           self.product.consentInformation = consentInformation.toConsentInfo()
         } else  {
@@ -41,11 +41,12 @@ class SmileIDEnhancedDocumentVerificationViewManager: SmileIDBaseViewManager {
             )
           )
         }
-        
+
         self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
         self.product.userId = params["userId"] as? String
         self.product.jobId = params["jobId"] as? String
         self.product.countryCode = countryCode
+        self.product.enableAutoCapture = params["enableAutoCapture"] as? Bool ?? true
         self.product.allowAgentMode = params["allowAgentMode"] as? Bool ?? false
         self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
         self.product.showAttribution = params["showAttribution"] as? Bool ?? true
