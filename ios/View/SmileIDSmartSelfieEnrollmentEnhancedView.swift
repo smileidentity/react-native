@@ -2,7 +2,7 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDSmartSelfieEnrollmentEnhancedView: View  {
+struct SmileIDSmartSelfieEnrollmentEnhancedView: View {
     var fileManager: FileManager = Foundation.FileManager.default
     @ObservedObject var product: SmileIDProductModel
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
