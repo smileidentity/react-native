@@ -47,7 +47,7 @@ extension SmileIDDocumentVerificationView: DocumentVerificationResultDelegate {
         ]
 
         if let documentBackImage = documentBackImage {
-            params["documentBackFile"] =  documentBackImage.absoluteString
+            params["documentBackFile"] = documentBackImage.absoluteString
         }
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
