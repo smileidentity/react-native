@@ -3,7 +3,6 @@ import SmileID
 import SwiftUI
 
 struct SmileIDSmartSelfieAuthEnhancedView: View {
-  var fileManager: FileManager = Foundation.FileManager.default
   @ObservedObject var product: SmileIDProductModel
   var smileIDUIViewDelegate: SmileIDUIViewDelegate
   var body: some View {
@@ -32,14 +31,14 @@ extension SmileIDSmartSelfieAuthEnhancedView: SmartSelfieResultDelegate {
     if let apiResponse = apiResponse {
       params["apiResponse"] = apiResponse
     }
-    
+
     guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {
       smileIDUIViewDelegate.onError(error: SmileIDError.unknown("SmileIDSmartSelfieAuthView encoding error"))
       return
     }
     smileIDUIViewDelegate.onResult(smileResult: String(data: jsonData, encoding: .utf8)!)
   }
-  
+
   func didError(error: Error) {
     smileIDUIViewDelegate.onError(error: error)
   }

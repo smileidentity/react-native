@@ -3,7 +3,6 @@ import SmileID
 import SwiftUI
 
 struct SmileIDSmartSelfieEnrollmentEnhancedView: View {
-    var fileManager: FileManager = Foundation.FileManager.default
     @ObservedObject var product: SmileIDProductModel
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
     var body: some View {

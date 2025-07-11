@@ -3,7 +3,6 @@ import SmileID
 import SwiftUI
 
 struct SmileIDSmartSelfieCaptureView: View {
-    var fileManager: FileManager = Foundation.FileManager.default
     @ObservedObject var viewModel: SelfieViewModel
     @ObservedObject var product: SmileIDProductModel
     @State private var acknowledgedInstructions = false

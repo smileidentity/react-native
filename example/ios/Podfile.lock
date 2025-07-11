@@ -938,7 +938,7 @@ PODS:
     - React-debug
   - react-native-safe-area-context (4.14.0):
     - React-Core
-  - react-native-smile-id (11.0.2):
+  - react-native-smile-id (11.0.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1442,7 +1442,7 @@ SPEC CHECKSUMS:
   React-logger: 70e002e04cc56ff5c12157537405d1644c050703
   React-Mapbuffer: 8d1f0fc6e7280a8ed6da70ece5f283ac5c8032cb
   react-native-safe-area-context: b13be9714d9771fbde0120bc519c963484de3a71
-  react-native-smile-id: 325d773f1347d92bea7ec8f3055fc3f69fd68691
+  react-native-smile-id: 10be4d0363eb570fdc3887597e72fdcef794e189
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: 1cd770ed7dc463e55d02a05f7fc3be46076d393e
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
