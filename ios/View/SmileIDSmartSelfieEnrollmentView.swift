@@ -27,7 +27,6 @@ extension SmileIDSmartSelfieEnrollmentView: SmartSelfieResultDelegate {
         var params: [String: Any] = [
             "selfieFile": selfieImage.absoluteString,
             "livenessFiles": livenessImages.map {
-               $0.absoluteString
             },
         ]
         if let apiResponse = apiResponse {
