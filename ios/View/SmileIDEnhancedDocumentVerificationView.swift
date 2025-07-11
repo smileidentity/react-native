@@ -2,7 +2,7 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
+struct SmileIDEnhancedDocumentVerificationView: View {
     var fileManager: FileManager = Foundation.FileManager.default
     @ObservedObject var product: SmileIDProductModel
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
@@ -42,13 +42,13 @@ struct SmileIDEnhancedDocumentVerificationView: View, SmileIDFileUtilsProtocol {
 extension SmileIDEnhancedDocumentVerificationView: EnhancedDocumentVerificationResultDelegate {
     func didSucceed(selfie: URL, documentFrontImage: URL, documentBackImage: URL?, didSubmitEnhancedDocVJob: Bool) {
         var params: [String: Any] = [
-            "selfieFile": getFilePath(fileName: selfie.absoluteString),
-            "documentFrontFile": getFilePath(fileName: documentFrontImage.absoluteString),
+            "selfieFile": selfie.absoluteString,
+            "documentFrontFile": documentFrontImage.absoluteString,
             "didSubmitEnhancedDocVJob": didSubmitEnhancedDocVJob,
         ]
 
         if let documentBackImage = documentBackImage {
-            params["documentBackFile"] = getFilePath(fileName: documentBackImage.absoluteString)
+            params["documentBackFile"] =  documentBackImage.absoluteString
         }
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: params.toJSONCompatibleDictionary(), options: .prettyPrinted) else {

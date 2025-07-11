@@ -2,7 +2,7 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDSmartSelfieCaptureView: View, SmileIDFileUtilsProtocol {
+struct SmileIDSmartSelfieCaptureView: View {
     var fileManager: FileManager = Foundation.FileManager.default
     @ObservedObject var viewModel: SelfieViewModel
     @ObservedObject var product: SmileIDProductModel
@@ -74,9 +74,9 @@ struct SmileIDSmartSelfieCaptureView: View, SmileIDFileUtilsProtocol {
 extension SmileIDSmartSelfieCaptureView: SmartSelfieResultDelegate {
     func didSucceed(selfieImage: URL, livenessImages: [URL], apiResponse _: SmartSelfieResponse?) {
         let params: [String: Any] = [
-            "selfieFile": getFilePath(fileName: selfieImage.absoluteString),
+            "selfieFile": selfieImage.absoluteString,
             "livenessFiles": livenessImages.map {
-                getFilePath(fileName: $0.absoluteString)
+                $0.absoluteString
             },
         ]
 

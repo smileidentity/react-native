@@ -2,7 +2,7 @@ import Foundation
 import SmileID
 import SwiftUI
 
-struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
+struct SmileIDBiometricKYCView: View {
     var fileManager: FileManager = Foundation.FileManager.default
     @ObservedObject var product: SmileIDProductModel
     var smileIDUIViewDelegate: SmileIDUIViewDelegate
@@ -35,9 +35,9 @@ struct SmileIDBiometricKYCView: View, SmileIDFileUtilsProtocol {
 extension SmileIDBiometricKYCView: BiometricKycResultDelegate {
     func didSucceed(selfieImage: URL, livenessImages: [URL], didSubmitBiometricJob: Bool) {
         let params: [String: Any] = [
-            "selfieFile": getFilePath(fileName: selfieImage.absoluteString),
+            "selfieFile":  selfieImage.absoluteString,
             "livenessFiles": livenessImages.map {
-                getFilePath(fileName: $0.absoluteString)
+                 $0.absoluteString
             },
             "didSubmitBiometricKycJob": didSubmitBiometricJob,
         ]
