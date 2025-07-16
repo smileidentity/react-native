@@ -662,24 +662,6 @@ export class ImageLinks {
   }
 }
 
-export class SuspectUser {
-  reason: string;
-  userId: string;
-
-  constructor(reason: string, userId: string) {
-    this.reason = reason;
-    this.userId = userId;
-  }
-}
-
-export class Antifraud {
-  suspectUsers: SuspectUser[];
-
-  constructor(suspectUsers: SuspectUser[]) {
-    this.suspectUsers = suspectUsers;
-  }
-}
-
 export class JobStatusRequest {
   userId: string;
   jobId: string;
@@ -859,7 +841,6 @@ export class BiometricKycJobResult {
   resultType: string;
   smileJobId: string;
   partnerParams: PartnerParams;
-  antifraud?: Antifraud;
   dob?: string;
   photoBase64?: string;
   gender?: string;
@@ -884,7 +865,6 @@ export class BiometricKycJobResult {
     resultType: string,
     smileJobId: string,
     partnerParams: PartnerParams,
-    antifraud?: Antifraud,
     dob?: string,
     photoBase64?: string,
     gender?: string,
@@ -908,7 +888,6 @@ export class BiometricKycJobResult {
     this.resultType = resultType;
     this.smileJobId = smileJobId;
     this.partnerParams = partnerParams;
-    this.antifraud = antifraud;
     this.dob = dob;
     this.photoBase64 = photoBase64;
     this.gender = gender;
@@ -966,7 +945,6 @@ export class EnhancedDocumentVerificationJobResult {
   resultType: string;
   smileJobId: string;
   partnerParams: PartnerParams;
-  antifraud?: Antifraud;
   dob?: string;
   photoBase64?: string;
   gender?: string;
@@ -991,7 +969,6 @@ export class EnhancedDocumentVerificationJobResult {
     resultType: string,
     smileJobId: string,
     partnerParams: PartnerParams,
-    antifraud?: Antifraud,
     dob?: string,
     photoBase64?: string,
     gender?: string,
@@ -1015,7 +992,6 @@ export class EnhancedDocumentVerificationJobResult {
     this.resultType = resultType;
     this.smileJobId = smileJobId;
     this.partnerParams = partnerParams;
-    this.antifraud = antifraud;
     this.dob = dob;
     this.photoBase64 = photoBase64;
     this.gender = gender;
