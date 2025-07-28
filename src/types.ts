@@ -106,10 +106,6 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    */
   idAspectRatio?: number;
   /**
-   * Change the default document auto capture timeout
-   */
-  autoCaptureTimeout?: number;
-  /**
    * Enable or disable document auto capture
    */
   enableAutoCapture?: boolean;
