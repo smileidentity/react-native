@@ -61,7 +61,7 @@ type SmartSelfieRequest = SmileIDViewProps & {
    */
   showAttribution?: boolean;
   /**
-   * Whether to allow the user to reentoll
+   * Whether to allow the user to reenroll
    */
   allowNewEnroll?: boolean;
 
@@ -106,7 +106,8 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    */
   idAspectRatio?: number;
   /**
-   * Change the default document auto capture timeout on the sdk
+   * Change the default document auto capture timeout on the sdk. Pass the
+   * value is seconds e.g. 10 for 10 seconds. The default value is 10 seconds.
    */
   autoCaptureTimeout?: number;
   /**

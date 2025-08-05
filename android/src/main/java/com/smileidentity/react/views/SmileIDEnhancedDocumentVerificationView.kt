@@ -34,12 +34,6 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
       emitFailure(IllegalArgumentException("countryCode is required for DocumentVerification"))
       return
     }
-
-    consentInformation ?: run {
-      emitFailure(IllegalArgumentException("consentInformation is required for DocumentVerification"))
-      return
-    }
-
     composeView.apply {
       val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {

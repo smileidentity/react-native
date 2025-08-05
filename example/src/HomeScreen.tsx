@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
 import {
   type BiometricKYCRequest,
+  ConsentInformation,
   type ConsentRequest,
   type DocumentVerificationRequest,
   type EnhancedDocumentVerificationRequest,
@@ -12,12 +13,12 @@ import {
   type SmartSelfieAuthenticationRequest,
   type SmartSelfieEnrollmentEnhancedRequest,
   type SmartSelfieEnrollmentRequest,
-  ConsentInformation,
   SmileID,
 } from '@smile_identity/react-native';
 import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
 import { SmileIDComponent } from './SmileIDComponent';
+import { AutoCapture } from '../../src/types';
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const generateUuid = (prefix: 'job_' | 'user_'): string => {
@@ -228,6 +229,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       documentType: 'PASSPORT',
       captureBothSides: true,
       allowGalleryUpload: false,
+      autoCaptureTimeout: 10, // seconds,
+      autoCapture: AutoCapture.AutoCapture,
     });
 
     setEnhancedDocV({
@@ -237,6 +240,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       documentType: 'PASSPORT',
       captureBothSides: true,
       allowGalleryUpload: false,
+      autoCaptureTimeout: 10, // seconds,
+      autoCapture: AutoCapture.AutoCapture,
     });
 
     setBiometricKYC({
