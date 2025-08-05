@@ -22,14 +22,7 @@ class SmileIDBiometricKYCViewManager: SmileIDBaseViewManager {
         if let consentInformation = params["consentInformation"] as? NSDictionary{
           self.product.consentInformation = consentInformation.toConsentInfo()
         } else  {
-          self.product.consentInformation = ConsentInformation(
-            consented: ConsentedInformation(
-              consentGrantedDate: getCurrentIsoTimestamp(),
-              personalDetails: false,
-              contactInformation: false,
-              documentInformation: false
-            )
-          )
+          self.product.consentInformation = nil
         }
         self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
         self.product.userId = params["userId"] as? String

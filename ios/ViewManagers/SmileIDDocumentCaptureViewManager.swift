@@ -13,6 +13,12 @@ class SmileIDDocumentCaptureViewManager: SmileIDBaseViewManager {
          */
         DispatchQueue.main.async {
             if let component = self.bridge.uiManager.view(forReactTag: node) as? BaseSmileIDView {
+              
+                var autoCapture: String?
+                if let autoCaptureValue = params["autoCapture"] as? String {
+                  autoCapture = autoCaptureValue
+                }
+              
                 self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
                 self.product.userId = params["userId"] as? String
                 self.product.jobId = params["jobId"] as? String
@@ -22,6 +28,8 @@ class SmileIDDocumentCaptureViewManager: SmileIDBaseViewManager {
                 self.product.showInstructions = params["showInstructions"] as? Bool ?? true
                 self.product.showConfirmation = params["showConfirmation"] as? Bool ?? true
                 self.product.allowGalleryUpload = params["allowGalleryUpload"] as? Bool ?? false
+                self.product.autoCaptureTimeout = params["autoCaptureTimeout"] as? Int ?? 10
+                self.product.autoCapture = autoCapture?.toAutoCapture() ?? .autoCapture
                 self.product.onResult = params["onResult"] as? RCTBubblingEventBlock
             }
         }

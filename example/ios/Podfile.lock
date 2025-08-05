@@ -19,11 +19,6 @@ PODS:
     - fmt (= 9.1.0)
     - glog
     - RCT-Folly/Default (= 2024.01.01.00)
-  - RCT-Folly/Default (2024.01.01.00):
-    - boost
-    - DoubleConversion
-    - fmt (= 9.1.0)
-    - glog
   - RCT-Folly/Fabric (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -963,7 +958,7 @@ PODS:
     - React-utils
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - SmileID (= 11.0.2)
+    - SmileID (= 11.1.0)
     - Yoga
   - React-nativeconfig (0.74.2)
   - React-NativeModulesApple (0.74.2):
@@ -1216,12 +1211,16 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - SmileID (11.0.2):
-    - FingerprintJS
-    - lottie-ios (~> 4.5.0)
-    - SmileIDSecurity (~> 1.0.3)
-    - ZIPFoundation (~> 0.9)
-  - SmileIDSecurity (1.0.3)
+  - Sentry (8.53.2):
+    - Sentry/Core (= 8.53.2)
+  - Sentry/Core (8.53.2)
+  - SmileID (11.1.0):
+    - FingerprintJS (= 1.6.0)
+    - lottie-ios (= 4.5.2)
+    - Sentry (= 8.53.2)
+    - SmileIDSecurity (= 11.1.0)
+    - ZIPFoundation (= 0.9.19)
+  - SmileIDSecurity (11.1.0)
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
   - ZIPFoundation (0.9.19)
@@ -1291,6 +1290,7 @@ SPEC REPOS:
   trunk:
     - FingerprintJS
     - lottie-ios
+    - Sentry
     - SmileID
     - SmileIDSecurity
     - SocketRocket
@@ -1415,14 +1415,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
-  DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
+  DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   FBLazyVector: 4bc164e5b5e6cfc288d2b5ff28643ea15fa1a589
   FingerprintJS: 3a0c3e7f5035ecae199e5e5836200d9b20f1266a
-  fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
-  glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
+  fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
+  glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
   hermes-engine: 01d3e052018c2a13937aca1860fbedbccd4a41b7
   lottie-ios: 96784afc26ea031d3e2b6cae342a4b8915072489
-  RCT-Folly: 5dc73daec3476616d19e8a53f0156176f7b55461
+  RCT-Folly: 84578c8756030547307e4572ab1947de1685c599
   RCTDeprecation: b03c35057846b685b3ccadc9bfe43e349989cdb2
   RCTRequired: 194626909cfa8d39ca6663138c417bc6c431648c
   RCTTypeSafety: 552aff5b8e8341660594db00e53ac889682bc120
@@ -1447,7 +1447,7 @@ SPEC CHECKSUMS:
   React-logger: 70e002e04cc56ff5c12157537405d1644c050703
   React-Mapbuffer: 8d1f0fc6e7280a8ed6da70ece5f283ac5c8032cb
   react-native-safe-area-context: b13be9714d9771fbde0120bc519c963484de3a71
-  react-native-smile-id: 10be4d0363eb570fdc3887597e72fdcef794e189
+  react-native-smile-id: 0820991794ffa6c326e420f5b34e2f594a295af5
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: 1cd770ed7dc463e55d02a05f7fc3be46076d393e
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
@@ -1472,8 +1472,9 @@ SPEC CHECKSUMS:
   React-utils: 08bb648cea0f37a0aa5df0c4f9ef50e5484ee0eb
   ReactCommon: 4968ff446d467c4def1945125e59f82e3e986af3
   RNScreens: 02747ebee17d2e322af4ee383877367cf82a3cd6
-  SmileID: 907d71f709a12b6dbd951205b70b8eeba89d2cfd
-  SmileIDSecurity: e721b4a2ccc403ab61e2e14a4c7dd15fa4e4e55d
+  Sentry: 59993bffde4a1ac297ba6d268dc4bbce068d7c1b
+  SmileID: 8af7cd0190245e561ec2496dda08eeb3ecb61f7d
+  SmileIDSecurity: 9bf50182c931074316892e929ddcfc34f74368c5
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c

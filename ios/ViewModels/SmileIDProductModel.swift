@@ -24,20 +24,14 @@ class SmileIDProductModel: ObservableObject {
   @Published var extraPartnerParams: [String: String] = [:]
   @Published var idAspectRatio: Double?
   @Published var countryCode: String?
-  @Published var enableAutoCapture: Bool = true
+  @Published var autoCaptureTimeout: Int = 10
+  @Published var autoCapture: AutoCapture = .autoCapture
   @Published var documentType: String?
   @Published var captureBothSides: Bool = false
   @Published var allowGalleryUpload: Bool = false
   @Published var useStrictMode: Bool = false
   @Published var idInfo: IdInfo?
-  @Published var consentInformation: ConsentInformation = ConsentInformation(
-    consented: ConsentedInformation(
-      consentGrantedDate: getCurrentIsoTimestamp(),
-      personalDetails: false,
-      contactInformation: false,
-      documentInformation: false
-    )
-  )
+  @Published var consentInformation: ConsentInformation?
   @Published var bypassSelfieCaptureWithFilePath: URL?
   @Published var onResult: RCTBubblingEventBlock?
 }

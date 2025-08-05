@@ -25,17 +25,23 @@ import com.smileidentity.compose.document.DocumentCaptureSide
 import com.smileidentity.compose.theme.colorScheme
 import com.smileidentity.compose.theme.typography
 import com.smileidentity.metadata.LocalMetadataProvider
+import com.smileidentity.models.AutoCapture
 import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.util.randomJobId
 import timber.log.Timber
 import java.io.File
+import kotlin.time.Duration.Companion.seconds
 
 class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView(context) {
   var showConfirmation: Boolean = true
   var front: Boolean = true
   var allowGalleryUpload: Boolean = false
   var idAspectRatio: Float? = null
+
+  var autoCaptureTimeout: Int? = null
+
+  var autoCapture: AutoCapture? = null
 
   override fun renderContent() {
     composeView.apply {
@@ -71,6 +77,8 @@ class SmileIDDocumentCaptureView(context: ReactApplicationContext) : SmileIDView
       showAttribution = showAttribution,
       allowGallerySelection = allowGalleryUpload,
       showConfirmation = showConfirmation,
+      autoCaptureTimeout = autoCaptureTimeout?.seconds ?: 10.seconds,
+      autoCapture = autoCapture ?: AutoCapture.AutoCapture,
       showSkipButton = false,
       instructionsHeroImage = hero,
       instructionsTitleText = stringResource(instructionTitle),

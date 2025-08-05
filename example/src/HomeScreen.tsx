@@ -193,6 +193,8 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       isDocumentFrontSide: false,
       captureBothSides: false,
       allowGalleryUpload: false,
+      autoCaptureTimeout: 10, // seconds,
+      autoCapture: AutoCapture.AutoCapture,
     });
 
     setSmartSelfieEnrollment({
