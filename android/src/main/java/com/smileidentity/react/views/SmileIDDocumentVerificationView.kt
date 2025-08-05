@@ -6,16 +6,20 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.DocumentVerification
+import com.smileidentity.models.AutoCapture
 import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import java.io.File
+import kotlin.time.Duration.Companion.seconds
 
 class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileIDView(context) {
   var countryCode: String? = null
-  var enableAutoCapture: Boolean = true
+
+  var autoCaptureTimeout: Int? = null
+  var autoCapture: AutoCapture? = null
   var allowGalleryUpload: Boolean = false
   var captureBothSides: Boolean = true
   var bypassSelfieCaptureWithFilePath: String? = null
@@ -40,7 +44,8 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
-            enableAutoCapture = enableAutoCapture ?: true,
+            autoCaptureTimeout = autoCaptureTimeout?.seconds ?: 10.seconds,
+            autoCapture = autoCapture ?: AutoCapture.AutoCapture,
             documentType = documentType,
             idAspectRatio = idAspectRatio,
             showAttribution = showAttribution,

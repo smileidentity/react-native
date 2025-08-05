@@ -41,7 +41,7 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             showAttribution = showAttribution,
             showInstructions = showInstructions,
             extraPartnerParams = extraPartnerParams,
-            consentInformation = consentInformation!!,
+            consentInformation = consentInformation,
             useStrictMode = useStrictMode ?: false,
           ) { res ->
             when (res) {

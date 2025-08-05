@@ -31,14 +31,6 @@ class SmileIDBiometricKYCViewManager(
         ?: return view.emitFailure(IllegalArgumentException("idInfo is required to run Biometric KYC"))
       val idInfo = idInfoMap.toIdInfo()
       view.consentInformation = it.getMapOrDefault("consentInformation")?.toConsentInfo()
-        ?: ConsentInformation(
-          consented = ConsentedInformation(
-            consentGrantedDate = getCurrentIsoTimestamp(),
-            personalDetails = false,
-            contactInformation = false,
-            documentInformation = false
-          ),
-      )
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")

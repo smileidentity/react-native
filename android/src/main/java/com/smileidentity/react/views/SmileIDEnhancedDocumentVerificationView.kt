@@ -6,17 +6,22 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.EnhancedDocumentVerificationScreen
+import com.smileidentity.models.AutoCapture
 import com.smileidentity.models.ConsentInformation
 import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
+import kotlin.time.Duration.Companion.seconds
 
 class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) :
   SmileIDView(context) {
   var countryCode: String? = null
-  var enableAutoCapture: Boolean = true
+
+  var autoCaptureTimeout: Int? = null
+
+  var autoCapture: AutoCapture? = null
   var allowGalleryUpload: Boolean = false
   var captureBothSides: Boolean = true
   var documentType: String? = null
@@ -43,7 +48,8 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             userId = userId ?: rememberSaveable { randomUserId() },
             jobId = jobId ?: rememberSaveable { randomJobId() },
             countryCode = countryCode!!,
-            enableAutoCapture = enableAutoCapture ?: true,
+            autoCaptureTimeout = autoCaptureTimeout?.seconds ?: 10.seconds,
+            autoCapture = autoCapture ?: AutoCapture.AutoCapture,
             documentType = documentType,
             idAspectRatio = idAspectRatio,
             showAttribution = showAttribution,
@@ -53,7 +59,7 @@ class SmileIDEnhancedDocumentVerificationView(context: ReactApplicationContext) 
             allowGalleryUpload = allowGalleryUpload,
             captureBothSides = captureBothSides,
             extraPartnerParams = extraPartnerParams,
-            consentInformation = consentInformation!!,
+            consentInformation = consentInformation,
             useStrictMode = useStrictMode ?: false,
           ) { res ->
             when (res) {

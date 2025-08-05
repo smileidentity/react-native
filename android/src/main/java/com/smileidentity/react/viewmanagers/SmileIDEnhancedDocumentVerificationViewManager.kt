@@ -8,12 +8,14 @@ import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.models.ConsentInformation
 import com.smileidentity.models.ConsentedInformation
+import com.smileidentity.react.toAutoCapture
 import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getCurrentIsoTimestamp
 import com.smileidentity.react.utils.getFloatOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
+import com.smileidentity.react.utils.getIntOrDefault
 import com.smileidentity.react.utils.getMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.views.SmileIDEnhancedDocumentVerificationView
@@ -37,19 +39,12 @@ class SmileIDEnhancedDocumentVerificationViewManager(
           IllegalArgumentException("countryCode is required to run Enhanced Document Verification")
         )
       view.consentInformation = it.getMapOrDefault("consentInformation")?.toConsentInfo()
-        ?: ConsentInformation(
-          consented = ConsentedInformation(
-            consentGrantedDate = getCurrentIsoTimestamp(),
-            personalDetails = false,
-            contactInformation = false,
-            documentInformation = false
-          ),
-        )
       view.extraPartnerParams = it.getImmutableMapOrDefault("extraPartnerParams")
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")
       view.countryCode = countryCode
-      view.enableAutoCapture = it.getBoolOrDefault("enableAutoCapture", true)
+      view.autoCaptureTimeout = it.getIntOrDefault("autoCaptureTimeout", null)
+      view.autoCapture = it.getStringOrDefault("autoCapture", null)?.toAutoCapture()
       view.allowAgentMode = it.getBoolOrDefault("allowAgentMode", false)
       view.showAttribution = it.getBoolOrDefault("showAttribution", true)
       view.captureBothSides = it.getBoolOrDefault("captureBothSides", false)

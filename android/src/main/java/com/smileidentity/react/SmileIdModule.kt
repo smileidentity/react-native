@@ -54,7 +54,7 @@ class SmileIdModule internal constructor(
     try {
       // Set wrapper info for React Native SDK
       try {
-        val version = com.smileidentity.react.BuildConfig.SMILE_ID_VERSION
+        val version = BuildConfig.SMILE_ID_VERSION
         SmileID.setWrapperInfo(WrapperSdkName.ReactNative, version)
       } catch (e: Exception) {
         // Fallback to default version if BuildConfig is not available
