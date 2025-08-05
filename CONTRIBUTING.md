@@ -25,38 +25,38 @@ To get started with the project, run `yarn` in the root directory to install the
 To start the packager:
 
 ```sh
-yarn example start
+yarn sample start
 ```
 
 To run the example app on Android:
 
 ```sh
-yarn example android
+yarn sample android
 ```
 
 To run the example app on iOS:
 
 ```sh
-yarn example ios
+yarn sample ios
 ```
 
 > While it's possible to use [`npm`](https://github.com/npm/cli), the tooling is built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier time if you use `yarn` for development.
 
-While developing, you can run the [example app](/example/) to test your changes. Any changes you make in your library's JavaScript code will be reflected in the example app without a rebuild. If you change any native code, then you'll need to rebuild the example app.
+While developing, you can run the [example app](/sample/) to test your changes. Any changes you make in your library's JavaScript code will be reflected in the example app without a rebuild. If you change any native code, then you'll need to rebuild the example app.
 
 By default, the example is configured to build with the old architecture. To run the example with the new architecture, you can do the following:
 
 1. For Android, run:
 
    ```sh
-   ORG_GRADLE_PROJECT_newArchEnabled=true yarn example android
+   ORG_GRADLE_PROJECT_newArchEnabled=true yarn sample android
    ```
 
 2. For iOS, run:
 
    ```sh
-   RCT_NEW_ARCH_ENABLED=1 yarn example pods
-   yarn example ios
+   RCT_NEW_ARCH_ENABLED=1 yarn sample pods
+   yarn sample ios
    ```
 
 If you are building for a different architecture than your previous build, make sure to remove the build folders first. You can run the following command to cleanup all build folders:
