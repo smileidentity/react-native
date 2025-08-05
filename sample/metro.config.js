@@ -17,7 +17,7 @@ const config = {
   watchFolders: [root],
 
   // We need to make sure that only one version is loaded for peerDependencies
-  // So we block them at the root, and alias them to the versions in example's node_modules
+  // So we block them at the root, and alias them to the versions in sample's node_modules
   resolver: {
     blacklistRE: exclusionList(
       modules.map(

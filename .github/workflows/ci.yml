@@ -97,11 +97,11 @@ jobs:
           path: |
             ~/.gradle/wrapper
             ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('example/android/gradle/wrapper/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('sample/android/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build example for Android
+      - name: Build sample for Android
         env:
           JAVA_OPTS: "-XX:MaxHeapSize=6g"
         run: |
@@ -146,17 +146,17 @@ jobs:
         with:
           path: |
             **/ios/Pods
-          key: ${{ runner.os }}-cocoapods-${{ hashFiles('example/ios/Podfile.lock') }}
+          key: ${{ runner.os }}-cocoapods-${{ hashFiles('sample/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-cocoapods-
 
       - name: Install cocoapods
         run: |
-          cd example/ios
+          cd sample/ios
           pod install
         env:
           NO_FLIPPER: 1
 
-      - name: Build example for iOS
+      - name: Build sample for iOS
         run: |
           yarn turbo run build:ios --cache-dir="${{ env.TURBO_CACHE_DIR }}"

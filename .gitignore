@@ -696,10 +696,10 @@ android.iml
 
 # Cocoapods
 #
-example/ios/Pods
+sample/ios/Pods
 
 # Ruby
-example/vendor/
+sample/vendor/
 
 # node.js
 #

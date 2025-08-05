@@ -19,6 +19,11 @@ PODS:
     - fmt (= 9.1.0)
     - glog
     - RCT-Folly/Default (= 2024.01.01.00)
+  - RCT-Folly/Default (2024.01.01.00):
+    - boost
+    - DoubleConversion
+    - fmt (= 9.1.0)
+    - glog
   - RCT-Folly/Fabric (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -938,7 +943,7 @@ PODS:
     - React-debug
   - react-native-safe-area-context (4.14.0):
     - React-Core
-  - react-native-smile-id (11.0.3):
+  - react-native-smile-id (11.1.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1415,14 +1420,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
-  DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
+  DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   FBLazyVector: 4bc164e5b5e6cfc288d2b5ff28643ea15fa1a589
   FingerprintJS: 3a0c3e7f5035ecae199e5e5836200d9b20f1266a
-  fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
-  glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
+  fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
+  glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   hermes-engine: 01d3e052018c2a13937aca1860fbedbccd4a41b7
   lottie-ios: 96784afc26ea031d3e2b6cae342a4b8915072489
-  RCT-Folly: 84578c8756030547307e4572ab1947de1685c599
+  RCT-Folly: 5dc73daec3476616d19e8a53f0156176f7b55461
   RCTDeprecation: b03c35057846b685b3ccadc9bfe43e349989cdb2
   RCTRequired: 194626909cfa8d39ca6663138c417bc6c431648c
   RCTTypeSafety: 552aff5b8e8341660594db00e53ac889682bc120
@@ -1447,7 +1452,7 @@ SPEC CHECKSUMS:
   React-logger: 70e002e04cc56ff5c12157537405d1644c050703
   React-Mapbuffer: 8d1f0fc6e7280a8ed6da70ece5f283ac5c8032cb
   react-native-safe-area-context: b13be9714d9771fbde0120bc519c963484de3a71
-  react-native-smile-id: 0820991794ffa6c326e420f5b34e2f594a295af5
+  react-native-smile-id: 18a508323a980b16eac23551c5c55ad76fc9f0cd
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: 1cd770ed7dc463e55d02a05f7fc3be46076d393e
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
