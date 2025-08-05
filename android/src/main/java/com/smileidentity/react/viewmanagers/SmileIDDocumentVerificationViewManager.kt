@@ -6,9 +6,11 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
+import com.smileidentity.react.toAutoCapture
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getFloatOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
+import com.smileidentity.react.utils.getIntOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.views.SmileIDDocumentVerificationView
 import com.smileidentity.react.views.SmileIDEnhancedDocumentVerificationView
@@ -31,7 +33,8 @@ class SmileIDDocumentVerificationViewManager(
       view.userId = it.getStringOrDefault("userId")
       view.jobId = it.getStringOrDefault("jobId")
       view.countryCode = countryCode
-      view.enableAutoCapture = it.getBoolOrDefault("enableAutoCapture", true)
+      view.autoCaptureTimeout = it.getIntOrDefault("autoCaptureTimeout", null)
+      view.autoCapture = it.getStringOrDefault("autoCapture", null)?.toAutoCapture()
       view.allowAgentMode = it.getBoolOrDefault("allowAgentMode", false)
       view.showAttribution = it.getBoolOrDefault("showAttribution", true)
       view.captureBothSides = it.getBoolOrDefault("captureBothSides", false)

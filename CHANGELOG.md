@@ -1,11 +1,19 @@
 # Release Notes
 
-## Unreleased
+## 11.1.0 - August 5, 2025
 
 ### Changed
 
 * Removed `AntiFraud` response in `JobStatus` calls
 * Updated the `targetSdk` to 36 and updated the AGP version
+* Replaced `enableAutoCapture` with the `AutoCapture` enum to give partners more control over document capture behavior
+* Added `autoCaptureTimeout` to allow partners to configure the auto-capture timeout duration
+* Upgraded Smile ID Android and iOS SDKs to version **v11.1.0**
+* Bumped `compileSdkVersion` to 36 and resolved related build issues
+
+### Changed
+
+* Removed default `ConsentInformation` values, as the new SDK now supports null for this field
 
 ## 11.0.3 - July 11, 2025
 

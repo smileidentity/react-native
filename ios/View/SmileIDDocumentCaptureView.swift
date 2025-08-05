@@ -17,7 +17,8 @@ struct SmileIDDocumentCaptureView: View {
         NavigationView {
             DocumentCaptureScreen(
                 side: self.product.front ? .front : .back,
-                enableAutoCapture: self.product.enableAutoCapture,
+                autoCaptureTimeout: TimeInterval(self.product.autoCaptureTimeout),
+                autoCapture: self.product.autoCapture,
                 showInstructions: self.product.showInstructions,
                 showAttribution: self.product.showAttribution,
                 allowGallerySelection: self.product.allowGalleryUpload,

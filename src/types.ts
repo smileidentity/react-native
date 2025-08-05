@@ -61,7 +61,7 @@ type SmartSelfieRequest = SmileIDViewProps & {
    */
   showAttribution?: boolean;
   /**
-   * Whether to allow the user to reentoll
+   * Whether to allow the user to reenroll
    */
   allowNewEnroll?: boolean;
 
@@ -106,9 +106,14 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    */
   idAspectRatio?: number;
   /**
+   * Change the default document auto capture timeout on the sdk. Pass the
+   * value is seconds e.g. 10 for 10 seconds. The default value is 10 seconds.
+   */
+  autoCaptureTimeout?: number;
+  /**
    * Enable or disable document auto capture
    */
-  enableAutoCapture?: boolean;
+  autoCapture?: AutoCapture;
   /**
    * Whether to capture both sides of the ID or not. Otherwise, only the
    * front side will be captured. If this is true, an option to skip back side will still be
@@ -1211,4 +1216,11 @@ export class ServicesResponse {
     this.bankCodes = bankCodes;
     this.hostedWeb = hostedWeb;
   }
+}
+
+// noinspection JSUnusedGlobalSymbols
+export enum AutoCapture {
+  AutoCapture = 'AutoCapture',
+  AutoCaptureOnly = 'AutoCaptureOnly',
+  ManualCaptureOnly = 'ManualCaptureOnly',
 }

@@ -6,7 +6,9 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
+import com.smileidentity.react.toAutoCapture
 import com.smileidentity.react.utils.getBoolOrDefault
+import com.smileidentity.react.utils.getIntOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
 import com.smileidentity.react.views.SmileIDDocumentCaptureView
 import com.smileidentity.react.views.SmileIDDocumentVerificationView
@@ -31,6 +33,8 @@ class SmileIDDocumentCaptureViewManager(
       view.showConfirmation = it.getBoolOrDefault("showConfirmation", true)
       view.allowGalleryUpload = it.getBoolOrDefault("allowGalleryUpload", false)
       view.front = it.getBoolOrDefault("isDocumentFrontSide", true)
+      view.autoCaptureTimeout = it.getIntOrDefault("autoCaptureTimeout", null)
+      view.autoCapture = it.getStringOrDefault("autoCapture", null)?.toAutoCapture()
     }
   }
 

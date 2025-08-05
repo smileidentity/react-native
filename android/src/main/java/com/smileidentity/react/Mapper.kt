@@ -3,6 +3,7 @@ package com.smileidentity.react
 import androidx.compose.animation.core.rememberTransition
 import com.facebook.react.bridge.ReadableMap
 import com.smileidentity.models.AuthenticationRequest
+import com.smileidentity.models.AutoCapture
 import com.smileidentity.models.Config
 import com.smileidentity.models.ConsentInformation
 import com.smileidentity.models.ConsentedInformation
@@ -232,4 +233,18 @@ fun ReadableMap.toProductsConfigRequest(): ProductsConfigRequest {
       throw IllegalArgumentException("signature is required")
     }
   )
+}
+
+fun String.toAutoCapture() : AutoCapture {
+  return when (this) {
+    "AutoCapture" -> AutoCapture.AutoCapture
+    "AutoCaptureOnly" -> AutoCapture.AutoCaptureOnly
+    "ManualCaptureOnly" -> AutoCapture.ManualCaptureOnly
+    else -> {
+      throw IllegalArgumentException(
+        "Invalid autoCapture value: $this. " +
+          "Expected 'AutoCapture', 'AutoCaptureOnly', or 'ManualCaptureOnly'."
+      )
+    }
+  }
 }

@@ -18,7 +18,7 @@ struct SmileIDBiometricKYCView: View {
                     showInstructions: product.showInstructions,
                     useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
-                    consentInformation: product.consentInformation, // already validated in the SmileIDBiometricKYCViewManager
+                    consentInformation: product.consentInformation,
                     delegate: self
                 )
             } else {

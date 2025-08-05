@@ -24,10 +24,6 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
       emitFailure(IllegalArgumentException("idInfo is required for BiometricKYC"))
       return
     }
-    consentInformation ?: run {
-      emitFailure(IllegalArgumentException("consentInformation is required for BiometricKYC"))
-      return
-    }
     composeView.apply {
       val customViewModelStoreOwner = CustomViewModelStoreOwner()
       setContent {
@@ -41,7 +37,7 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             showAttribution = showAttribution,
             showInstructions = showInstructions,
             extraPartnerParams = extraPartnerParams,
-            consentInformation = consentInformation!!,
+            consentInformation = consentInformation,
             useStrictMode = useStrictMode ?: false,
           ) { res ->
             when (res) {

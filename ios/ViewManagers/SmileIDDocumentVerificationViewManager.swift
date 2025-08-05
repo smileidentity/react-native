@@ -28,12 +28,18 @@ class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
                     }
                     bypassSelfieCaptureWithFilePath = URL(string: filePath)
                 }
+              
+              var autoCapture: String?
+              if let autoCaptureValue = params["autoCapture"] as? String {
+                autoCapture = autoCaptureValue
+              }
 
                 self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
                 self.product.userId = params["userId"] as? String
                 self.product.jobId = params["jobId"] as? String
                 self.product.countryCode = countryCode
-                self.product.enableAutoCapture = params["enableAutoCapture"] as? Bool ?? true
+                self.product.autoCaptureTimeout = params["autoCaptureTimeout"] as? Int ?? 10
+                self.product.autoCapture = autoCapture?.toAutoCapture() ?? .autoCapture
                 self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
                 self.product.allowAgentMode = params["allowAgentMode"] as? Bool ?? false
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true
