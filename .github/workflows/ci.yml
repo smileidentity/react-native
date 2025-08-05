@@ -152,7 +152,7 @@ jobs:
 
       - name: Install cocoapods
         run: |
-          cd example/ios
+          cd sample/ios
           pod install
         env:
           NO_FLIPPER: 1
