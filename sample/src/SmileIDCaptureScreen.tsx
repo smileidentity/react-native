@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { ResultView } from './ResultView';
 import {
@@ -16,7 +17,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
   const componentProduct = route.params.componentProduct;
   const [result, setResult] = useState<string | undefined>();
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <SmileIDComponent
         componentProduct={componentProduct}
         style={styles.smileView}
@@ -64,7 +65,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
         setResult={setResult}
         navigation={navigation}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
