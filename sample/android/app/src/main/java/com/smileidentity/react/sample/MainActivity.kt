@@ -25,7 +25,6 @@ class MainActivity : ReactActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    // Ensure the app content does not draw behind system bars on Android.
     WindowCompat.setDecorFitsSystemWindows(window, true)
   }
 }
