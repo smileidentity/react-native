@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   type BiometricKYCRequest,
   ConsentInformation,
@@ -348,7 +349,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   }, [currentProduct]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       {!isCapturing && (
         <>
           <Text style={styles.title}>Test Our Products</Text>
@@ -372,7 +373,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
           />
         </>
       )}
-      {USE_CURRENT_COMPONENT && isCapturing && currentProduct && (
+  {USE_CURRENT_COMPONENT && isCapturing && currentProduct && (
         <SmileIDComponent
           componentProduct={currentProduct}
           style={styles.smileView}
@@ -394,7 +395,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
           }}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
