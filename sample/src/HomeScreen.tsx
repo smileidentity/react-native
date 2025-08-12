@@ -349,7 +349,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
   }, [currentProduct]);
 
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       {!isCapturing && (
         <>
           <Text style={styles.title}>Test Our Products</Text>
@@ -373,7 +373,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
           />
         </>
       )}
-  {USE_CURRENT_COMPONENT && isCapturing && currentProduct && (
+      {USE_CURRENT_COMPONENT && isCapturing && currentProduct && (
         <SmileIDComponent
           componentProduct={currentProduct}
           style={styles.smileView}
