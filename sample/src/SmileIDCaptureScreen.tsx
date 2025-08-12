@@ -17,7 +17,7 @@ export const SmileIDCaptureScreen: React.FC<SmileIDCaptureScreenProps> = ({
   const componentProduct = route.params.componentProduct;
   const [result, setResult] = useState<string | undefined>();
   return (
-    <SafeAreaView style={styles.container} edges={["top","bottom"]}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <SmileIDComponent
         componentProduct={componentProduct}
         style={styles.smileView}
