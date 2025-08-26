@@ -6,6 +6,7 @@
 * Updated layout handling in the Sample app to prevent screens from rendering behind navigation bars by
   integrating `SafeAreaView`, standardizing white status bar styling across platforms, replacing `View`
   components with `SafeAreaView`, and improving Android window configuration for system UI management.
+* Bump iOS to 11.1.1 (https://github.com/smileidentity/ios/releases/tag/v11.1.1)
 
 ## 11.1.0 - August 5, 2025
 
