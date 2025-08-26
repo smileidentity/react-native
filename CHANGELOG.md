@@ -1,6 +1,6 @@
 # Release Notes
 
-## Unreleased
+## 11.1.1 - August 26, 2025
 
 ### Changed
 * Updated layout handling in the Sample app to prevent screens from rendering behind navigation bars by
