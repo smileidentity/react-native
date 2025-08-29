@@ -18,26 +18,26 @@ project consisting of the following modules:
 
 We bundle a sample app that demonstrates SDK integration and showcases Smile ID products. To run it,
 follow the following steps
+
 ## Development workflow
 
 To get started with the project, run `yarn` in the root directory to install the required dependencies for each package:
 
-To start the packager:
+To run the example apps cd to the sample directory:
 
 ```sh
-yarn sample start
+cd sample
 ```
-
 To run the example app on Android:
 
 ```sh
-yarn sample android
+yarn android
 ```
 
 To run the example app on iOS:
 
 ```sh
-yarn sample ios
+yarn ios
 ```
 
 > While it's possible to use [`npm`](https://github.com/npm/cli), the tooling is built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier time if you use `yarn` for development.
