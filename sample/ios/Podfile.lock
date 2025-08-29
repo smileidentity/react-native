@@ -1216,13 +1216,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - Sentry (8.55.0):
-    - Sentry/Core (= 8.55.0)
-  - Sentry/Core (8.55.0)
+  - Sentry (8.54.0):
+    - Sentry/Core (= 8.54.0)
+  - Sentry/Core (8.54.0)
   - SmileID (11.1.1):
     - FingerprintJS (= 1.6.0)
     - lottie-ios (= 4.5.2)
-    - Sentry (= 8.55.0)
+    - Sentry (= 8.54.0)
     - SmileIDSecurity (= 11.1.1)
     - ZIPFoundation (= 0.9.19)
   - SmileIDSecurity (11.1.1)
