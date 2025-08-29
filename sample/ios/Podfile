@@ -18,6 +18,7 @@ end
 # pod 'SmileID', git: 'https://github.com/smileidentity/ios.git', branch: 'main'
 target 'SmileIdExample' do
   config = use_native_modules!
+  
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
@@ -30,6 +31,19 @@ target 'SmileIdExample' do
   end
 
   post_install do |installer|
+    # Fix Sentry SDK 8.55.0 build issue
+    # The capture(userFeedback:) method has a broken reference to SentrySDKInternal
+    sentry_sdk_path = "#{installer.sandbox.root}/Sentry/Sources/Swift/Helper/SentrySDK.swift"
+    if File.exist?(sentry_sdk_path)
+      text = File.read(sentry_sdk_path)
+      # Comment out the problematic line that calls SentrySDKInternal
+      text = text.gsub(
+        'SentrySDKInternal.capture(userFeedback: userFeedback)',
+        '// SentrySDKInternal.capture(userFeedback: userFeedback) // Commented out - broken in 8.55.0'
+      )
+      File.write(sentry_sdk_path, text)
+    end
+    
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
