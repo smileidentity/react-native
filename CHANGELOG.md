@@ -1,5 +1,12 @@
 # Release Notes
 
+## Unreleased
+
+### Changed
+* Bump Android SDK to v11.1.2
+* Bump up AGP version to 8.13 and [apply patch](https://github.com/facebook/react-native/pull/46367) to the react
+  native gradle plugin to support AGP 8.13
+
 ## 11.1.1 - August 26, 2025
 
 ### Changed
