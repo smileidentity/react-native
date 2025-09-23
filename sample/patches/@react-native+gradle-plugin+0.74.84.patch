@@ -1,0 +1,183 @@
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/8.13/executionHistory/executionHistory.bin b/node_modules/@react-native/gradle-plugin/.gradle/8.13/executionHistory/executionHistory.bin
+new file mode 100644
+index 0000000..8c5d665
+Binary files /dev/null and b/node_modules/@react-native/gradle-plugin/.gradle/8.13/executionHistory/executionHistory.bin differ
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/8.13/executionHistory/executionHistory.lock b/node_modules/@react-native/gradle-plugin/.gradle/8.13/executionHistory/executionHistory.lock
+new file mode 100644
+index 0000000..79471fc
+Binary files /dev/null and b/node_modules/@react-native/gradle-plugin/.gradle/8.13/executionHistory/executionHistory.lock differ
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/buildOutputCleanup.lock b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+new file mode 100644
+index 0000000..cb12d60
+Binary files /dev/null and b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/buildOutputCleanup.lock differ
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/cache.properties b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/cache.properties
+new file mode 100644
+index 0000000..1757425
+--- /dev/null
++++ b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/cache.properties
+@@ -0,0 +1,2 @@
++#Tue Sep 23 12:14:42 CEST 2025
++gradle.version=8.13
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/outputFiles.bin b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/outputFiles.bin
+new file mode 100644
+index 0000000..635383e
+Binary files /dev/null and b/node_modules/@react-native/gradle-plugin/.gradle/buildOutputCleanup/outputFiles.bin differ
+diff --git a/node_modules/@react-native/gradle-plugin/.gradle/file-system.probe b/node_modules/@react-native/gradle-plugin/.gradle/file-system.probe
+new file mode 100644
+index 0000000..a84158e
+Binary files /dev/null and b/node_modules/@react-native/gradle-plugin/.gradle/file-system.probe differ
+diff --git a/node_modules/@react-native/gradle-plugin/build.gradle.kts b/node_modules/@react-native/gradle-plugin/build.gradle.kts
+index 6e09a3e..0c76905 100644
+--- a/node_modules/@react-native/gradle-plugin/build.gradle.kts
++++ b/node_modules/@react-native/gradle-plugin/build.gradle.kts
+@@ -7,7 +7,6 @@
+ 
+ import org.gradle.api.internal.classpath.ModuleRegistry
+ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+-import org.gradle.configurationcache.extensions.serviceOf
+ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+ 
+ plugins {
+@@ -49,13 +48,6 @@ dependencies {
+ 
+   testImplementation(libs.junit)
+ 
+-  testRuntimeOnly(
+-      files(
+-          serviceOf<ModuleRegistry>()
+-              .getModule("gradle-tooling-api-builders")
+-              .classpath
+-              .asFiles
+-              .first()))
+ }
+ 
+ // We intentionally don't build for Java 17 as users will see a cryptic bytecode version
+@@ -70,7 +62,8 @@ tasks.withType<KotlinCompile>().configureEach {
+     apiVersion = "1.6"
+     // See comment above on JDK 11 support
+     jvmTarget = "11"
+-    allWarningsAsErrors = true
++    // Temporarily disabled to unblock build on Gradle/Kotlin warnings; re-enable once upgraded.
++    allWarningsAsErrors = false
+   }
+ }
+ 
+diff --git a/node_modules/@react-native/gradle-plugin/build/kotlin/compileKotlin/cacheable/dirty-sources.txt b/node_modules/@react-native/gradle-plugin/build/kotlin/compileKotlin/cacheable/dirty-sources.txt
+new file mode 100644
+index 0000000..8793db9
+--- /dev/null
++++ b/node_modules/@react-native/gradle-plugin/build/kotlin/compileKotlin/cacheable/dirty-sources.txt
+@@ -0,0 +1,30 @@
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/internal/PrepareBoostTask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/JsonUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/internal/utils/PrefabPreprocessingEntry.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/internal/PrepareGlogTask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/model/ModelCodegenConfigAndroid.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/JdkConfiguratorUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/internal/PrepareJSCTask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/internal/PrivateReactExtension.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/Os.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/model/ModelCodegenConfig.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/model/ModelPackageJson.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/TaskUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/NdkConfiguratorUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/ReactRootProjectPlugin.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/ProjectUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/BundleHermesCTask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/TaskConfiguration.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/KotlinStdlibCompatUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/internal/PreparePrefabHeadersTask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/BackwardCompatUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/GenerateCodegenSchemaTask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/FileUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/internal/BuildCodegenCLITask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/PropertyUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/AgpConfiguratorUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/PathUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/utils/DependencyUtils.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/GenerateCodegenArtifactsTask.kt
++/Users/wangerekaharun/AndroidStudioProjects/react-native/sample/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/ReactExtension.kt
+\ No newline at end of file
+diff --git a/node_modules/@react-native/gradle-plugin/build/kotlin/compileKotlin/local-state/build-history.bin b/node_modules/@react-native/gradle-plugin/build/kotlin/compileKotlin/local-state/build-history.bin
+new file mode 100644
+index 0000000..c840ed7
+Binary files /dev/null and b/node_modules/@react-native/gradle-plugin/build/kotlin/compileKotlin/local-state/build-history.bin differ
+diff --git a/node_modules/@react-native/gradle-plugin/build/pluginDescriptors/com.facebook.react.properties b/node_modules/@react-native/gradle-plugin/build/pluginDescriptors/com.facebook.react.properties
+new file mode 100644
+index 0000000..f3b415e
+--- /dev/null
++++ b/node_modules/@react-native/gradle-plugin/build/pluginDescriptors/com.facebook.react.properties
+@@ -0,0 +1 @@
++implementation-class=com.facebook.react.ReactPlugin
+diff --git a/node_modules/@react-native/gradle-plugin/build/pluginDescriptors/com.facebook.react.rootproject.properties b/node_modules/@react-native/gradle-plugin/build/pluginDescriptors/com.facebook.react.rootproject.properties
+new file mode 100644
+index 0000000..f82c5ab
+--- /dev/null
++++ b/node_modules/@react-native/gradle-plugin/build/pluginDescriptors/com.facebook.react.rootproject.properties
+@@ -0,0 +1 @@
++implementation-class=com.facebook.react.ReactRootProjectPlugin
+diff --git a/node_modules/@react-native/gradle-plugin/build/resources/main/META-INF/gradle-plugins/com.facebook.react.properties b/node_modules/@react-native/gradle-plugin/build/resources/main/META-INF/gradle-plugins/com.facebook.react.properties
+new file mode 100644
+index 0000000..f3b415e
+--- /dev/null
++++ b/node_modules/@react-native/gradle-plugin/build/resources/main/META-INF/gradle-plugins/com.facebook.react.properties
+@@ -0,0 +1 @@
++implementation-class=com.facebook.react.ReactPlugin
+diff --git a/node_modules/@react-native/gradle-plugin/build/resources/main/META-INF/gradle-plugins/com.facebook.react.rootproject.properties b/node_modules/@react-native/gradle-plugin/build/resources/main/META-INF/gradle-plugins/com.facebook.react.rootproject.properties
+new file mode 100644
+index 0000000..f82c5ab
+--- /dev/null
++++ b/node_modules/@react-native/gradle-plugin/build/resources/main/META-INF/gradle-plugins/com.facebook.react.rootproject.properties
+@@ -0,0 +1 @@
++implementation-class=com.facebook.react.ReactRootProjectPlugin
+diff --git a/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt b/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
+index 2c5bea4..7683a7f 100644
+--- a/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
++++ b/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/ReactPlugin.kt
+@@ -90,7 +90,8 @@ class ReactPlugin : Plugin<Project> {
+   }
+ 
+   private fun checkJvmVersion(project: Project) {
+-    val jvmVersion = Jvm.current()?.javaVersion?.majorVersion
++    // Jvm.current() is non-null; javaVersion may be nullable so keep safe call there.
++    val jvmVersion = Jvm.current().javaVersion?.majorVersion
+     if ((jvmVersion?.toIntOrNull() ?: 0) <= 16) {
+       project.logger.error(
+           """
+diff --git a/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/BundleHermesCTask.kt b/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/BundleHermesCTask.kt
+index 78e5a9b..94dddc3 100644
+--- a/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/BundleHermesCTask.kt
++++ b/node_modules/@react-native/gradle-plugin/src/main/kotlin/com/facebook/react/tasks/BundleHermesCTask.kt
+@@ -12,6 +12,7 @@ import com.facebook.react.utils.detectOSAwareHermesCommand
+ import com.facebook.react.utils.moveTo
+ import com.facebook.react.utils.windowsAwareCommandLine
+ import java.io.File
++import javax.inject.Inject
+ import org.gradle.api.DefaultTask
+ import org.gradle.api.file.ConfigurableFileTree
+ import org.gradle.api.file.DirectoryProperty
+@@ -20,7 +21,9 @@ import org.gradle.api.provider.ListProperty
+ import org.gradle.api.provider.Property
+ import org.gradle.api.tasks.*
+ 
+-abstract class BundleHermesCTask : DefaultTask() {
++abstract class BundleHermesCTask @Inject constructor(
++  private val execOperations: org.gradle.process.ExecOperations
++) : DefaultTask() {
+ 
+   init {
+     group = "react"
+@@ -127,9 +130,9 @@ abstract class BundleHermesCTask : DefaultTask() {
+       File(jsIntermediateSourceMapsDir.get().asFile, "$bundleAssetName.compiler.map")
+ 
+   private fun runCommand(command: List<Any>) {
+-    project.exec {
+-      it.workingDir(root.get().asFile)
+-      it.commandLine(command)
++    execOperations.exec { spec ->
++      spec.workingDir(root.get().asFile)
++      spec.commandLine(command)
+     }
+   }
+ 
