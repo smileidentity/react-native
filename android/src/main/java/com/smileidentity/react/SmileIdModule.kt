@@ -184,7 +184,7 @@ class SmileIdModule internal constructor(
     request: ReadableMap,
     promise: Promise,
   ) = launch(
-    work = { SmileID.api.prepUpload(request = request.toPrepUploadRequest()) },
+    work = { SmileID.api.prepUpload(headers = mapOf(), request = request.toPrepUploadRequest()) },
     clazz = PrepUploadResponse::class.java,
     promise = promise,
   )
