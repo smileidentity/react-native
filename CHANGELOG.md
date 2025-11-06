@@ -1,6 +1,9 @@
 # Release Notes
 
-## Unreleased
+## 11.1.2 - November 3, 2025
+
+### Changed
+* Bump Android SDK to [v11.1.3](https://github.com/smileidentity/android/releases/tag/v11.1.3)
 
 ### Changed
 * Bump Android SDK to [v11.1.2](https://github.com/smileidentity/android/releases/tag/v11.1.2)
