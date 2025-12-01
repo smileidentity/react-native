@@ -34,7 +34,7 @@ Full documentation is available at [Smile ID Documentation]((https://docs.usesmi
 
 This SDK supports React Native versions **0.70 to 0.74.2** on the **Old Architecture** only. Using it on unsupported versions may lead to unexpected issues such as build failures, SmileID components not rendering, or runtime crashes.
 
-If you're using Expo, use the [Smile ID Expo SDK](https://github.com/smileidentity/react-native-expo).
+If you're using Expo, use the [SmileID Expo SDK](https://github.com/smileidentity/react-native-expo).
 
 For the **New Architecture** or **React Native > 0.74.2**, we don't currently have an official SDK. If you'd like to build your own wrapper around the native SmileID SDKs, check out our [recipes repo](https://github.com/smileidentity/recipes/blob/main/DOCS.md) for guides and a [sample wrapper implementation](https://github.com/smileidentity/recipes/tree/main/rn-wrap) to reference.
 
