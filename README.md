@@ -30,7 +30,15 @@ Full documentation is available at [Smile ID Documentation]((https://docs.usesmi
 * See: [Android Requirements](https://github.com/smileidentity/android) for Android specific requirements.
 * See: [iOS Requirements](https://github.com/smileidentity/ios) for iOS specific requirements.
 
-### 1. Dependency
+### 1. Compatibility
+
+This SDK supports React Native versions **0.70 to 0.74.2** on the **Old Architecture** only. Using it on unsupported versions may lead to unexpected issues such as build failures, SmileID components not rendering, or runtime crashes.
+
+If you're using Expo, use the [Smile ID Expo SDK](https://github.com/smileidentity/react-native-expo).
+
+For the **New Architecture** or **React Native > 0.74.2**, we don't currently have an official SDK. If you'd like to build your own wrapper around the native SmileID SDKs, check out our [recipes repo](https://github.com/smileidentity/recipes/blob/main/DOCS.md) for guides and a [sample wrapper implementation](https://github.com/smileidentity/recipes/tree/main/rn-wrap) to reference.
+
+### 2. Dependency
 
 The latest release is available on [npm](https://www.npmjs.com/package/rn-smile-id)
 
@@ -45,7 +53,7 @@ Add the dependency to your `package.json`:
 ```
 
 
-### 2. Initialization
+### 3. Initialization
 
 There are  multiple ways to initialize the SDK. See [Initialization](https://docs.usesmileid.com/integration-options/mobile/getting-started) and choose the best option
 for your integration
