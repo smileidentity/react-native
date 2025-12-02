@@ -25,7 +25,7 @@ Full documentation is available at [Smile ID Documentation]((https://docs.usesmi
 ### 0. Requirements
 
 * Node.js >=16.0
-* React Native >=0.70
+* React Native >=0.70 and <=0.74.2 (Old Architecture only)
 * A `smile_config.json` file from [Smile ID Portal](https://portal.usesmileid.com/sdk)
 * See: [Android Requirements](https://github.com/smileidentity/android) for Android specific requirements.
 * See: [iOS Requirements](https://github.com/smileidentity/ios) for iOS specific requirements.
