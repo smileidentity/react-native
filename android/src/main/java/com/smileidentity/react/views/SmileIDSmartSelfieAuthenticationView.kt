@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.SmartSelfieAuthentication
+import com.smileidentity.models.SmileSensitivity
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmartSelfieResult
@@ -29,6 +30,7 @@ class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
             showAttribution = showAttribution,
             showInstructions = showInstructions,
             skipApiSubmission = skipApiSubmission,
+            smileSensitivity = smileSensitivity ?: SmileSensitivity.NORMAL,
             extraPartnerParams = extraPartnerParams,
             onResult = { res -> handleResultCallback(res) },
           )

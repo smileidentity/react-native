@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
+import com.smileidentity.react.toSmileSensitivity
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
 import com.smileidentity.react.utils.getStringOrDefault
@@ -34,6 +35,8 @@ class SmileIDSmartSelfieAuthenticationViewManager(
       view.showInstructions = it.getBoolOrDefault("showInstructions", true)
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
       view.skipApiSubmission = it.getBoolOrDefault("skipApiSubmission", false)
+      view.smileSensitivity =
+        it.getStringOrDefault("smileSensitivity", null)?.toSmileSensitivity()
     }
   }
 

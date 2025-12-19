@@ -75,6 +75,11 @@ type SmartSelfieRequest = SmileIDViewProps & {
    * but return the file paths to the captured jobs
    */
   skipApiSubmission?: boolean;
+
+  /**
+   * The sensitivity level for smile detection during selfie capture.
+   */
+  smileSensitivity?: SmileSensitivity;
 };
 
 export type SmartSelfieEnrollmentRequest = Omit<SmartSelfieRequest, 'jobId'>;
@@ -1223,4 +1228,10 @@ export enum AutoCapture {
   AutoCapture = 'AutoCapture',
   AutoCaptureOnly = 'AutoCaptureOnly',
   ManualCaptureOnly = 'ManualCaptureOnly',
+}
+
+// noinspection JSUnusedGlobalSymbols
+export enum SmileSensitivity {
+  Normal = 'Normal',
+  Relaxed = 'Relaxed',
 }

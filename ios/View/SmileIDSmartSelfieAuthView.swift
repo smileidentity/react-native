@@ -13,6 +13,7 @@ struct SmileIDSmartSelfieAuthView: View {
                 allowNewEnroll: product.allowNewEnroll,
                 allowAgentMode: product.allowAgentMode,
                 showAttribution: product.showAttribution,
+                smileSensitivity: product.smileSensitivity,
                 showInstructions: product.showInstructions,
                 skipApiSubmission: product.skipApiSubmission,
                 extraPartnerParams: product.extraPartnerParams as [String: String],

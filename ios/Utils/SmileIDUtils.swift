@@ -32,4 +32,15 @@ extension String {
           return .autoCapture
         }
     }
+  
+  func toSmileSensitivity() -> SmileSensitivity {
+    switch self {
+    case "Normal":
+      return .normal
+    case "Relaxed":
+      return .relaxed
+    default:
+      return .normal
+    }
+  }
 }

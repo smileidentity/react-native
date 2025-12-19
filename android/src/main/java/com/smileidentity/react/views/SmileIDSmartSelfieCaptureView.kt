@@ -35,6 +35,7 @@ import com.smileidentity.compose.selfie.SmartSelfieInstructionsScreen
 import com.smileidentity.compose.theme.colorScheme
 import com.smileidentity.compose.theme.typography
 import com.smileidentity.metadata.LocalMetadataProvider
+import com.smileidentity.models.SmileSensitivity
 import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 import com.smileidentity.viewmodel.SelfieUiState
@@ -66,7 +67,9 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
                     onResult = { res -> handleResultCallback(res) },
                   )
                 } else {
-                  RenderSmartSelfieCaptureContent()
+                  RenderSmartSelfieCaptureContent(
+                    smileSensitivity = smileSensitivity ?: SmileSensitivity.NORMAL
+                  )
                 }
               })
             }
@@ -78,7 +81,9 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
   }
 
   @Composable
-  private fun RenderSmartSelfieCaptureContent() {
+  private fun RenderSmartSelfieCaptureContent(
+    smileSensitivity: SmileSensitivity
+  ) {
     val userId = randomUserId()
     val jobId = randomJobId()
     val viewModel: SelfieViewModel = viewModel(
@@ -90,6 +95,7 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
           allowNewEnroll = false,
           skipApiSubmission = true,
           metadata = mutableListOf(),
+          smileSensitivity = smileSensitivity
         )
       },
     )

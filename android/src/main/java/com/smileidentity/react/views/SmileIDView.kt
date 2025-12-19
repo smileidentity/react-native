@@ -11,6 +11,7 @@ import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableMap
 import com.smileidentity.models.JobType
+import com.smileidentity.models.SmileSensitivity
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 import timber.log.Timber
@@ -34,6 +35,8 @@ abstract class SmileIDView(private val currentContext: Context) : LinearLayout(c
   var skipApiSubmission: Boolean = false
   var showAttribution: Boolean = true
   var extraPartnerParams: ImmutableMap<String, String> = persistentMapOf()
+  var smileSensitivity: SmileSensitivity? = null
+
   private var productThrowable: Throwable? = null
 
   init {

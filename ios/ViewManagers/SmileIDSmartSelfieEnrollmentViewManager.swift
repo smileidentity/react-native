@@ -13,6 +13,11 @@ class SmileIDSmartSelfieEnrollmentViewManager: SmileIDBaseViewManager {
          */
         DispatchQueue.main.async {
             if let component = self.bridge.uiManager.view(forReactTag: node) as? BaseSmileIDView {
+              
+              var smileSensitivity: String?
+              if let smileSensitivityValue = params["smileSensitivity"] as? String {
+                smileSensitivity = smileSensitivityValue
+              }
                 self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
                 self.product.userId = params["userId"] as? String
                 self.product.jobId = params["jobId"] as? String
@@ -20,6 +25,7 @@ class SmileIDSmartSelfieEnrollmentViewManager: SmileIDBaseViewManager {
                 self.product.allowNewEnroll = params["allowNewEnroll"] as? Bool ?? false
                 self.product.showAttribution = params["showAttribution"] as? Bool ?? true
                 self.product.showInstructions = params["showInstructions"] as? Bool ?? true
+                self.product.smileSensitivity = smileSensitivity?.toSmileSensitivity() ?? .normal
                 self.product.skipApiSubmission = params["skipApiSubmission"] as? Bool ?? false
                 self.product.onResult = params["onResult"] as? RCTBubblingEventBlock
             }
