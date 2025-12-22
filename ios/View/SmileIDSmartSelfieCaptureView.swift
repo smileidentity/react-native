@@ -64,6 +64,7 @@ struct SmileIDSmartSelfieCaptureView: View {
         SelfieCaptureScreen(
           viewModel: viewModel,
           allowAgentMode: self.product.allowAgentMode
+          smileSensitivity: self.product.smileSensitivity
         ).preferredColorScheme(.light)
       }
     }
