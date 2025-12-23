@@ -1,10 +1,10 @@
 # Release Notes
 
-## 11.1.3 - December 22, 2025
+## 11.1.3 - December 23, 2025
 
 ### Changed
-* Bump Android SDK to [v11.1.5](https://github.com/smileidentity/android/releases/tag/v11.1.5)
-* Bump iOS SDK to [v11.1.4](https://github.com/smileidentity/ios/releases/tag/v11.1.4)
+* Bump Android SDK to [v11.1.6](https://github.com/smileidentity/android/releases/tag/v11.1.6)
+* Bump iOS SDK to [v11.1.5](https://github.com/smileidentity/ios/releases/tag/v11.1.5)
 
 ### Added
 * Added smile sensitivity parameter for customizable selfie capture thresholds.

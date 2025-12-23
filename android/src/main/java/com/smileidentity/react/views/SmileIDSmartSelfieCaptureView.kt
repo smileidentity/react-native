@@ -48,6 +48,8 @@ class SmileIDSmartSelfieCaptureView(context: ReactApplicationContext) : SmileIDS
   var showConfirmation: Boolean = true
   var useStrictMode: Boolean = false
 
+  var smileSensitivity: SmileSensitivity? = null
+
   override fun renderContent() {
     composeView.apply {
       val customViewModelStoreOwner = CustomViewModelStoreOwner()

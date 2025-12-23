@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.smileidentity.SmileID
 import com.smileidentity.compose.DocumentVerification
 import com.smileidentity.models.AutoCapture
+import com.smileidentity.models.SmileSensitivity
 import com.smileidentity.react.results.DocumentCaptureResult
 import com.smileidentity.react.utils.DocumentCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
@@ -26,6 +27,8 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
   var documentType: String? = null
   var idAspectRatio: Float? = null
   var useStrictMode: Boolean? = false
+
+  var smileSensitivity: SmileSensitivity? = null
 
   override fun renderContent() {
     countryCode ?: run {
@@ -55,6 +58,7 @@ class SmileIDDocumentVerificationView(context: ReactApplicationContext) : SmileI
             captureBothSides = captureBothSides,
             allowNewEnroll = allowNewEnroll ?: false,
             bypassSelfieCaptureWithFile = bypassSelfieCaptureWithFile,
+            smileSensitivity = smileSensitivity ?: SmileSensitivity.NORMAL,
             extraPartnerParams = extraPartnerParams,
             useStrictMode = useStrictMode ?: false,
           ) { res ->

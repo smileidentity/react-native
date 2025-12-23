@@ -35,7 +35,6 @@ abstract class SmileIDView(private val currentContext: Context) : LinearLayout(c
   var skipApiSubmission: Boolean = false
   var showAttribution: Boolean = true
   var extraPartnerParams: ImmutableMap<String, String> = persistentMapOf()
-  var smileSensitivity: SmileSensitivity? = null
 
   private var productThrowable: Throwable? = null
 

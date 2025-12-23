@@ -237,6 +237,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       allowGalleryUpload: false,
       autoCaptureTimeout: 10, // seconds,
       autoCapture: AutoCapture.AutoCapture,
+      smileSensitivity: SmileSensitivity.Normal,
     });
 
     setEnhancedDocV({
@@ -253,6 +254,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     setBiometricKYC({
       ...defaultProductRef.current,
       ...defaultConsentInfo.current,
+      smileSensitivity: SmileSensitivity.Normal,
       idInfo: {
         country: 'NG',
         idType: 'NIN_V2',

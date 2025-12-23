@@ -15,6 +15,8 @@ import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 
 class SmileIDSmartSelfieEnrollmentView(context: Context) : SmileIDSelfieView(context) {
+  var smileSensitivity: SmileSensitivity? = null
+
   override fun renderContent() {
     composeView.apply {
       setContent {

@@ -7,6 +7,7 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.smileidentity.react.toAutoCapture
+import com.smileidentity.react.toSmileSensitivity
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getFloatOrDefault
 import com.smileidentity.react.utils.getImmutableMapOrDefault
@@ -45,6 +46,8 @@ class SmileIDDocumentVerificationViewManager(
       view.idAspectRatio = it.getFloatOrDefault("idAspectRatio")
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
       view.useStrictMode = it.getBoolOrDefault("useStrictMode", false)
+      view.smileSensitivity =
+        it.getStringOrDefault("smileSensitivity", null)?.toSmileSensitivity()
     }
   }
 

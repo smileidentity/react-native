@@ -149,6 +149,11 @@ export type DocumentVerificationRequest = SmartSelfieRequest & {
    * if set to true, if false will use the default SmartSelfie™ capture
    */
   useStrictMode?: boolean;
+
+  /**
+   * The sensitivity level for smile detection during selfie capture.
+   */
+  smileSensitivity?: SmileSensitivity;
 };
 
 export type EnhancedDocumentVerificationRequest =
@@ -193,6 +198,11 @@ export type BiometricKYCRequest = SmartSelfieRequest & {
    * if set to true, if false will use the default SmartSelfie™ capture
    */
   useStrictMode?: boolean;
+
+  /**
+   * The sensitivity level for smile detection during selfie capture.
+   */
+  smileSensitivity?: SmileSensitivity;
 };
 
 // noinspection JSUnusedGlobalSymbols
