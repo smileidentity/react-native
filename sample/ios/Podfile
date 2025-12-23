@@ -35,13 +35,18 @@ post_install do |installer|
   # The capture(userFeedback:) method has a broken reference
   # to SentrySDKInternal
   sentry_sdk_path = "#{installer.sandbox.root}/Sentry/Sources/Swift/Helper/SentrySDK.swift"
-  if File.exist?(sentry_sdk_path)
-    text = File.read(sentry_sdk_path)
-    text = text.gsub(
-      'SentrySDKInternal.capture(userFeedback: userFeedback)',
-      '// SentrySDKInternal.capture(userFeedback: userFeedback) // Commented out - broken in 8.55.0'
+
+    next unless File.exist?(sentry_sdk_path)
+    next unless File.writable?(sentry_sdk_path)
+
+    contents = File.read(sentry_sdk_path)
+
+    patched = contents.gsub(
+      'SentrySDK.capture(userFeedback)',
+      '// SentrySDK.capture(userFeedback)'
     )
-    File.write(sentry_sdk_path, text)
+
+    File.write(sentry_sdk_path, patched)
   end
 
   # Fix SmileID Swift module interface verification error
