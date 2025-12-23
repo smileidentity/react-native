@@ -31,24 +31,6 @@ target 'SmileIdExample' do
   end
 
 post_install do |installer|
-  # Fix Sentry SDK 8.55.0 build issue
-  # The capture(userFeedback:) method has a broken reference
-  # to SentrySDKInternal
-  sentry_sdk_path = "#{installer.sandbox.root}/Sentry/Sources/Swift/Helper/SentrySDK.swift"
-
-    next unless File.exist?(sentry_sdk_path)
-    next unless File.writable?(sentry_sdk_path)
-
-    contents = File.read(sentry_sdk_path)
-
-    patched = contents.gsub(
-      'SentrySDK.capture(userFeedback)',
-      '// SentrySDK.capture(userFeedback)'
-    )
-
-    File.write(sentry_sdk_path, patched)
-  end
-
   # Fix SmileID Swift module interface verification error
   installer.pods_project.targets.each do |target|
     if target.name == 'SmileID'
