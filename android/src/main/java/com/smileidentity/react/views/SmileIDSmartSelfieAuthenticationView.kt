@@ -16,6 +16,7 @@ import com.smileidentity.util.randomUserId
 
 class SmileIDSmartSelfieAuthenticationView(context: ReactApplicationContext) :
   SmileIDSelfieView(context) {
+  var smileSensitivity: SmileSensitivity? = null
 
   override fun renderContent() {
     composeView.apply {
