@@ -33,6 +33,10 @@ class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
               if let autoCaptureValue = params["autoCapture"] as? String {
                 autoCapture = autoCaptureValue
               }
+              var smileSensitivity: String?
+              if let smileSensitivityValue = params["smileSensitivity"] as? String {
+                smileSensitivity = smileSensitivityValue
+              }
 
                 self.product.extraPartnerParams = params["extraPartnerParams"] as? [String: String] ?? [:]
                 self.product.userId = params["userId"] as? String
@@ -49,6 +53,7 @@ class SmileIDDocumentVerificationViewManager: SmileIDBaseViewManager {
                 self.product.bypassSelfieCaptureWithFilePath = bypassSelfieCaptureWithFilePath
                 self.product.captureBothSides = params["captureBothSides"] as? Bool ?? true
                 self.product.allowGalleryUpload = params["allowGalleryUpload"] as? Bool ?? false
+                self.product.smileSensitivity = smileSensitivity?.toSmileSensitivity() ?? .normal
                 self.product.skipApiSubmission = params["skipApiSubmission"] as? Bool ?? false
                 self.product.useStrictMode = params["useStrictMode"] as? Bool ?? false
                 self.product.onResult = params["onResult"] as? RCTDirectEventBlock

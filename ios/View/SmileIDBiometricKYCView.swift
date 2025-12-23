@@ -16,6 +16,7 @@ struct SmileIDBiometricKYCView: View {
                     allowAgentMode: product.allowAgentMode,
                     showAttribution: product.showAttribution,
                     showInstructions: product.showInstructions,
+                    smileSensitivity: product.smileSensitivity,
                     useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],
                     consentInformation: product.consentInformation,

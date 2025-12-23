@@ -23,6 +23,7 @@ struct SmileIDDocumentVerificationView: View {
                     allowGalleryUpload: product.allowGalleryUpload,
                     showInstructions: product.showInstructions,
                     showAttribution: product.showAttribution,
+                    smileSensitivity: product.smileSensitivity,
                     skipApiSubmission: product.skipApiSubmission,
                     useStrictMode: product.useStrictMode,
                     extraPartnerParams: product.extraPartnerParams as [String: String],

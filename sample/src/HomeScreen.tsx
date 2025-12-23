@@ -19,7 +19,7 @@ import {
 import type { Product } from './types/Product';
 import { SmileButton } from './SmileButton';
 import { SmileIDComponent } from './SmileIDComponent';
-import { AutoCapture } from '../../src/types';
+import { AutoCapture, SmileSensitivity } from '../../src/types';
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
   const generateUuid = (prefix: 'job_' | 'user_'): string => {
@@ -185,6 +185,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setSmartSelfieCapture({
       ...defaultProductRef.current,
+      smileSensitivity: SmileSensitivity.Normal,
     });
 
     setDocumentCapture({
@@ -200,6 +201,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setSmartSelfieEnrollment({
       ...defaultProductRef.current,
+      smileSensitivity: SmileSensitivity.Normal,
       extraPartnerParams: {
         optionalThingKey: 'optionalThingValue',
         job_id: 'thisismytestjobwithxyzandroid',
@@ -208,6 +210,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     setSmartSelfieAuthentication({
       ...defaultProductRef.current,
+      smileSensitivity: SmileSensitivity.Normal,
       userId: 'YOUR ENROLLED USER ID',
       extraPartnerParams: {
         optionalThingKey: 'optionalThingValue',
@@ -234,6 +237,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
       allowGalleryUpload: false,
       autoCaptureTimeout: 10, // seconds,
       autoCapture: AutoCapture.AutoCapture,
+      smileSensitivity: SmileSensitivity.Normal,
     });
 
     setEnhancedDocV({
@@ -250,6 +254,7 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     setBiometricKYC({
       ...defaultProductRef.current,
       ...defaultConsentInfo.current,
+      smileSensitivity: SmileSensitivity.Normal,
       idInfo: {
         country: 'NG',
         idType: 'NIN_V2',

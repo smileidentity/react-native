@@ -6,6 +6,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.smileidentity.SmileID
 import com.smileidentity.compose.SmartSelfieEnrollment
+import com.smileidentity.models.SmileSensitivity
 import com.smileidentity.react.results.SmartSelfieCaptureResult
 import com.smileidentity.react.utils.SelfieCaptureResultAdapter
 import com.smileidentity.results.SmartSelfieResult
@@ -14,6 +15,8 @@ import com.smileidentity.util.randomJobId
 import com.smileidentity.util.randomUserId
 
 class SmileIDSmartSelfieEnrollmentView(context: Context) : SmileIDSelfieView(context) {
+  var smileSensitivity: SmileSensitivity? = null
+
   override fun renderContent() {
     composeView.apply {
       setContent {
@@ -27,6 +30,7 @@ class SmileIDSmartSelfieEnrollmentView(context: Context) : SmileIDSelfieView(con
             showAttribution = showAttribution,
             showInstructions = showInstructions,
             skipApiSubmission = skipApiSubmission,
+            smileSensitivity = smileSensitivity ?: SmileSensitivity.NORMAL,
             extraPartnerParams = extraPartnerParams,
             onResult = { res -> handleResultCallback(res)},
           )

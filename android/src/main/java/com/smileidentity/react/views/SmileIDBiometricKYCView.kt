@@ -8,6 +8,7 @@ import com.smileidentity.SmileID
 import com.smileidentity.compose.BiometricKYC
 import com.smileidentity.models.ConsentInformation
 import com.smileidentity.models.IdInfo
+import com.smileidentity.models.SmileSensitivity
 import com.smileidentity.react.results.BiometricKycCaptureResult
 import com.smileidentity.react.utils.BiometricKycCaptureResultAdapter
 import com.smileidentity.results.SmileIDResult
@@ -18,6 +19,8 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
   var idInfo: IdInfo? = null
   var consentInformation: ConsentInformation? = null
   var useStrictMode: Boolean? = false
+
+  var smileSensitivity: SmileSensitivity? = null
 
   override fun renderContent() {
     idInfo ?: run {
@@ -36,6 +39,7 @@ class SmileIDBiometricKYCView(context: ReactApplicationContext) : SmileIDView(co
             allowNewEnroll = allowNewEnroll ?: false,
             showAttribution = showAttribution,
             showInstructions = showInstructions,
+            smileSensitivity = smileSensitivity ?: SmileSensitivity.NORMAL,
             extraPartnerParams = extraPartnerParams,
             consentInformation = consentInformation,
             useStrictMode = useStrictMode ?: false,

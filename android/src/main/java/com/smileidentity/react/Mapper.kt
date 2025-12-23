@@ -15,6 +15,7 @@ import com.smileidentity.models.JobType
 import com.smileidentity.models.PartnerParams
 import com.smileidentity.models.PrepUploadRequest
 import com.smileidentity.models.ProductsConfigRequest
+import com.smileidentity.models.SmileSensitivity
 import com.smileidentity.models.UploadImageInfo
 import com.smileidentity.models.UploadRequest
 import com.smileidentity.react.utils.getBoolOrDefault
@@ -244,6 +245,19 @@ fun String.toAutoCapture() : AutoCapture {
       throw IllegalArgumentException(
         "Invalid autoCapture value: $this. " +
           "Expected 'AutoCapture', 'AutoCaptureOnly', or 'ManualCaptureOnly'."
+      )
+    }
+  }
+}
+
+fun String.toSmileSensitivity() : SmileSensitivity {
+  return when (this) {
+    "Normal" -> SmileSensitivity.NORMAL
+    "Relaxed" -> SmileSensitivity.RELAXED
+    else -> {
+      throw IllegalArgumentException(
+        "Invalid smileSensitivity value: $this. " +
+          "Expected 'Normal' or 'Relaxed'."
       )
     }
   }

@@ -63,7 +63,8 @@ struct SmileIDSmartSelfieCaptureView: View {
       } else {
         SelfieCaptureScreen(
           viewModel: viewModel,
-          allowAgentMode: self.product.allowAgentMode
+          allowAgentMode: self.product.allowAgentMode,
+          smileSensitivity: self.product.smileSensitivity
         ).preferredColorScheme(.light)
       }
     }

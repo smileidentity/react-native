@@ -7,6 +7,7 @@ import com.smileidentity.models.ConsentInformation
 import com.smileidentity.models.ConsentedInformation
 import com.smileidentity.react.toConsentInfo
 import com.smileidentity.react.toIdInfo
+import com.smileidentity.react.toSmileSensitivity
 import com.smileidentity.react.utils.getBoolOrDefault
 import com.smileidentity.react.utils.getCurrentIsoTimestamp
 import com.smileidentity.react.utils.getImmutableMapOrDefault
@@ -40,6 +41,8 @@ class SmileIDBiometricKYCViewManager(
       view.showInstructions = it.getBoolOrDefault("showInstructions", true)
       view.allowNewEnroll = it.getBoolOrDefault("allowNewEnroll", false)
       view.useStrictMode = it.getBoolOrDefault("useStrictMode", false)
+      view.smileSensitivity =
+        it.getStringOrDefault("smileSensitivity", null)?.toSmileSensitivity()
     }
   }
 
