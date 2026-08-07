@@ -107,7 +107,16 @@ jobs:
           fi
 
       - name: Upgrade npm for OIDC trusted publishing
-        run: npm install -g npm@latest
+        # OIDC trusted publishing needs npm >= 11.5.1; npm 12 requires Node >= 22
+        # while .nvmrc pins Node 20, so pin the npm 11 line exactly — the publish
+        # toolchain must not float at release time. Bump deliberately.
+        run: |
+          npm install -g npm@11.19.0
+          installed=$(npm --version)
+          if [ "$installed" != "11.19.0" ]; then
+            echo "Expected npm 11.19.0 on PATH, got $installed" >&2
+            exit 1
+          fi
 
       - name: Publish package
         run: |
