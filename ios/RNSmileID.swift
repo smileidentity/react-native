@@ -11,7 +11,7 @@ class RNSmileID: NSObject {
     resolve: @escaping RCTPromiseResolveBlock,
     reject _: @escaping RCTPromiseRejectBlock
   ) {
-    SmileID.setWrapperInfo(name: .reactNative, version: "11.1.9")
+    SmileID.setWrapperInfo(name: .reactNative, version: "11.2.0")
 
     // Handle different initialization scenarios based on provided parameters
     if let apiKey = apiKey, let config = config {
