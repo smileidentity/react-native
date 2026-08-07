@@ -5,6 +5,17 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: '@babel/core'
+      - dependency-name: brace-expansion
+      - dependency-name: fast-uri
+      - dependency-name: joi
+      - dependency-name: js-yaml
+      - dependency-name: shell-quote
+      - dependency-name: tar
+      - dependency-name: turbo
+      - dependency-name: vm2
+      - dependency-name: ws
   - package-ecosystem: gradle
     open-pull-requests-limit: 0
     directory: /android
