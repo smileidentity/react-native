@@ -3,20 +3,20 @@
 ## 11.2.0 - August 7, 2026
 
 ### Changed
-* Bump Android SDK to [v11.2.0](https://github.com/smileidentity/android/releases/tag/v11.2.0)
+* Bump Android SDK to [v11.2.0](https://github.com/smileidentity/android-v11/releases/tag/v11.2.0)
 * Bump iOS SDK to [v11.2.0](https://github.com/smileidentity/ios/releases/tag/v11.2.0)
 
 ## 11.1.9 - May 15, 2026
 
 ### Changed
 * Made `forceAgentMode` and `allowAgentMode` optional.
-* Bump Android SDK to [v11.1.11](https://github.com/smileidentity/android/releases/tag/v11.1.11)
+* Bump Android SDK to [v11.1.11](https://github.com/smileidentity/android-v11/releases/tag/v11.1.11)
 * Bump iOS SDK to [v11.1.11](https://github.com/smileidentity/ios/releases/tag/v11.1.11)
 
 ## 11.1.8 - April 24, 2026
 
 ### Changed
-* Bump Android SDK to [v11.1.9](https://github.com/smileidentity/android/releases/tag/v11.1.9)
+* Bump Android SDK to [v11.1.9](https://github.com/smileidentity/android-v11/releases/tag/v11.1.9)
 * Bump iOS SDK to [v11.1.9](https://github.com/smileidentity/ios/releases/tag/v11.1.9)
 
 ### Added
@@ -32,13 +32,13 @@
 ## 11.1.7 - January 23, 2026
 
 ### Changed
-* Bump Android SDK to [v11.1.7](https://github.com/smileidentity/android/releases/tag/v11.1.7)
+* Bump Android SDK to [v11.1.7](https://github.com/smileidentity/android-v11/releases/tag/v11.1.7)
 * Bump iOS SDK to [v11.1.7](https://github.com/smileidentity/ios/releases/tag/v11.1.7)
 
 ## 11.1.3 - December 23, 2025
 
 ### Changed
-* Bump Android SDK to [v11.1.6](https://github.com/smileidentity/android/releases/tag/v11.1.6)
+* Bump Android SDK to [v11.1.6](https://github.com/smileidentity/android-v11/releases/tag/v11.1.6)
 * Bump iOS SDK to [v11.1.5](https://github.com/smileidentity/ios/releases/tag/v11.1.5)
 
 ### Added
@@ -47,7 +47,7 @@
 ## 11.1.2 - November 10, 2025
 
 ### Changed
-* Bump Android SDK to [v11.1.4](https://github.com/smileidentity/android/releases/tag/v11.1.4)
+* Bump Android SDK to [v11.1.4](https://github.com/smileidentity/android-v11/releases/tag/v11.1.4)
 * Bump iOS SDK to [v11.1.3](https://github.com/smileidentity/ios/releases/tag/v11.1.3)
 
 ## 11.1.1 - August 26, 2025
@@ -90,14 +90,14 @@
 ## 11.0.1 - June 16, 2025
 
 ### Changed
-* Bump android to 11.0.4 (https://github.com/smileidentity/android/releases/tag/v11.0.4)
+* Bump android to 11.0.4 (https://github.com/smileidentity/android-v11/releases/tag/v11.0.4)
 
 ## 11.0.0
 
 ### Changed
 * Metadata collection is now handled internally by native SDKs
 * Bump iOS to 11.0.0 (https://github.com/smileidentity/ios/releases/tag/v11.0.0)
-* Bump android to 11.0.3 (https://github.com/smileidentity/android/releases/tag/v11.0.3)
+* Bump android to 11.0.3 (https://github.com/smileidentity/android-v11/releases/tag/v11.0.3)
 
 ## 10.3.3
 
