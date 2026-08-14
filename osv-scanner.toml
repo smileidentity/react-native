@@ -1,116 +1,99 @@
 # OSV-Scanner allowlist for triaged advisories.
 #
-# All entries below are transitive devDependencies (release tooling, linters,
-# builders, test runners). None are shipped to consumers of this package.
-# Re-triage before ignoreUntil; either bump the direct dep that brings them in
-# or extend the date with updated justification.
+# Every entry below is a transitive devDependency — release tooling, the Metro
+# bundler, linters, builders, test runners — and none of them ship to consumers of
+# this package. Each one is here because a lockfile refresh cannot reach the fixed
+# version: the parent pins an exact version, the fix is a major upgrade of the
+# parent, or upstream has published no fix at all. The reason on each entry says
+# which.
+#
+# Re-triaged 2026-08-14: the previous window had lapsed, which is what turned this
+# gate red. Everything reachable by a lockfile refresh was fixed in that pass
+# instead of being listed here — 36 vulnerabilities across 15 packages, including
+# vm2 and both ws versions — so this file is now only the genuinely unreachable
+# remainder.
+#
+# Before ignoreUntil: re-triage. Either bump the direct dependency that brings the
+# advisory in, or extend the date with updated justification. Do not extend blindly
+# — check first whether a fix has since become reachable.
+
+# --- release-it 15 chain: fixes need release-it 16+, a major upgrade -------------
 
 [[IgnoredVulns]]
 id = "GHSA-h5c3-5r3r-rr8q"
-ignoreUntil = 2026-07-20
-reason = "Transitive via release-it@15 (@octokit/plugin-paginate-rest). Dev-only."
+ignoreUntil = 2026-11-14
+reason = "@octokit/plugin-paginate-rest 6.1.2 via release-it@15. Fix is 9.2.2, three majors on, unreachable without upgrading release-it. Dev-only."
 
 [[IgnoredVulns]]
 id = "GHSA-rmvr-2pp2-xj38"
-ignoreUntil = 2026-07-20
-reason = "Transitive via release-it@15 (@octokit/request). Dev-only."
+ignoreUntil = 2026-11-14
+reason = "@octokit/request 6.2.8 via release-it@15. Fix is 8.4.1, two majors on. Dev-only."
 
 [[IgnoredVulns]]
 id = "GHSA-xx4v-prfh-6cgc"
-ignoreUntil = 2026-07-20
-reason = "Transitive via release-it@15 (@octokit/request-error). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-2g4f-4pwh-qvx6"
-ignoreUntil = 2026-07-20
-reason = "Transitive via eslint/jest/commitlint (ajv). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-6v7q-wjvx-w8wg"
-ignoreUntil = 2026-07-20
-reason = "Transitive via release-it@15 -> webdav (basic-ftp). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-rp42-5vxx-qpwr"
-ignoreUntil = 2026-07-20
-reason = "Transitive via release-it@15 -> webdav (basic-ftp). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-f886-m6hf-6m8v"
-ignoreUntil = 2026-07-20
-reason = "Transitive (brace-expansion) across multiple dev deps. Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-73rr-hh4g-fpgx"
-ignoreUntil = 2026-07-20
-reason = "Transitive via jest (diff). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-5j98-mcp5-4vw2"
-ignoreUntil = 2026-07-20
-reason = "Transitive (glob) across multiple dev deps. Dev-only."
+ignoreUntil = 2026-11-14
+reason = "@octokit/request-error 3.0.3 via release-it@15. Fix is 5.1.1, two majors on. Dev-only."
 
 [[IgnoredVulns]]
 id = "GHSA-2p57-rm9w-gvfp"
-ignoreUntil = 2026-07-20
-reason = "Transitive (ip@1.1.9) via release-it -> webdav. No fixed version available upstream; revisit when fix is published or dep is removed."
-
-[[IgnoredVulns]]
-id = "GHSA-mh29-5h37-fv8m"
-ignoreUntil = 2026-07-20
-reason = "Transitive (js-yaml) across multiple dev deps. Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-f23m-r3pf-42rh"
-ignoreUntil = 2026-07-20
-reason = "Transitive via @release-it/conventional-changelog (lodash). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-r5fr-rjxr-66jc"
-ignoreUntil = 2026-07-20
-reason = "Transitive via @release-it/conventional-changelog (lodash). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-xxjr-mmjv-4gpg"
-ignoreUntil = 2026-07-20
-reason = "Transitive via @release-it/conventional-changelog (lodash). Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-23c5-xmqv-rm74"
-ignoreUntil = 2026-07-20
-reason = "Transitive (minimatch) across multiple dev deps. Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-3ppc-4f35-3m26"
-ignoreUntil = 2026-07-20
-reason = "Transitive (minimatch) across multiple dev deps. Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-7r86-cg39-jmmj"
-ignoreUntil = 2026-07-20
-reason = "Transitive (minimatch) across multiple dev deps. Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-3v7f-55p6-f55p"
-ignoreUntil = 2026-07-20
-reason = "Transitive (picomatch) via dev deps. Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-c2c7-rcm5-vvqj"
-ignoreUntil = 2026-07-20
-reason = "Transitive (picomatch) via dev deps. Dev-only."
+ignoreUntil = 2026-11-14
+reason = "ip 1.1.9 via release-it@15 -> webdav. No fixed version published upstream. Dev-only."
 
 [[IgnoredVulns]]
 id = "GHSA-c2qf-rxjj-qqgw"
-ignoreUntil = 2026-07-20
-reason = "Transitive (semver) across multiple dev deps. Dev-only."
+ignoreUntil = 2026-11-14
+reason = "semver 7.3.8 and 7.5.1, pinned exactly by release-it@15 and @release-it/conventional-changelog, so a refresh cannot move them. Dev-only."
+
+[[IgnoredVulns]]
+id = "GHSA-f23m-r3pf-42rh"
+ignoreUntil = 2026-11-14
+reason = "lodash 4.17.21, pinned exactly via @release-it/conventional-changelog. Fix is 4.18.0. Dev-only."
+
+[[IgnoredVulns]]
+id = "GHSA-r5fr-rjxr-66jc"
+ignoreUntil = 2026-11-14
+reason = "lodash 4.17.21, pinned exactly via @release-it/conventional-changelog. Fix is 4.18.0. Dev-only."
+
+# --- Metro bundler: build-time only, no fix published ---------------------------
+
+[[IgnoredVulns]]
+id = "GHSA-5p2g-fcmc-qvqq"
+ignoreUntil = 2026-11-14
+reason = "image-size 1.2.1 via metro 0.80.12 (React Native bundler). No fixed version published upstream. Build-time only."
+
+[[IgnoredVulns]]
+id = "GHSA-w3rx-r6r6-pgpr"
+ignoreUntil = 2026-11-14
+reason = "image-size 1.2.1 via metro 0.80.12. No fixed version published upstream. Build-time only."
+
+# --- dev tooling where the fix is a major upgrade of the parent -----------------
+
+[[IgnoredVulns]]
+id = "GHSA-mwp4-54f8-5fhr"
+ignoreUntil = 2026-11-14
+reason = "ip-address 9.0.5 via socks@^2.8.3. Fix is 10.x, a major the parent's range excludes. Dev-only."
+
+[[IgnoredVulns]]
+id = "GHSA-v2v4-37r5-5v8g"
+ignoreUntil = 2026-11-14
+reason = "ip-address 9.0.5 via socks@^2.8.3. Fix is 10.x, a major the parent's range excludes. Dev-only."
 
 [[IgnoredVulns]]
 id = "GHSA-52f5-9888-hmc6"
-ignoreUntil = 2026-07-20
-reason = "Transitive (tmp) via dev deps. Dev-only."
+ignoreUntil = 2026-11-14
+reason = "tmp 0.0.33 via external-editor and patch-package. Fix is 0.2.x, and a 0.x minor is a breaking change the ^0.0.33 range cannot take. Dev-only."
 
 [[IgnoredVulns]]
-id = "GHSA-48c2-rrv3-qjmp"
-ignoreUntil = 2026-07-20
-reason = "Transitive (yaml) via dev deps. Dev-only."
+id = "GHSA-ph9p-34f9-6g65"
+ignoreUntil = 2026-11-14
+reason = "tmp 0.0.33 via external-editor and patch-package. Fix is 0.2.x, outside the ^0.0.33 range. Dev-only."
+
+[[IgnoredVulns]]
+id = "GHSA-3qcw-2rhx-2726"
+ignoreUntil = 2026-11-14
+reason = "turbo 1.13.4, a direct devDependency pinned ^1.10.7. Fix is 2.x, which changes turbo.json's schema (pipeline -> tasks), so it needs its own change. Build-time only."
+
+[[IgnoredVulns]]
+id = "GHSA-hcf7-66rw-9f5r"
+ignoreUntil = 2026-11-14
+reason = "turbo 1.13.4, a direct devDependency pinned ^1.10.7. Fix is 2.x, a schema-changing major. Build-time only."
