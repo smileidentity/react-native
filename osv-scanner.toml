@@ -87,13 +87,3 @@ reason = "tmp 0.0.33 via external-editor and patch-package. Fix is 0.2.x, and a 
 id = "GHSA-ph9p-34f9-6g65"
 ignoreUntil = 2026-11-14
 reason = "tmp 0.0.33 via external-editor and patch-package. Fix is 0.2.x, outside the ^0.0.33 range. Dev-only."
-
-[[IgnoredVulns]]
-id = "GHSA-3qcw-2rhx-2726"
-ignoreUntil = 2026-11-14
-reason = "turbo 1.13.4, a direct devDependency pinned ^1.10.7. Fix is 2.x, which changes turbo.json's schema (pipeline -> tasks), so it needs its own change. Build-time only."
-
-[[IgnoredVulns]]
-id = "GHSA-hcf7-66rw-9f5r"
-ignoreUntil = 2026-11-14
-reason = "turbo 1.13.4, a direct devDependency pinned ^1.10.7. Fix is 2.x, a schema-changing major. Build-time only."

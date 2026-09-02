@@ -67,11 +67,12 @@
     "react-native": "0.74.2",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
-    "turbo": "^1.10.7",
+    "turbo": "^2.10.10",
     "typescript": "^5.2.2"
   },
   "resolutions": {
     "@types/react": "^18.2.44",
+    "decode-uri-component": "^0.5.0",
     "fast-xml-parser": "^5.7.0"
   },
   "peerDependencies": {
